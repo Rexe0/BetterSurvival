@@ -6,16 +6,14 @@ import me.rexe0.bettersurvival.farming.GrowthModifier;
 import me.rexe0.bettersurvival.farming.HarvestModifier;
 import me.rexe0.bettersurvival.gear.AnvilRepair;
 import me.rexe0.bettersurvival.gear.MendingChange;
-import me.rexe0.bettersurvival.mobs.ElderGuardianDrops;
-import me.rexe0.bettersurvival.mobs.PhantomChange;
-import me.rexe0.bettersurvival.mobs.PiglinChange;
-import me.rexe0.bettersurvival.mobs.VillagerChange;
+import me.rexe0.bettersurvival.mobs.*;
 import me.rexe0.bettersurvival.worldgen.WorldGeneration;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -58,11 +56,19 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PhantomChange(), this);
         getServer().getPluginManager().registerEvents(new PiglinChange(), this);
         getServer().getPluginManager().registerEvents(new VillagerChange(), this);
+        getServer().getPluginManager().registerEvents(new WanderingTrader(), this);
 
         recipes = new HashMap<>();
         recipes.put(FoodModifications.getSuspiciousStewRecipe().getKey(), FoodModifications.getSuspiciousStewRecipe());
 
         recipes.values().forEach(r -> getServer().addRecipe(r));
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Bukkit.getOnlinePlayers().forEach(WanderingTrader::itemCheck);
+            }
+        }.runTaskTimer(this, 0, 5);
     }
 
     @Override
