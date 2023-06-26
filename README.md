@@ -8,7 +8,7 @@ This is a plugin that contains several features that I think would improve the c
 - The mending enchantment has been changed. Upon picking up an experience orb, gear with mending will no longer automatically repair itself. Rather, it will reduce its repair cost at an anvil.
 - Netherite gear can now be repaired at an anvil with diamonds
 - Elder Guardians now have a 1/3 chance of dropping a Mending Book
-- Crops now grow at roughly half their usual speed. However, with a Sniffer nearby they only grow roughly 20% slower than vanilla.
+- Crops now grow at roughly half their usual speed unless it is raining. However, with a Sniffer nearby they only grow roughly 20% slower than vanilla.
 - Carrots and Potatoes will now only drop one of theirselves regardless if they are full grown or not.
 - Wheat and Beetroot will now only drop one themselves and their respective seed if they are fully grown
 - Bonemealing Wheat, Beetroot, Carrots and Potatoes no longer instantly grows them. However, if they are bonemealed when initially placed, they will always yield one extra drop when harvested at full growth.
@@ -22,3 +22,4 @@ This is a plugin that contains several features that I think would improve the c
 - Phantoms will no longer naturally drop phantom membranes 
 - After a player enters the end, phantoms that naturally spawn around them will be slightly bigger and can drop phantom membranes (to repair elytra with)
 - After a player enters the end, the naturally spawning piglins around them will always spawn with a piece of netherite armor (that can't be dropped)
+- Wandering Traders will now always sell either a Stopwatch (When held shows your current speed in km/h) or a Metal Detector (Detects any ores under you when held)
