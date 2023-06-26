@@ -11,6 +11,10 @@ public class GrowthModifier implements Listener {
     @EventHandler
     public void onGrow(BlockGrowEvent e) {
         Block block = e.getBlock();
+
+        // If it's raining, crops grow at normal rate
+        if (block.getWorld().getWeatherDuration() > 0) return;
+
         boolean nearbySniffer = false;
         for (Sniffer sniffer : block.getWorld().getEntitiesByClass(Sniffer.class)) {
             if (sniffer.getLocation().distanceSquared(block.getLocation()) < 400) {
