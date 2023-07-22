@@ -24,7 +24,7 @@ public class FoodModifications implements Listener {
         meta.addCustomEffect(new PotionEffect(PotionEffectType.LUCK, 6000, 0), true);
         result.setItemMeta(meta);
 
-        ShapelessRecipe recipe = new ShapelessRecipe(new NamespacedKey(BetterSurvival.getInstance(), "pitcher_suspicious_stew"), result);
+        ShapelessRecipe recipe = new ShapelessRecipe(new NamespacedKey(BetterSurvival.getInstance(), "recipe_pitcher_suspicious_stew"), result);
 
         recipe.addIngredient(Material.PITCHER_PLANT);
         recipe.addIngredient(Material.RED_MUSHROOM);
