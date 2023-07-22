@@ -6,6 +6,9 @@ import me.rexe0.bettersurvival.farming.GrowthModifier;
 import me.rexe0.bettersurvival.farming.HarvestModifier;
 import me.rexe0.bettersurvival.gear.AnvilRepair;
 import me.rexe0.bettersurvival.gear.MendingChange;
+import me.rexe0.bettersurvival.item.Drill;
+import me.rexe0.bettersurvival.item.MetalDetector;
+import me.rexe0.bettersurvival.item.Stopwatch;
 import me.rexe0.bettersurvival.mobs.*;
 import me.rexe0.bettersurvival.worldgen.WorldGeneration;
 import org.bukkit.Bukkit;
@@ -66,7 +69,8 @@ public final class BetterSurvival extends JavaPlugin {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Bukkit.getOnlinePlayers().forEach(WanderingTrader::itemCheck);
+                Bukkit.getOnlinePlayers().forEach(MetalDetector::metalDetectorCheck);
+                Bukkit.getOnlinePlayers().forEach(Stopwatch::stopWatchCheck);
             }
         }.runTaskTimer(this, 0, 5);
     }
