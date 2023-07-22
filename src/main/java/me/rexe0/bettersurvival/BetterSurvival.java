@@ -6,10 +6,9 @@ import me.rexe0.bettersurvival.farming.GrowthModifier;
 import me.rexe0.bettersurvival.farming.HarvestModifier;
 import me.rexe0.bettersurvival.gear.AnvilRepair;
 import me.rexe0.bettersurvival.gear.MendingChange;
-import me.rexe0.bettersurvival.item.Drill;
-import me.rexe0.bettersurvival.item.MetalDetector;
-import me.rexe0.bettersurvival.item.Stopwatch;
+import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.mobs.*;
+import me.rexe0.bettersurvival.util.ItemDataUtil;
 import me.rexe0.bettersurvival.worldgen.WorldGeneration;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -63,14 +62,23 @@ public final class BetterSurvival extends JavaPlugin {
 
         recipes = new HashMap<>();
         recipes.put(FoodModifications.getSuspiciousStewRecipe().getKey(), FoodModifications.getSuspiciousStewRecipe());
+        for (ItemType type : ItemType.values()) {
+            Recipe recipe = type.getItem().getRecipe();
+            if (recipe != null) recipes.put(new NamespacedKey(this, type.getItem().getID()), recipe);
+        }
 
         recipes.values().forEach(r -> getServer().addRecipe(r));
 
         new BukkitRunnable() {
             @Override
             public void run() {
-                Bukkit.getOnlinePlayers().forEach(MetalDetector::metalDetectorCheck);
-                Bukkit.getOnlinePlayers().forEach(Stopwatch::stopWatchCheck);
+                Bukkit.getOnlinePlayers().forEach((player) -> {
+                    for (ItemType type : ItemType.values()) {
+                        if (!(ItemDataUtil.isItem(player.getEquipment().getItemInMainHand(), type.getItem().getID())
+                                || ItemDataUtil.isItem(player.getEquipment().getItemInOffHand(), type.getItem().getID()))) continue;
+                        type.getItem().holdCheck(player);
+                    }
+                });
             }
         }.runTaskTimer(this, 0, 5);
     }

@@ -2,7 +2,9 @@ package me.rexe0.bettersurvival.item;
 
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public abstract class Item {
@@ -35,6 +37,14 @@ public abstract class Item {
         item.setItemMeta(meta);
         item.setItemMeta(ItemDataUtil.setStringValue(item, "itemID", ID));
         return item;
+    }
+
+    public void holdCheck(Player player) {
+
+    }
+
+    public Recipe getRecipe() {
+        return null;
     }
 
 }

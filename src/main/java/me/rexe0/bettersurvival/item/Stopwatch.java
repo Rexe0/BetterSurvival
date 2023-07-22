@@ -1,7 +1,6 @@
 package me.rexe0.bettersurvival.item;
 
 import me.rexe0.bettersurvival.BetterSurvival;
-import me.rexe0.bettersurvival.util.ItemDataUtil;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -14,10 +13,8 @@ public class Stopwatch extends Item {
         super(Material.CLOCK, ChatColor.GREEN+"Stopwatch", "STOPWATCH");
     }
 
-    public static void stopWatchCheck(Player player) {
-        String ID = ItemType.STOPWATCH.getItem().getID();
-        if (!(ItemDataUtil.isItem(player.getEquipment().getItemInMainHand(), ID)
-                || ItemDataUtil.isItem(player.getEquipment().getItemInOffHand(), ID))) return;
+    @Override
+    public void holdCheck(Player player) {
         Location location = player.getLocation();
 
         new BukkitRunnable() {
