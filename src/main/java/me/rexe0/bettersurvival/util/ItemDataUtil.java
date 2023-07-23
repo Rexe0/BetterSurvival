@@ -21,20 +21,20 @@ import org.bukkit.persistence.PersistentDataType;
 public class ItemDataUtil {
 
     public static ItemMeta setStringValue(ItemStack item, String key, String value) {
-        NamespacedKey ItemIDKey = new NamespacedKey(BetterSurvival.getInstance(), key);
+        NamespacedKey itemKey = new NamespacedKey(BetterSurvival.getInstance(), key);
 
         ItemMeta meta = item.getItemMeta();
-        meta.getPersistentDataContainer().set(ItemIDKey, PersistentDataType.STRING, value);
+        meta.getPersistentDataContainer().set(itemKey, PersistentDataType.STRING, value);
         return meta;
     }
-    public static String getStringValue(ItemStack item, String key1) {
-        NamespacedKey key = new NamespacedKey(BetterSurvival.getInstance(), key1);
+    public static String getStringValue(ItemStack item, String key) {
+        NamespacedKey itemKey = new NamespacedKey(BetterSurvival.getInstance(), key);
 
         if (item == null || !item.hasItemMeta()) return "";
         PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
 
-        if (!container.has(key, PersistentDataType.STRING)) return "";
-        return container.get(key, PersistentDataType.STRING);
+        if (!container.has(itemKey, PersistentDataType.STRING)) return "";
+        return container.get(itemKey, PersistentDataType.STRING);
     }
 
 

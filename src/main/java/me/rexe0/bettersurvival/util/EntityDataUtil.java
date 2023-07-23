@@ -1,0 +1,37 @@
+/*
+ * Copyright (c) 2022 Thomas Bringemeier - All Rights Reserved
+ * This file is a part of Divinity and no users except
+ * the author have the right to use, merge, publish,
+ * copy, sell, modify and/or distribute this file or copies of it
+ * unless otherwise explicitly stated by the author.
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * and applies to all copies or substantial portions of the Software/Project.
+ */
+
+package me.rexe0.bettersurvival.util;
+
+import me.rexe0.bettersurvival.BetterSurvival;
+import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Entity;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
+
+public class EntityDataUtil {
+
+    public static void setStringValue(Entity entity, String key, String value) {
+        NamespacedKey entityKey = new NamespacedKey(BetterSurvival.getInstance(), key);
+
+
+        entity.getPersistentDataContainer().set(entityKey, PersistentDataType.STRING, value);
+    }
+    public static String getStringValue(Entity entity, String key) {
+        NamespacedKey entityKey = new NamespacedKey(BetterSurvival.getInstance(), key);
+
+        if (entity == null) return "";
+        PersistentDataContainer container = entity.getPersistentDataContainer();
+
+        if (!container.has(entityKey, PersistentDataType.STRING)) return "";
+        return container.get(entityKey, PersistentDataType.STRING);
+    }
+}
