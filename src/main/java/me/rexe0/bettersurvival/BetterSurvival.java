@@ -6,6 +6,8 @@ import me.rexe0.bettersurvival.farming.GrowthModifier;
 import me.rexe0.bettersurvival.farming.HarvestModifier;
 import me.rexe0.bettersurvival.gear.AnvilRepair;
 import me.rexe0.bettersurvival.gear.MendingChange;
+import me.rexe0.bettersurvival.item.DrillEntity;
+import me.rexe0.bettersurvival.item.ItemListener;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.mobs.*;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
@@ -59,6 +61,7 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PiglinChange(), this);
         getServer().getPluginManager().registerEvents(new VillagerChange(), this);
         getServer().getPluginManager().registerEvents(new WanderingTrader(), this);
+        getServer().getPluginManager().registerEvents(new ItemListener(), this);
 
         recipes = new HashMap<>();
         recipes.put(FoodModifications.getSuspiciousStewRecipe().getKey(), FoodModifications.getSuspiciousStewRecipe());
@@ -69,6 +72,7 @@ public final class BetterSurvival extends JavaPlugin {
 
         recipes.values().forEach(r -> getServer().addRecipe(r));
 
+        DrillEntity.runTimer();
         new BukkitRunnable() {
             @Override
             public void run() {
