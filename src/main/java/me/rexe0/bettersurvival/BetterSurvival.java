@@ -9,6 +9,8 @@ import me.rexe0.bettersurvival.gear.MendingChange;
 import me.rexe0.bettersurvival.item.DrillEntity;
 import me.rexe0.bettersurvival.item.ItemListener;
 import me.rexe0.bettersurvival.item.ItemType;
+import me.rexe0.bettersurvival.minecarts.ChainedMinecart;
+import me.rexe0.bettersurvival.minecarts.MinecartChanges;
 import me.rexe0.bettersurvival.mobs.*;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import me.rexe0.bettersurvival.worldgen.WorldGeneration;
@@ -17,7 +19,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -61,6 +62,8 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PiglinChange(), this);
         getServer().getPluginManager().registerEvents(new VillagerChange(), this);
         getServer().getPluginManager().registerEvents(new WanderingTrader(), this);
+        getServer().getPluginManager().registerEvents(new ChainedMinecart(), this);
+        getServer().getPluginManager().registerEvents(new MinecartChanges(), this);
         getServer().getPluginManager().registerEvents(new ItemListener(), this);
 
         recipes = new HashMap<>();
@@ -73,18 +76,15 @@ public final class BetterSurvival extends JavaPlugin {
         recipes.values().forEach(r -> getServer().addRecipe(r));
 
         DrillEntity.runTimer();
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Bukkit.getOnlinePlayers().forEach((player) -> {
-                    for (ItemType type : ItemType.values()) {
-                        if (!(ItemDataUtil.isItem(player.getEquipment().getItemInMainHand(), type.getItem().getID())
-                                || ItemDataUtil.isItem(player.getEquipment().getItemInOffHand(), type.getItem().getID()))) continue;
-                        type.getItem().holdCheck(player);
-                    }
-                });
+
+        Bukkit.getScheduler().runTaskTimer(this, ChainedMinecart::run, 0, 1);
+        Bukkit.getScheduler().runTaskTimer(this, () -> Bukkit.getOnlinePlayers().forEach((player) -> {
+            for (ItemType type : ItemType.values()) {
+                if (!(ItemDataUtil.isItem(player.getEquipment().getItemInMainHand(), type.getItem().getID())
+                        || ItemDataUtil.isItem(player.getEquipment().getItemInOffHand(), type.getItem().getID()))) continue;
+                type.getItem().holdCheck(player);
             }
-        }.runTaskTimer(this, 0, 5);
+        }), 0, 5);
     }
 
     @Override

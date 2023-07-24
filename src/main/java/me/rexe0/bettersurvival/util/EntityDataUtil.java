@@ -34,4 +34,9 @@ public class EntityDataUtil {
         if (!container.has(entityKey, PersistentDataType.STRING)) return "";
         return container.get(entityKey, PersistentDataType.STRING);
     }
+    public static void removeStringValue(Entity entity, String key) {
+        NamespacedKey entityKey = new NamespacedKey(BetterSurvival.getInstance(), key);
+
+        entity.getPersistentDataContainer().remove(entityKey);
+    }
 }
