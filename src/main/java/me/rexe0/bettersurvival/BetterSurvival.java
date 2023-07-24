@@ -11,6 +11,7 @@ import me.rexe0.bettersurvival.item.ItemListener;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.minecarts.ChainedMinecart;
 import me.rexe0.bettersurvival.minecarts.MinecartChanges;
+import me.rexe0.bettersurvival.minecarts.RailRecipes;
 import me.rexe0.bettersurvival.mobs.*;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import me.rexe0.bettersurvival.worldgen.WorldGeneration;
@@ -67,6 +68,7 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ItemListener(), this);
 
         recipes = new HashMap<>();
+        recipes.put(RailRecipes.getRailRecipe().getKey(), RailRecipes.getRailRecipe());
         recipes.put(FoodModifications.getSuspiciousStewRecipe().getKey(), FoodModifications.getSuspiciousStewRecipe());
         for (ItemType type : ItemType.values()) {
             Recipe recipe = type.getItem().getRecipe();
