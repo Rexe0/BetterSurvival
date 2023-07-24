@@ -1,10 +1,7 @@
 package me.rexe0.bettersurvival.minecarts;
 
 import me.rexe0.bettersurvival.util.EntityDataUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
@@ -21,6 +18,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class ChainedMinecart implements Listener {
+    private static final Particle.DustOptions COLOR = new Particle.DustOptions(Color.fromRGB(84, 84, 84), 0.8f);
 
     public static void run() {
         for (World world : Bukkit.getWorlds())
@@ -47,6 +45,23 @@ public class ChainedMinecart implements Listener {
         }
 
         if (!childCart.getLocation().getBlock().getType().toString().contains("RAIL")) return null;
+
+        // Particle Animation
+
+        // Find both ends of the minecart
+        Vector direction = childCart.getLocation().subtract(minecart.getLocation()).toVector().normalize().multiply(0.25);
+
+        Location origin = minecart.getLocation().add(direction).add(0, 0.3, 0);
+        Location target = childCart.getLocation().add(0, 0.3, 0);
+
+        // Create particle effect, with a particle dust every 0.25 blocks
+        direction.normalize().multiply(0.25);
+        for (double i = 0; i < origin.distance(target); i += 0.25) {
+            origin.add(direction);
+            origin.getWorld().spawnParticle(Particle.REDSTONE, origin, 1, 0, 0, 0, 0, COLOR);
+        }
+
+
 
 
         childCart.setMaxSpeed(minecart.getMaxSpeed());
