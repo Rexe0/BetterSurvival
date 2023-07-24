@@ -1,5 +1,6 @@
 package me.rexe0.bettersurvival.minecarts;
 
+import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.util.EntityDataUtil;
 import org.bukkit.*;
 import org.bukkit.entity.EntityType;
@@ -24,8 +25,15 @@ public class ChainedMinecart implements Listener {
         for (World world : Bukkit.getWorlds())
             for (Minecart minecart : world.getEntitiesByClass(Minecart.class)) {
                 if (minecart.getType() == EntityType.MINECART_FURNACE) {
-                    minecart.getLocation().getChunk().load();
-                } else if (!minecart.getLocation().getChunk().isLoaded()) continue;
+                    Chunk chunk = minecart.getLocation().getChunk();
+                    boolean successful = chunk.addPluginChunkTicket(BetterSurvival.getInstance());
+
+                    if (successful)
+                        Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> {
+                            if (minecart.getLocation().getChunk().equals(chunk)) return;
+                            chunk.removePluginChunkTicket(BetterSurvival.getInstance());
+                        }, 1);
+                }
 
                 setChildSpeed(minecart);
             }
