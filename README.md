@@ -24,3 +24,8 @@ This is a plugin that contains several features that I think would improve the c
 - After a player enters the end, the naturally spawning piglins around them will always spawn with a piece of netherite armor (that can't be dropped)
 - Wandering Traders will now always sell either a Stopwatch (When held shows your current speed in km/h) or a Metal Detector (Detects any ores under you when held)
 - The Drill Block can now be crafted using 7 Copper Blocks, 1 Redstone Dust and 1 Diamond Pickaxe. When placed and fed coal as fuel, it starts digging a 3x3 tunnel in the direction it is facing. However, it can not break certain blocks that are too 'hard' (Example: Obsidian, Bedrock, etc.).
+- Minecarts can now be linked together using by Sneak + Right Clicking on them with chains. The first minecart clicked will pull the second one that was clicked.
+- If a minecart travels over a powered rail with a copper block under it, its max speed increases by 3x. If it travels over a normal powered rail, its max speed goes back to normal. Minecarts tend to derail at turns or ramps if they are going too fast so make sure they are slowed down when approaching one.
+- If a minecart travels over an unpowered rail with chiseled deepslate under it, it will stop much faster than usual. Furnace Minecarts also stop burning as well.
+- Furnace minecarts can now travel much faster. They also automatically load chunks, so use a few of them to allow minecart trains to go through unloaded chunks.
+- 4 Regular Rails can now be crafted with 7 Iron Nuggets and 1 Stick. This is a much more efficient craft compared to the vanilla craft.
