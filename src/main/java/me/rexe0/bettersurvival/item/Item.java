@@ -43,6 +43,11 @@ public abstract class Item {
 
     }
 
+    public void armorEquipped(Player player) {
+
+    }
+
+
     public Recipe getRecipe() {
         return null;
     }

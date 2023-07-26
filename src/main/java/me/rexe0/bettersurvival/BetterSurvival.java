@@ -44,6 +44,10 @@ public final class BetterSurvival extends JavaPlugin {
         return instance;
     }
 
+    public Map<NamespacedKey, Recipe> getRecipes() {
+        return recipes;
+    }
+
     @Override
     public void onEnable() {
         instance = this;
@@ -82,9 +86,14 @@ public final class BetterSurvival extends JavaPlugin {
         Bukkit.getScheduler().runTaskTimer(this, ChainedMinecart::run, 0, 1);
         Bukkit.getScheduler().runTaskTimer(this, () -> Bukkit.getOnlinePlayers().forEach((player) -> {
             for (ItemType type : ItemType.values()) {
-                if (!(ItemDataUtil.isItem(player.getEquipment().getItemInMainHand(), type.getItem().getID())
-                        || ItemDataUtil.isItem(player.getEquipment().getItemInOffHand(), type.getItem().getID()))) continue;
-                type.getItem().holdCheck(player);
+                if (ItemDataUtil.isItem(player.getEquipment().getItemInMainHand(), type.getItem().getID())
+                        || ItemDataUtil.isItem(player.getEquipment().getItemInOffHand(), type.getItem().getID()))
+                    type.getItem().holdCheck(player);
+                if (ItemDataUtil.isItem(player.getEquipment().getHelmet(), type.getItem().getID())
+                        || ItemDataUtil.isItem(player.getEquipment().getChestplate(), type.getItem().getID())
+                        || ItemDataUtil.isItem(player.getEquipment().getLeggings(), type.getItem().getID())
+                        || ItemDataUtil.isItem(player.getEquipment().getBoots(), type.getItem().getID()))
+                    type.getItem().armorEquipped(player);
             }
         }), 0, 5);
     }
