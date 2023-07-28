@@ -32,3 +32,7 @@ This is a plugin that contains several features that I think would improve the c
 - Large Coal deposits can now generate slightly under the surface in Badlands/Mesa biomes
 - Large Iron deposits can now generate slightly under the ocean floor in cold oceans
 - Large Copper deposits can now generate slightly under the surface in very mountainous biomes
+- Maximum horse stats increased, especially speed (Up to 21.5 blocks/s)
+- Horse breeding and stats now work on a completely new system. Every naturally spawned horse has two randomly chosen alleles for each gene (health, speed and jumpheight). Its actual speed/health/jump height is the average value between its two alleles.
+- When two horses breed, the foul inherits two of the four alleles from its parents with a slight chance of positive or negative mutation. 
+- Added Saddle 'n' Horseshoe which halves the fall damage a horse takes when worn. Can be crafted by combining a saddle and iron block at a smithing table. 

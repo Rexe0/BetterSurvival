@@ -1,11 +1,14 @@
 package me.rexe0.bettersurvival.item;
 
 import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Horse;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
@@ -46,5 +49,13 @@ public class ItemListener implements Listener {
 
             }, 1);
         }
+    }
+
+    @EventHandler
+    public void onEntityDamage(EntityDamageEvent e) {
+        if (!(e.getEntity() instanceof Horse horse)) return;
+        if (e.getCause() != EntityDamageEvent.DamageCause.FALL) return;
+        // If the horse is wearing Saddle 'n' Horseshoe, halve its fall damage
+        if (ItemDataUtil.isItem(horse.getInventory().getSaddle(), "SADDLE_N_HORSESHOE")) e.setDamage(e.getDamage()*0.5f);
     }
 }
