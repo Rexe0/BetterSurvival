@@ -29,6 +29,7 @@ This is a plugin that contains several features that I think would improve the c
 - If a minecart travels over an unpowered rail with chiseled deepslate under it, it will stop much faster than usual. Furnace Minecarts also stop burning as well.
 - Furnace minecarts can now travel much faster. They also automatically load chunks, so use a few of them to allow minecart trains to go through unloaded chunks.
 - 4 Regular Rails can now be crafted with 7 Iron Nuggets and 1 Stick. This is a much more efficient craft compared to the vanilla craft.
+- A Turtle Helmet can now be upgraded as a netherite upgrade into a Strider Helmet. The Strider Helmet grants 20 seconds of extra water breathing and 5 seconds of extra fire resistance.
 - Large Coal deposits can now generate slightly under the surface in Badlands/Mesa biomes
 - Large Iron deposits can now generate slightly under the ocean floor in cold oceans
 - Large Copper deposits can now generate slightly under the surface in very mountainous biomes
