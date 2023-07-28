@@ -23,5 +23,8 @@ public class WorldGeneration implements Listener {
         world.getPopulators().add(new DesertGeneration());
         world.getPopulators().add(new FossilSandGeneration());
 
+        world.getPopulators().add(new CoalDeposit());
+        world.getPopulators().add(new IronDeposit());
+        world.getPopulators().add(new CopperDeposit());
     }
 }
