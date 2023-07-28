@@ -1,7 +1,6 @@
 package me.rexe0.bettersurvival.farming;
 
 import me.rexe0.bettersurvival.BetterSurvival;
-import org.bukkit.Bukkit;
 import org.bukkit.Particle;
 import org.bukkit.entity.Breedable;
 import org.bukkit.event.EventHandler;
@@ -16,7 +15,6 @@ public class AnimalBreeding implements Listener {
         Breedable mother = (Breedable) e.getMother();
         Breedable father = (Breedable) e.getFather();
 
-        Bukkit.broadcastMessage(mother.getClass().toString());
         for (Breedable entity : mother.getWorld().getEntitiesByClass(mother.getClass()))
             if (entity.getLocation().distanceSquared(mother.getLocation()) < 4) amount++;
 
