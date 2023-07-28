@@ -69,6 +69,7 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new WanderingTrader(), this);
         getServer().getPluginManager().registerEvents(new ChainedMinecart(), this);
         getServer().getPluginManager().registerEvents(new MinecartChanges(), this);
+        getServer().getPluginManager().registerEvents(new HorseBreeding(), this);
         getServer().getPluginManager().registerEvents(new ItemListener(), this);
 
         recipes = new HashMap<>();
