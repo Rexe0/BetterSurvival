@@ -45,3 +45,4 @@ This is a plugin that contains several features that I think would improve the c
 - Blizzards allow snow to pile up substantially and become powder snow
 - Blizzards cause players out in the open to freeze and take damage. This effect is reduced by wearing leather armor.
 - This snow will gradually melt in Spring
+- A Weather Radio can be bought from an Expert Cartographer Villager which will display the Date, Season and tomorrow's weather forecast

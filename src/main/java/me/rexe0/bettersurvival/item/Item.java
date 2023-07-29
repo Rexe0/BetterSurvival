@@ -43,6 +43,10 @@ public abstract class Item {
 
     }
 
+    public void onRightClick(Player player) {
+
+    }
+
     public void armorEquipped(Player player) {
 
     }
