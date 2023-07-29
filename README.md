@@ -37,3 +37,11 @@ This is a plugin that contains several features that I think would improve the c
 - Horse breeding and stats now work on a completely new system. Every naturally spawned horse has two randomly chosen alleles for each gene (health, speed and jumpheight). Its actual speed/health/jump height is the average value between its two alleles.
 - When two horses breed, the foul inherits two of the four alleles from its parents with a slight chance of positive or negative mutation. 
 - Added Saddle 'n' Horseshoe which halves the fall damage a horse takes when worn. Can be crafted by combining a saddle and iron block at a smithing table. 
+- Added Seasons to the game. Every world starts in Spring, with each season lasting 30 in game days. 
+- Crops grow the fastest in Spring, and the slowest in Winter
+- Weather now happen starts at the start of the day and lasts until the next morning. 
+- Rain and Storms are more common in the Summer. 
+- Snowy days and Blizzards can happen in Winter in which snow starts to fall in biomes where it usually doesn't
+- Blizzards allow snow to pile up substantially and become powder snow
+- Blizzards cause players out in the open to freeze and take damage. This effect is reduced by wearing leather armor.
+- This snow will gradually melt in Spring

@@ -14,6 +14,7 @@ import me.rexe0.bettersurvival.minecarts.MinecartChanges;
 import me.rexe0.bettersurvival.minecarts.RailRecipes;
 import me.rexe0.bettersurvival.mobs.*;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
+import me.rexe0.bettersurvival.weather.SeasonListener;
 import me.rexe0.bettersurvival.worldgen.WorldGeneration;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -84,7 +85,10 @@ public final class BetterSurvival extends JavaPlugin {
 
         DrillEntity.runTimer();
 
-        Bukkit.getScheduler().runTaskTimer(this, ChainedMinecart::run, 0, 1);
+        Bukkit.getScheduler().runTaskTimer(this, () -> {
+            ChainedMinecart.run();
+            SeasonListener.run();
+        }, 0, 1);
         Bukkit.getScheduler().runTaskTimer(this, () -> Bukkit.getOnlinePlayers().forEach((player) -> {
             for (ItemType type : ItemType.values()) {
                 if (ItemDataUtil.isItem(player.getEquipment().getItemInMainHand(), type.getItem().getID())
