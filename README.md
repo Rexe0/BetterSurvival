@@ -1,13 +1,7 @@
 This is a plugin that contains several features that I think would improve the classic survival experience. This plugin is only functional in Spigot 1.20.1.
 
-**Features:**
-- Suspicious sand can now generate on the desert biome's surface. Upon brushing, it can reveal either junk or rarely treasure such as diamonds or emeralds
-- Large patches of suspicious sand can now generate on the desert biome's surface that when brushed reveal bones. These patches reveal that somewhere under them lies a fossil. 
-- Suspicious sand and gravel can now generate in rivers which can reveal gold upon being brushed
-- Natural ore generation for iron, gold, diamonds and ancient debris have been reduced
-- The mending enchantment has been changed. Upon picking up an experience orb, gear with mending will no longer automatically repair itself. Rather, it will reduce its repair cost at an anvil.
-- Netherite gear can now be repaired at an anvil with diamonds
-- Elder Guardians now have a 1/3 chance of dropping a Mending Book
+### Features
+**Agriculture:**
 - Crops now grow at roughly half their usual speed unless it is raining. However, with a Sniffer nearby they only grow roughly 20% slower than vanilla.
 - Carrots and Potatoes will now only drop one of theirselves regardless if they are full grown or not.
 - Wheat and Beetroot will now only drop one themselves and their respective seed if they are fully grown
@@ -16,33 +10,55 @@ This is a plugin that contains several features that I think would improve the c
 - Added Suspicious Stew recipe for Pitcher Plant -> Grants Luck I for 5 minutes
 - Animals will have a much longer breeding cooldown after being bred
 - Animals will no longer breed if the area around them is too crowded
-- Villagers will no longer grant huge discounts to players that have cured them. They can still grant small discounts from curing that will eventually spread to other villagers that they talk to. (This prevents trades that are far too cheap and also encourages the completion of raids)
 - Honey Bottles now cure the Wither effect in addition to the Poison effect
-- After a player mines Ancient Debris for the first time, piglins and piglin brutes will begin to naturally spawn in the overworld around them
-- Phantoms will no longer naturally drop phantom membranes 
-- After a player enters the end, phantoms that naturally spawn around them will be slightly bigger and can drop phantom membranes (to repair elytra with)
-- After a player enters the end, the naturally spawning piglins around them will always spawn with a piece of netherite armor (that can't be dropped)
-- Wandering Traders will now always sell either a Stopwatch (When held shows your current speed in km/h) or a Metal Detector (Detects any ores under you when held)
+
+**Ores and Mining:**
+- Natural ore generation for iron, gold, diamonds and ancient debris have been reduced
+- Large Coal deposits can now generate slightly under the surface in Badlands/Mesa biomes
+- Large Iron deposits can now generate slightly under the ocean floor in cold oceans
+- Large Copper deposits can now generate slightly under the surface in very mountainous biomes
 - The Drill Block can now be crafted using 7 Copper Blocks, 1 Redstone Dust and 1 Diamond Pickaxe. When placed and fed coal as fuel, it starts digging a 3x3 tunnel in the direction it is facing. However, it can not break certain blocks that are too 'hard' (Example: Obsidian, Bedrock, etc.).
+
+**Villagers:**
+- Villagers will no longer grant huge discounts to players that have cured them. They can still grant small discounts from curing that will eventually spread to other villagers that they talk to. (This prevents trades that are far too cheap and also encourages the completion of raids)
+- Wandering Traders will now always sell either a Stopwatch (When held shows your current speed in km/h) or a Metal Detector (Detects any ores under you when held)
+
+**Minecarts:**
 - Minecarts can now be linked together using by Sneak + Right Clicking on them with chains. The first minecart clicked will pull the second one that was clicked.
 - If a minecart travels over a powered rail with a copper block under it, its max speed increases by 3x. If it travels over a normal powered rail, its max speed goes back to normal. Minecarts tend to derail at turns or ramps if they are going too fast so make sure they are slowed down when approaching one.
 - If a minecart travels over an unpowered rail with chiseled deepslate under it, it will stop much faster than usual. Furnace Minecarts also stop burning as well.
 - Furnace minecarts can now travel much faster. They also automatically load chunks, so use a few of them to allow minecart trains to go through unloaded chunks.
 - 4 Regular Rails can now be crafted with 7 Iron Nuggets and 1 Stick. This is a much more efficient craft compared to the vanilla craft.
+
+**Gear and Loot:**
+- Suspicious sand can now generate on the desert biome's surface. Upon brushing, it can reveal either junk or rarely treasure such as diamonds or emeralds
+- Large patches of suspicious sand can now generate on the desert biome's surface that when brushed reveal bones. These patches reveal that somewhere under them lies a fossil.
+- Suspicious sand and gravel can now generate in rivers which can reveal gold upon being brushed
+- The mending enchantment has been changed. Upon picking up an experience orb, gear with mending will no longer automatically repair itself. Rather, it will reduce its repair cost at an anvil.
+- Elder Guardians now have a 1/3 chance of dropping a Mending Book
+- Netherite gear can now be repaired at an anvil with diamonds
 - A Turtle Helmet can now be upgraded as a netherite upgrade into a Strider Helmet. The Strider Helmet grants 20 seconds of extra water breathing and 5 seconds of extra fire resistance.
-- Large Coal deposits can now generate slightly under the surface in Badlands/Mesa biomes
-- Large Iron deposits can now generate slightly under the ocean floor in cold oceans
-- Large Copper deposits can now generate slightly under the surface in very mountainous biomes
+
+**Mobs:**
+- After a player mines Ancient Debris for the first time, piglins and piglin brutes will begin to naturally spawn in the overworld around them
+- Phantoms will no longer naturally drop phantom membranes
+- After a player enters the end, phantoms that naturally spawn around them will be slightly bigger and can drop phantom membranes (to repair elytra with)
+- After a player enters the end, the naturally spawning piglins around them will always spawn with a piece of netherite armor (that can't be dropped)
+
+**Horses:**
 - Maximum horse stats increased, especially speed (Up to 21.5 blocks/s)
 - Horse breeding and stats now work on a completely new system. Every naturally spawned horse has two randomly chosen alleles for each gene (health, speed and jumpheight). Its actual speed/health/jump height is the average value between its two alleles.
-- When two horses breed, the foul inherits two of the four alleles from its parents with a slight chance of positive or negative mutation. 
-- Added Saddle 'n' Horseshoe which halves the fall damage a horse takes when worn. Can be crafted by combining a saddle and iron block at a smithing table. 
-- Added Seasons to the game. Every world starts in Spring, with each season lasting 30 in game days. 
+- When two horses breed, the foul inherits two of the four alleles from its parents with a slight chance of positive or negative mutation.
+- Added Saddle 'n' Horseshoe which halves the fall damage a horse takes when worn. Can be crafted by combining a saddle and iron block at a smithing table.
+
+**Seasons:**
+- Added Seasons to the game. Every world starts in Spring, with each season lasting 30 in game days.
 - Crops grow the fastest in Spring, and the slowest in Winter
-- Weather now happen starts at the start of the day and lasts until the next morning. 
-- Rain and Storms are more common in the Summer. 
+- Weather now starts at the start of the day and lasts until the next morning.
+- Rain and Storms are more common in the Summer but can't occur during Winter
 - Snowy days and Blizzards can happen in Winter in which snow starts to fall in biomes where it usually doesn't
 - Blizzards allow snow to pile up substantially and become powder snow
 - Blizzards cause players out in the open to freeze and take damage. This effect is reduced by wearing leather armor.
 - This snow will gradually melt in Spring
 - A Weather Radio can be bought from an Expert Cartographer Villager which will display the Date, Season and tomorrow's weather forecast
+
