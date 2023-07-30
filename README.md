@@ -65,3 +65,7 @@ This is a plugin that contains several features that I think would improve the c
 - Windy days can occur in the Spring and Autumn where petals/leaves fall from the sky (Purely visual)
 - A Weather Radio can be bought from an Expert Cartographer Villager which will display the Date, Season and tomorrow's weather forecast
 
+**Miscellaneous:**
+- When a lightning rod above a copper block is struck by lightning, the energy will pass through up to 32 copper blocks in any direction. It will not pass through weathered copper but it can pass through waxed copper blocks
+- Any furnaces, blast furnaces or smokers adjacent to an energized copper block will be powered for 60 seconds and will smelt items 2x as fast as usual for the duration
+- Up to 9 furnaces/blast furnaces/smokers can be powered by a single lightning strike
