@@ -60,7 +60,7 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new GrowthModifier(), this);
         getServer().getPluginManager().registerEvents(new HarvestModifier(), this);
         getServer().getPluginManager().registerEvents(new AnimalBreeding(), this);
-        getServer().getPluginManager().registerEvents(new ComposterModifications(), this);
+        getServer().getPluginManager().registerEvents(new ComposterChanges(), this);
         getServer().getPluginManager().registerEvents(new FoodModifications(), this);
         getServer().getPluginManager().registerEvents(new PhantomChange(), this);
         getServer().getPluginManager().registerEvents(new PiglinChange(), this);
