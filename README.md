@@ -54,11 +54,13 @@ This is a plugin that contains several features that I think would improve the c
 **Seasons:**
 - Added Seasons to the game. Every world starts in Spring, with each season lasting 30 in game days.
 - Crops grow the fastest in Spring, and the slowest in Winter
+- Grass and Foliage colour changes in the autumn (Upon reconnect)
 - Weather now starts at the start of the day and lasts until the next morning.
 - Rain and Storms are more common in the Summer but can't occur during Winter
 - Snowy days and Blizzards can happen in Winter in which snow starts to fall in biomes where it usually doesn't
 - Blizzards allow snow to pile up substantially and become powder snow
 - Blizzards cause players out in the open to freeze and take damage. This effect is reduced by wearing leather armor.
 - This snow will gradually melt in Spring
+- Windy days can occur in the Spring and Autumn where petals/leaves fall from the sky (Purely visual)
 - A Weather Radio can be bought from an Expert Cartographer Villager which will display the Date, Season and tomorrow's weather forecast
 
