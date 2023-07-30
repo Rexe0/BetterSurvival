@@ -11,6 +11,7 @@ This is a plugin that contains several features that I think would improve the c
 - Animals will have a much longer breeding cooldown after being bred
 - Animals will no longer breed if the area around them is too crowded
 - Honey Bottles now cure the Wither effect in addition to the Poison effect
+- Every compostable item will now always increase the compost's level. The amount of compost generated is dependent on the item.
 
 **Ores and Mining:**
 - Natural ore generation for iron, gold, diamonds and ancient debris have been reduced

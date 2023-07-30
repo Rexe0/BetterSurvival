@@ -1,9 +1,6 @@
 package me.rexe0.bettersurvival;
 
-import me.rexe0.bettersurvival.farming.AnimalBreeding;
-import me.rexe0.bettersurvival.farming.FoodModifications;
-import me.rexe0.bettersurvival.farming.GrowthModifier;
-import me.rexe0.bettersurvival.farming.HarvestModifier;
+import me.rexe0.bettersurvival.farming.*;
 import me.rexe0.bettersurvival.gear.AnvilRepair;
 import me.rexe0.bettersurvival.gear.MendingChange;
 import me.rexe0.bettersurvival.item.DrillEntity;
@@ -63,6 +60,7 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new GrowthModifier(), this);
         getServer().getPluginManager().registerEvents(new HarvestModifier(), this);
         getServer().getPluginManager().registerEvents(new AnimalBreeding(), this);
+        getServer().getPluginManager().registerEvents(new ComposterModifications(), this);
         getServer().getPluginManager().registerEvents(new FoodModifications(), this);
         getServer().getPluginManager().registerEvents(new PhantomChange(), this);
         getServer().getPluginManager().registerEvents(new PiglinChange(), this);
