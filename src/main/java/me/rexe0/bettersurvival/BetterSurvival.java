@@ -11,6 +11,7 @@ import me.rexe0.bettersurvival.minecarts.MinecartChanges;
 import me.rexe0.bettersurvival.minecarts.RailRecipes;
 import me.rexe0.bettersurvival.mobs.*;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
+import me.rexe0.bettersurvival.weather.LightningRodChanges;
 import me.rexe0.bettersurvival.weather.SeasonListener;
 import me.rexe0.bettersurvival.worldgen.WorldGeneration;
 import org.bukkit.Bukkit;
@@ -69,6 +70,7 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ChainedMinecart(), this);
         getServer().getPluginManager().registerEvents(new MinecartChanges(), this);
         getServer().getPluginManager().registerEvents(new HorseBreeding(), this);
+        getServer().getPluginManager().registerEvents(new LightningRodChanges(), this);
         getServer().getPluginManager().registerEvents(new ItemListener(), this);
 
         recipes = new HashMap<>();
