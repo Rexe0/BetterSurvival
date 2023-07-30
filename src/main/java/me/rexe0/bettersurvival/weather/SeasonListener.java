@@ -69,8 +69,14 @@ public class SeasonListener {
 
         switch (currentWeather) {
             default -> world.setClearWeatherDuration(100);
-            case RAIN -> world.setStorm(true);
-            case STORM -> world.setThundering(true);
+            case RAIN -> {
+                world.setStorm(true);
+                world.setThundering(false);
+            }
+            case STORM -> {
+                world.setStorm(true);
+                world.setThundering(true);
+            }
         }
 
         if (currentWeather == Weather.SNOW || currentWeather == Weather.BLIZZARD) {
@@ -110,9 +116,11 @@ public class SeasonListener {
                     case RAIN -> {
                         currentWeather = Weather.RAIN;
                         world.setStorm(true);
+                        world.setThundering(false);
                     }
                     case STORM -> {
                         currentWeather = Weather.STORM;
+                        world.setStorm(true);
                         world.setThundering(true);
                     }
                     case SNOW -> currentWeather = Weather.SNOW;
