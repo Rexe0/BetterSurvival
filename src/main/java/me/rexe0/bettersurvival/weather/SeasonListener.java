@@ -70,8 +70,6 @@ public class SeasonListener {
     private static void tick(World world) {
         Season season = Season.getSeason();
 
-
-
         for (Player player : world.getPlayers()) {
             Block block = player.getLocation().getBlock();
             if (block.getBiome() == org.bukkit.block.Biome.PLAINS
@@ -129,6 +127,20 @@ public class SeasonListener {
             }
         }
 
+        if (currentWeather == Weather.WINDY) {
+            for (Player player : world.getPlayers()) {
+                Location loc = player.getLocation();
+                if (loc.getY() <= world.getHighestBlockYAt(loc.getBlockX(), loc.getBlockZ())) continue;
+
+                if (season == Season.AUTUMN) {
+                    player.spawnParticle(Particle.REDSTONE, loc.add(0, 5, 0), 10,
+                            10, 10, 10, 0, new Particle.DustOptions(Color.fromRGB(255, 94, 0), 1.5f));
+                } else
+                    player.spawnParticle(Particle.CHERRY_LEAVES, loc.add(0, 5, 0), 5,
+                            10, 10, 10, 0);
+
+            }
+        }
         if (currentWeather == Weather.SNOW || currentWeather == Weather.BLIZZARD) {
             for (Player player : world.getPlayers()) {
                 Location loc = player.getLocation();
@@ -175,6 +187,7 @@ public class SeasonListener {
                     }
                     case SNOW -> currentWeather = Weather.SNOW;
                     case BLIZZARD -> currentWeather = Weather.BLIZZARD;
+                    case WINDY -> currentWeather = Weather.WINDY;
                 }
                 weatherForecast = null;
             }
@@ -190,7 +203,8 @@ public class SeasonListener {
                     weatherForecast = season == Season.WINTER ? Weather.BLIZZARD : Weather.STORM;
                 else
                     weatherForecast = season == Season.WINTER ? Weather.SNOW : Weather.RAIN;
-            } else weatherForecast = Weather.CLEAR;
+            } else
+                weatherForecast = RandomUtil.getRandom().nextDouble() < 0.2 ? Weather.WINDY : Weather.CLEAR;
         }
 
     }
@@ -204,7 +218,8 @@ public class SeasonListener {
 
             // Snow melts in sunny Spring, in certain warm-hot biomes
             if (biome.climateSettings.temperature() > 0.1) {
-                if (season == Season.SPRING && currentWeather == Weather.CLEAR) {
+                if (season == Season.SPRING
+                        && (currentWeather == Weather.CLEAR || currentWeather == Weather.WINDY)) {
                     if (above.getType() == Material.POWDER_SNOW) {
                         above.setType(Material.SNOW);
                         Snow data = (Snow) above.getBlockData();
@@ -258,6 +273,7 @@ public class SeasonListener {
         RAIN,
         STORM,
         SNOW,
-        BLIZZARD
+        BLIZZARD,
+        WINDY
     }
 }
