@@ -45,6 +45,13 @@ This is a plugin that contains several features that I think would improve the c
 - Phantoms will no longer naturally drop phantom membranes
 - After a player enters the end, phantoms that naturally spawn around them will be slightly bigger and can drop phantom membranes (to repair elytra with)
 - After a player enters the end, the naturally spawning piglins around them will always spawn with a piece of netherite armor (that can't be dropped)
+- The Ender Dragon now takes 80% less damage from block explosions
+- Once reaching 0 health, the Ender Dragon will reach its second phase, creating a massive lightning storm and healing to full. 
+- The Ender Dragon gains three new 'attacks' during its second phase that it can use periodically:
+  - It will channel lightning on itself and strike the tallest block at each player, dealing heavy damage if it does manage to hit the player
+  - It can summon a fireball that moves rapidly towards the player and explodes (Similar to Ghast but with heavier damage)
+  - It can cloak every player in darkness and call on a few Endermen to start targeting each player
+
 
 **Horses:**
 - Maximum horse stats increased, especially speed (Up to 21.5 blocks/s)

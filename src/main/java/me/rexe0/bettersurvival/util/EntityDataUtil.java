@@ -56,4 +56,19 @@ public class EntityDataUtil {
         if (!container.has(entityKey, PersistentDataType.DOUBLE)) return 0;
         return container.get(entityKey, PersistentDataType.DOUBLE);
     }
+
+    public static void setIntegerValue(Entity entity, String key, int value) {
+        NamespacedKey entityKey = new NamespacedKey(BetterSurvival.getInstance(), key);
+
+        entity.getPersistentDataContainer().set(entityKey, PersistentDataType.INTEGER, value);
+    }
+    public static int getIntegerValue(Entity entity, String key) {
+        NamespacedKey entityKey = new NamespacedKey(BetterSurvival.getInstance(), key);
+
+        if (entity == null) return 0;
+        PersistentDataContainer container = entity.getPersistentDataContainer();
+
+        if (!container.has(entityKey, PersistentDataType.INTEGER)) return 0;
+        return container.get(entityKey, PersistentDataType.INTEGER);
+    }
 }
