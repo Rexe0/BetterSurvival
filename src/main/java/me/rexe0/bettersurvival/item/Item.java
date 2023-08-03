@@ -47,6 +47,11 @@ public abstract class Item {
 
     }
 
+    public void onLeftClick(Player player) {
+
+    }
+
+
     public void armorEquipped(Player player) {
 
     }

@@ -32,11 +32,15 @@ public class ItemListener implements Listener {
     public void onInteract(PlayerInteractEvent e) {
         DrillBlock drillBlock = (DrillBlock) ItemType.DRILL_BLOCK.getItem();
         drillBlock.onRightClick(e);
-
-        if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getHand() == EquipmentSlot.HAND)
-            for (ItemType itemType : ItemType.values())
-                if (ItemDataUtil.isItem(e.getItem(), itemType.getItem().getID()))
+        for (ItemType itemType : ItemType.values())
+            if (ItemDataUtil.isItem(e.getItem(), itemType.getItem().getID())) {
+                if ((e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) && e.getHand() == EquipmentSlot.HAND)
                     itemType.getItem().onRightClick(e.getPlayer());
+                if ((e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) && e.getHand() == EquipmentSlot.HAND)
+                    itemType.getItem().onLeftClick(e.getPlayer());
+            }
+
+
     }
 
     @EventHandler
