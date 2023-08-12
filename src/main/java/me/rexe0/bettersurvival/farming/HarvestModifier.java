@@ -46,7 +46,7 @@ public class HarvestModifier implements Listener {
         e.setDropItems(false);
         PersistentDataContainer data = new CustomBlockData(block, BetterSurvival.getInstance());
 
-        int dropCount = 1;
+        int dropCount = 2;
 
         // If the player bonemealed the crop, it should always yield one more of itself
         if (data.has(key, PersistentDataType.BOOLEAN)) {
