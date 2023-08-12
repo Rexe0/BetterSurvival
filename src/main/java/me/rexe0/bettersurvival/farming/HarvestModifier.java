@@ -7,13 +7,16 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
+import org.bukkit.block.Dispenser;
 import org.bukkit.block.data.Ageable;
+import org.bukkit.block.data.Directional;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
@@ -77,27 +80,57 @@ public class HarvestModifier implements Listener {
     @EventHandler
     public void onBonemeal(PlayerInteractEvent e) {
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
-        if (e.getItem() == null) return;
+
+        ItemStack item = e.getItem();
+        int value = onBonemeal(e.getClickedBlock(), item);
+        if (value > -1) {
+            e.setCancelled(true);
+            if (value == 1)
+                item.setAmount(item.getAmount()-1);
+        }
+    }
+
+    @EventHandler
+    public void onDispense(BlockDispenseEvent e) {
         if (e.getItem().getType() != Material.BONE_MEAL) return;
-        if (!cropDrops.containsKey(e.getClickedBlock().getType())) return;
-        e.setCancelled(true);
+        if (e.getBlock().getType() != Material.DISPENSER) return;
+
+        Directional directional = (Directional) e.getBlock().getBlockData();
+        Block target = e.getBlock().getLocation().add(directional.getFacing().getDirection()).getBlock();
+
+        int value = onBonemeal(target, e.getItem());
+        if (value > -1) {
+            e.setCancelled(true);
+            if (value == 1) {
+                Dispenser dispenser = (Dispenser) e.getBlock().getState();
+                for (ItemStack item : dispenser.getInventory()) {
+                    if (item == null) continue;
+                    if (item.getType() != e.getItem().getType()) continue;
+                    item.setAmount(item.getAmount() - 1);
+                    break;
+                }
+            }
+        }
+    }
 
 
-        Block block = e.getClickedBlock();
+    // Returns -1 if not applicable, Returns 0 if bonemeal shouldn't be consumed, Returns 1 if bonemeal should be consued
+    private int onBonemeal(Block block, ItemStack item) {
+        if (item == null) return -1;
+        if (item.getType() != Material.BONE_MEAL) return -1;
+        if (!cropDrops.containsKey(block.getType())) return -1;
 
         // Can only bonemeal the crop when it is nascent
         if (((Ageable)block.getBlockData()).getAge() > 1)
-            return;
+            return 0;
 
         PersistentDataContainer data = new CustomBlockData(block, BetterSurvival.getInstance());
 
-        if (data.has(key, PersistentDataType.BOOLEAN)) return;
+        if (data.has(key, PersistentDataType.BOOLEAN)) return 0;
 
         data.set(key, PersistentDataType.BOOLEAN, true);
 
-        ItemStack item = e.getItem();
-        item.setAmount(item.getAmount()-1);
-
         block.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, block.getLocation().add(0.5, 0.1, 0.5), 20, 0.3, 0.2, 0.3, 0);
+        return 1;
     }
 }
