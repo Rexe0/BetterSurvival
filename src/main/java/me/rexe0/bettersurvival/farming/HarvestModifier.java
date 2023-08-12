@@ -42,21 +42,24 @@ public class HarvestModifier implements Listener {
         Block block = e.getBlock();
         Player player = e.getPlayer();
         if (!cropDrops.containsKey(block.getType())) return;
+        Material[] drops = cropDrops.get(block.getType());
 
         e.setDropItems(false);
         PersistentDataContainer data = new CustomBlockData(block, BetterSurvival.getInstance());
 
-        int dropCount = 2;
+        int dropCount = 1;
+        int seedCount = 2;
 
         // If the player bonemealed the crop, it should always yield one more of itself
         if (data.has(key, PersistentDataType.BOOLEAN)) {
             data.remove(key);
             dropCount++;
+            seedCount++;
         }
 
         // If harvested early, it should only drop 1 of its seed
         if (((Ageable)block.getBlockData()).getAge() != ((Ageable)block.getBlockData()).getMaximumAge()) {
-            block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(cropDrops.get(block.getType())[0], 1));
+            block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(drops[0], 1));
             return;
         }
 
@@ -65,7 +68,10 @@ public class HarvestModifier implements Listener {
         if (item.hasItemMeta() && item.getItemMeta().hasEnchant(Enchantment.LOOT_BONUS_BLOCKS) && item.getType().toString().contains("HOE")) {
             int level = item.getItemMeta().getEnchantLevel(Enchantment.LOOT_BONUS_BLOCKS);
             for (int i = 0; i < level; i++)
-                if (RandomUtil.getRandom().nextInt(3) == 0) dropCount++;
+                if (RandomUtil.getRandom().nextInt(3) == 0) {
+                    dropCount++;
+                    seedCount++;
+                }
 
             Damageable damageable = (Damageable) item.getItemMeta();
             damageable.setDamage(damageable.getDamage() - 1);
@@ -73,9 +79,10 @@ public class HarvestModifier implements Listener {
                 player.getEquipment().setItemInMainHand(null);
         }
 
-        for (Material mat : cropDrops.get(block.getType()))
-            block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(mat, dropCount));
-    }
+        block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(drops[0], seedCount));
+        if (drops.length > 1)
+            block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(drops[1], dropCount));
+}
 
     @EventHandler
     public void onBonemeal(PlayerInteractEvent e) {
