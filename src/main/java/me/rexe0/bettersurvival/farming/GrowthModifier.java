@@ -34,5 +34,6 @@ public class GrowthModifier implements Listener {
         }
 
         if (RandomUtil.getRandom().nextDouble() < growthChance) return;
+        e.setCancelled(true);
     }
 }
