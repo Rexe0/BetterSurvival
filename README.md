@@ -3,9 +3,9 @@ This is a plugin that contains several features that I think would improve the c
 ### Features
 **Agriculture:**
 - Crops now grow at roughly half their usual speed unless it is raining. However, with a Sniffer nearby they only grow roughly 20% slower than vanilla.
-- Carrots and Potatoes will now only drop one of theirselves regardless if they are full grown or not.
-- Wheat and Beetroot will now only drop one themselves and their respective seed if they are fully grown
-- Bonemealing Wheat, Beetroot, Carrots and Potatoes no longer instantly grows them. However, if they are bonemealed when initially placed, they will always yield one extra drop when harvested at full growth.
+- Carrots and Potatoes will now only drop two of themselves when fully grown
+- Wheat and Beetroot will now only drop one of themselves and two of their respective seeds when they are fully grown
+- Bonemealing Wheat, Beetroot, Carrots and Potatoes no longer instantly grows them. However, if they are bonemealed when initially placed, they will always yield one extra drop and seed when harvested at full growth.
 - Fortune hoes are now the only tool that can cause crops to drop more of itself now.
 - Added Suspicious Stew recipe for Pitcher Plant -> Grants Luck I for 5 minutes
 - Animals will have a much longer breeding cooldown after being bred
