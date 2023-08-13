@@ -12,6 +12,9 @@ This is a plugin that contains several features that I think would improve the c
 - Animals will no longer breed if the area around them is too crowded
 - Honey Bottles now cure the Wither effect in addition to the Poison effect
 - Every compostable item will now always increase the compost's level. The amount of compost generated is dependent on the item.
+- Right clicking a filled water cauldron with a fire/campfire underneath it with soup/stew ingredients will place the ingredients within the cauldron
+- If you place all the necessary ingredients for a soup within that cauldron, it will play a distinct sound, indicating that the soup has been cooked (Rabbit Stew requires both mushrooms instead of only one)
+- Right clicking a cauldron full of soup with a bowl will grant you that soup in its bowl form, allowing it to be eaten. This can be done up to three times.
 
 **Ores and Mining:**
 - Natural ore generation for iron, gold, diamonds and ancient debris have been reduced
