@@ -2,20 +2,28 @@ package me.rexe0.bettersurvival.minecarts;
 
 import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.util.EntityDataUtil;
+import net.minecraft.world.entity.vehicle.MinecartFurnace;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.Dispenser;
+import org.bukkit.block.data.Directional;
 import org.bukkit.block.data.type.RedstoneRail;
 import org.bukkit.craftbukkit.v1_20_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftMinecartFurnace;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Minecart;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.vehicle.VehicleCreateEvent;
 import org.bukkit.event.vehicle.VehicleMoveEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
+
+import java.util.Optional;
 
 public class MinecartChanges implements Listener {
     private static final double DEFAULT_SPEED = 0.4d;
@@ -58,5 +66,43 @@ public class MinecartChanges implements Listener {
             EntityDataUtil.setStringValue(cart.getBukkitEntity(), "isCustomMinecartFurnace", "true");
             ((CraftWorld) minecart.getWorld()).getHandle().addFreshEntity(cart);
         }, 1);
+    }
+
+    @EventHandler
+    public void onDispense(BlockDispenseEvent e) {
+        if (e.getItem().getType() != Material.COAL && e.getItem().getType() != Material.CHARCOAL) return;
+        if (e.getBlock().getType() != Material.DISPENSER) return;
+
+        Directional directional = (Directional) e.getBlock().getBlockData();
+        Block target = e.getBlock().getLocation().add(directional.getFacing().getDirection()).getBlock();
+
+        Optional<Entity> furnace = target.getWorld().getNearbyEntities(target.getLocation(), 1.5, 1.5, 1.5).stream()
+                .filter(en -> en.getType() == EntityType.MINECART_FURNACE)
+                .findFirst();
+
+        if (furnace.isEmpty()) return;
+
+        e.setCancelled(true);
+
+        MinecartFurnace minecart = ((CraftMinecartFurnace) furnace.get()).getHandle();
+        float yaw = minecart.getBukkitYaw();
+        if (yaw >= -45 && yaw < 45)
+            minecart.zPush = 1;
+        else if (yaw >= 45 && yaw < 135)
+            minecart.xPush = -1;
+        else if (yaw >= 135 || yaw < -135)
+            minecart.zPush = -1;
+        else if (yaw >= -135)
+            minecart.xPush = 1;
+
+        minecart.fuel += Math.min(3600, 32767);
+
+        Dispenser dispenser = (Dispenser) e.getBlock().getState();
+        for (ItemStack item : dispenser.getInventory()) {
+            if (item == null) continue;
+            if (item.getType() != e.getItem().getType()) continue;
+            item.setAmount(item.getAmount() - 1);
+            break;
+        }
     }
 }
