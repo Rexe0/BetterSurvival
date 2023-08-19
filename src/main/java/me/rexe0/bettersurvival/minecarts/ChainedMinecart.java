@@ -48,6 +48,7 @@ public class ChainedMinecart implements Listener {
         // Unlink the carts if they are too far away from each other or the child cart is non-existent
         if (childCart == null || childCart.isDead() || childCart.getLocation().distanceSquared(minecart.getLocation()) > 16) {
             EntityDataUtil.removeStringValue(minecart, "childMinecart");
+            minecart.getWorld().dropItemNaturally(minecart.getLocation(), new ItemStack(Material.CHAIN, 2));
             minecart.getWorld().playSound(minecart.getLocation(), Sound.BLOCK_CHAIN_PLACE, 1, 1.4f);
             return null;
         }
