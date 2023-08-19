@@ -39,7 +39,7 @@ public class MinecartChanges implements Listener {
         if (rail.getType() != Material.POWERED_RAIL) return;
         // Copper blocks boost max speed
         if (below.getType() == Material.COPPER_BLOCK || below.getType() == Material.WAXED_COPPER_BLOCK)
-            minecart.setMaxSpeed(Math.min(DEFAULT_SPEED*3, minecart.getMaxSpeed()+0.1)); // Minecart must first accelerate before hitting top speed
+            minecart.setMaxSpeed(Math.min(DEFAULT_SPEED*3, minecart.getMaxSpeed()+0.4)); // Minecart must first accelerate before hitting top speed
         else
             minecart.setMaxSpeed(DEFAULT_SPEED);
 
