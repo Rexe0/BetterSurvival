@@ -93,7 +93,7 @@ public class SeasonListener {
                             foliageColorOverride.set(biome.getSpecialEffects(), Optional.of(Integer.parseInt("ff5e00", 16)));
 
                         if (((Optional<?>)grassColorOverride.get(effects)).isEmpty())
-                            grassColorOverride.set(biome.getSpecialEffects(), Optional.of(Integer.parseInt("f79123", 16)));
+                            grassColorOverride.set(biome.getSpecialEffects(), Optional.of(Integer.parseInt("f77423", 16)));
                     } else {
                         if (((Optional<?>) foliageColorOverride.get(effects)).isPresent())
                             foliageColorOverride.set(biome.getSpecialEffects(), Optional.empty());
