@@ -12,10 +12,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.Recipe;
-import org.bukkit.inventory.SmithingTransformRecipe;
+import org.bukkit.inventory.*;
 
 public class ItemListener implements Listener {
     @EventHandler
@@ -39,8 +36,16 @@ public class ItemListener implements Listener {
                 if ((e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) && e.getHand() == EquipmentSlot.HAND)
                     itemType.getItem().onLeftClick(e.getPlayer());
             }
+    }
 
 
+    @EventHandler
+    public void onPlant(PlayerInteractEvent e) {
+        if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (e.getItem() == null) return;
+        ItemStack item = e.getItem();
+        if (ItemDataUtil.isItem(item, "BAIT"))
+            e.setCancelled(true);
     }
 
     @EventHandler

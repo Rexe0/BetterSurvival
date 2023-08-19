@@ -12,6 +12,7 @@
 package me.rexe0.bettersurvival.util;
 
 import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.item.ItemType;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -41,5 +42,11 @@ public class ItemDataUtil {
     public static boolean isItem(ItemStack item, String ID) {
         return getStringValue(item, "itemID").equals(ID);
     }
-
+    public static ItemType getItemType(ItemStack item) {
+        try {
+            return ItemType.valueOf(getStringValue(item, "itemID"));
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
 }

@@ -7,6 +7,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Item {
     private Material material;
     private String name;
@@ -34,6 +37,7 @@ public abstract class Item {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(name);
+        meta.setLore(getLore());
         item.setItemMeta(meta);
         item.setItemMeta(ItemDataUtil.setStringValue(item, "itemID", ID));
         return item;
@@ -57,8 +61,14 @@ public abstract class Item {
     }
 
 
+    public List<Recipe> getRecipes() {
+        return new ArrayList<>();
+    }
     public Recipe getRecipe() {
         return null;
+    }
+    public List<String> getLore() {
+        return new ArrayList<>();
     }
 
 }

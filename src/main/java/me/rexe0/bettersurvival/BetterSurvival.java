@@ -1,6 +1,7 @@
 package me.rexe0.bettersurvival;
 
 import me.rexe0.bettersurvival.farming.*;
+import me.rexe0.bettersurvival.fishing.CatchListener;
 import me.rexe0.bettersurvival.gear.AnvilRepair;
 import me.rexe0.bettersurvival.gear.MendingChange;
 import me.rexe0.bettersurvival.item.DrillEntity;
@@ -72,14 +73,19 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new HorseBreeding(), this);
         getServer().getPluginManager().registerEvents(new LightningRodChanges(), this);
         getServer().getPluginManager().registerEvents(new EnderDragonChanges(), this);
+        getServer().getPluginManager().registerEvents(new CatchListener(), this);
         getServer().getPluginManager().registerEvents(new ItemListener(), this);
 
         recipes = new HashMap<>();
         recipes.put(RailRecipes.getRailRecipe().getKey(), RailRecipes.getRailRecipe());
         recipes.put(FoodModifications.getSuspiciousStewRecipe().getKey(), FoodModifications.getSuspiciousStewRecipe());
         for (ItemType type : ItemType.values()) {
+            for (Recipe recipe : type.getItem().getRecipes())
+                recipes.put(new NamespacedKey(this, type.getItem().getID()), recipe);
+
             Recipe recipe = type.getItem().getRecipe();
             if (recipe != null) recipes.put(new NamespacedKey(this, type.getItem().getID()), recipe);
+
         }
 
         recipes.values().forEach(r -> getServer().addRecipe(r));
