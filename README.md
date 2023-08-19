@@ -32,6 +32,7 @@ This is a plugin that contains several features that I think would improve the c
 - If a minecart travels over a powered rail with a copper block under it, its max speed increases by 3x. If it travels over a normal powered rail, its max speed goes back to normal. Minecarts tend to derail at turns or ramps if they are going too fast so make sure they are slowed down when approaching one.
 - If a minecart travels over an unpowered rail with chiseled deepslate under it, it will stop much faster than usual. Furnace Minecarts also stop burning as well.
 - Furnace minecarts can now travel much faster. They also automatically load chunks, so use a few of them to allow minecart trains to go through unloaded chunks.
+- Dispensers can now automatically power furnace minecarts in the direction they are facing when shooting out coal or charcoal
 - 4 Regular Rails can now be crafted with 7 Iron Nuggets and 1 Stick. This is a much more efficient craft compared to the vanilla craft.
 
 **Gear and Loot:**
