@@ -27,14 +27,16 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class CatchListener implements Listener {
-    private ChatColor[] fishColors = new ChatColor[]{
+    public static final Map<UUID, FishingMinigame> minigameMap = new HashMap<>();
+
+    private static final ChatColor[] fishColors = new ChatColor[]{
             ChatColor.GREEN, ChatColor.BLUE, ChatColor.DARK_PURPLE, ChatColor.GOLD
     };
 
-    public CatchListener() {
+    static {
         Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
         for (ChatColor color : fishColors) {
             if (board.getTeam(color.name()) == null)
@@ -104,6 +106,7 @@ public class CatchListener implements Listener {
     @EventHandler
     public void onCatch(PlayerFishEvent e) {
         if (e.getState() != PlayerFishEvent.State.CAUGHT_FISH) return;
+        if (minigameMap.containsKey(e.getPlayer().getUniqueId())) return;
         if (!(e.getCaught() instanceof Item item)) return;
         Player player = e.getPlayer();
         FishHook hook = e.getHook();
@@ -130,26 +133,41 @@ public class CatchListener implements Listener {
             if (biome == null) biome = BiomeGroup.FOREST;
         }
 
-
-        // Fish
-        ItemStack fish = getCatch(biome, bait);
-        item.setItemStack(fish);
-        // Add rarity glow to the caught fish
-        for (ChatColor color : fishColors) {
-            if (!fish.getItemMeta().getDisplayName().startsWith(color+"")) continue;
-            Bukkit.getScoreboardManager().getMainScoreboard().getTeam(color.name()).addEntry(item.getUniqueId()+"");
-            item.setGlowing(true);
-            break;
-        }
-
-
         // Treasure
         double treasureChance = bait == ItemType.MAGNET ? 0.2 : 0.1;
         treasureChance += EntityDataUtil.getIntegerValue(hook, "luckLevel")*0.033;
-        if (Math.random() < treasureChance) {
+
+        ItemStack treasureItem = getTreasure();
+        boolean caughtTreasure = Math.random() < treasureChance;
+
+        // Fish
+        ItemStack fish = getCatch(biome, bait);
+
+        FishingMinigame.Difficulty difficulty = null;
+        if (fish.getItemMeta().getDisplayName().startsWith(ChatColor.BLUE+"")) difficulty = FishingMinigame.Difficulty.EASY;
+        else if (fish.getItemMeta().getDisplayName().startsWith(ChatColor.DARK_PURPLE+"")) difficulty = FishingMinigame.Difficulty.MEDIUM;
+        else if (fish.getItemMeta().getDisplayName().startsWith(ChatColor.GOLD+"")) difficulty = FishingMinigame.Difficulty.HARD;
+
+        if (difficulty != null) {
+            List<ItemStack> drops = new ArrayList<>();
+            drops.add(fish);
+            if (caughtTreasure)
+                drops.add(treasureItem);
+
+            FishingMinigame minigame = new FishingMinigame(player, hook, drops, difficulty, caughtTreasure);
+            minigame.getRunnable().runTaskTimer(BetterSurvival.getInstance(), 0, 1);
+            minigameMap.put(player.getUniqueId(), minigame);
+
+            e.setCancelled(true);
+            return;
+        }
+        item.setItemStack(fish);
+        applyGlow(item);
+
+        if (caughtTreasure)
             // Run it a tick later so that the item spawned has the same velocity as the caught fish
             Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> {
-                Item treasure = player.getWorld().dropItem(item.getLocation(), getTreasure());
+                Item treasure = player.getWorld().dropItem(item.getLocation(), treasureItem);
                 treasure.setVelocity(item.getVelocity());
                 treasure.setOwner(player.getUniqueId());
                 treasure.setPickupDelay(0);
@@ -157,15 +175,22 @@ public class CatchListener implements Listener {
                 player.playSound(player.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1, 2);
                 player.sendMessage(ChatColor.GREEN+"You managed to pull up some additional treasure.");
             }, 1);
-        }
     }
-
 
     @EventHandler
     public void onPlaceTreasureChest(BlockPlaceEvent e) {
         ((TreasureChest)ItemType.TREASURE_CHEST.getItem()).onBlockPlace(e);
         ((TreasureSand)ItemType.TREASURE_SAND.getItem()).onBlockPlace(e);
     }
+
+    @EventHandler
+    public void onReel(PlayerFishEvent e) {
+        if (e.getState() != PlayerFishEvent.State.CAUGHT_FISH && e.getState() != PlayerFishEvent.State.REEL_IN) return;
+        if (!minigameMap.containsKey(e.getPlayer().getUniqueId())) return;
+        e.setCancelled(true);
+        minigameMap.get(e.getPlayer().getUniqueId()).onReel();
+    }
+
 
     private ItemStack getTreasure() {
         // Treasure Chest
@@ -191,5 +216,18 @@ public class CatchListener implements Listener {
             if (r <= 0.0) break;
         }
         return new Fish(possibleFish[idx]).getItem();
+    }
+
+
+    public static void applyGlow(Item item) {
+        if (ItemDataUtil.getStringValue(item.getItemStack(), "fishType").equals("")) return;
+
+        // Add rarity glow to the caught fish
+        for (ChatColor color : fishColors) {
+            if (!item.getItemStack().getItemMeta().getDisplayName().startsWith(color+"")) continue;
+            Bukkit.getScoreboardManager().getMainScoreboard().getTeam(color.name()).addEntry(item.getUniqueId()+"");
+            item.setGlowing(true);
+            break;
+        }
     }
 }
