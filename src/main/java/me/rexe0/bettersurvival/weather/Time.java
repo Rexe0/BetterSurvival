@@ -26,7 +26,7 @@ public enum Time {
             case ANY -> true;
             case DAWN -> ticks >= 23000 || ticks < 2000;
             case DAY -> ticks >= 2000 && ticks < 12000;
-            case DUSK -> ticks >= 12000 && ticks < 14000;
+            case DUSK -> ticks >= 11000 && ticks < 14000;
             case NIGHT -> ticks >= 14000 && ticks < 23000;
         };
     }
