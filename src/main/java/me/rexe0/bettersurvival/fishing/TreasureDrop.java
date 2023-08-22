@@ -36,9 +36,8 @@ public record TreasureDrop(ItemStack item, int minAmount, int maxAmount, int wei
             if (r <= 0.0) break;
         }
         ItemStack item = treasureDrops[idx].item();
-        if (item.getType() == Material.ENCHANTED_BOOK) {
+        if (item.getType() == Material.BOOK)
             CraftItemStack.asBukkitCopy(EnchantmentHelper.enchantItem(new RandomSourceWrapper(new Random()), CraftItemStack.asNMSCopy(item), 30, false));
-        }
         item.setAmount(RandomUtil.getRandom().nextInt(treasureDrops[idx].minAmount(), treasureDrops[idx].maxAmount()+1));
         return item;
     }
