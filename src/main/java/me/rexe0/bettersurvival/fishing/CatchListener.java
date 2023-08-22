@@ -24,10 +24,27 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import java.util.Arrays;
 
 public class CatchListener implements Listener {
+    private ChatColor[] fishColors = new ChatColor[]{
+            ChatColor.GREEN, ChatColor.BLUE, ChatColor.DARK_PURPLE, ChatColor.GOLD
+    };
+
+    public CatchListener() {
+        Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+        for (ChatColor color : fishColors) {
+            if (board.getTeam(color.name()) == null)
+                board.registerNewTeam(color.name());
+
+            Team team = board.getTeam(color.name());
+            team.setColor(color);
+        }
+    }
+
     @EventHandler
     public void onFish(PlayerFishEvent e) {
         if (e.getState() != PlayerFishEvent.State.FISHING) return;
@@ -115,7 +132,16 @@ public class CatchListener implements Listener {
 
 
         // Fish
-        item.setItemStack(getCatch(biome, bait));
+        ItemStack fish = getCatch(biome, bait);
+        item.setItemStack(fish);
+        // Add rarity glow to the caught fish
+        for (ChatColor color : fishColors) {
+            if (!fish.getItemMeta().getDisplayName().startsWith(color+"")) continue;
+            Bukkit.getScoreboardManager().getMainScoreboard().getTeam(color.name()).addEntry(item.getUniqueId()+"");
+            item.setGlowing(true);
+            break;
+        }
+
 
         // Treasure
         double treasureChance = bait == ItemType.MAGNET ? 0.2 : 0.1;
