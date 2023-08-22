@@ -10,7 +10,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class ResonantIngot extends Item {
     public ResonantIngot() {
-        super(Material.IRON_INGOT, ChatColor.BLUE+"Resonant Ingot", "RESONANT_INGOT");
+        super(Material.NETHER_BRICK, ChatColor.BLUE+"Resonant Ingot", "RESONANT_INGOT");
     }
     @Override
     public ItemStack getItem() {

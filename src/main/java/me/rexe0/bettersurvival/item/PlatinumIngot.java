@@ -4,10 +4,9 @@ import me.rexe0.bettersurvival.BetterSurvival;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.BlastingRecipe;
-import org.bukkit.inventory.FurnaceRecipe;
-import org.bukkit.inventory.Recipe;
-import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.*;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +14,16 @@ import java.util.List;
 public class PlatinumIngot extends Item {
     public PlatinumIngot() {
         super(Material.IRON_INGOT, ChatColor.GREEN+"Platinum Ingot", "PLATINUM_INGOT");
+    }
+
+    @Override
+    public ItemStack getItem() {
+        ItemStack item = super.getItem();
+        ItemMeta meta = item.getItemMeta();
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        item.setItemMeta(meta);
+        item.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+        return item;
     }
 
     @Override
