@@ -14,6 +14,7 @@ import org.bukkit.Sound;
 import org.bukkit.block.Biome;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftFishHook;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.FishHook;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -75,6 +76,8 @@ public class CatchListener implements Listener {
         e.getHook().setMinWaitTime(min);
         e.getHook().setMaxWaitTime(max);
 
+        EntityDataUtil.setIntegerValue(e.getHook(), "luckLevel", fishingRod.getEnchantmentLevel(Enchantment.LUCK));
+
         FishingHook hook = ((CraftFishHook)e.getHook()).getHandle();
         hook.applyLure = false;
     }
@@ -85,21 +88,22 @@ public class CatchListener implements Listener {
         if (e.getState() != PlayerFishEvent.State.CAUGHT_FISH) return;
         if (!(e.getCaught() instanceof Item item)) return;
         Player player = e.getPlayer();
+        FishHook hook = e.getHook();
 
         ItemType bait;
         try {
-            bait = ItemType.valueOf(EntityDataUtil.getStringValue(e.getHook(), "baitType"));
+            bait = ItemType.valueOf(EntityDataUtil.getStringValue(hook, "baitType"));
         } catch (IllegalArgumentException ex) {
             bait = null;
         }
 
         BiomeGroup biome = null;
 
-        if (e.getHook().getLocation().getY() < 20) biome = BiomeGroup.CAVERNS;
+        if (hook.getLocation().getY() < 20) biome = BiomeGroup.CAVERNS;
         else {
             for (BiomeGroup group : BiomeGroup.values()) {
                 for (Biome bio : group.getBiomes())
-                    if (bio == e.getHook().getLocation().getBlock().getBiome()) {
+                    if (bio == hook.getLocation().getBlock().getBiome()) {
                         biome = group;
                         break;
                     }
@@ -113,7 +117,9 @@ public class CatchListener implements Listener {
         item.setItemStack(getCatch(biome, bait));
 
         // Treasure
-        if (Math.random() < (bait == ItemType.MAGNET ? 0.2 : 0.1)) {
+        double treasureChance = bait == ItemType.MAGNET ? 0.2 : 0.1;
+        treasureChance += EntityDataUtil.getIntegerValue(hook, "luckLevel")*0.033;
+        if (Math.random() < treasureChance) {
             Item treasure = player.getWorld().dropItem(item.getLocation(), getTreasure());
             treasure.setVelocity(item.getVelocity());
             treasure.setOwner(player.getUniqueId());
@@ -133,7 +139,7 @@ public class CatchListener implements Listener {
 
     private ItemStack getTreasure() {
         // Treasure Chest
-        if (Math.random() < 0.25)
+        if (Math.random() < 0.2)
             return ItemType.TREASURE_CHEST.getItem().getItem();
         return ItemType.TREASURE_SAND.getItem().getItem();
     }
