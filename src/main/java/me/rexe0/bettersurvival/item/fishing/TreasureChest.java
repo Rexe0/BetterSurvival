@@ -29,13 +29,13 @@ public class TreasureChest extends Item {
         if (!ItemDataUtil.isItem(e.getItemInHand(), getID())) return;
         Block block = e.getBlock();
         Chest chest = (Chest) block.getState();
+        chest.setCustomName(null);
+        chest.update();
         for (int i = 0; i < 3; i++) {
             int index;
             do index = RandomUtil.getRandom().nextInt(27);
-            while (chest.getBlockInventory().getItem(index) == null);
+            while (chest.getBlockInventory().getItem(index) != null);
             chest.getBlockInventory().setItem(index, TreasureDrop.getTreasureItem());
         }
-        chest.setCustomName(null);
-        chest.update();
     }
 }
