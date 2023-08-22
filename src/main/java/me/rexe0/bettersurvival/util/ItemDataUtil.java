@@ -37,7 +37,22 @@ public class ItemDataUtil {
         if (!container.has(itemKey, PersistentDataType.STRING)) return "";
         return container.get(itemKey, PersistentDataType.STRING);
     }
+    public static ItemMeta setDoubleValue(ItemStack item, String key, double value) {
+        NamespacedKey itemKey = new NamespacedKey(BetterSurvival.getInstance(), key);
 
+        ItemMeta meta = item.getItemMeta();
+        meta.getPersistentDataContainer().set(itemKey, PersistentDataType.DOUBLE, value);
+        return meta;
+    }
+    public static double getDoubleValue(ItemStack item, String key) {
+        NamespacedKey itemKey = new NamespacedKey(BetterSurvival.getInstance(), key);
+
+        if (item == null || !item.hasItemMeta()) return 0;
+        PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
+
+        if (!container.has(itemKey, PersistentDataType.DOUBLE)) return 0;
+        return container.get(itemKey, PersistentDataType.DOUBLE);
+    }
 
     public static boolean isItem(ItemStack item, String ID) {
         return getStringValue(item, "itemID").equals(ID);

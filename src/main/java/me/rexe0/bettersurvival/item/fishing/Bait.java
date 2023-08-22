@@ -19,6 +19,13 @@ public class Bait extends Item {
     }
 
     @Override
+    public List<String> getLore() {
+        List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.DARK_GRAY+"Bait");
+        return lore;
+    }
+
+    @Override
     public List<Recipe> getRecipes() {
         List<Recipe> recipes = new ArrayList<>();
         recipes.add(new SmokingRecipe(new NamespacedKey(BetterSurvival.getInstance(), getID()), getItem(), new RecipeChoice.MaterialChoice(Material.ROTTEN_FLESH), 20, 100));

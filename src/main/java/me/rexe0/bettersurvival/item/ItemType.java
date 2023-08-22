@@ -1,9 +1,6 @@
 package me.rexe0.bettersurvival.item;
 
-import me.rexe0.bettersurvival.item.fishing.Bait;
-import me.rexe0.bettersurvival.item.fishing.CopperFishingRod;
-import me.rexe0.bettersurvival.item.fishing.PlatinumFishingRod;
-import me.rexe0.bettersurvival.item.fishing.ResonantFishingRod;
+import me.rexe0.bettersurvival.item.fishing.*;
 
 public enum ItemType {
     STOPWATCH(new Stopwatch()),
@@ -16,6 +13,10 @@ public enum ItemType {
     PLATINUM_INGOT(new PlatinumIngot()),
     RESONANT_INGOT(new ResonantIngot()),
     BAIT(new Bait()),
+    MAGNET(new Magnet()),
+    FISH(new Fish(Fish.FishType.BASS)),
+    TREASURE_CHEST(new TreasureChest()),
+    TREASURE_SAND(new TreasureSand()),
     COPPER_FISHING_ROD(new CopperFishingRod()),
     PLATINUM_FISHING_ROD(new PlatinumFishingRod()),
     RESONANT_FISHING_ROD(new ResonantFishingRod());
