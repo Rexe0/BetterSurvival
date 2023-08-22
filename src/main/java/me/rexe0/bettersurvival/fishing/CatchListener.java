@@ -9,6 +9,7 @@ import me.rexe0.bettersurvival.util.EntityDataUtil;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import me.rexe0.bettersurvival.weather.Season;
 import net.minecraft.world.entity.projectile.FishingHook;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.block.Biome;
@@ -120,13 +121,16 @@ public class CatchListener implements Listener {
         double treasureChance = bait == ItemType.MAGNET ? 0.2 : 0.1;
         treasureChance += EntityDataUtil.getIntegerValue(hook, "luckLevel")*0.033;
         if (Math.random() < treasureChance) {
-            Item treasure = player.getWorld().dropItem(item.getLocation(), getTreasure());
-            treasure.setVelocity(item.getVelocity());
-            treasure.setOwner(player.getUniqueId());
-            treasure.setPickupDelay(0);
+            // Run it a tick later so that the item spawned has the same velocity as the caught fish
+            Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> {
+                Item treasure = player.getWorld().dropItem(item.getLocation(), getTreasure());
+                treasure.setVelocity(item.getVelocity());
+                treasure.setOwner(player.getUniqueId());
+                treasure.setPickupDelay(0);
 
-            player.playSound(player.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1, 2);
-            player.sendMessage(ChatColor.GREEN+"You managed to pull up some additional treasure.");
+                player.playSound(player.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1, 2);
+                player.sendMessage(ChatColor.GREEN+"You managed to pull up some additional treasure.");
+            }, 1);
         }
     }
 
