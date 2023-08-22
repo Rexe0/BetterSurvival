@@ -4,6 +4,8 @@ import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.item.fishing.Fish;
 import me.rexe0.bettersurvival.item.fishing.TreasureChest;
+import me.rexe0.bettersurvival.item.fishing.TreasureSand;
+import me.rexe0.bettersurvival.util.EntityDataUtil;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import me.rexe0.bettersurvival.weather.Season;
 import net.minecraft.world.entity.projectile.FishingHook;
@@ -54,12 +56,14 @@ public class CatchListener implements Listener {
                 ItemType type = ItemDataUtil.getItemType(itemStack);
                 if (type != null && type.isBait()) {
                     bait = type;
+                    itemStack.setAmount(itemStack.getAmount() - 1);
                     break;
                 }
             }
             if (bait != null && itemType.canUseBait()) {
                 min *= 0.5;
                 max *= 0.5;
+                EntityDataUtil.setStringValue(e.getHook(), "baitType", bait.name());
             }
         }
 
@@ -82,14 +86,11 @@ public class CatchListener implements Listener {
         if (!(e.getCaught() instanceof Item item)) return;
         Player player = e.getPlayer();
 
-        ItemType bait = null;
-        for (ItemStack itemStack : player.getInventory().getContents()) {
-            ItemType type = ItemDataUtil.getItemType(itemStack);
-            if (type != null && type.isBait()) {
-                bait = type;
-                itemStack.setAmount(itemStack.getAmount() - 1);
-                break;
-            }
+        ItemType bait;
+        try {
+            bait = ItemType.valueOf(EntityDataUtil.getStringValue(e.getHook(), "baitType"));
+        } catch (IllegalArgumentException ex) {
+            bait = null;
         }
 
         BiomeGroup biome = null;
@@ -127,7 +128,7 @@ public class CatchListener implements Listener {
     @EventHandler
     public void onPlaceTreasureChest(BlockPlaceEvent e) {
         ((TreasureChest)ItemType.TREASURE_CHEST.getItem()).onBlockPlace(e);
-        ((TreasureChest)ItemType.TREASURE_SAND.getItem()).onBlockPlace(e);
+        ((TreasureSand)ItemType.TREASURE_SAND.getItem()).onBlockPlace(e);
     }
 
     private ItemStack getTreasure() {

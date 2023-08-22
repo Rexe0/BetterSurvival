@@ -32,7 +32,7 @@ public enum ItemType {
     }
 
     public boolean isBait() {
-        return this == BAIT;
+        return this == BAIT || this == MAGNET;
     }
 
     public boolean canUseBait() {
