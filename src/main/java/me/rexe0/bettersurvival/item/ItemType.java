@@ -1,5 +1,6 @@
 package me.rexe0.bettersurvival.item;
 
+import me.rexe0.bettersurvival.fishing.BiomeGroup;
 import me.rexe0.bettersurvival.item.fishing.*;
 
 public enum ItemType {
@@ -12,6 +13,7 @@ public enum ItemType {
     PLATINUM_ORE(new PlatinumOre()),
     PLATINUM_INGOT(new PlatinumIngot()),
     RESONANT_INGOT(new ResonantIngot()),
+    FISH_STEW(new FishStew(new BiomeGroup[3], new double[3])),
     BAIT(new Bait()),
     MAGNET(new Magnet()),
     FISH(new Fish(Fish.FishType.BASS)),

@@ -36,17 +36,6 @@ public class CatchListener implements Listener {
             ChatColor.GREEN, ChatColor.BLUE, ChatColor.DARK_PURPLE, ChatColor.GOLD
     };
 
-    static {
-        Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
-        for (ChatColor color : fishColors) {
-            if (board.getTeam(color.name()) == null)
-                board.registerNewTeam(color.name());
-
-            Team team = board.getTeam(color.name());
-            team.setColor(color);
-        }
-    }
-
     @EventHandler
     public void onFish(PlayerFishEvent e) {
         if (e.getState() != PlayerFishEvent.State.FISHING) return;
@@ -221,6 +210,7 @@ public class CatchListener implements Listener {
 
     public static void applyGlow(Item item) {
         if (ItemDataUtil.getStringValue(item.getItemStack(), "fishType").equals("")) return;
+        createTeams();
 
         // Add rarity glow to the caught fish
         for (ChatColor color : fishColors) {
@@ -228,6 +218,17 @@ public class CatchListener implements Listener {
             Bukkit.getScoreboardManager().getMainScoreboard().getTeam(color.name()).addEntry(item.getUniqueId()+"");
             item.setGlowing(true);
             break;
+        }
+    }
+
+    private static void createTeams() {
+        Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+        for (ChatColor color : fishColors) {
+            if (board.getTeam(color.name()) == null)
+                board.registerNewTeam(color.name());
+
+            Team team = board.getTeam(color.name());
+            team.setColor(color);
         }
     }
 }

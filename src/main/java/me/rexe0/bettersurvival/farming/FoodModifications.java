@@ -2,6 +2,11 @@ package me.rexe0.bettersurvival.farming;
 
 import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.fishing.BiomeGroup;
+import me.rexe0.bettersurvival.item.ItemType;
+import me.rexe0.bettersurvival.item.fishing.Fish;
+import me.rexe0.bettersurvival.item.fishing.FishStew;
+import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
@@ -32,7 +37,8 @@ public class FoodModifications implements Listener {
     private final Material[] soupIngredients = new Material[]{
             Material.CARROT, Material.BAKED_POTATO, Material.COOKED_RABBIT,
             Material.BROWN_MUSHROOM, Material.RED_MUSHROOM,
-            Material.BEETROOT
+            Material.BEETROOT,
+            Material.COD, Material.SALMON, Material.TROPICAL_FISH, Material.PUFFERFISH, Material.KELP
     };
     private final Map<Material, Material[]> soups;
 
@@ -48,6 +54,7 @@ public class FoodModifications implements Listener {
 
     @EventHandler
     public void onDrink(PlayerItemConsumeEvent e) {
+        ((FishStew)ItemType.FISH_STEW.getItem()).onDrink(e);
         if (e.getItem().getType() != Material.HONEY_BOTTLE) return;
         e.getPlayer().removePotionEffect(PotionEffectType.WITHER);
     }
@@ -75,6 +82,9 @@ public class FoodModifications implements Listener {
         PersistentDataContainer data = new CustomBlockData(block, BetterSurvival.getInstance());
         data.remove(SOUP_TYPE_KEY);
         data.remove(SOUP_INGREDIENTS_KEY);
+
+        for (BiomeGroup group : BiomeGroup.values())
+            data.remove(new NamespacedKey(BetterSurvival.getInstance(), "fishStew"+group.name()));
     }
     @EventHandler
     private void onLevelChange(CauldronLevelChangeEvent e) {
@@ -84,6 +94,9 @@ public class FoodModifications implements Listener {
         PersistentDataContainer data = new CustomBlockData(block, BetterSurvival.getInstance());
         data.remove(SOUP_TYPE_KEY);
         data.remove(SOUP_INGREDIENTS_KEY);
+
+        for (BiomeGroup group : BiomeGroup.values())
+            data.remove(new NamespacedKey(BetterSurvival.getInstance(), "fishStew"+group.name()));
     }
 
     @EventHandler
@@ -99,15 +112,30 @@ public class FoodModifications implements Listener {
         PersistentDataContainer data = new CustomBlockData(block, BetterSurvival.getInstance());
 
         if (!data.has(SOUP_TYPE_KEY, PersistentDataType.STRING)) return;
-        Material soupType = Material.valueOf(data.get(SOUP_TYPE_KEY, PersistentDataType.STRING));
+
+        ItemStack item;
+        if (data.get(SOUP_TYPE_KEY, PersistentDataType.STRING).equals("FISH_STEW")) {
+            List<BiomeGroup> groups = new ArrayList<>();
+            List<Double> weights = new ArrayList<>();
+            for (BiomeGroup group : BiomeGroup.values()) {
+                NamespacedKey key = new NamespacedKey(BetterSurvival.getInstance(), "fishStew" + group.name());
+                if (!data.has(key, PersistentDataType.DOUBLE)) continue;
+                groups.add(group);
+                weights.add(data.get(key, PersistentDataType.DOUBLE));
+            }
+            item = new FishStew(groups.toArray(new BiomeGroup[0]), weights.stream().mapToDouble(i -> i).toArray()).getItem();
+        } else {
+            Material soupType = Material.valueOf(data.get(SOUP_TYPE_KEY, PersistentDataType.STRING));
+            item = new ItemStack(soupType);
+        }
 
         e.getItem().setAmount(e.getItem().getAmount()-1);
         if (player.getInventory().firstEmpty() == -1)
             // If the player doesn't have space, drop it instead
-            player.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(soupType));
+            player.getWorld().dropItemNaturally(block.getLocation(), item);
         else
             // Otherwise, add it to their inventory directly
-            player.getInventory().addItem(new ItemStack(soupType));
+            player.getInventory().addItem(item);
 
         e.getPlayer().playSound(block.getLocation(), Sound.ITEM_BUCKET_FILL, 1, 1.2f);
 
@@ -116,6 +144,8 @@ public class FoodModifications implements Listener {
         if (level <= 0) {
             block.setType(Material.CAULDRON);
             data.remove(SOUP_TYPE_KEY);
+            for (BiomeGroup group : BiomeGroup.values())
+                data.remove(new NamespacedKey(BetterSurvival.getInstance(), "fishStew"+group.name()));
         } else {
             levelled.setLevel(level);
             block.setBlockData(levelled);
@@ -134,6 +164,7 @@ public class FoodModifications implements Listener {
                 && under.getType() != Material.SOUL_CAMPFIRE) return;
         if (e.getItem() == null) return;
         if (Arrays.stream(soupIngredients).noneMatch(m -> m == e.getItem().getType())) return;
+        ItemStack item = e.getItem();
 
         Levelled levelled = (Levelled) block.getBlockData();
         if (levelled.getLevel() < levelled.getMaximumLevel()) return;
@@ -142,10 +173,26 @@ public class FoodModifications implements Listener {
 
         if (data.has(SOUP_TYPE_KEY, PersistentDataType.STRING)) return;
 
-        String ingredients = e.getItem().getType().toString();
+        String ingredients = item.getType().toString();
+        // If its a fish, perform different logic instead
+        if (!ItemDataUtil.getStringValue(item, "fishType").equals("")) {
+            ingredients = "COOKED_COD";
+            Fish.FishType type = Fish.FishType.valueOf(ItemDataUtil.getStringValue(item, "fishType"));
+            NamespacedKey key = new NamespacedKey(BetterSurvival.getInstance(), "fishStew"+type.getBiome().name());
+            if (data.has(key, PersistentDataType.DOUBLE))
+                // Diminishing returns from adding multiple of the same effect
+                data.set(key, PersistentDataType.DOUBLE, data.get(key, PersistentDataType.DOUBLE)+(0.25*ItemDataUtil.getDoubleValue(item, "weight")));
+            else
+                data.set(key, PersistentDataType.DOUBLE, ItemDataUtil.getDoubleValue(item, "weight"));
+        }
+
         if (data.has(SOUP_INGREDIENTS_KEY, PersistentDataType.STRING)) {
             ingredients = data.get(SOUP_INGREDIENTS_KEY, PersistentDataType.STRING);
-            ingredients += " " + e.getItem().getType();
+
+            if (ItemDataUtil.getStringValue(item, "fishType").equals(""))
+                ingredients += " " + item.getType();
+            else
+                ingredients += " COOKED_COD";
         }
 
         data.set(SOUP_INGREDIENTS_KEY, PersistentDataType.STRING, ingredients);
@@ -155,6 +202,15 @@ public class FoodModifications implements Listener {
         List<Material> currentIngredients = new ArrayList<>();
         for (String str : ingredients.split(" "))
             currentIngredients.add(Material.valueOf(str));
+        // Check for fish soup
+        if (currentIngredients.stream().filter(m -> m == Material.COOKED_COD).count() == 3) {
+            data.remove(SOUP_INGREDIENTS_KEY);
+            data.set(SOUP_TYPE_KEY, PersistentDataType.STRING, "FISH_STEW");
+            e.getPlayer().playSound(block.getLocation(), Sound.BLOCK_BREWING_STAND_BREW, 1, 1);
+
+            item.setAmount(item.getAmount()-1);
+            return;
+        }
 
         currentIngredients.sort(Enum::compareTo);
         // Check if current ingredients in the cauldron match the ingredients of an actual soup item
@@ -166,12 +222,16 @@ public class FoodModifications implements Listener {
             if (!requiredIngredients.equals(currentIngredients)) continue;
             // All ingredients match a soup
 
+            // Remove any trailing fish stew data when making a non-fish stew
+            for (BiomeGroup group : BiomeGroup.values())
+                data.remove(new NamespacedKey(BetterSurvival.getInstance(), "fishStew"+group.name()));
+
             data.remove(SOUP_INGREDIENTS_KEY);
             data.set(SOUP_TYPE_KEY, PersistentDataType.STRING, entry.getKey().toString());
             e.getPlayer().playSound(block.getLocation(), Sound.BLOCK_BREWING_STAND_BREW, 1, 1);
             break;
         }
 
-        e.getItem().setAmount(e.getItem().getAmount()-1);
+        item.setAmount(item.getAmount()-1);
     }
 }
