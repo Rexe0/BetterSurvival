@@ -9,6 +9,7 @@ import me.rexe0.bettersurvival.item.fishing.TreasureSand;
 import me.rexe0.bettersurvival.util.EntityDataUtil;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import me.rexe0.bettersurvival.weather.Season;
+import me.rexe0.bettersurvival.weather.SeasonListener;
 import net.minecraft.world.entity.projectile.FishingHook;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -76,6 +77,13 @@ public class CatchListener implements Listener {
                 max *= 0.5;
                 EntityDataUtil.setStringValue(e.getHook(), "baitType", bait.name());
             }
+        }
+
+        // If its raining, reduce fishing time by 10%
+        if (SeasonListener.getCurrentWeather() == SeasonListener.Weather.RAIN
+                || SeasonListener.getCurrentWeather() == SeasonListener.Weather.STORM) {
+            min *= 0.9;
+            max *= 0.9;
         }
 
         if (fishingRod.containsEnchantment(Enchantment.LURE)) {
