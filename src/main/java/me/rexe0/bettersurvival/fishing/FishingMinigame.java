@@ -1,5 +1,8 @@
 package me.rexe0.bettersurvival.fishing;
 
+import me.rexe0.bettersurvival.item.ItemType;
+import me.rexe0.bettersurvival.item.fishing.Fish;
+import me.rexe0.bettersurvival.item.fishing.FishCodex;
 import me.rexe0.bettersurvival.util.RandomUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -15,6 +18,7 @@ import java.util.List;
 public class FishingMinigame {
     private final Player player;
     private final FishHook hook;
+    private final Fish.FishType fishType;
     private final List<ItemStack> items;
     private final Difficulty difficulty;
     private final boolean hasTreasure;
@@ -28,9 +32,10 @@ public class FishingMinigame {
     private double locationVelocity;
 
 
-    public FishingMinigame(Player player, FishHook hook, List<ItemStack> items, Difficulty difficulty, boolean hasTreasure) {
+    public FishingMinigame(Player player, FishHook hook, Fish.FishType fishType, List<ItemStack> items, Difficulty difficulty, boolean hasTreasure) {
         this.player = player;
         this.hook = hook;
+        this.fishType = fishType;
         this.items = items;
         this.difficulty = difficulty;
         this.progress = 0.125;
@@ -116,6 +121,8 @@ public class FishingMinigame {
             item.setOwner(player.getUniqueId());
             item.setPickupDelay(0);
         }
+
+        ((FishCodex) ItemType.FISH_CODEX.getItem()).onCatch(player, fishType);
         if (hasTreasure) {
             player.playSound(player.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1, 2);
             player.sendMessage(ChatColor.GREEN+"You managed to pull up some additional treasure.");

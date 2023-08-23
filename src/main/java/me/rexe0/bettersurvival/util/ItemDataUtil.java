@@ -57,6 +57,13 @@ public class ItemDataUtil {
     public static boolean isItem(ItemStack item, String ID) {
         return getStringValue(item, "itemID").equals(ID);
     }
+
+    public static boolean isItemName(ItemStack item, String name) {
+        if (item == null) return false;
+        if (!item.hasItemMeta()) return false;
+        if (!item.getItemMeta().hasDisplayName()) return false;
+        return item.getItemMeta().getDisplayName().equals(name);
+    }
     public static ItemType getItemType(ItemStack item) {
         try {
             return ItemType.valueOf(getStringValue(item, "itemID"));

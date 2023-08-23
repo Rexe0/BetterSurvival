@@ -10,6 +10,7 @@ public enum ItemType {
     STRIDER_HELMET(new StriderHelmet()),
     SADDLE_N_HORSESHOE(new SaddleNHorseshoe()),
     WEATHER_RADIO(new WeatherRadio()),
+    FISH_CODEX(new FishCodex()),
     PLATINUM_ORE(new PlatinumOre()),
     PLATINUM_INGOT(new PlatinumIngot()),
     RESONANT_INGOT(new ResonantIngot()),

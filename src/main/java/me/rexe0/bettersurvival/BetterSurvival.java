@@ -2,6 +2,7 @@ package me.rexe0.bettersurvival;
 
 import me.rexe0.bettersurvival.farming.*;
 import me.rexe0.bettersurvival.fishing.CatchListener;
+import me.rexe0.bettersurvival.fishing.FishFile;
 import me.rexe0.bettersurvival.gear.AnvilRepair;
 import me.rexe0.bettersurvival.gear.MendingChange;
 import me.rexe0.bettersurvival.item.DrillEntity;
@@ -52,6 +53,8 @@ public final class BetterSurvival extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
+        FishFile.fileCheck();
+        FishFile.loadData();
 
         VillagerChange.limitMinorPositiveMax();
 
@@ -113,5 +116,7 @@ public final class BetterSurvival extends JavaPlugin {
     @Override
     public void onDisable() {
         recipes.keySet().forEach(r -> getServer().removeRecipe(r));
+
+        FishFile.saveData();
     }
 }

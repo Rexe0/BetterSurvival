@@ -1,6 +1,7 @@
 package me.rexe0.bettersurvival.item;
 
 import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.item.fishing.FishCodex;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Horse;
@@ -10,6 +11,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.*;
@@ -24,6 +26,11 @@ public class ItemListener implements Listener {
     public void onBlockBreak(BlockBreakEvent e) {
         DrillBlock drillBlock = (DrillBlock) ItemType.DRILL_BLOCK.getItem();
         drillBlock.onBlockBreak(e);
+    }
+
+    @EventHandler
+    public void onInvClick(InventoryClickEvent e) {
+        ((FishCodex)ItemType.FISH_CODEX.getItem()).onInvClick(e);
     }
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {

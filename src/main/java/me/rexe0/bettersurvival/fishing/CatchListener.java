@@ -3,6 +3,7 @@ package me.rexe0.bettersurvival.fishing;
 import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.item.fishing.Fish;
+import me.rexe0.bettersurvival.item.fishing.FishCodex;
 import me.rexe0.bettersurvival.item.fishing.TreasureChest;
 import me.rexe0.bettersurvival.item.fishing.TreasureSand;
 import me.rexe0.bettersurvival.util.EntityDataUtil;
@@ -130,27 +131,28 @@ public class CatchListener implements Listener {
         boolean caughtTreasure = Math.random() < treasureChance;
 
         // Fish
-        ItemStack fish = getCatch(biome, bait);
+        Fish.FishType fish = getCatch(biome, bait);
 
         FishingMinigame.Difficulty difficulty = null;
-        if (fish.getItemMeta().getDisplayName().startsWith(ChatColor.BLUE+"")) difficulty = FishingMinigame.Difficulty.EASY;
-        else if (fish.getItemMeta().getDisplayName().startsWith(ChatColor.DARK_PURPLE+"")) difficulty = FishingMinigame.Difficulty.MEDIUM;
-        else if (fish.getItemMeta().getDisplayName().startsWith(ChatColor.GOLD+"")) difficulty = FishingMinigame.Difficulty.HARD;
+        if (fish.getName().startsWith(ChatColor.BLUE+"")) difficulty = FishingMinigame.Difficulty.EASY;
+        else if (fish.getName().startsWith(ChatColor.DARK_PURPLE+"")) difficulty = FishingMinigame.Difficulty.MEDIUM;
+        else if (fish.getName().startsWith(ChatColor.GOLD+"")) difficulty = FishingMinigame.Difficulty.HARD;
 
         if (difficulty != null) {
             List<ItemStack> drops = new ArrayList<>();
-            drops.add(fish);
+            drops.add(new Fish(fish).getItem());
             if (caughtTreasure)
                 drops.add(treasureItem);
 
-            FishingMinigame minigame = new FishingMinigame(player, hook, drops, difficulty, caughtTreasure);
+            FishingMinigame minigame = new FishingMinigame(player, hook, fish, drops, difficulty, caughtTreasure);
             minigame.getRunnable().runTaskTimer(BetterSurvival.getInstance(), 0, 1);
             minigameMap.put(player.getUniqueId(), minigame);
 
             e.setCancelled(true);
             return;
         }
-        item.setItemStack(fish);
+        item.setItemStack(new Fish(fish).getItem());
+        ((FishCodex)ItemType.FISH_CODEX.getItem()).onCatch(player, fish);
         applyGlow(item);
 
         if (caughtTreasure)
@@ -188,7 +190,7 @@ public class CatchListener implements Listener {
         return ItemType.TREASURE_SAND.getItem().getItem();
     }
 
-    private ItemStack getCatch(BiomeGroup biome, ItemType bait) {
+    private Fish.FishType getCatch(BiomeGroup biome, ItemType bait) {
         Fish.FishType[] possibleFish = Arrays.stream(Fish.FishType.values())
                 .filter(f -> f.getBiome() == biome
                         && Arrays.stream(f.getSeason()).toList().contains(Season.getSeason())
@@ -204,7 +206,7 @@ public class CatchListener implements Listener {
             r -= possibleFish[idx].getWeight();
             if (r <= 0.0) break;
         }
-        return new Fish(possibleFish[idx]).getItem();
+        return possibleFish[idx];
     }
 
 
