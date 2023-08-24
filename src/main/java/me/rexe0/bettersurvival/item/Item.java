@@ -3,6 +3,7 @@ package me.rexe0.bettersurvival.item;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.world.LootGenerateEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -59,6 +60,12 @@ public abstract class Item {
     public void armorEquipped(Player player) {
 
     }
+
+
+    public void onLootGenerate(LootGenerateEvent e) {
+
+    }
+
 
 
     public List<Recipe> getRecipes() {

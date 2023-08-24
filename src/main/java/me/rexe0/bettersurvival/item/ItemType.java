@@ -15,6 +15,9 @@ public enum ItemType {
     PLATINUM_INGOT(new PlatinumIngot()),
     RESONANT_INGOT(new ResonantIngot()),
     FISH_STEW(new FishStew(new BiomeGroup[3], new double[3])),
+    BARBED_HOOK(new BarbedHook()),
+    VIBRANT_BOBBER(new VibrantBobber()),
+    GOLD_BOBBER(new GoldBobber()),
     BAIT(new Bait()),
     MAGNET(new Magnet()),
     FISH(new Fish(Fish.FishType.BASS)),
@@ -36,6 +39,9 @@ public enum ItemType {
 
     public boolean isBait() {
         return this == BAIT || this == MAGNET;
+    }
+    public boolean isTackle() {
+        return this == BARBED_HOOK || this == VIBRANT_BOBBER || this == GOLD_BOBBER;
     }
 
     public boolean canUseBait() {

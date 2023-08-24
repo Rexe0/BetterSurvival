@@ -23,6 +23,8 @@ public class FishingMinigame {
     private final Difficulty difficulty;
     private final boolean hasTreasure;
 
+    private ItemType tackle;
+
     private boolean isFinished;
     private int i;
     private double progress;
@@ -42,6 +44,10 @@ public class FishingMinigame {
         this.location = 0.5;
         this.fishLocation = RandomUtil.getRandom().nextDouble(0.3, 0.7);
         this.hasTreasure = hasTreasure;
+    }
+
+    public void setTackle(ItemType tackle) {
+        this.tackle = tackle;
     }
 
     private void run() {
@@ -79,9 +85,9 @@ public class FishingMinigame {
 
         // Increase or Decrease Progress
         if (i % 5 == 0) {
-            if (fishLocation >= location - (progress / 2) && fishLocation <= location + (progress / 2)) // If in green zone, increase progress
+            if (getFishLocation() == 2) // If in green zone, increase progress
                 progress += 0.05;
-            else if (fishLocation < location - (progress / 2) - 0.1 || fishLocation > location + (progress / 2) + 0.1) // If in red, reduce progress. If in yellow then don't do anything
+            else if (getFishLocation() == 0) // If in red, reduce progress. If in yellow then don't do anything
                 progress -= Math.min(0.075, Math.max(0.005, Math.pow(progress, 2)));
         }
 
@@ -92,6 +98,9 @@ public class FishingMinigame {
         } else if (i % 4 == 0)
                 locationVelocity -= 0.01;
 
+        double erraticMultiplier = 2.5f;
+        if (getFishLocation() == 2 && tackle == ItemType.BARBED_HOOK) erraticMultiplier = 1.5f;
+
         // Fish Location
         if (difficulty == Difficulty.EASY) {
             double amount = RandomUtil.getRandom().nextDouble(0.004, 0.008);
@@ -99,14 +108,21 @@ public class FishingMinigame {
         } else if (difficulty == Difficulty.MEDIUM) {
             int stage = i % 100 < 40 ? 0 : (i % 100 < 70 ? 1 : 2); // Stage 0 is floating, Stage 1 is hovering, Stage 2 is sinking
             double amount = RandomUtil.getRandom().nextDouble(0.005, 0.008);
-            fishLocation = Math.min(0.9, Math.max(0.1, fishLocation+(stage == 0 ? amount : stage == 1 ? (RandomUtil.getRandom().nextBoolean() ? -amount : amount) : -amount*2.5)));
+            fishLocation = Math.min(0.9, Math.max(0.1, fishLocation+(stage == 0 ? amount : stage == 1 ? (RandomUtil.getRandom().nextBoolean() ? -amount : amount) : -amount*erraticMultiplier)));
         } else if (difficulty == Difficulty.HARD) {
             int stage = i % 80 < 20 ? 0 : (i % 80 < 40 ? 1 : (i % 80 < 60 ? 2 : 1)); // Stage 0 is floating, Stage 1 is hovering, Stage 2 is sinking
             double amount = 0.01;
-            fishLocation = Math.min(0.9, Math.max(0.1, fishLocation+(stage == 0 ? amount*2.5 : stage == 1 ? (RandomUtil.getRandom().nextBoolean() ? -amount : amount) : -amount*2.5)));
+            fishLocation = Math.min(0.9, Math.max(0.1, fishLocation+(stage == 0 ? amount*erraticMultiplier : stage == 1 ? (RandomUtil.getRandom().nextBoolean() ? -amount : amount) : -amount*erraticMultiplier)));
         }
 
         i++;
+    }
+
+    // Returns 0 if the fish is in the red, 1 if it is in the yellow and 2 if it is in the green
+    private int getFishLocation() {
+        if (fishLocation >= location - (progress / 2) && fishLocation <= location + (progress / 2)) return 2;
+        if (fishLocation < location - (progress / 2) - 0.1 || fishLocation > location + (progress / 2) + 0.1) return 0;
+        return 1;
     }
 
     private void win() {

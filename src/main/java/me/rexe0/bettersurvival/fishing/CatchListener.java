@@ -63,6 +63,7 @@ public class CatchListener implements Listener {
                 case RESONANT_FISHING_ROD -> 400;
             };
 
+            // Check for bait in the player's inventory and reduce its amount by 1
             ItemType bait = null;
             for (ItemStack itemStack : player.getInventory().getContents()) {
                 ItemType type = ItemDataUtil.getItemType(itemStack);
@@ -77,6 +78,16 @@ public class CatchListener implements Listener {
                 max *= 0.5;
                 EntityDataUtil.setStringValue(e.getHook(), "baitType", bait.name());
             }
+
+            // Check for tackle in the player's inventory
+            if (itemType.canUseTackle())
+                for (ItemStack itemStack : player.getInventory().getContents()) {
+                    ItemType type = ItemDataUtil.getItemType(itemStack);
+                    if (type != null && type.isTackle()) {
+                        EntityDataUtil.setStringValue(e.getHook(), "tackleType", type.name());
+                        break;
+                    }
+                }
         }
 
         // If its raining, reduce fishing time by 10%
@@ -116,6 +127,13 @@ public class CatchListener implements Listener {
             bait = null;
         }
 
+        ItemType tackle;
+        try {
+            tackle = ItemType.valueOf(EntityDataUtil.getStringValue(hook, "tackleType"));
+        } catch (IllegalArgumentException ex) {
+            tackle = null;
+        }
+
         BiomeGroup biome = null;
 
         if (hook.getLocation().getY() < 20) biome = BiomeGroup.CAVERNS;
@@ -134,12 +152,14 @@ public class CatchListener implements Listener {
         // Treasure
         double treasureChance = bait == ItemType.MAGNET ? 0.2 : 0.1;
         treasureChance += EntityDataUtil.getIntegerValue(hook, "luckLevel")*0.033;
+        if (tackle == ItemType.VIBRANT_BOBBER) treasureChance *= 0.5;
+        if (tackle == ItemType.GOLD_BOBBER) treasureChance += 0.05;
 
         ItemStack treasureItem = getTreasure();
         boolean caughtTreasure = Math.random() < treasureChance;
 
         // Fish
-        Fish.FishType fish = getCatch(biome, bait);
+        Fish.FishType fish = getCatch(biome, bait, tackle);
 
         FishingMinigame.Difficulty difficulty = null;
         if (fish.getName().startsWith(ChatColor.BLUE+"")) difficulty = FishingMinigame.Difficulty.EASY;
@@ -153,6 +173,7 @@ public class CatchListener implements Listener {
                 drops.add(treasureItem);
 
             FishingMinigame minigame = new FishingMinigame(player, hook, fish, drops, difficulty, caughtTreasure);
+            minigame.setTackle(tackle);
             minigame.getRunnable().runTaskTimer(BetterSurvival.getInstance(), 0, 1);
             minigameMap.put(player.getUniqueId(), minigame);
 
@@ -198,7 +219,7 @@ public class CatchListener implements Listener {
         return ItemType.TREASURE_SAND.getItem().getItem();
     }
 
-    private Fish.FishType getCatch(BiomeGroup biome, ItemType bait) {
+    private Fish.FishType getCatch(BiomeGroup biome, ItemType bait, ItemType tackle) {
         Fish.FishType[] possibleFish = Arrays.stream(Fish.FishType.values())
                 .filter(f -> f.getBiome() == biome
                         && Arrays.stream(f.getSeason()).toList().contains(Season.getSeason())
@@ -206,12 +227,23 @@ public class CatchListener implements Listener {
                 .toArray(Fish.FishType[]::new);
 
         int totalWeight = 0;
-        for (Fish.FishType type : possibleFish)
-            totalWeight += type.getWeight();
+        for (Fish.FishType type : possibleFish) {
+            int amount = type.getWeight();
+            if (type.getWeight() <= 3) {
+                if (tackle == ItemType.VIBRANT_BOBBER) amount += 2;
+                if (tackle == ItemType.GOLD_BOBBER) amount -= 1;
+            }
+            totalWeight += amount;
+        }
 
         int idx = 0;
         for (double r = Math.random() * totalWeight; idx < possibleFish.length - 1; ++idx) {
-            r -= possibleFish[idx].getWeight();
+            int amount = possibleFish[idx].getWeight();
+            if (possibleFish[idx].getWeight() <= 3) {
+                if (tackle == ItemType.VIBRANT_BOBBER) amount += 2;
+                if (tackle == ItemType.GOLD_BOBBER) amount -= 1;
+            }
+            r -= amount;
             if (r <= 0.0) break;
         }
         return possibleFish[idx];

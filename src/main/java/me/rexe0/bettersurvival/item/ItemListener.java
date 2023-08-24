@@ -14,6 +14,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.world.LootGenerateEvent;
 import org.bukkit.inventory.*;
 
 public class ItemListener implements Listener {
@@ -80,5 +81,12 @@ public class ItemListener implements Listener {
         if (e.getCause() != EntityDamageEvent.DamageCause.FALL) return;
         // If the horse is wearing Saddle 'n' Horseshoe, halve its fall damage
         if (ItemDataUtil.isItem(horse.getInventory().getSaddle(), "SADDLE_N_HORSESHOE")) e.setDamage(e.getDamage()*0.5f);
+    }
+
+
+    @EventHandler
+    public void onGenerateLoot(LootGenerateEvent e) {
+        for (ItemType itemType : ItemType.values())
+            itemType.getItem().onLootGenerate(e);
     }
 }
