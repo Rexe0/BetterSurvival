@@ -25,7 +25,7 @@ This is a plugin that contains several features that I think would improve the c
 
 **Villagers:**
 - Villagers will no longer grant huge discounts to players that have cured them. They can still grant small discounts from curing that will eventually spread to other villagers that they talk to. (This prevents trades that are far too cheap and also encourages the completion of raids)
-- Wandering Traders will now always sell either a Stopwatch (When held shows your current speed in km/h) or a Metal Detector (Detects any ores under you when held)
+- Wandering Traders will now always sell either a Stopwatch (When held shows your current speed in km/h), Metal Detector (Detects any ores a few blocks under you when held) or a Fish Codex (see Fishing section) 
 
 **Minecarts:**
 - Minecarts can now be linked together using by Sneak + Right Clicking on them with chains. The first minecart clicked will pull the second one that was clicked.
@@ -56,6 +56,23 @@ This is a plugin that contains several features that I think would improve the c
   - It can summon a fireball that moves rapidly towards the player and explodes (Similar to Ghast but with heavier damage)
   - It can cloak every player in darkness and call on a few Endermen to start targeting each player
 
+**Fishing:**
+- Almost completely reworked the fishing system
+- There are now different types of fishing rods: Default, Copper, Platinum and Resonant. Each one having a faster catch time than the previous
+- Copper fishing rod is crafted using 3 Copper Blocks and 2 String in the same way as a regular fishing rod and can use bait
+- Platinum fishing rod is crafting using 3 Platinum Ingots and 2 String in the same way as a regular fishing rod and can use bait
+- Resonant fishing rod is crafting using 3 Resonant Ingots and 2 String in the same way as a regular fishing rod and can use bait AND tackle
+- 1 Resonant Ingot can be crafted using 2 Platinum Ingots and 2 Echo Shards
+- Regular bait can be obtained by smelting rotten flesh in a furnace. Using it will half the time it takes to catch a fish.
+- Magnet bait can be obtain my surrounding a copper ingot with iron nuggets and it increases the chance to catch treasure
+- There are 3 types of tackle that can be obtained from Desert Temples, Shipwrecks and Mineshaft chests
+- Rain increases the rate at which fish can be caught
+- Different types of fish can now be caught depending on the season, time of day and biome
+- Rarer fish are typically heavier and must be caught through a minigame where you keep the fish inside the green area
+- 3 Fish can be placed in a cauldron with fire/campfire under it to create Fish Stew which grants potion effects/benefits depending on the fish used and their weights
+- Treasure Sand can be caught when fishing which can be brushed containing revamped treasure
+- Treasure Chests can also be caught when fishing which contains 3 pieces of treasure
+- Wandering Trader can now sell Fish Codex which displays all fish that exist and how many they have caught alongside other information
 
 **Horses:**
 - Maximum horse stats increased, especially speed (Up to 21.5 blocks/s)
