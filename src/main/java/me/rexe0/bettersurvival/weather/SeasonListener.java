@@ -17,8 +17,10 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
 import java.lang.reflect.Field;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 
 public class SeasonListener {
     private static Weather currentWeather;
@@ -60,8 +62,24 @@ public class SeasonListener {
         tick(world);
 
         Random random = RandomUtil.getRandom();
-        for (Chunk chunk : world.getLoadedChunks()) {
-            if (RandomUtil.getRandom().nextInt(10) == 0)
+
+
+        Set<Chunk> chunks = new HashSet<>();
+
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            int cX = p.getLocation().getChunk().getX();
+            int cZ = p.getLocation().getChunk().getZ();
+
+            for (int x = -5; x <= 5; x++) {
+                for (int z = -5; z <= 5; z++) {
+                    chunks.add(world.getChunkAt(cX + x, cZ + z));
+                }
+            }
+        }
+
+
+        for (Chunk chunk : chunks) {
+            if (RandomUtil.getRandom().nextInt(20) == 0)
                 tickHighest(world.getHighestBlockAt(random.nextInt(16) + chunk.getX() * 16,
                         random.nextInt(16) + chunk.getZ() * 16));
         }
