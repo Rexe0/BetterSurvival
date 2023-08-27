@@ -2,6 +2,7 @@ package me.rexe0.bettersurvival.item;
 
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.world.LootGenerateEvent;
 import org.bukkit.inventory.ItemStack;
@@ -9,7 +10,9 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class Item {
     private Material material;
@@ -68,8 +71,8 @@ public abstract class Item {
 
 
 
-    public List<Recipe> getRecipes() {
-        return new ArrayList<>();
+    public Map<NamespacedKey, Recipe> getRecipes() {
+        return new HashMap<>();
     }
     public Recipe getRecipe() {
         return null;

@@ -83,8 +83,7 @@ public final class BetterSurvival extends JavaPlugin {
         recipes.put(RailRecipes.getRailRecipe().getKey(), RailRecipes.getRailRecipe());
         recipes.put(FoodModifications.getSuspiciousStewRecipe().getKey(), FoodModifications.getSuspiciousStewRecipe());
         for (ItemType type : ItemType.values()) {
-            for (Recipe recipe : type.getItem().getRecipes())
-                recipes.put(new NamespacedKey(this, type.getItem().getID()), recipe);
+            recipes.putAll(type.getItem().getRecipes());
 
             Recipe recipe = type.getItem().getRecipe();
             if (recipe != null) recipes.put(new NamespacedKey(this, type.getItem().getID()), recipe);
