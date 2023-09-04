@@ -18,6 +18,7 @@ public class WeatherRadio extends Item {
         Season season = Season.getSeason();
 
         int day = Season.getDayOfSeason();
+        int year = (int) (1 + Math.floor(SeasonListener.getDays()/120f));
         String suffix = switch (day % 10) {
             default -> "th";
             case 1 -> "st";
@@ -36,7 +37,7 @@ public class WeatherRadio extends Item {
                         : new Color(255, 189, 246))+"Light winds are expected tomorrow.";
         };
 
-        player.sendMessage(ChatColor.AQUA+"[Weather Radio] "+ChatColor.WHITE+"It is currently the "+day+suffix+" of "+season.getName()+". The weather forecast for tomorrow is: ");
+        player.sendMessage(ChatColor.AQUA+"[Weather Radio] "+ChatColor.WHITE+"It is currently the "+day+suffix+" of "+season.getName()+", Year "+year+". The weather forecast for tomorrow is: ");
         player.sendMessage(forecast);
     }
 }
