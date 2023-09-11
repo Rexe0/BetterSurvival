@@ -2,6 +2,7 @@ package me.rexe0.bettersurvival.item;
 
 import me.rexe0.bettersurvival.fishing.BiomeGroup;
 import me.rexe0.bettersurvival.item.fishing.*;
+import org.bukkit.ChatColor;
 
 public enum ItemType {
     STOPWATCH(new Stopwatch()),
@@ -10,6 +11,7 @@ public enum ItemType {
     STRIDER_HELMET(new StriderHelmet()),
     SADDLE_N_HORSESHOE(new SaddleNHorseshoe()),
     WEATHER_RADIO(new WeatherRadio()),
+    COLORED_INK_SAC(new ColoredInkSac(ChatColor.WHITE)),
     FISH_CODEX(new FishCodex()),
     PLATINUM_ORE(new PlatinumOre()),
     PLATINUM_INGOT(new PlatinumIngot()),

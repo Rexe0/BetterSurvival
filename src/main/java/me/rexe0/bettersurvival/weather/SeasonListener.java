@@ -55,15 +55,8 @@ public class SeasonListener {
         objective.getScore("counter").setScore(objective.getScore("counter").getScore()+1);
     }
 
-    // Run every tick
-    public static void run() {
-        World world = BetterSurvival.getInstance().getDefaultWorld();
 
-        tick(world);
-
-        Random random = RandomUtil.getRandom();
-
-
+    public static Set<Chunk> getLoadedChunks() {
         Set<Chunk> chunks = new HashSet<>();
 
         for (Player p : Bukkit.getOnlinePlayers()) {
@@ -72,13 +65,22 @@ public class SeasonListener {
 
             for (int x = -5; x <= 5; x++) {
                 for (int z = -5; z <= 5; z++) {
-                    chunks.add(world.getChunkAt(cX + x, cZ + z));
+                    chunks.add(BetterSurvival.getInstance().getDefaultWorld().getChunkAt(cX + x, cZ + z));
                 }
             }
         }
+        return chunks;
+    }
 
+    // Run every tick
+    public static void run() {
+        World world = BetterSurvival.getInstance().getDefaultWorld();
 
-        for (Chunk chunk : chunks) {
+        tick(world);
+
+        Random random = RandomUtil.getRandom();
+
+        for (Chunk chunk : getLoadedChunks()) {
             if (RandomUtil.getRandom().nextInt(20) == 0)
                 tickHighest(world.getHighestBlockAt(random.nextInt(16) + chunk.getX() * 16,
                         random.nextInt(16) + chunk.getZ() * 16));
@@ -210,6 +212,14 @@ public class SeasonListener {
                 weatherForecast = null;
             }
 
+            // Holiday weather overrides default weather system
+            for (Holiday holiday : Holiday.values()) {
+                if (holiday.isDay(SeasonListener.getDays() + 1)) {
+                    weatherForecast = holiday.getWeather();
+                    return;
+                }
+            }
+
             // Weather Check
             double rainChance = switch (season) {
                 default -> 0.2;
@@ -221,8 +231,11 @@ public class SeasonListener {
                     weatherForecast = season == Season.WINTER ? Weather.BLIZZARD : Weather.STORM;
                 else
                     weatherForecast = season == Season.WINTER ? Weather.SNOW : Weather.RAIN;
-            } else
-                weatherForecast = RandomUtil.getRandom().nextDouble() < 0.2 ? Weather.WINDY : Weather.CLEAR;
+            } else {
+                if (season == Season.SPRING || season == Season.AUTUMN)
+                    weatherForecast = RandomUtil.getRandom().nextDouble() < 0.2 ? Weather.WINDY : Weather.CLEAR;
+                else weatherForecast = Weather.CLEAR;
+            }
         }
 
     }

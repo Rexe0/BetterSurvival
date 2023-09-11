@@ -4,7 +4,11 @@ import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.item.fishing.FishCodex;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Horse;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -12,10 +16,13 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.world.LootGenerateEvent;
 import org.bukkit.inventory.*;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.Repairable;
 
 public class ItemListener implements Listener {
     @EventHandler
@@ -88,5 +95,67 @@ public class ItemListener implements Listener {
     public void onGenerateLoot(LootGenerateEvent e) {
         for (ItemType itemType : ItemType.values())
             itemType.getItem().onLootGenerate(e);
+    }
+
+
+
+    @EventHandler
+    public void onPrepare(PrepareAnvilEvent e) {
+        String name = e.getInventory().getRenameText();
+        if (name == null || name.isEmpty()) return;
+
+        ItemStack item = e.getInventory().getItem(0);
+        ItemStack sac = e.getInventory().getItem(1);
+
+        if (item == null || sac == null) return;
+        if (!ItemDataUtil.isItem(sac, ItemType.COLORED_INK_SAC.getItem().getID())) return;
+        ItemMeta meta = item.getItemMeta();
+
+        ItemStack result = item.clone();
+        meta.setDisplayName(sac.getItemMeta().getDisplayName().substring(0, 2)+name);
+        result.setItemMeta(meta);
+        e.setResult(result);
+    }
+
+
+    @EventHandler
+    public void onClick(InventoryClickEvent e) {
+        Player player = (Player) e.getWhoClicked();
+        if (!(e.getInventory() instanceof AnvilInventory inv)) return;
+        if (e.getSlot() != 2) return;
+
+        ItemStack result = e.getCurrentItem();
+        if (result == null) return;
+
+        ItemStack item = inv.getItem(0);
+        ItemStack sac = inv.getItem(1);
+
+        if (item == null || sac == null) return;
+        if (!ItemDataUtil.isItem(sac, ItemType.COLORED_INK_SAC.getItem().getID())) return;
+
+        e.setCancelled(true);
+
+        int cost = (item.getItemMeta() instanceof Repairable repairable) ? repairable.getRepairCost()+1 : 1;
+
+        if (cost > player.getLevel()) {
+            player.sendMessage(ChatColor.RED+"You need at least "+cost+" Levels to rename this item.");
+            return;
+        }
+        if (e.getClick().isShiftClick()) {
+            if (player.getInventory().firstEmpty() == -1) return;
+            player.getInventory().addItem(result.clone());
+        } else {
+            if (e.getCursor().getType() != Material.AIR) return;
+            player.setItemOnCursor(result.clone());
+        }
+
+        player.setLevel(player.getLevel()-cost);
+
+        inv.setItem(0, new ItemStack(Material.AIR));
+        inv.setItem(2, new ItemStack(Material.AIR));
+
+        sac.setAmount(sac.getAmount()-1);
+
+        player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 1, 1);
     }
 }

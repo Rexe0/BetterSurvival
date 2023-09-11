@@ -1,5 +1,6 @@
 package me.rexe0.bettersurvival.item;
 
+import me.rexe0.bettersurvival.weather.Holiday;
 import me.rexe0.bettersurvival.weather.Season;
 import me.rexe0.bettersurvival.weather.SeasonListener;
 import org.bukkit.ChatColor;
@@ -36,6 +37,13 @@ public class WeatherRadio extends Item {
             case WINDY -> net.md_5.bungee.api.ChatColor.of(season == Season.AUTUMN ? new Color(255, 94, 0)
                         : new Color(255, 189, 246))+"Light winds are expected tomorrow.";
         };
+
+        for (Holiday holiday : Holiday.values()) {
+            if (holiday.isDay(SeasonListener.getDays()+1)) {
+                forecast += holiday.getColor()+" Typical weather for the "+holiday.getName()+". "+holiday.getDescription();
+                break;
+            }
+        }
 
         player.sendMessage(ChatColor.AQUA+"[Weather Radio] "+ChatColor.WHITE+"It is currently the "+day+suffix+" of "+season.getName()+", Year "+year+". The weather forecast for tomorrow is: ");
         player.sendMessage(forecast);

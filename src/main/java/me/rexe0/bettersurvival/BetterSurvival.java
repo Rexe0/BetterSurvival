@@ -13,6 +13,7 @@ import me.rexe0.bettersurvival.minecarts.MinecartChanges;
 import me.rexe0.bettersurvival.minecarts.RailRecipes;
 import me.rexe0.bettersurvival.mobs.*;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
+import me.rexe0.bettersurvival.weather.HolidayListener;
 import me.rexe0.bettersurvival.weather.LightningRodChanges;
 import me.rexe0.bettersurvival.weather.SeasonListener;
 import me.rexe0.bettersurvival.worldgen.WorldGeneration;
@@ -71,6 +72,7 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PiglinChange(), this);
         getServer().getPluginManager().registerEvents(new VillagerChange(), this);
         getServer().getPluginManager().registerEvents(new WanderingTrader(), this);
+        getServer().getPluginManager().registerEvents(new SolsticeGlowSquid(), this);
         getServer().getPluginManager().registerEvents(new ChainedMinecart(), this);
         getServer().getPluginManager().registerEvents(new MinecartChanges(), this);
         getServer().getPluginManager().registerEvents(new HorseBreeding(), this);
@@ -97,6 +99,7 @@ public final class BetterSurvival extends JavaPlugin {
         Bukkit.getScheduler().runTaskTimer(this, () -> {
             ChainedMinecart.run();
             SeasonListener.run();
+            HolidayListener.run();
         }, 0, 1);
         Bukkit.getScheduler().runTaskTimer(this, () -> Bukkit.getOnlinePlayers().forEach((player) -> {
             for (ItemType type : ItemType.values()) {
