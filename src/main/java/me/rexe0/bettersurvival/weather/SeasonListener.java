@@ -245,20 +245,26 @@ public class SeasonListener {
 
         Block above = block.getLocation().add(0, 1, 0).getBlock();
         if (block.getType().isOccluding() || Tag.LEAVES.isTagged(block.getType())) {
-            Biome biome = ((CraftBlock)block).getHandle().getBiome(new BlockPos(block.getX(), block.getY(), block.getZ())).value();
+            Biome biome = ((CraftBlock) block).getHandle().getBiome(new BlockPos(block.getX(), block.getY(), block.getZ())).value();
 
             // Snow melts in sunny Spring, in certain warm-hot biomes
-            if (biome.climateSettings.temperature() > 0.1) {
-                if (season == Season.SPRING
-                        && (currentWeather == Weather.CLEAR || currentWeather == Weather.WINDY)) {
+            if (biome.climateSettings.temperature() > 0.1 && season == Season.SPRING
+                    && (currentWeather == Weather.CLEAR || currentWeather == Weather.WINDY))
+                // Loop 0-9 to clean up any floating snow from cut down trees, etc.
+                for (int i = 0; i < 10; i++) {
+                    above = above.getLocation().add(0, i, 0).getBlock();
                     if (above.getType() == Material.POWDER_SNOW) {
-                        above.setType(Material.SNOW);
-                        Snow data = (Snow) above.getBlockData();
-                        data.setLayers(7);
-                        above.setBlockData(data);
+                        Block below = above.getLocation().subtract(0, 1, 0).getBlock();
+                        // If the snow is floating, immediately remove it. Otherwise, melt it normally.
+                        if (below.getType().isOccluding() || Tag.LEAVES.isTagged(below.getType())) {
+                            above.setType(Material.SNOW);
+                            Snow data = (Snow) above.getBlockData();
+                            data.setLayers(7);
+                            above.setBlockData(data);
+                        } else above.setType(Material.AIR);
                     } else if (above.getType() == Material.SNOW) {
                         Snow data = (Snow) above.getBlockData();
-                        int layers = data.getLayers()-2;
+                        int layers = data.getLayers() - 2;
                         if (layers <= 0) above.setType(Material.AIR);
                         else {
                             data.setLayers(layers);
@@ -266,24 +272,21 @@ public class SeasonListener {
                         }
                     }
                 }
-            }
 
             // Snow fals during blizzards and snowy days, in certain cold-warm biomes
-            if (biome.climateSettings.temperature() < 0.95) {
-                if (currentWeather == Weather.SNOW || currentWeather == Weather.BLIZZARD) {
-                    // nextBoolean decreases chance for snow to fall in a regular snowy day
-                    if (above.getType() == Material.AIR || above.getType() == Material.GRASS || above.getType() == Material.TALL_GRASS
-                            && (currentWeather == Weather.BLIZZARD || RandomUtil.getRandom().nextBoolean())) {
-                        above.setType(Material.SNOW);
-                    } else if (above.getType() == Material.SNOW && currentWeather == Weather.BLIZZARD) {
-                        Snow data = (Snow) above.getBlockData();
-                        int layers = data.getLayers() + 1;
+            if (biome.climateSettings.temperature() < 0.95 && (currentWeather == Weather.SNOW || currentWeather == Weather.BLIZZARD)) {
+                // nextBoolean decreases chance for snow to fall in a regular snowy day
+                if (above.getType() == Material.AIR || above.getType() == Material.GRASS || above.getType() == Material.TALL_GRASS
+                        && (currentWeather == Weather.BLIZZARD || RandomUtil.getRandom().nextBoolean())) {
+                    above.setType(Material.SNOW);
+                } else if (above.getType() == Material.SNOW && currentWeather == Weather.BLIZZARD) {
+                    Snow data = (Snow) above.getBlockData();
+                    int layers = data.getLayers() + 1;
 
-                        if (layers >= data.getMaximumLayers()) above.setType(Material.POWDER_SNOW);
-                        else {
-                            data.setLayers(layers);
-                            above.setBlockData(data);
-                        }
+                    if (layers >= data.getMaximumLayers()) above.setType(Material.POWDER_SNOW);
+                    else {
+                        data.setLayers(layers);
+                        above.setBlockData(data);
                     }
                 }
             }
