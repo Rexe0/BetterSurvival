@@ -252,7 +252,7 @@ public class SeasonListener {
                     && (currentWeather == Weather.CLEAR || currentWeather == Weather.WINDY))
                 // Loop 0-9 to clean up any floating snow from cut down trees, etc.
                 for (int i = 0; i < 10; i++) {
-                    above = above.getLocation().add(0, i, 0).getBlock();
+                    above = above.getLocation().add(0, 1, 0).getBlock();
                     if (above.getType() == Material.POWDER_SNOW) {
                         Block below = above.getLocation().subtract(0, 1, 0).getBlock();
                         // If the snow is floating, immediately remove it. Otherwise, melt it normally.
