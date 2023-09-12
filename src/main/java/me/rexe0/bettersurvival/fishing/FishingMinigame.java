@@ -139,6 +139,13 @@ public class FishingMinigame {
         }
 
         ((FishCodex) ItemType.FISH_CODEX.getItem()).onCatch(player, fishType);
+
+        if (fishType.getName().startsWith(ChatColor.GOLD+"")) {
+            String UI = ChatColor.GOLD+"";
+            for (int i = 0; i < 41; i++) UI += "|";
+            player.sendTitle(UI, "", 0, 10, 10);
+            player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1, 1);
+        }
         if (hasTreasure) {
             player.playSound(player.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1, 2);
             player.sendMessage(ChatColor.GREEN+"You managed to pull up some additional treasure.");

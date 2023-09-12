@@ -134,19 +134,16 @@ public class CatchListener implements Listener {
             tackle = null;
         }
 
-        BiomeGroup biome = null;
+        List<BiomeGroup> biomes = new ArrayList<>();
 
-        if (hook.getLocation().getY() < 20) biome = BiomeGroup.CAVERNS;
+        if (hook.getLocation().getY() < 20) biomes.add(BiomeGroup.CAVERNS);
         else {
             for (BiomeGroup group : BiomeGroup.values()) {
                 for (Biome bio : group.getBiomes())
-                    if (bio == hook.getLocation().getBlock().getBiome()) {
-                        biome = group;
-                        break;
-                    }
-                if (biome != null) break;
+                    if (bio == hook.getLocation().getBlock().getBiome())
+                        biomes.add(group);
             }
-            if (biome == null) biome = BiomeGroup.FOREST;
+            if (biomes.size() == 0) biomes.add(BiomeGroup.FOREST);
         }
 
         // Treasure
@@ -159,7 +156,7 @@ public class CatchListener implements Listener {
         boolean caughtTreasure = Math.random() < treasureChance;
 
         // Fish
-        Fish.FishType fish = getCatch(biome, bait, tackle);
+        Fish.FishType fish = getCatch(biomes, bait, tackle);
 
         FishingMinigame.Difficulty difficulty = null;
         if (fish.getName().startsWith(ChatColor.BLUE+"")) difficulty = FishingMinigame.Difficulty.EASY;
@@ -219,9 +216,9 @@ public class CatchListener implements Listener {
         return ItemType.TREASURE_SAND.getItem().getItem();
     }
 
-    private Fish.FishType getCatch(BiomeGroup biome, ItemType bait, ItemType tackle) {
+    private Fish.FishType getCatch(List<BiomeGroup> biomes, ItemType bait, ItemType tackle) {
         Fish.FishType[] possibleFish = Arrays.stream(Fish.FishType.values())
-                .filter(f -> f.getBiome() == biome
+                .filter(f -> biomes.contains(f.getBiome())
                         && Arrays.stream(f.getSeason()).toList().contains(Season.getSeason())
                         && f.getTime().isValid(BetterSurvival.getInstance().getDefaultWorld().getTime()))
                 .toArray(Fish.FishType[]::new);
