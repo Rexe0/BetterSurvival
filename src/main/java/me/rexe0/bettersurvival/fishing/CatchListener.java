@@ -226,9 +226,9 @@ public class CatchListener implements Listener {
         int totalWeight = 0;
         for (Fish.FishType type : possibleFish) {
             int amount = type.getWeight();
-            if (type.getWeight() <= 3) {
-                if (tackle == ItemType.VIBRANT_BOBBER) amount += 2;
-                if (tackle == ItemType.GOLD_BOBBER) amount -= 1;
+            if (type.getWeight() <= 30) {
+                if (tackle == ItemType.VIBRANT_BOBBER) amount *= 1.5;
+                if (tackle == ItemType.GOLD_BOBBER) amount *= 0.5;
             }
             totalWeight += amount;
         }
@@ -236,9 +236,9 @@ public class CatchListener implements Listener {
         int idx = 0;
         for (double r = Math.random() * totalWeight; idx < possibleFish.length - 1; ++idx) {
             int amount = possibleFish[idx].getWeight();
-            if (possibleFish[idx].getWeight() <= 3) {
-                if (tackle == ItemType.VIBRANT_BOBBER) amount += 2;
-                if (tackle == ItemType.GOLD_BOBBER) amount -= 1;
+            if (possibleFish[idx].getWeight() <= 30) {
+                if (tackle == ItemType.VIBRANT_BOBBER) amount *= 1.5;
+                if (tackle == ItemType.GOLD_BOBBER) amount *= 0.5;
             }
             r -= amount;
             if (r <= 0.0) break;
