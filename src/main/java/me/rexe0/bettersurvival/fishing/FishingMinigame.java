@@ -87,8 +87,11 @@ public class FishingMinigame {
         if (i % 5 == 0) {
             if (getFishLocation() == 2) // If in green zone, increase progress
                 progress += 0.05;
-            else if (getFishLocation() == 0) // If in red, reduce progress. If in yellow then don't do anything
-                progress -= Math.min(0.075, Math.max(0.005, Math.pow(progress, 2)));
+            else if (getFishLocation() == 0) {// If in red, reduce progress. If in yellow then don't do anything
+                double amount = Math.min(0.075, Math.max(0.005, Math.pow(progress, 2)));
+                if (tackle == ItemType.JUMBO_HOOK) amount /= 2;
+                progress -= amount;
+            }
         }
 
         // Player bobber

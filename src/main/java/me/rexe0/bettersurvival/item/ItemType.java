@@ -18,6 +18,7 @@ public enum ItemType {
     RESONANT_INGOT(new ResonantIngot()),
     FISH_STEW(new FishStew(new BiomeGroup[3], new double[3])),
     BARBED_HOOK(new BarbedHook()),
+    JUMBO_HOOK(new JumboHook()),
     VIBRANT_BOBBER(new VibrantBobber()),
     GOLD_BOBBER(new GoldBobber()),
     BAIT(new Bait()),
@@ -43,7 +44,7 @@ public enum ItemType {
         return this == BAIT || this == MAGNET;
     }
     public boolean isTackle() {
-        return this == BARBED_HOOK || this == VIBRANT_BOBBER || this == GOLD_BOBBER;
+        return this == BARBED_HOOK || this == JUMBO_HOOK || this == VIBRANT_BOBBER || this == GOLD_BOBBER;
     }
 
     public boolean canUseBait() {
