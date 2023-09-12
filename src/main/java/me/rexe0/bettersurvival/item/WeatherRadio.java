@@ -1,11 +1,16 @@
 package me.rexe0.bettersurvival.item;
 
+import me.rexe0.bettersurvival.util.ItemDataUtil;
 import me.rexe0.bettersurvival.weather.Holiday;
 import me.rexe0.bettersurvival.weather.Season;
 import me.rexe0.bettersurvival.weather.SeasonListener;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
+import org.bukkit.event.entity.VillagerAcquireTradeEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.MerchantRecipe;
 
 import java.awt.*;
 
@@ -47,5 +52,19 @@ public class WeatherRadio extends Item {
 
         player.sendMessage(ChatColor.AQUA+"[Weather Radio] "+ChatColor.WHITE+"It is currently the "+day+suffix+" of "+season.getName()+", Year "+year+". The weather forecast for tomorrow is: ");
         player.sendMessage(forecast);
+    }
+
+    public void onAcquireTrade(Villager villager, VillagerAcquireTradeEvent e) {
+        if (villager.getProfession() != org.bukkit.entity.Villager.Profession.CARTOGRAPHER) return;
+
+        // Replace banner trade once for cartographers
+        if (!e.getRecipe().getResult().getType().toString().contains("BANNER")) return;
+        for (MerchantRecipe recipe : villager.getRecipes())
+            if (ItemDataUtil.isItem(recipe.getResult(), ItemType.WEATHER_RADIO.getItem().getID())) return;
+
+        MerchantRecipe trade = new MerchantRecipe(ItemType.WEATHER_RADIO.getItem().getItem(), 0, 4, true, 15, 0);
+        trade.addIngredient(new ItemStack(Material.EMERALD, 16));
+        trade.addIngredient(new ItemStack(Material.GOLD_INGOT, 16));
+        e.setRecipe(trade);
     }
 }
