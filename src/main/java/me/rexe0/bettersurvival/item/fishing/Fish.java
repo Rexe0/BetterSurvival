@@ -79,7 +79,9 @@ public class Fish extends Item {
         OBSIDIFISH(Material.SALMON,ChatColor.BLUE+"Obsidifish", BiomeGroup.CAVERNS, new Season[]{Season.SUMMER, Season.SPRING, Season.AUTUMN, Season.WINTER}, Time.ANY, 5, 14, 30),
         DIAMOND_COD(Material.COD,ChatColor.DARK_PURPLE+"Diamond Cod", BiomeGroup.CAVERNS, new Season[]{Season.SUMMER, Season.AUTUMN, Season.WINTER}, Time.ANY, 13, 20, 10),
 
-        ILLUMINATED_GLOOMFISH(Material.COD, ChatColor.GOLD+"Illuminated Gloomfish", BiomeGroup.ANY_OCEAN, new Season[]{Season.WINTER}, Time.WINTER_SOLSTICE_NIGHT, 40, 50, 1);
+
+        GOLDEN_CARP(Material.COD, ChatColor.GOLD+"Golden Carp", BiomeGroup.ANY_OCEAN, new Season[]{Season.SPRING, Season.AUTUMN}, Time.DAWN, 37, 44, 1),
+        ILLUMINATED_GLOOMFISH(Material.COD, ChatColor.GOLD+"Illuminated Gloomfish", BiomeGroup.ANY_OCEAN, new Season[]{Season.WINTER}, Time.WINTER_SOLSTICE_NIGHT, 40, 50, 2);
 
         private final Material material;
         private final String name;
