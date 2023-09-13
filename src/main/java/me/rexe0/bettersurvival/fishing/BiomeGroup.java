@@ -6,7 +6,7 @@ import org.bukkit.potion.PotionEffectType;
 
 public enum BiomeGroup {
     OCEAN(ChatColor.BLUE+"Ocean", new Biome[]{Biome.OCEAN, Biome.DEEP_OCEAN, Biome.COLD_OCEAN, Biome.DEEP_COLD_OCEAN}, PotionEffectType.DOLPHINS_GRACE, 50),
-    WARM_OCEAN(ChatColor.BLUE+"Warm Ocean", new Biome[]{Biome.WARM_OCEAN, Biome.LUKEWARM_OCEAN, Biome.DEEP_LUKEWARM_OCEAN}, PotionEffectType.WATER_BREATHING, 50),
+    WARM_OCEAN(ChatColor.BLUE+"Warm Ocean", new Biome[]{Biome.WARM_OCEAN, Biome.LUKEWARM_OCEAN, Biome.DEEP_LUKEWARM_OCEAN}, PotionEffectType.FAST_DIGGING, 20),
     FROZEN_OCEAN(ChatColor.AQUA+"Frozen Ocean",new Biome[]{Biome.FROZEN_OCEAN, Biome.DEEP_FROZEN_OCEAN}, PotionEffectType.ABSORPTION, 7),
     RIVER(ChatColor.BLUE+"River", new Biome[]{Biome.RIVER, Biome.FROZEN_RIVER}, PotionEffectType.HUNGER, 4),
     JUNGLE(ChatColor.DARK_GREEN+"Jungle", new Biome[]{Biome.JUNGLE, Biome.SPARSE_JUNGLE, Biome.BAMBOO_JUNGLE}, PotionEffectType.SATURATION, 5),
