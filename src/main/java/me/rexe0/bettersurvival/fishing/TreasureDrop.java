@@ -13,10 +13,10 @@ import java.util.Random;
 public record TreasureDrop(ItemStack item, int minAmount, int maxAmount, int weight) {
     public static TreasureDrop[] treasureDrops = new TreasureDrop[]{
             new TreasureDrop(ItemType.BAIT.getItem().getItem(), 3, 7, 14),
-            new TreasureDrop(new ItemStack(Material.RAW_IRON), 1, 6, 14),
+            new TreasureDrop(new ItemStack(Material.RAW_IRON), 2, 6, 14),
             new TreasureDrop(new ItemStack(Material.RAW_GOLD), 1, 3, 10),
             new TreasureDrop(new ItemStack(Material.NAUTILUS_SHELL), 1, 2, 10),
-            new TreasureDrop(new ItemStack(Material.SADDLE), 1, 1, 8),
+            new TreasureDrop(new ItemStack(Material.SADDLE), 1, 1, 7),
             new TreasureDrop(new ItemStack(ItemType.PLATINUM_ORE.getItem().getItem()), 1, 1, 6),
             new TreasureDrop(new ItemStack(Material.HEART_OF_THE_SEA), 1, 1, 4),
             new TreasureDrop(new ItemStack(Material.DIAMOND), 1, 3, 2),
