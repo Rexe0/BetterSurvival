@@ -47,7 +47,7 @@ This is a plugin that contains several features that I think would improve the c
 - A Turtle Helmet can now be upgraded as a netherite upgrade into a Strider Helmet. The Strider Helmet grants 20 seconds of extra water breathing and 5 seconds of extra fire resistance.
 
 **Mobs:**
-- After a player mines Ancient Debris for the first time, piglins and piglin brutes will begin to naturally spawn in the overworld around them
+- After a player has made netherite gear for the first time, buffed piglins will begin to naturally spawn in the overworld around them
 - Phantoms will no longer naturally drop phantom membranes
 - After a player enters the end, phantoms that naturally spawn around them will be slightly bigger and can drop phantom membranes (to repair elytra with)
 - After a player enters the end, the naturally spawning piglins around them will always spawn with a piece of netherite armor (that can't be dropped)

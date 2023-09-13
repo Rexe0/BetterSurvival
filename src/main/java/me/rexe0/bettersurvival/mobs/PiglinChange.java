@@ -4,12 +4,16 @@ import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.util.RandomUtil;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.*;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Piglin;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.SmithingTransformRecipe;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class PiglinChange implements Listener {
@@ -23,32 +27,28 @@ public class PiglinChange implements Listener {
             if (p.getLocation().distanceSquared(zombie.getLocation()) > 10000) continue;
             if (p.getScoreboardTags().contains("hasTravelledToEnd"))
                 nearbyEndPlayer = true;
-            if (!p.getScoreboardTags().contains("hasMinedAncientDebris")) continue;
+            if (!p.getScoreboardTags().contains("hasSmithedNetherite")) continue;
             nearbyValidPlayer = true;
             break;
         }
 
-        // If there is a nearby player who has mined ancient debris before then start spawning piglins in the overworld
+        // If there is a nearby player who has created netherite gear before then start spawning piglins in the overworld
         if (!nearbyValidPlayer) return;
 
         if (RandomUtil.getRandom().nextInt(3) != 0) return;
         e.setCancelled(true);
 
-        if (RandomUtil.getRandom().nextInt(3) == 0) {
-            PiglinBrute brute = (PiglinBrute) zombie.getWorld().spawnEntity(zombie.getLocation(), EntityType.PIGLIN_BRUTE);
-            brute.setImmuneToZombification(true);
-            brute.getEquipment().setItemInMainHand(new ItemStack(Material.GOLDEN_AXE));
-            brute.setAdult();
-            return;
-        }
         Piglin piglin = (Piglin) zombie.getWorld().spawnEntity(zombie.getLocation(), EntityType.PIGLIN);
-        piglin.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(28);
-        piglin.setHealth(28);
+        piglin.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(32);
+        piglin.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(32);
+        piglin.setHealth(32);
         piglin.setAdult();
         piglin.setImmuneToZombification(true);
 
-        if (RandomUtil.getRandom().nextBoolean()) piglin.getEquipment().setItemInMainHand(new ItemStack(Material.CROSSBOW));
-        else piglin.getEquipment().setItemInMainHand(new ItemStack(Material.GOLDEN_SWORD));
+        // 50% chance for sword, 25% for crossbow, 25% for axe
+        if (RandomUtil.getRandom().nextBoolean()) piglin.getEquipment().setItemInMainHand(new ItemStack(Material.GOLDEN_SWORD));
+        else if (RandomUtil.getRandom().nextBoolean()) piglin.getEquipment().setItemInMainHand(new ItemStack(Material.CROSSBOW));
+        else piglin.getEquipment().setItemInMainHand(new ItemStack(Material.GOLDEN_AXE));
 
         // If a nearby player has been to the end, the piglins will have a piece of netherite armor that can't drop
         if (nearbyEndPlayer) {
@@ -86,9 +86,11 @@ public class PiglinChange implements Listener {
 
     }
     @EventHandler
-    public void onMine(BlockBreakEvent e) {
-        if (e.getBlock().getType() != Material.ANCIENT_DEBRIS) return;
-        if (e.getPlayer().getScoreboardTags().contains("hasMinedAncientDebris")) return;
-        e.getPlayer().addScoreboardTag("hasMinedAncientDebris");
+    public void onMine(PrepareSmithingEvent e) {
+        if (!(e.getInventory().getRecipe() instanceof SmithingTransformRecipe recipe)) return;
+        if (!recipe.getTemplate().test(new ItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE))) return;
+        Player player = (Player) e.getView().getPlayer();
+        if (player.getScoreboardTags().contains("hasSmithedNetherite")) return;
+        player.addScoreboardTag("hasSmithedNetherite");
     }
 }
