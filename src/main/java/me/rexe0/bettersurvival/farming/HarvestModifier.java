@@ -4,6 +4,7 @@ import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import me.rexe0.bettersurvival.util.RandomUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
@@ -119,13 +120,15 @@ public class HarvestModifier implements Listener {
 
         target.setType(material);
 
-        Dispenser dispenser = (Dispenser) e.getBlock().getState();
-        for (ItemStack item : dispenser.getInventory()) {
-            if (item == null) continue;
-            if (item.getType() != e.getItem().getType()) continue;
-            item.setAmount(item.getAmount() - 1);
-            break;
-        }
+        Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> {
+            Dispenser dispenser = (Dispenser) e.getBlock().getState();
+            for (ItemStack item : dispenser.getInventory()) {
+                if (item == null) continue;
+                if (item.getType() != e.getItem().getType()) continue;
+                item.setAmount(item.getAmount() - 1);
+                break;
+            }
+        }, 1);
     }
 
     @EventHandler
