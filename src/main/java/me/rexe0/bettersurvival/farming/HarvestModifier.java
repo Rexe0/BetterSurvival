@@ -2,6 +2,7 @@ package me.rexe0.bettersurvival.farming;
 
 import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.util.ItemDataUtil;
 import me.rexe0.bettersurvival.util.RandomUtil;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -27,7 +28,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HarvestModifier implements Listener {
-    private final NamespacedKey key = new NamespacedKey(BetterSurvival.getInstance(), "HAS_BONEMEAL");
+    public static final NamespacedKey BONEMEAL_KEY = new NamespacedKey(BetterSurvival.getInstance(), "BONEMEAL_TIER");
+
     private final Map<Material, Material[]> cropDrops = new HashMap<>();
 
     public HarvestModifier() {
@@ -51,8 +53,8 @@ public class HarvestModifier implements Listener {
         int seedCount = 2;
 
         // If the player bonemealed the crop, it should always yield one more of itself
-        if (data.has(key, PersistentDataType.BOOLEAN)) {
-            data.remove(key);
+        if (data.has(BONEMEAL_KEY, PersistentDataType.INTEGER)) {
+            data.remove(BONEMEAL_KEY);
             dropCount++;
             seedCount++;
         }
@@ -133,9 +135,10 @@ public class HarvestModifier implements Listener {
 
         PersistentDataContainer data = new CustomBlockData(block, BetterSurvival.getInstance());
 
-        if (data.has(key, PersistentDataType.BOOLEAN)) return 0;
+        if (data.has(BONEMEAL_KEY, PersistentDataType.INTEGER)) return 0;
 
-        data.set(key, PersistentDataType.BOOLEAN, true);
+        int tier = ItemDataUtil.getIntegerValue(item, "fertilizerTier");
+        data.set(BONEMEAL_KEY, PersistentDataType.INTEGER, tier);
 
         block.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, block.getLocation().add(0.5, 0.1, 0.5), 20, 0.3, 0.2, 0.3, 0);
         return 1;

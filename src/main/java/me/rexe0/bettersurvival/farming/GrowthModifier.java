@@ -1,13 +1,18 @@
 package me.rexe0.bettersurvival.farming;
 
+import com.jeff_media.customblockdata.CustomBlockData;
+import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.util.RandomUtil;
 import me.rexe0.bettersurvival.weather.Season;
 import me.rexe0.bettersurvival.weather.SeasonListener;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.Ageable;
 import org.bukkit.entity.Sniffer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockGrowEvent;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 public class GrowthModifier implements Listener {
     @EventHandler
@@ -28,12 +33,27 @@ public class GrowthModifier implements Listener {
         // If there is a sniffer within 20 blocks of the crop, increase the growth chance by 20%
         for (Sniffer sniffer : block.getWorld().getEntitiesByClass(Sniffer.class)) {
             if (sniffer.getLocation().distanceSquared(block.getLocation()) >= 400) continue;
-            // Increase by additional 30%
+            // Increase by additional 20%
             growthChance += 0.2;
             break;
         }
 
-        if (RandomUtil.getRandom().nextDouble() < growthChance) return;
-        e.setCancelled(true);
+        PersistentDataContainer data = new CustomBlockData(block, BetterSurvival.getInstance());
+
+        if (data.has(HarvestModifier.BONEMEAL_KEY, PersistentDataType.INTEGER))
+            growthChance += 0.15*data.get(HarvestModifier.BONEMEAL_KEY, PersistentDataType.INTEGER);
+
+        if (RandomUtil.getRandom().nextDouble() >= growthChance) {
+            e.setCancelled(true);
+            return;
+        }
+        int extraGrowth = 0;
+        while (growthChance > 1) {
+            growthChance -= 1;
+            if (RandomUtil.getRandom().nextDouble() < growthChance) extraGrowth++;
+        }
+        Ageable ageable = (Ageable) block.getBlockData();
+        ageable.setAge(Math.min(ageable.getMaximumAge(), ageable.getAge()+extraGrowth));
+        block.setBlockData(ageable);
     }
 }

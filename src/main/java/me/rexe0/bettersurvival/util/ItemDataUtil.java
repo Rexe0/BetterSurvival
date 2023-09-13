@@ -53,6 +53,22 @@ public class ItemDataUtil {
         if (!container.has(itemKey, PersistentDataType.DOUBLE)) return 0;
         return container.get(itemKey, PersistentDataType.DOUBLE);
     }
+    public static ItemMeta setIntegerValue(ItemStack item, String key, int value) {
+        NamespacedKey itemKey = new NamespacedKey(BetterSurvival.getInstance(), key);
+
+        ItemMeta meta = item.getItemMeta();
+        meta.getPersistentDataContainer().set(itemKey, PersistentDataType.INTEGER, value);
+        return meta;
+    }
+    public static int getIntegerValue(ItemStack item, String key) {
+        NamespacedKey itemKey = new NamespacedKey(BetterSurvival.getInstance(), key);
+
+        if (item == null || !item.hasItemMeta()) return 0;
+        PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
+
+        if (!container.has(itemKey, PersistentDataType.INTEGER)) return 0;
+        return container.get(itemKey, PersistentDataType.INTEGER);
+    }
 
     public static boolean isItem(ItemStack item, String ID) {
         return getStringValue(item, "itemID").equals(ID);

@@ -11,6 +11,7 @@ public enum ItemType {
     STRIDER_HELMET(new StriderHelmet()),
     SADDLE_N_HORSESHOE(new SaddleNHorseshoe()),
     WEATHER_RADIO(new WeatherRadio()),
+    FERTILIZER(new Fertilizer(1)),
     COLORED_INK_SAC(new ColoredInkSac(ChatColor.WHITE)),
     FISH_CODEX(new FishCodex()),
     PLATINUM_ORE(new PlatinumOre()),

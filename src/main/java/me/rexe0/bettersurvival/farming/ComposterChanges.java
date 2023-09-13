@@ -1,24 +1,50 @@
 package me.rexe0.bettersurvival.farming;
 
+import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.item.Fertilizer;
+import me.rexe0.bettersurvival.item.fishing.Fish;
+import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Levelled;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 public class ComposterChanges implements Listener {
+    private final NamespacedKey key = new NamespacedKey(BetterSurvival.getInstance(), "COMPOST_FERTILIZER_LEVEL");
+
+    @EventHandler
+    public void onEmptyComposter(EntityChangeBlockEvent e) {
+        if (!(e.getEntity() instanceof Player)) return;
+        if (e.getBlock().getType() != Material.COMPOSTER) return;
+        Levelled levelled = (Levelled) e.getBlockData();
+        if (levelled.getLevel() < 8) return;
+        Block block = e.getBlock();
+
+        PersistentDataContainer data = new CustomBlockData(block, BetterSurvival.getInstance());
+
+        if (!data.has(key, PersistentDataType.INTEGER)) return;
+
+        int tier = data.get(key, PersistentDataType.INTEGER);
+        block.getWorld().dropItemNaturally(block.getLocation().add(0, 1, 0), new Fertilizer(tier).getItem());
+    }
+
     @EventHandler
     public void onCompost(PlayerInteractEvent e) {
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         if (e.getClickedBlock() == null || e.getClickedBlock().getType() != Material.COMPOSTER) return;
         if (e.getItem() == null) return;
-        int amount = getCompostAmount(e.getItem().getType());
+        int amount = getCompostAmount(e.getItem());
         if (amount == 0) return;
 
         Levelled levelled = (Levelled) e.getClickedBlock().getBlockData();
@@ -35,12 +61,47 @@ public class ComposterChanges implements Listener {
     }
 
     @EventHandler
+    public void onCompostTake(InventoryMoveItemEvent e) {
+        if (e.getSource().getType() != InventoryType.COMPOSTER) return;
+        Location loc = e.getSource().getLocation().subtract(0, 1, 0);
+        if (loc.getBlock().getType() != Material.HOPPER) return;
+
+        Block block = e.getSource().getLocation().getBlock();
+        Levelled levelled = (Levelled) block.getBlockData();
+        if (levelled.getLevel() < 8) return;
+
+        PersistentDataContainer data = new CustomBlockData(block, BetterSurvival.getInstance());
+
+        if (!data.has(key, PersistentDataType.INTEGER)) return;
+        e.setCancelled(true);
+
+        int tier = data.get(key, PersistentDataType.INTEGER);
+        ItemStack fertilizer = new Fertilizer(tier).getItem();
+
+        for (int i = 0; i < e.getSource().getSize(); i++) {
+            ItemStack item = e.getSource().getStorageContents()[i];
+            // Look for an empty space or an existing fertilizer of the same type
+            if (item != null && (!item.isSimilar(fertilizer) || item.getAmount() >= 64)) continue;
+
+            levelled.setLevel(0);
+
+            if (item != null)
+                item.setAmount(item.getAmount()+1);
+            else item = fertilizer;
+
+            ItemStack[] items = e.getSource().getStorageContents();
+            items[i] = item;
+            e.getSource().setStorageContents(items);
+            break;
+        }
+    }
+    @EventHandler
     public void onHopperMove(InventoryMoveItemEvent e) {
         if (e.getSource().getType() != InventoryType.HOPPER) return;
         Location loc = e.getSource().getLocation().subtract(0, 1, 0);
         if (loc.getBlock().getType() != Material.COMPOSTER) return;
 
-        int amount = getCompostAmount(e.getItem().getType());
+        int amount = getCompostAmount(e.getItem());
         if (amount == 0) return;
         e.setCancelled(true);
 
@@ -69,10 +130,23 @@ public class ComposterChanges implements Listener {
 
         levelled.setLevel(Math.min(levelled.getLevel() + amount, levelled.getMaximumLevel() - 1));
         block.setBlockData(levelled);
+        if (amount > 7) {
+            PersistentDataContainer data = new CustomBlockData(block, BetterSurvival.getInstance());
+
+            data.set(key, PersistentDataType.INTEGER, amount-7);
+        }
     }
 
-    private int getCompostAmount(Material material) {
-        return switch (material) {
+    private int getCompostAmount(ItemStack item) {
+        if (!ItemDataUtil.getStringValue(item, "fishType").isEmpty()) {
+            Fish.FishType fish = Fish.FishType.valueOf(ItemDataUtil.getStringValue(item, "fishType"));
+            if (fish.getName().startsWith(ChatColor.GREEN+"")) return 8;
+            if (fish.getName().startsWith(ChatColor.BLUE+"")) return 9;
+            if (fish.getName().startsWith(ChatColor.DARK_PURPLE+"")) return 10;
+            if (fish.getName().startsWith(ChatColor.GOLD+"")) return 11;
+        }
+
+        return switch (item.getType()) {
             default -> 0;
             case JUNGLE_LEAVES, OAK_LEAVES, SPRUCE_LEAVES, DARK_OAK_LEAVES, ACACIA_LEAVES, CHERRY_LEAVES, BIRCH_LEAVES,
                     AZALEA_LEAVES, MANGROVE_LEAVES, OAK_SAPLING, SPRUCE_SAPLING, BIRCH_SAPLING, JUNGLE_SAPLING, ACACIA_SAPLING,
