@@ -59,7 +59,7 @@ public class ItemListener implements Listener {
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         if (e.getItem() == null) return;
         ItemStack item = e.getItem();
-        if (ItemDataUtil.isItem(item, "BAIT"))
+        if (ItemDataUtil.isItem(item, ItemType.BAIT.getItem().getID()) || ItemDataUtil.isItem(item, ItemType.PREMIUM_BAIT.getItem().getID()))
             e.setCancelled(true);
     }
 

@@ -24,6 +24,7 @@ public enum ItemType {
     GOLD_BOBBER(new GoldBobber()),
     BAIT(new Bait()),
     MAGNET(new Magnet()),
+    PREMIUM_BAIT(new PremiumBait()),
     FISH(new Fish(Fish.FishType.BASS)),
     TREASURE_CHEST(new TreasureChest()),
     TREASURE_SAND(new TreasureSand()),

@@ -67,6 +67,7 @@ This is a plugin that contains several features that I think would improve the c
 - 1 Resonant Ingot can be crafted using 2 Platinum Ingots and 2 Echo Shards
 - Regular bait can be obtained by smelting rotten flesh in a furnace. Using it will half the time it takes to catch a fish.
 - Magnet bait can be obtain my surrounding a copper ingot with iron nuggets and it increases the chance to catch treasure
+- Premium bait can be crafted with 1 golden carrot and 1 baked potato. Using it will reduce the time it takes to catch a fish by 75%.
 - There are 4 types of tackle that can be obtained from Desert Temples, Shipwrecks, Mineshaft chests and Fisherman Villagers 
 - Rain increases the rate at which fish can be caught
 - Different types of fish can now be caught depending on the season, time of day and biome

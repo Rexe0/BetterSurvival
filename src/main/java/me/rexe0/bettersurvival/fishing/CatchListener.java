@@ -74,8 +74,10 @@ public class CatchListener implements Listener {
                 }
             }
             if (bait != null && itemType.canUseBait()) {
-                min *= 0.5;
-                max *= 0.5;
+                float multiplier = bait == ItemType.PREMIUM_BAIT ? 0.25f : 0.5f;
+                min *= multiplier;
+                max *= multiplier;
+
                 EntityDataUtil.setStringValue(e.getHook(), "baitType", bait.name());
             }
 
