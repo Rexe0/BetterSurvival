@@ -100,6 +100,35 @@ public class HarvestModifier implements Listener {
     }
 
     @EventHandler
+    public void onDispenseSeed(BlockDispenseEvent e) {
+        if (e.getBlock().getType() != Material.DISPENSER) return;
+        Material material = null;
+        for (Map.Entry<Material, Material[]> entry : cropDrops.entrySet())
+            if (e.getItem().getType() == entry.getValue()[0]) {
+                material = entry.getKey();
+                break;
+            }
+        if (material == null) return;
+
+        Directional directional = (Directional) e.getBlock().getBlockData();
+        Block target = e.getBlock().getLocation().add(directional.getFacing().getDirection()).getBlock();
+
+        if (target.getType() != Material.AIR || target.getLocation().subtract(0, 1, 0).getBlock().getType() != Material.FARMLAND) return;
+
+        e.setCancelled(true);
+
+        target.setType(material);
+
+        Dispenser dispenser = (Dispenser) e.getBlock().getState();
+        for (ItemStack item : dispenser.getInventory()) {
+            if (item == null) continue;
+            if (item.getType() != e.getItem().getType()) continue;
+            item.setAmount(item.getAmount() - 1);
+            break;
+        }
+    }
+
+    @EventHandler
     public void onDispense(BlockDispenseEvent e) {
         if (e.getItem().getType() != Material.BONE_MEAL) return;
         if (e.getBlock().getType() != Material.DISPENSER) return;
