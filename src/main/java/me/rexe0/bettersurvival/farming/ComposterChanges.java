@@ -8,11 +8,9 @@ import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Levelled;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -24,19 +22,26 @@ public class ComposterChanges implements Listener {
     private final NamespacedKey key = new NamespacedKey(BetterSurvival.getInstance(), "COMPOST_FERTILIZER_LEVEL");
 
     @EventHandler
-    public void onEmptyComposter(EntityChangeBlockEvent e) {
-        if (!(e.getEntity() instanceof Player)) return;
-        if (e.getBlock().getType() != Material.COMPOSTER) return;
-        Levelled levelled = (Levelled) e.getBlockData();
+    public void onEmptyComposter(PlayerInteractEvent e) {
+        if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (e.getClickedBlock() == null || e.getClickedBlock().getType() != Material.COMPOSTER) return;
+
+        Levelled levelled = (Levelled) e.getClickedBlock().getBlockData();
         if (levelled.getLevel() < 8) return;
-        Block block = e.getBlock();
+        Block block = e.getClickedBlock();
 
         PersistentDataContainer data = new CustomBlockData(block, BetterSurvival.getInstance());
 
         if (!data.has(key, PersistentDataType.INTEGER)) return;
 
+        e.setCancelled(true);
+        levelled.setLevel(0);
+        block.setBlockData(levelled);
+
         int tier = data.get(key, PersistentDataType.INTEGER);
         block.getWorld().dropItemNaturally(block.getLocation().add(0, 1, 0), new Fertilizer(tier).getItem());
+
+        data.remove(key);
     }
 
     @EventHandler
@@ -63,12 +68,12 @@ public class ComposterChanges implements Listener {
     @EventHandler
     public void onCompostTake(InventoryMoveItemEvent e) {
         if (e.getSource().getType() != InventoryType.COMPOSTER) return;
-        Location loc = e.getSource().getLocation().subtract(0, 1, 0);
+
+        Location loc = e.getDestination().getLocation();
         if (loc.getBlock().getType() != Material.HOPPER) return;
 
-        Block block = e.getSource().getLocation().getBlock();
+        Block block = loc.add(0, 1, 0).getBlock();
         Levelled levelled = (Levelled) block.getBlockData();
-        if (levelled.getLevel() < 8) return;
 
         PersistentDataContainer data = new CustomBlockData(block, BetterSurvival.getInstance());
 
@@ -78,22 +83,27 @@ public class ComposterChanges implements Listener {
         int tier = data.get(key, PersistentDataType.INTEGER);
         ItemStack fertilizer = new Fertilizer(tier).getItem();
 
-        for (int i = 0; i < e.getSource().getSize(); i++) {
-            ItemStack item = e.getSource().getStorageContents()[i];
-            // Look for an empty space or an existing fertilizer of the same type
-            if (item != null && (!item.isSimilar(fertilizer) || item.getAmount() >= 64)) continue;
+        Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> {
+            for (int i = 0; i < e.getDestination().getSize(); i++) {
+                ItemStack item = e.getDestination().getStorageContents()[i];
+                // Look for an empty space or an existing fertilizer of the same type
+                if (item != null && (!item.isSimilar(fertilizer) || item.getAmount() >= 64)) continue;
 
-            levelled.setLevel(0);
+                levelled.setLevel(0);
+                block.setBlockData(levelled);
 
-            if (item != null)
-                item.setAmount(item.getAmount()+1);
-            else item = fertilizer;
+                data.remove(key);
 
-            ItemStack[] items = e.getSource().getStorageContents();
-            items[i] = item;
-            e.getSource().setStorageContents(items);
-            break;
-        }
+                if (item != null)
+                    item.setAmount(item.getAmount() + 1);
+                else item = fertilizer;
+
+                ItemStack[] items = e.getDestination().getStorageContents();
+                items[i] = item;
+                e.getDestination().setStorageContents(items);
+                break;
+            }
+        }, 1);
     }
     @EventHandler
     public void onHopperMove(InventoryMoveItemEvent e) {
