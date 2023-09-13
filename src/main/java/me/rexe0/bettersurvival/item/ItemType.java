@@ -43,7 +43,7 @@ public enum ItemType {
     }
 
     public boolean isBait() {
-        return this == BAIT || this == MAGNET;
+        return this == BAIT || this == MAGNET || this == PREMIUM_BAIT;
     }
     public boolean isTackle() {
         return this == BARBED_HOOK || this == JUMBO_HOOK || this == VIBRANT_BOBBER || this == GOLD_BOBBER;
