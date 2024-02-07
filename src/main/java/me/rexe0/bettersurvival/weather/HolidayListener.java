@@ -19,9 +19,8 @@ public class HolidayListener {
         World world = BetterSurvival.getInstance().getDefaultWorld();
 
         // Winter Solstice extends the night. Summer Solstice extends the day
-//        if ((Holiday.WINTER_SOLSTICE.isDay(SeasonListener.getDays()) && world.getTime() >= 13000)
-//                || (Holiday.SUMMER_SOLSTICE.isDay(SeasonListener.getDays()) && world.getTime() < 13000)) {
-        if (Holiday.WINTER_SOLSTICE.isDay(SeasonListener.getDays()) && world.getTime() >= 13000) {
+        if ((Holiday.WINTER_SOLSTICE.isDay(SeasonListener.getDays()) && world.getTime() >= 13000)
+                || (Holiday.SUMMER_SOLSTICE.isDay(SeasonListener.getDays()) && world.getTime() < 13000)) {
             world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
 
             if (i == 1) world.setTime(world.getTime()+1);
