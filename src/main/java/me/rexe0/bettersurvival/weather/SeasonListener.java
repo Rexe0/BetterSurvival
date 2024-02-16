@@ -8,8 +8,8 @@ import net.minecraft.world.level.biome.BiomeSpecialEffects;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.Snow;
-import org.bukkit.craftbukkit.v1_20_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_20_R1.block.CraftBlock;
+import org.bukkit.craftbukkit.v1_20_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_20_R3.block.CraftBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.Criteria;
@@ -276,7 +276,7 @@ public class SeasonListener {
             // Snow fals during blizzards and snowy days, in certain cold-warm biomes
             if (biome.climateSettings.temperature() < 0.95 && (currentWeather == Weather.SNOW || currentWeather == Weather.BLIZZARD)) {
                 // nextBoolean decreases chance for snow to fall in a regular snowy day
-                if (above.getType() == Material.AIR || above.getType() == Material.GRASS || above.getType() == Material.TALL_GRASS
+                if (above.getType() == Material.AIR || above.getType() == Material.SHORT_GRASS || above.getType() == Material.TALL_GRASS
                         && (currentWeather == Weather.BLIZZARD || RandomUtil.getRandom().nextBoolean())) {
                     above.setType(Material.SNOW);
                 } else if (above.getType() == Material.SNOW && currentWeather == Weather.BLIZZARD) {

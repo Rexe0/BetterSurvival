@@ -6,7 +6,7 @@ import me.rexe0.bettersurvival.item.WeatherRadio;
 import me.rexe0.bettersurvival.item.fishing.JumboHook;
 import net.minecraft.world.entity.ai.gossip.GossipType;
 import net.minecraft.world.entity.npc.Villager;
-import org.bukkit.craftbukkit.v1_20_R1.entity.CraftVillager;
+import org.bukkit.craftbukkit.v1_20_R3.entity.CraftVillager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;

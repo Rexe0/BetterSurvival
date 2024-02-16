@@ -18,6 +18,7 @@ public class GrowthModifier implements Listener {
     @EventHandler
     public void onGrow(BlockGrowEvent e) {
         Block block = e.getBlock();
+        if (!(block.getBlockData() instanceof Ageable ageable)) return;
 
         // Crop grow depends on season. Spring: 60% Growth, Summer or Autumn: 50%, Winter: 20%
         double growthChance = switch (Season.getSeason()) {
@@ -52,7 +53,6 @@ public class GrowthModifier implements Listener {
             growthChance -= 1;
             if (RandomUtil.getRandom().nextDouble() < growthChance) extraGrowth++;
         }
-        Ageable ageable = (Ageable) block.getBlockData();
         ageable.setAge(Math.min(ageable.getMaximumAge(), ageable.getAge()+extraGrowth));
         block.setBlockData(ageable);
     }
