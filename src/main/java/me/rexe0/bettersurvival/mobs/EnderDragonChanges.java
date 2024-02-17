@@ -18,6 +18,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class EnderDragonChanges implements Listener {
             }
 
             // 50% chance for lightning attack, 50% for fireball attack
-            List<Player> players = getPlayersInRange(dragon);
+            List<Player> players = new ArrayList<>(getPlayersInRange(dragon));
             Collections.shuffle(players);
             new BukkitRunnable() {
                 private int i = 0;
@@ -114,6 +115,7 @@ public class EnderDragonChanges implements Listener {
 
     private void shootFireball(EnderDragon dragon, LivingEntity target) {
         LargeFireball fireball = dragon.getWorld().spawn(dragon.getEyeLocation().subtract(0, 7, 0), LargeFireball.class);
+        fireball.setShooter(dragon);
 
         fireball.setDirection(target.getEyeLocation().subtract(dragon.getEyeLocation()).toVector().normalize());
         fireball.setYield(3);
