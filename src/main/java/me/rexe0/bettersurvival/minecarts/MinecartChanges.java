@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Dispenser;
 import org.bukkit.block.data.Directional;
 import org.bukkit.block.data.type.RedstoneRail;
@@ -74,7 +75,8 @@ public class MinecartChanges implements Listener {
         if (e.getBlock().getType() != Material.DISPENSER) return;
 
         Directional directional = (Directional) e.getBlock().getBlockData();
-        Block target = e.getBlock().getLocation().add(directional.getFacing().getDirection()).getBlock();
+        BlockFace face = directional.getFacing();
+        Block target = e.getBlock().getLocation().add(face.getDirection()).getBlock();
 
         Optional<Entity> furnace = target.getWorld().getNearbyEntities(target.getLocation(), 1.5, 1.5, 1.5).stream()
                 .filter(en -> en.getType() == EntityType.MINECART_FURNACE)
@@ -84,16 +86,16 @@ public class MinecartChanges implements Listener {
 
         e.setCancelled(true);
 
+
         MinecartFurnace minecart = ((CraftMinecartFurnace) furnace.get()).getHandle();
-        float yaw = minecart.getBukkitYaw();
-        if (yaw >= -45 && yaw < 45)
-            minecart.zPush = 1;
-        else if (yaw >= 45 && yaw < 135)
-            minecart.xPush = -1;
-        else if (yaw >= 135 || yaw < -135)
-            minecart.zPush = -1;
-        else if (yaw >= -135)
-            minecart.xPush = 1;
+
+        // The minecart will go always to the left of the dispenser
+        switch (face) {
+            case EAST -> minecart.zPush = -1;
+            case NORTH -> minecart.xPush = -1;
+            case WEST -> minecart.zPush = 1;
+            case SOUTH -> minecart.xPush = 1;
+        }
 
         minecart.fuel += Math.min(3600, 32767);
 
