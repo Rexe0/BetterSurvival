@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -42,7 +43,7 @@ public class ChainedMinecart implements Listener {
     private static Minecart setChildSpeed(Minecart minecart) {
 
         String uuid = EntityDataUtil.getStringValue(minecart, "childMinecart");
-        if (uuid.equals("")) return null;
+        if (uuid.isEmpty()) return null;
         Minecart childCart = (Minecart) Bukkit.getEntity(UUID.fromString(uuid));
 
         // Unlink the carts if they are too far away from each other or the child cart is non-existent
@@ -71,8 +72,6 @@ public class ChainedMinecart implements Listener {
         }
 
 
-
-
         childCart.setMaxSpeed(minecart.getMaxSpeed());
 
         if (minecart.getLocation().getYaw() != childCart.getLocation().getYaw()) {
@@ -89,6 +88,15 @@ public class ChainedMinecart implements Listener {
 
     private final Map<UUID, UUID> currentMinecartChain = new HashMap<>();
 
+    @EventHandler
+    public void onDeath(VehicleDestroyEvent e) {
+        if (!(e.getVehicle() instanceof Minecart minecart)) return;
+
+        String uuid = EntityDataUtil.getStringValue(minecart, "childMinecart");
+        if (uuid.isEmpty()) return;
+        minecart.getWorld().dropItemNaturally(minecart.getLocation(), new ItemStack(Material.CHAIN, 2));
+        minecart.getWorld().playSound(minecart.getLocation(), Sound.BLOCK_CHAIN_PLACE, 1, 1.4f);
+    }
     @EventHandler
     public void onEntityInteract(PlayerInteractEntityEvent e) {
         if (!e.getPlayer().isSneaking()) return;
