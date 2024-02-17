@@ -22,7 +22,7 @@ public class CoalDeposit extends BlockPopulator {
                 int dx = x + chunkX * 16;
                 int dz = z + chunkZ * 16;
 
-                boolean exposed = random.nextInt(0, 50) == 0; // 1 in 50 chance for the ore to be exposed to the surface
+                boolean exposed = random.nextInt(0, 120) == 0; // 1 in 120 chance for the ore to be exposed to the surface
                 int y = limitedRegion.getHighestBlockYAt(dx, dz, HeightMap.OCEAN_FLOOR_WG)- (exposed ? 2 : 6);
 
                 for (int i = -2; i < 3; i++) {
@@ -42,8 +42,7 @@ public class CoalDeposit extends BlockPopulator {
                         || limitedRegion.getType(dx, y+i, dz+1) == Material.AIR
                         || limitedRegion.getType(dx, y+i, dz-1) == Material.AIR) continue;
 
-                    // TODO: TEST EXPOSED
-                    limitedRegion.setType(dx, y+i, dz, Material.OAK_FENCE);
+                    limitedRegion.setType(dx, y+i, dz, Material.COAL_ORE);
                 }
 
             }

@@ -22,7 +22,8 @@ public class CopperDeposit extends BlockPopulator {
                 int dx = x + chunkX * 16;
                 int dz = z + chunkZ * 16;
 
-                int y = limitedRegion.getHighestBlockYAt(dx, dz, HeightMap.OCEAN_FLOOR_WG)-6;
+                boolean exposed = random.nextInt(0, 120) == 0; // 1 in 120 chance for the ore to be exposed to the surface
+                int y = limitedRegion.getHighestBlockYAt(dx, dz, HeightMap.OCEAN_FLOOR_WG)-(exposed ? 2 : 6);
 
                 for (int i = -2; i < 3; i++) {
                     double noise = generator.noise(dx, dz, 0.01, 30, true);
