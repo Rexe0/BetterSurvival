@@ -247,8 +247,8 @@ public class SeasonListener {
         if (block.getType().isOccluding() || Tag.LEAVES.isTagged(block.getType())) {
             Biome biome = ((CraftBlock) block).getHandle().getBiome(new BlockPos(block.getX(), block.getY(), block.getZ())).value();
 
-            // Snow melts in sunny Spring, in certain warm-hot biomes
-            if (biome.climateSettings.temperature() > 0.1 && season == Season.SPRING
+            // Snow melts in sunny Spring or Summer, in certain warm-hot biomes
+            if (biome.climateSettings.temperature() > 0.1 && (season == Season.SPRING || season == Season.SUMMER)
                     && (currentWeather == Weather.CLEAR || currentWeather == Weather.WINDY))
                 // Loop 0-9 to clean up any floating snow from cut down trees, etc.
                 for (int i = 0; i < 10; i++) {
