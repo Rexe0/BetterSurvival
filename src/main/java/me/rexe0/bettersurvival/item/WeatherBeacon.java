@@ -2,10 +2,7 @@ package me.rexe0.bettersurvival.item;
 
 import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.weather.SeasonListener;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -20,7 +17,10 @@ public class WeatherBeacon extends Item {
     @Override
     public void onRightClick(Player player) {
         if (SeasonListener.getCurrentWeather() == SeasonListener.Weather.CLEAR) return;
-        Bukkit.getOnlinePlayers().forEach(p -> p.sendMessage(ChatColor.GREEN+player.getName()+" cleared the weather using their Weather Beacon."));
+        Bukkit.getOnlinePlayers().forEach(p -> {
+            p.sendMessage(ChatColor.GREEN+player.getName()+" cleared the weather using their Weather Beacon.");
+            p.playSound(p.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1, 1);
+        });
         SeasonListener.setCurrentWeather(SeasonListener.Weather.CLEAR);
     }
 
