@@ -57,6 +57,7 @@ This is a plugin that contains several features that I think would improve the c
   - It will channel lightning on itself and strike the tallest block at each player, dealing heavy damage if it does manage to hit the player
   - It can summon a fireball that moves rapidly towards the player and explodes (Similar to Ghast but with heavier damage)
   - It can cloak every player in darkness and call on a few Endermen to start targeting each player
+- The Ender Dragon can drop 2-4 dragon scales on death
 
 **Fishing:**
 - Almost completely reworked the fishing system
@@ -95,6 +96,7 @@ This is a plugin that contains several features that I think would improve the c
 - This snow will gradually melt in Spring
 - Windy days can occur in the Spring and Autumn where petals/leaves fall from the sky (Purely visual)
 - A Weather Radio can be bought from an Expert Cartographer Villager which will display the Date, Season and tomorrow's weather forecast
+- A Weather Beacon can be made using a Nether Star, 4 Dragon Scales and 4 Redstone Blocks which can clear the weather on right click
 - The Winter Solstice will happen in the middle of winter where the night will be longer but special glow squids will surface the ocean
 - These glow squids drop different colored ink sacs which can be used in an anvil when renaming items to change the item name's color
 
