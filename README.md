@@ -44,6 +44,8 @@ This is a plugin that contains several features that I think would improve the c
 - The mending enchantment has been changed. Upon picking up an experience orb, gear with mending will no longer automatically repair itself. Rather, it will reduce its repair cost at an anvil.
 - Elder Guardians now have a 1/3 chance of dropping a Mending Book
 - Netherite gear can now be repaired at an anvil with diamonds
+- Elytras can be fully repaired with 1 Dragon Scale
+- Tridents can be repaired using Prismarine Crystals at a reduced rate
 - A Turtle Helmet can now be upgraded as a netherite upgrade into a Strider Helmet. The Strider Helmet grants 20 seconds of extra water breathing and 5 seconds of extra fire resistance.
 
 **Mobs:**
