@@ -171,9 +171,9 @@ public class SeasonListener {
                 if (biome.climateSettings.temperature() >= 0.95) continue;
 
                 if (currentWeather == Weather.BLIZZARD) {
-                    // Leather armor slows or stops rate of freezing
+                    // Leather armor slows or stops rate of freezing, At 2 leather pieces, no freezing should occur
                     int leather = getLeatherPiecesWorn(player);
-                    if (leather == 0 || (leather <= 2 && world.getGameTime() % 2 == 0))
+                    if (leather == 0 || (leather == 1 && world.getGameTime() % 2 == 0))
                         // +3/+5 to combat freeze reduction because player isn't necessarily in powder snow
                         player.setFreezeTicks(Math.min(player.getMaxFreezeTicks(), player.getFreezeTicks() + (leather > 0 ? 5 : 3)));
 
