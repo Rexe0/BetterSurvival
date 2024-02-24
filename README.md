@@ -35,7 +35,7 @@ This is a plugin that contains several features that I think would improve the c
 - If a minecart travels over an unpowered rail with chiseled deepslate under it, it will stop much faster than usual. Furnace Minecarts also stop burning as well.
 - Furnace minecarts can now travel much faster. They also automatically load chunks, so use a few of them to allow minecart trains to go through unloaded chunks.
 - Dispensers can now automatically power furnace minecarts in the direction they are facing when shooting out coal or charcoal
-- 4 Regular Rails can now be crafted with 7 Iron Nuggets and 1 Stick. This is a much more efficient craft compared to the vanilla craft.
+- 4 Regular Rails can now be crafted with 6 Iron Nuggets and 1 Stick. This is a much more efficient craft compared to the vanilla craft.
 
 **Gear and Loot:**
 - Suspicious sand can now generate on the desert biome's surface. Upon brushing, it can reveal either junk or rarely treasure such as diamonds or emeralds
@@ -95,7 +95,7 @@ This is a plugin that contains several features that I think would improve the c
 - Snowy days and Blizzards can happen in Winter in which snow starts to fall in biomes where it usually doesn't
 - Blizzards allow snow to pile up substantially and become powder snow
 - Blizzards cause players out in the open to freeze and take damage. This effect is reduced by wearing leather armor.
-- This snow will gradually melt in Spring
+- This snow will gradually melt in Spring and Summer
 - Windy days can occur in the Spring and Autumn where petals/leaves fall from the sky (Purely visual)
 - A Weather Radio can be bought from an Expert Cartographer Villager which will display the Date, Season and tomorrow's weather forecast
 - A Weather Beacon can be made using a Nether Star, 4 Dragon Scales and 4 Redstone Blocks which can clear the weather on right click
