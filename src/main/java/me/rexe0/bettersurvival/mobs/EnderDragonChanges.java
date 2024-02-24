@@ -1,6 +1,7 @@
 package me.rexe0.bettersurvival.mobs;
 
 import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.util.EntityDataUtil;
 import me.rexe0.bettersurvival.util.RandomUtil;
 import org.bukkit.Bukkit;
@@ -14,6 +15,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EnderDragonChangePhaseEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -30,6 +33,13 @@ public class EnderDragonChanges implements Listener {
         // Reduce block explosion damage by 80% to Ender Dragon - Prevents Bed Cheese
         e.setDamage(e.getDamage()*0.2f);
     }
+    @EventHandler
+    public void onDeath(EntityDeathEvent e) {
+        ItemStack item = ItemType.DRAGON_SCALE.getItem().getItem();
+        item.setAmount(RandomUtil.getRandom().nextInt(2, 5));
+        e.getEntity().getWorld().dropItemNaturally(e.getEntity().getLocation(), item);
+    }
+
     @EventHandler (priority = EventPriority.HIGHEST)
     public void onDamage(EntityDamageEvent e) {
         if (!(e.getEntity() instanceof EnderDragon dragon)) return;
