@@ -37,8 +37,7 @@ public class AnvilRepair implements Listener {
         ItemStack tool = e.getInventory().getItem(0);
         ItemStack repairItem = e.getInventory().getItem(1);
 
-        if (tool == null || repairItem == null) return;
-
+        if (tool == null || repairItem == null || repairMaterial.get(tool.getType()) == null) return;
 
         if (!repairMaterial.get(tool.getType()).isSimilar(repairItem) || !(tool.getItemMeta() instanceof Damageable meta))
             return;
@@ -77,7 +76,7 @@ public class AnvilRepair implements Listener {
         ItemStack tool = inv.getItem(0);
         ItemStack repairItem = inv.getItem(1);
 
-        if (tool == null || repairItem == null) return;
+        if (tool == null || repairItem == null || repairMaterial.get(tool.getType()) == null) return;
         if (!repairMaterial.get(tool.getType()).isSimilar(repairItem) || !(tool.getItemMeta() instanceof Damageable meta))
             return;
 
