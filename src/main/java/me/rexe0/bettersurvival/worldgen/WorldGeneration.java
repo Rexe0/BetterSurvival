@@ -15,7 +15,6 @@ public class WorldGeneration implements Listener {
             return;
         }
         if (!world.equals(BetterSurvival.getInstance().getDefaultWorld())) return;
-        world.getPopulators().add(new ReduceDiamonds());
         world.getPopulators().add(new ReduceGold());
         world.getPopulators().add(new ReduceIron());
 
