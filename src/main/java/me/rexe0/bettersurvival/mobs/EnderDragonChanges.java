@@ -35,6 +35,7 @@ public class EnderDragonChanges implements Listener {
     }
     @EventHandler
     public void onDeath(EntityDeathEvent e) {
+        if (e.getEntityType() != EntityType.ENDER_DRAGON) return;
         ItemStack item = ItemType.DRAGON_SCALE.getItem().getItem();
         item.setAmount(RandomUtil.getRandom().nextInt(2, 5));
         e.getEntity().getWorld().dropItemNaturally(e.getEntity().getLocation(), item);
