@@ -19,7 +19,7 @@ This is a plugin that contains several features that I think would improve the c
 - Right clicking a cauldron full of soup with a bowl will grant you that soup in its bowl form, allowing it to be eaten. This can be done up to three times.
 
 **Ores and Mining:**
-- Natural ore generation for iron, gold, diamonds and ancient debris have been reduced
+- Natural ore generation for iron, gold and ancient debris have been reduced
 - Large Coal deposits can now generate slightly under the surface in Badlands/Mesa biomes
 - Large Iron deposits can now generate slightly under the ocean floor in cold oceans
 - Large Copper deposits can now generate slightly under the surface in very mountainous biomes
