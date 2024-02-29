@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
@@ -40,6 +41,24 @@ public class FletchingTableGUI implements Listener {
         if (e.getClickedInventory() == e.getView().getTopInventory() && e.getSlot() != 10 && e.getSlot() != 12 && e.getSlot() != 16) e.setCancelled(true);
         Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> clickLogic(e.getView().getTopInventory()), 1);
         thirdSlotLogic(e);
+    }
+
+    @EventHandler
+    public void onClose(InventoryCloseEvent e) {
+        if (!e.getView().getTitle().equals(ChatColor.DARK_GRAY+"Fletching Table")) return;
+        Player player = (Player) e.getPlayer();
+        Inventory inv = e.getInventory();
+        if (player.getInventory().firstEmpty() == -1) {
+            if (inv.getItem(10) != null)
+                player.getWorld().dropItem(player.getLocation(), inv.getItem(10)).setOwner(player.getUniqueId());
+            if (inv.getItem(12) != null)
+                player.getWorld().dropItem(player.getLocation(), inv.getItem(12)).setOwner(player.getUniqueId());
+        } else {
+            if (inv.getItem(10) != null)
+                player.getInventory().addItem(inv.getItem(10));
+            if (inv.getItem(12) != null)
+                player.getInventory().addItem(inv.getItem(12));
+        }
     }
 
     @EventHandler
