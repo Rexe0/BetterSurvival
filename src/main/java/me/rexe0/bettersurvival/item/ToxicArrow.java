@@ -19,17 +19,17 @@ public class ToxicArrow extends Item {
     @Override
     public List<String> getLore() {
         List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.RED+"Slowness I (0:08)");
-        lore.add(ChatColor.RED+"Blindness (0:08)");
-        lore.add(ChatColor.RED+"Nausea (0:08)");
+        lore.add(ChatColor.RED+"Slowness I (0:05)");
+        lore.add(ChatColor.RED+"Blindness (0:05)");
+        lore.add(ChatColor.RED+"Nausea (0:05)");
         return lore;
     }
 
     @Override
     public double onArrowDamage(LivingEntity entity, Player player, Arrow arrow, double damage) {
-        entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 160, 0));
-        entity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 160, 0));
-        entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 160, 0));
+        entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 100, 0));
+        entity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 0));
+        entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 0));
         return damage;
     }
 }
