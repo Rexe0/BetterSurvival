@@ -51,6 +51,7 @@ This is a plugin that contains several features that I think would improve the c
 - A Turtle Helmet can now be upgraded as a netherite upgrade into a Strider Helmet. The Strider Helmet grants 20 seconds of extra water breathing and 5 seconds of extra fire resistance.
 - The Fletching Table now has a GUI that can be accessed by right clicking it. Placing an arrow on the left slot and an ingredient on the right slot lets you tip the arrow.
 - Placing a potion as a fletching ingredient tips the arrow with that potion making it far easier to craft tipped arrows
+- Placing an Amethyst Shard as a fletching ingredient makes the arrow shatter into 3 small shards when hitting an enemy. These shards deal the same damage as the original arrow. 
 - Placing TNT as a fletching ingredient make the arrow explode when hitting an enemy
 - Placing a Red Mushroom as a fletching ingredient makes the arrow inflict blindness, slowness and nausea for 8 seconds
 - Placing a Glowstone Block as a fletching ingredient gives spectral arrows
