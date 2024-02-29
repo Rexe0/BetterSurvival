@@ -35,7 +35,6 @@ public class HolidayListener {
     private static void tickHighest(Block block) {
         World world = block.getWorld();
         if (Holiday.WINTER_SOLSTICE.isDay(SeasonListener.getDays()) && world.getTime() >= 12000) winterSolsticeTick(block);
-
     }
 
     private static void winterSolsticeTick(Block blk) {
@@ -53,6 +52,14 @@ public class HolidayListener {
         GlowSquid squid = (GlowSquid) block.getLocation().getWorld().spawnEntity(block.getLocation(), EntityType.GLOW_SQUID);
         // Subtract 6 from ChatColor.values().length to ensure it doesn't select italic/bold/etc.
         EntityDataUtil.setStringValue(squid, "solsticeSquidColor", ChatColor.values()[RandomUtil.getRandom().nextInt(ChatColor.values().length-6)].name());
+    }
 
+    public static double bumperCropGrowth(World world) {
+        if (Holiday.BUMPER_CROP.isDay(SeasonListener.getDays()) && world.getTime() < 12000)
+            return 0.5;
+        return 0;
+    }
+    public static boolean bumperCropHarvest(World world) {
+        return Holiday.BUMPER_CROP.isDay(SeasonListener.getDays()) && world.getTime() < 12000;
     }
 }

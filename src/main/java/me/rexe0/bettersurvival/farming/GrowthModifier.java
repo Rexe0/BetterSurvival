@@ -3,6 +3,7 @@ package me.rexe0.bettersurvival.farming;
 import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.util.RandomUtil;
+import me.rexe0.bettersurvival.weather.HolidayListener;
 import me.rexe0.bettersurvival.weather.Season;
 import me.rexe0.bettersurvival.weather.SeasonListener;
 import org.bukkit.block.Block;
@@ -43,6 +44,8 @@ public class GrowthModifier implements Listener {
 
         if (data.has(HarvestModifier.BONEMEAL_KEY, PersistentDataType.INTEGER))
             growthChance += 0.15*data.get(HarvestModifier.BONEMEAL_KEY, PersistentDataType.INTEGER);
+
+        growthChance += HolidayListener.bumperCropGrowth(block.getWorld());
 
         if (RandomUtil.getRandom().nextDouble() >= growthChance) {
             e.setCancelled(true);

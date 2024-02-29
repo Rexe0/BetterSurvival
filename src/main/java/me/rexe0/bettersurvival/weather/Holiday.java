@@ -9,7 +9,9 @@ public enum Holiday {
 
     // Surfacing glow squids will drop special coloured ink sacs that can be used in an anvil to colour the name of an item
     WINTER_SOLSTICE(ChatColor.of(new Color(148, 198, 255)), "Winter Solstice", 104, SeasonListener.Weather.SNOW, "The night will be darker and longer than usual but make sure to check out the spectacle in the ocean."),
-    SUMMER_SOLSTICE(ChatColor.of(new Color(247, 157, 0)), "Summer Solstice", 44, SeasonListener.Weather.CLEAR, "The day will be longer than usual.");
+    SUMMER_SOLSTICE(ChatColor.of(new Color(247, 157, 0)), "Summer Solstice", 44, SeasonListener.Weather.CLEAR, "The day will be longer than usual."),
+    BUMPER_CROP(ChatColor.of(new Color(182, 245, 22)), "Bumper Crop", 19, SeasonListener.Weather.CLEAR, "Crops will grow faster and produce an unusually high yield throughout the day.");
+
 
     private ChatColor color;
     private String name;

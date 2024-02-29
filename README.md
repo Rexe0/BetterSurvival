@@ -10,6 +10,7 @@ This is a plugin that contains several features that I think would improve the c
 - Fortune hoes are now the only tool that can cause crops to drop more of itself now.
 - Wheat Seeds, Beetroot Seeds, Carrots and Potatoes can now be automatically planted using a dispenser
 - Added Suspicious Stew recipe for Pitcher Plant -> Grants Luck I for 5 minutes
+- On the 20th day of Spring there will be a bumper crop where all crops grow faster and have a much higher yield during the day
 - Animals will have a much longer breeding cooldown after being bred
 - Animals will no longer breed if the area around them is too crowded
 - Honey Bottles now cure the Wither effect in addition to the Poison effect

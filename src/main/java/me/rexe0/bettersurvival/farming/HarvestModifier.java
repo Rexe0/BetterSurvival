@@ -4,6 +4,7 @@ import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import me.rexe0.bettersurvival.util.RandomUtil;
+import me.rexe0.bettersurvival.weather.HolidayListener;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -81,6 +82,9 @@ public class HarvestModifier implements Listener {
             if (damageable.getDamage() == item.getType().getMaxDurability())
                 player.getEquipment().setItemInMainHand(null);
         }
+
+        if (HolidayListener.bumperCropHarvest(block.getWorld()))
+            dropCount += 2;
 
         block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(drops[0], seedCount));
         if (drops.length > 1)
