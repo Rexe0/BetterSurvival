@@ -19,6 +19,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.world.LootGenerateEvent;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -53,6 +54,11 @@ public class ItemListener implements Listener {
             }
     }
 
+    @EventHandler
+    public void onConsume(PlayerItemConsumeEvent e) {
+        for (ItemType itemType : ItemType.values())
+            itemType.getItem().onConsume(e.getPlayer());
+    }
 
     @EventHandler
     public void onPlant(PlayerInteractEvent e) {

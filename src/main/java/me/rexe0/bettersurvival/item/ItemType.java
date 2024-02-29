@@ -11,6 +11,7 @@ public enum ItemType {
     STRIDER_HELMET(new StriderHelmet()),
     SADDLE_N_HORSESHOE(new SaddleNHorseshoe()),
     DRAGON_SCALE(new DragonScale()),
+    CORNUCOPIA(new Cornucopia()),
     WEATHER_RADIO(new WeatherRadio()),
     WEATHER_BEACON(new WeatherBeacon()),
     FERTILIZER(new Fertilizer(1)),

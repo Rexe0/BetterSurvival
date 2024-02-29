@@ -70,6 +70,10 @@ public abstract class Item {
     }
 
 
+    public void onConsume(Player player) {
+
+    }
+
 
     public Map<NamespacedKey, Recipe> getRecipes() {
         return new HashMap<>();
