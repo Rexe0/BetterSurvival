@@ -32,6 +32,7 @@ public class FletchingTableGUI implements Listener {
         arrowRecipes = new HashMap<>();
         arrowRecipes.put(Material.AMETHYST_SHARD, ItemType.AMETHYST_ARROW.getItem().getItem());
         arrowRecipes.put(Material.TNT, ItemType.EXPLOSIVE_ARROW.getItem().getItem());
+        arrowRecipes.put(Material.RED_MUSHROOM, ItemType.TOXIC_ARROW.getItem().getItem());
     }
 
     @EventHandler

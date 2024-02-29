@@ -52,6 +52,7 @@ This is a plugin that contains several features that I think would improve the c
 - The Fletching Table now has a GUI that can be accessed by right clicking it. Placing an arrow on the left slot and an ingredient on the right slot lets you tip the arrow.
 - Placing a potion as a fletching ingredient tips the arrow with that potion making it far easier to craft tipped arrows
 - Placing TNT as a fletching ingredient make the arrow explode when hitting an enemy
+- Placing a Red Mushroom as a fletching ingredient makes the arrow inflict blindness, slowness and nausea for 8 seconds
 
 **Mobs:**
 - After a player has made netherite gear for the first time, buffed piglins will begin to naturally spawn in the overworld around them
