@@ -49,6 +49,9 @@ This is a plugin that contains several features that I think would improve the c
 - Elytras can be fully repaired with 1 Dragon Scale
 - Tridents can be repaired using Prismarine Crystals at a reduced rate
 - A Turtle Helmet can now be upgraded as a netherite upgrade into a Strider Helmet. The Strider Helmet grants 20 seconds of extra water breathing and 5 seconds of extra fire resistance.
+- The Fletching Table now has a GUI that can be accessed by right clicking it. Placing an arrow on the left slot and an ingredient on the right slot lets you tip the arrow.
+- Placing a potion as a fletching ingredient tips the arrow with that potion making it far easier to craft tipped arrows
+- Placing TNT as a fletching ingredient make the arrow explode when hitting an enemy
 
 **Mobs:**
 - After a player has made netherite gear for the first time, buffed piglins will begin to naturally spawn in the overworld around them
