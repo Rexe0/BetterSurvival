@@ -129,7 +129,7 @@ public class ItemListener implements Listener {
         String ID = EntityDataUtil.getStringValue(arrow, "arrowID");
         if (ID.isEmpty()) return;
         ItemType type = ItemType.valueOf(ID);
-        type.getItem().onArrowDamage(entity, (Player) arrow.getShooter(), arrow);
+        type.getItem().onArrowDamage(entity, (Player) arrow.getShooter(), arrow, e.getDamage());
     }
 
     @EventHandler

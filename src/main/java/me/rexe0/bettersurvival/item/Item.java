@@ -3,9 +3,9 @@ package me.rexe0.bettersurvival.item;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.event.world.LootGenerateEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -77,7 +77,7 @@ public abstract class Item {
     }
 
 
-    public void onArrowDamage(LivingEntity entity, Player player, Projectile projectile) {
+    public void onArrowDamage(LivingEntity entity, Player player, Arrow arrow, double damage) {
 
     }
 
