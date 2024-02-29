@@ -2,19 +2,24 @@ package me.rexe0.bettersurvival.item;
 
 import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.item.fishing.FishCodex;
+import me.rexe0.bettersurvival.util.EntityDataUtil;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Horse;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.event.inventory.PrepareSmithingEvent;
@@ -104,6 +109,25 @@ public class ItemListener implements Listener {
     }
 
 
+    @EventHandler
+    public void onShoot(EntityShootBowEvent e) {
+        if (e.isCancelled()) return;
+        if (!(e.getEntity() instanceof Player)) return;
+        ItemStack item = e.getConsumable();
+        ItemType type = ItemDataUtil.getItemType(item);
+        if (type == null || !type.isArrow()) return;
+        EntityDataUtil.setStringValue(e.getProjectile(), "arrowID", type.getItem().getID());
+    }
+
+    @EventHandler
+    public void onDamage(EntityDamageByEntityEvent e) {
+        if (!(e.getEntity() instanceof LivingEntity entity)) return;
+        if (!(e.getDamager() instanceof Arrow arrow)) return;
+        String ID = EntityDataUtil.getStringValue(arrow, "arrowID");
+        if (ID.isEmpty()) return;
+        ItemType type = ItemType.valueOf(ID);
+        type.getItem().onArrowDamage(entity, (Player) arrow.getShooter(), arrow);
+    }
 
     @EventHandler
     public void onPrepare(PrepareAnvilEvent e) {

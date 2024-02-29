@@ -1,6 +1,7 @@
 package me.rexe0.bettersurvival.fletchingtable;
 
 import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.item.ItemType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -28,7 +29,8 @@ public class FletchingTableGUI implements Listener {
 
     public FletchingTableGUI() {
         arrowRecipes = new HashMap<>();
-
+        arrowRecipes.put(Material.AMETHYST_SHARD, ItemType.AMETHYST_ARROW.getItem().getItem());
+        arrowRecipes.put(Material.TNT, ItemType.EXPLOSIVE_ARROW.getItem().getItem());
     }
 
     @EventHandler
