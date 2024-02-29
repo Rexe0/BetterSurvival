@@ -4,10 +4,13 @@ import me.rexe0.bettersurvival.BetterSurvival;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -24,7 +27,16 @@ public class Cornucopia extends Item {
         player.setSaturation(Math.min(player.getFoodLevel(), player.getSaturation()+SATURATION_INCREASE));
         player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 40, 0, true, false));
     }
+    @Override
+    public ItemStack getItem() {
+        ItemStack item = super.getItem();
+        ItemMeta meta = item.getItemMeta();
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        item.setItemMeta(meta);
 
+        item.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+        return item;
+    }
     @Override
     public Recipe getRecipe() {
         ItemStack item = ItemType.CORNUCOPIA.getItem().getItem();
