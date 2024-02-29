@@ -3,6 +3,7 @@ package me.rexe0.bettersurvival;
 import me.rexe0.bettersurvival.farming.*;
 import me.rexe0.bettersurvival.fishing.CatchListener;
 import me.rexe0.bettersurvival.fishing.FishFile;
+import me.rexe0.bettersurvival.fletchingtable.FletchingTableGUI;
 import me.rexe0.bettersurvival.gear.AnvilRepair;
 import me.rexe0.bettersurvival.gear.MendingChange;
 import me.rexe0.bettersurvival.item.DrillEntity;
@@ -71,6 +72,7 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PhantomChange(), this);
         getServer().getPluginManager().registerEvents(new PiglinChange(), this);
         getServer().getPluginManager().registerEvents(new VillagerChange(), this);
+        getServer().getPluginManager().registerEvents(new FletchingTableGUI(), this);
         getServer().getPluginManager().registerEvents(new WanderingTrader(), this);
         getServer().getPluginManager().registerEvents(new SolsticeGlowSquid(), this);
         getServer().getPluginManager().registerEvents(new ChainedMinecart(), this);
