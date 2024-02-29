@@ -65,6 +65,7 @@ public class FletchingTableGUI implements Listener {
     public void onClick(PlayerInteractEvent e) {
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         if (e.getClickedBlock().getType() != Material.FLETCHING_TABLE) return;
+        e.setCancelled(true);
         e.getPlayer().openInventory(getInventory());
     }
 
