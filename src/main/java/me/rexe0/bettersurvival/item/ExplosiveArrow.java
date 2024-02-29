@@ -15,7 +15,7 @@ public class ExplosiveArrow extends Item {
     }
 
     @Override
-    public void onArrowDamage(LivingEntity entity, Player player, Arrow arrow, double damage) {
+    public double onArrowDamage(LivingEntity entity, Player player, Arrow arrow, double damage) {
         arrow.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, arrow.getLocation(), 10, 1, 1, 1, 0);
         arrow.getWorld().playSound(arrow.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
         for (Entity en : arrow.getNearbyEntities(3, 3, 3)) {
@@ -23,6 +23,7 @@ public class ExplosiveArrow extends Item {
             if (en.equals(entity)) continue;
             living.damage(5, arrow);
         }
+        return damage;
     }
 
 }

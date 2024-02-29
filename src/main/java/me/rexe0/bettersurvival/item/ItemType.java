@@ -19,6 +19,7 @@ public enum ItemType {
     AMETHYST_ARROW(new AmethystArrow()),
     EXPLOSIVE_ARROW(new ExplosiveArrow()),
     TOXIC_ARROW(new ToxicArrow()),
+    SONIC_ARROW(new SonicArrow()),
     FISH_CODEX(new FishCodex()),
     PLATINUM_ORE(new PlatinumOre()),
     PLATINUM_INGOT(new PlatinumIngot()),

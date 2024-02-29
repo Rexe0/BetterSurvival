@@ -115,10 +115,11 @@ public class ItemListener implements Listener {
     @EventHandler
     public void onShoot(EntityShootBowEvent e) {
         if (e.isCancelled()) return;
-        if (!(e.getEntity() instanceof Player)) return;
+        if (!(e.getEntity() instanceof Player player)) return;
         ItemStack item = e.getConsumable();
         ItemType type = ItemDataUtil.getItemType(item);
         if (type == null || !type.isArrow()) return;
+        type.getItem().onArrowShoot(player, (Arrow) e.getProjectile());
         EntityDataUtil.setStringValue(e.getProjectile(), "arrowID", type.getItem().getID());
     }
 
@@ -129,7 +130,7 @@ public class ItemListener implements Listener {
         String ID = EntityDataUtil.getStringValue(arrow, "arrowID");
         if (ID.isEmpty()) return;
         ItemType type = ItemType.valueOf(ID);
-        type.getItem().onArrowDamage(entity, (Player) arrow.getShooter(), arrow, e.getDamage());
+        e.setDamage(type.getItem().onArrowDamage(entity, (Player) arrow.getShooter(), arrow, e.getDamage()));
     }
 
     @EventHandler

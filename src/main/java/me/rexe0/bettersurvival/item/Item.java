@@ -77,7 +77,10 @@ public abstract class Item {
     }
 
 
-    public void onArrowDamage(LivingEntity entity, Player player, Arrow arrow, double damage) {
+    public double onArrowDamage(LivingEntity entity, Player player, Arrow arrow, double damage) {
+        return damage;
+    }
+    public void onArrowShoot(Player player, Arrow arrow) {
 
     }
 

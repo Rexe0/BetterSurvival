@@ -26,9 +26,10 @@ public class ToxicArrow extends Item {
     }
 
     @Override
-    public void onArrowDamage(LivingEntity entity, Player player, Arrow arrow, double damage) {
+    public double onArrowDamage(LivingEntity entity, Player player, Arrow arrow, double damage) {
         entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 160, 0));
         entity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 160, 0));
         entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 160, 0));
+        return damage;
     }
 }

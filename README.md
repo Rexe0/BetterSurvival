@@ -54,6 +54,7 @@ This is a plugin that contains several features that I think would improve the c
 - Placing an Amethyst Shard as a fletching ingredient makes the arrow shatter into 3 small shards when hitting an enemy. These shards deal the same damage as the original arrow. 
 - Placing TNT as a fletching ingredient make the arrow explode when hitting an enemy
 - Placing a Red Mushroom as a fletching ingredient makes the arrow inflict blindness, slowness and nausea for 8 seconds
+- Placing an Echo Shard as a fletching ingredient makes the arrow travel twice as fast
 - Placing a Glowstone Block as a fletching ingredient gives spectral arrows
 
 **Mobs:**

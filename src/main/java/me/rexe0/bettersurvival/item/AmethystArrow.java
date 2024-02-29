@@ -16,10 +16,11 @@ public class AmethystArrow extends Item {
     }
 
     @Override
-    public void onArrowDamage(LivingEntity entity, Player player, Arrow arrow, double damage) {
+    public double onArrowDamage(LivingEntity entity, Player player, Arrow arrow, double damage) {
         arrow.getWorld().playSound(arrow.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_BREAK, 1, 1.5f);
         for (int i = 0; i < 3; i++)
             new AmethystShard(arrow, arrow.getLocation(), entity, damage).getRunnable().runTaskTimer(BetterSurvival.getInstance(), 0, 1);
+        return damage;
     }
 
     private static class AmethystShard {
