@@ -62,7 +62,10 @@ public class ItemListener implements Listener {
     @EventHandler
     public void onConsume(PlayerItemConsumeEvent e) {
         for (ItemType itemType : ItemType.values())
-            itemType.getItem().onConsume(e.getPlayer());
+            if (ItemDataUtil.isItem(e.getItem(), itemType.getItem().getID())) {
+                itemType.getItem().onConsume(e.getPlayer());
+                break;
+            }
     }
 
     @EventHandler
