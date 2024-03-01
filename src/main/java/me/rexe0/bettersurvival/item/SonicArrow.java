@@ -16,7 +16,7 @@ public class SonicArrow extends Item {
 
     @Override
     public double onArrowDamage(LivingEntity entity, Player player, Arrow arrow, double damage) {
-        return damage*0.5; // Halve damage as speed is doubled
+        return damage*0.75; // Reduce damage. Idk how much to actually reduce because doubling the speed doesn't actually double the damage I think.
     }
 
     @Override
@@ -29,7 +29,7 @@ public class SonicArrow extends Item {
                     cancel();
                     return;
                 }
-                arrow.getWorld().spawnParticle(Particle.SONIC_BOOM, arrow.getLocation(), 1, 0, 0, 0, 0);
+                arrow.getWorld().spawnParticle(Particle.SONIC_BOOM, arrow.getLocation(), 1, 0, 0, 0, 0, null, true);
             }
         }.runTaskTimer(BetterSurvival.getInstance(), 0, 1);
     }

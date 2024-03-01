@@ -19,14 +19,14 @@ public class AmethystArrow extends Item {
     public double onArrowDamage(LivingEntity entity, Player player, Arrow arrow, double damage) {
         arrow.getWorld().playSound(arrow.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_BREAK, 1, 1.5f);
         for (int i = 0; i < 3; i++)
-            new AmethystShard(arrow, arrow.getLocation(), entity, damage).getRunnable().runTaskTimer(BetterSurvival.getInstance(), 0, 1);
-        return damage;
+            new AmethystShard(player, arrow.getLocation(), entity, damage).getRunnable().runTaskTimer(BetterSurvival.getInstance(), 0, 1);
+        return damage+2;
     }
 
     private static class AmethystShard {
         private static final Particle.DustOptions COLOR = new Particle.DustOptions(Color.fromRGB(200, 0, 255), 0.7f);
 
-        private final Arrow arrow;
+        private final Player player;
         private final Location location;
         private final Vector direction;
         private final LivingEntity entity; // The entity to ignore
@@ -34,23 +34,31 @@ public class AmethystArrow extends Item {
         private boolean isFinished;
         private int i = 0;
 
-        public AmethystShard(Arrow arrow, Location location, LivingEntity entity, double damage) {
-            this.arrow = arrow;
+        public AmethystShard(Player player, Location location, LivingEntity entity, double damage) {
+            this.player = player;
             this.entity = entity;
             this.location = location;
             this.damage = damage;
             this.direction = new Vector(RandomUtil.getRandom().nextDouble(-1, 1)
                     , RandomUtil.getRandom().nextDouble(0, 1)
-                    , RandomUtil.getRandom().nextDouble(-1, 1)).multiply(0.2); // 4 blocks per second
+                    , RandomUtil.getRandom().nextDouble(-1, 1)).multiply(0.4); // 8 blocks per second
         }
 
         private void run() {
-            if (i == 10) {
+            if (i == 5) {
                 isFinished = true;
                 return;
             }
 
-            location.getWorld().spawnParticle(Particle.REDSTONE, location, 1, 0, 0, 0, 0, COLOR);
+            // TODO: Track nearest enemy slightly - Without tracking the shards feel useless
+
+
+            direction.multiply(0.25);
+            for (int i = 0; i < 4; i++) {
+                location.add(direction);
+                location.getWorld().spawnParticle(Particle.REDSTONE, location, 1, 0, 0, 0, 0, COLOR);
+            }
+            direction.multiply(4);
             for (Entity en : location.getWorld().getNearbyEntities(location, 3, 3, 3)) {
                 if (!(en instanceof LivingEntity living)) continue;
                 if (living.equals(entity)) continue;
@@ -59,11 +67,10 @@ public class AmethystArrow extends Item {
             }
 
             i++;
-            direction.setY(direction.getY()-0.01);
-            location.add(direction);
+            direction.setY(direction.getY()-0.03);
         }
         private void damage(LivingEntity target) {
-            target.damage(damage, arrow);
+            target.damage(damage, player);
 
             isFinished = true;
         }

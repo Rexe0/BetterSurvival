@@ -63,6 +63,6 @@ public enum ItemType {
         return this == RESONANT_FISHING_ROD;
     }
     public boolean isArrow() {
-        return this == AMETHYST_ARROW || this == EXPLOSIVE_ARROW || this == TOXIC_ARROW;
+        return this == AMETHYST_ARROW || this == EXPLOSIVE_ARROW || this == TOXIC_ARROW || this == SONIC_ARROW;
     }
 }
