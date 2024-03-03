@@ -262,12 +262,12 @@ public class SeasonListener {
                         if (below.getType().isOccluding() || Tag.LEAVES.isTagged(below.getType())) {
                             above.setType(Material.SNOW);
                             Snow data = (Snow) above.getBlockData();
-                            data.setLayers(7);
+                            data.setLayers(5);
                             above.setBlockData(data);
                         } else above.setType(Material.AIR);
                     } else if (above.getType() == Material.SNOW) {
                         Snow data = (Snow) above.getBlockData();
-                        int layers = data.getLayers() - 2;
+                        int layers = data.getLayers() - 3;
                         if (layers <= 0) above.setType(Material.AIR);
                         else {
                             data.setLayers(layers);
