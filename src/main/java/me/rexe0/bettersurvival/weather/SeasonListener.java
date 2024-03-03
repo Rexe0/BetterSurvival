@@ -229,7 +229,8 @@ public class SeasonListener {
                 case SUMMER, WINTER -> 0.5;
             };
             if (RandomUtil.getRandom().nextDouble() < rainChance) {
-                // Storm Chance
+                // If the rain happens, the chance of a storm happening instead (blizzard in winter)
+                rainChance = season == Season.SUMMER ? 0.6 : 0.3;
                 if (RandomUtil.getRandom().nextDouble() < rainChance)
                     weatherForecast = season == Season.WINTER ? Weather.BLIZZARD : Weather.STORM;
                 else
