@@ -151,7 +151,12 @@ public class FletchingTableGUI implements Listener {
             return;
         }
         inv.setItem(10, null);
-        inv.setItem(12, null);
+
+        ItemStack ingredient = inv.getItem(12);
+        int amount = ingredient.getAmount()-1;
+        if (amount == 0)
+            inv.setItem(12, null);
+        else ingredient.setAmount(amount);
 
         Player player = ((Player)e.getWhoClicked());
         player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 1, 1);
