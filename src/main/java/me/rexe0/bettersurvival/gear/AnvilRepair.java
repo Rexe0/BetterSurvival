@@ -29,7 +29,7 @@ public class AnvilRepair implements Listener {
         repairValue.put(ItemType.DRAGON_SCALE.getItem().getItem(), 1.0);
 
         repairMaterial.put(Material.TRIDENT, new ItemStack(Material.PRISMARINE_CRYSTALS));
-        repairValue.put(new ItemStack(Material.PRISMARINE_CRYSTALS), 0.1);
+        repairValue.put(new ItemStack(Material.PRISMARINE_CRYSTALS), 0.2);
     }
 
     @EventHandler
