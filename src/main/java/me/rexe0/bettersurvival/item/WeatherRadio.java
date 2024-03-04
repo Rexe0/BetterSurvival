@@ -37,6 +37,7 @@ public class WeatherRadio extends Item {
             case CLEAR -> net.md_5.bungee.api.ChatColor.of(new Color(255, 221, 54))+"It will be clear and sunny all day tomorrow.";
             case RAIN -> net.md_5.bungee.api.ChatColor.of(new Color(166, 212, 255))+"It's going to rain all day tomorrow.";
             case STORM -> net.md_5.bungee.api.ChatColor.of(new Color(99, 112, 255))+"A storm is brewing tomorrow. Expect heavy rain, thunder and lightning.";
+            case TEMPEST -> net.md_5.bungee.api.ChatColor.of(new Color(26, 46, 255))+"A tempest will hit tomorrow. Expect thick fog and torrential rain with constant lightning storms.";
             case SNOW -> net.md_5.bungee.api.ChatColor.of(new Color(219, 245, 255))+"Its going to snow all day tomorrow.";
             case BLIZZARD -> net.md_5.bungee.api.ChatColor.of(new Color(92, 228, 255))+"A blizzard is approaching tomorrow. Stay inside or stay warm.";
             case WINDY -> net.md_5.bungee.api.ChatColor.of(season == Season.AUTUMN ? new Color(255, 94, 0)

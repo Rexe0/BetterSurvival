@@ -94,7 +94,8 @@ public class CatchListener implements Listener {
 
         // If its raining, reduce fishing time by 10%
         if (SeasonListener.getCurrentWeather() == SeasonListener.Weather.RAIN
-                || SeasonListener.getCurrentWeather() == SeasonListener.Weather.STORM) {
+                || SeasonListener.getCurrentWeather() == SeasonListener.Weather.STORM
+                || SeasonListener.getCurrentWeather() == SeasonListener.Weather.TEMPEST) {
             min *= 0.9;
             max *= 0.9;
         }

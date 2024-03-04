@@ -101,6 +101,7 @@ This is a plugin that contains several features that I think would improve the c
 - Grass and Foliage colour changes in the autumn (Upon reconnect)
 - Weather now starts at the start of the day and lasts until the next morning.
 - Rain and Storms are more common in the Summer but can't occur during Winter
+- There is a small chance for a Tempest to occur during the Summer where lightning storms can happen throughout the day and a thick fog prevents you from seeing far away when outside
 - Snowy days and Blizzards can happen in Winter in which snow starts to fall in biomes where it usually doesn't
 - Blizzards allow snow to pile up substantially and become powder snow
 - Blizzards cause players out in the open to freeze and take damage. This effect is reduced by wearing leather armor.

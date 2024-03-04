@@ -144,12 +144,42 @@ public class SeasonListener {
                 world.setStorm(true);
                 world.setThundering(false);
             }
-            case STORM -> {
+            case STORM,TEMPEST -> {
                 world.setStorm(true);
                 world.setThundering(true);
             }
         }
 
+
+
+        if (currentWeather == Weather.TEMPEST) {
+            for (Player player : world.getPlayers()) {
+                if (RandomUtil.getRandom().nextInt(100) == 0) {
+                    int x = player.getLocation().getBlockX() + RandomUtil.getRandom().nextInt(-150, 150);
+                    int z = player.getLocation().getBlockZ() + RandomUtil.getRandom().nextInt(-150, 150);
+
+                    world.strikeLightning(world.getHighestBlockAt(x, z).getLocation().add(0, 1, 0));
+                }
+
+                Location loc = player.getEyeLocation();
+
+                if (world.getGameTime() % 20 != 0 || loc.getY() <= world.getHighestBlockYAt(loc.getBlockX(), loc.getBlockZ())) continue;
+
+                double x, y, z;
+                for (int t = 0; t < Math.PI; t += Math.PI / 180) {
+                    double sinT = Math.sin(t);
+                    y = 30 * Math.cos(t);
+                    for (int s = 0; s < Math.PI * 2; s += Math.PI / 180) {
+                        x = 30 * Math.cos(s) * sinT;
+                        z = 30 * Math.sin(s) * sinT;
+
+                        loc.add(x, y, z);
+                        world.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, loc, 1, 0, 0, 0, 0);
+                        loc.subtract(x, y, z);
+                    }
+                }
+            }
+        }
         if (currentWeather == Weather.WINDY) {
             for (Player player : world.getPlayers()) {
                 Location loc = player.getLocation();
@@ -197,21 +227,16 @@ public class SeasonListener {
 
             if (weatherForecast != null) {
                 switch (weatherForecast) {
-                    case CLEAR -> currentWeather = Weather.CLEAR;
                     case RAIN -> {
-                        currentWeather = Weather.RAIN;
                         world.setStorm(true);
                         world.setThundering(false);
                     }
-                    case STORM -> {
-                        currentWeather = Weather.STORM;
+                    case STORM, TEMPEST -> {
                         world.setStorm(true);
                         world.setThundering(true);
                     }
-                    case SNOW -> currentWeather = Weather.SNOW;
-                    case BLIZZARD -> currentWeather = Weather.BLIZZARD;
-                    case WINDY -> currentWeather = Weather.WINDY;
                 }
+                currentWeather = weatherForecast;
                 weatherForecast = null;
             }
 
@@ -231,9 +256,12 @@ public class SeasonListener {
             if (RandomUtil.getRandom().nextDouble() < rainChance) {
                 // If the rain happens, the chance of a storm happening instead (blizzard in winter)
                 rainChance = season == Season.SUMMER ? 0.6 : 0.3;
-                if (RandomUtil.getRandom().nextDouble() < rainChance)
-                    weatherForecast = season == Season.WINTER ? Weather.BLIZZARD : Weather.STORM;
-                else
+                if (RandomUtil.getRandom().nextDouble() < rainChance) {
+                    if (season == Season.SUMMER && RandomUtil.getRandom().nextDouble() < 0.2)
+                        weatherForecast = Weather.TEMPEST;
+                    else
+                        weatherForecast = season == Season.WINTER ? Weather.BLIZZARD : Weather.STORM;
+                } else
                     weatherForecast = season == Season.WINTER ? Weather.SNOW : Weather.RAIN;
             } else {
                 if (season == Season.SPRING || season == Season.AUTUMN)
@@ -310,6 +338,7 @@ public class SeasonListener {
         CLEAR,
         RAIN,
         STORM,
+        TEMPEST,
         SNOW,
         BLIZZARD,
         WINDY

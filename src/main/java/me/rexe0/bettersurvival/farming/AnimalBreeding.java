@@ -1,6 +1,7 @@
 package me.rexe0.bettersurvival.farming;
 
 import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.weather.Season;
 import org.bukkit.Particle;
 import org.bukkit.entity.Breedable;
 import org.bukkit.event.EventHandler;
@@ -18,7 +19,12 @@ public class AnimalBreeding implements Listener {
         for (Breedable entity : mother.getWorld().getEntitiesByClass(mother.getClass()))
             if (entity.getLocation().distanceSquared(mother.getLocation()) < 4) amount++;
 
-        int age = amount > 5 ? 0 : 24000;
+        int time = switch (Season.getSeason()) {
+            default -> 24000;
+            case AUTUMN -> 30000;
+            case WINTER -> 36000;
+        };
+        int age = amount > 5 ? 0 : time;
 
         if (amount > 5) {
             mother.getWorld().spawnParticle(Particle.VILLAGER_ANGRY, mother.getLocation().add(0, 1, 0)

@@ -30,7 +30,8 @@ public class GrowthModifier implements Listener {
 
         // If its raining, increase growth chance by 20%
         if (SeasonListener.getCurrentWeather() == SeasonListener.Weather.RAIN
-        || SeasonListener.getCurrentWeather() == SeasonListener.Weather.STORM) growthChance += 0.2;
+                || SeasonListener.getCurrentWeather() == SeasonListener.Weather.STORM
+                || SeasonListener.getCurrentWeather() == SeasonListener.Weather.TEMPEST) growthChance += 0.2;
 
         // If there is a sniffer within 20 blocks of the crop, increase the growth chance by 20%
         for (Sniffer sniffer : block.getWorld().getEntitiesByClass(Sniffer.class)) {
