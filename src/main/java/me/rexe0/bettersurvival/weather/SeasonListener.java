@@ -154,29 +154,11 @@ public class SeasonListener {
 
         if (currentWeather == Weather.TEMPEST) {
             for (Player player : world.getPlayers()) {
-                if (RandomUtil.getRandom().nextInt(100) == 0) {
+                if (RandomUtil.getRandom().nextInt(200) == 0) {
                     int x = player.getLocation().getBlockX() + RandomUtil.getRandom().nextInt(-150, 150);
                     int z = player.getLocation().getBlockZ() + RandomUtil.getRandom().nextInt(-150, 150);
 
                     world.strikeLightning(world.getHighestBlockAt(x, z).getLocation().add(0, 1, 0));
-                }
-
-                Location loc = player.getEyeLocation();
-
-                if (world.getGameTime() % 20 != 0 || loc.getY() <= world.getHighestBlockYAt(loc.getBlockX(), loc.getBlockZ())) continue;
-
-                double x, y, z;
-                for (int t = 0; t < Math.PI; t += Math.PI / 180) {
-                    double sinT = Math.sin(t);
-                    y = 30 * Math.cos(t);
-                    for (int s = 0; s < Math.PI * 2; s += Math.PI / 180) {
-                        x = 30 * Math.cos(s) * sinT;
-                        z = 30 * Math.sin(s) * sinT;
-
-                        loc.add(x, y, z);
-                        world.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, loc, 1, 0, 0, 0, 0);
-                        loc.subtract(x, y, z);
-                    }
                 }
             }
         }
