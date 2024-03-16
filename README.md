@@ -19,6 +19,7 @@ This is a plugin that contains several features that I think would improve the c
 - Right clicking a filled water cauldron with a fire/campfire underneath it with soup/stew ingredients will place the ingredients within the cauldron
 - If you place all the necessary ingredients for a soup within that cauldron, it will play a distinct sound, indicating that the soup has been cooked (Rabbit Stew requires both mushrooms instead of only one)
 - Right clicking a cauldron full of soup with a bowl will grant you that soup in its bowl form, allowing it to be eaten. This can be done up to three times.
+- Farmer Boots can be made using 4 leather and 2 copper ingots which prevent players from breaking crops when worn
 
 **Ores and Mining:**
 - Natural ore generation for iron, gold and ancient debris have been reduced
