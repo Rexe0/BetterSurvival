@@ -67,6 +67,13 @@ public class ItemListener implements Listener {
                 break;
             }
     }
+    @EventHandler
+    public void onBreakCrops(PlayerInteractEvent e) {
+        if (e.getAction() != Action.PHYSICAL) return;
+        ItemStack item = e.getPlayer().getEquipment().getBoots();
+        if (!ItemDataUtil.isItem(item, ItemType.FARMER_BOOTS.getItem().getID())) return;
+        e.setCancelled(true);
+    }
 
     @EventHandler
     public void onPlant(PlayerInteractEvent e) {
