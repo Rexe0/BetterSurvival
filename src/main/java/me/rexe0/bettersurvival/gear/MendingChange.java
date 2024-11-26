@@ -1,5 +1,6 @@
 package me.rexe0.bettersurvival.gear;
 
+import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.util.RandomUtil;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,6 +11,7 @@ import org.bukkit.inventory.meta.Repairable;
 public class MendingChange implements Listener {
     @EventHandler
     public void onMend(PlayerItemMendEvent e) {
+        if (!BetterSurvival.getConfigLoader().isMendingChanges()) return;
         e.setCancelled(true);
 
         ItemStack item = e.getItem();

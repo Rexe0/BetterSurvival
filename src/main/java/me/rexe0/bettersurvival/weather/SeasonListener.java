@@ -185,7 +185,7 @@ public class SeasonListener {
                 Biome biome = ((CraftWorld) world).getHandle().getBiome(new BlockPos(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ())).value();
                 if (biome.climateSettings.temperature() >= 0.95) continue;
 
-                if (currentWeather == Weather.BLIZZARD) {
+                if (currentWeather == Weather.BLIZZARD && BetterSurvival.getConfigLoader().isBlizzardHarmful()) {
                     // Leather armor slows or stops rate of freezing, At 2 leather pieces, no freezing should occur
                     int leather = getLeatherPiecesWorn(player);
                     if (leather == 0 || (leather == 1 && world.getGameTime() % 2 == 0))
@@ -287,15 +287,23 @@ public class SeasonListener {
                     above = above.getLocation().add(0, 1, 0).getBlock();
                 }
 
+            boolean isHarmfulBlizzard = BetterSurvival.getConfigLoader().isBlizzardHarmful();
             // Snow fals during blizzards and snowy days, in certain cold-warm biomes
             if (biome.climateSettings.temperature() < 0.95 && (currentWeather == Weather.SNOW || currentWeather == Weather.BLIZZARD)) {
                 // nextBoolean decreases chance for snow to fall in a regular snowy day
-                if (above.getType() == Material.AIR || above.getType() == Material.SHORT_GRASS || above.getType() == Material.TALL_GRASS
-                        && (currentWeather == Weather.BLIZZARD || RandomUtil.getRandom().nextBoolean())) {
-                    above.setType(Material.SNOW);
+                if (above.getType() == Material.AIR || above.getType() == Material.SHORT_GRASS || above.getType() == Material.TALL_GRASS) {
+                    boolean shouldSnow;
+
+                    if (isHarmfulBlizzard)
+                        shouldSnow = (currentWeather == Weather.BLIZZARD || RandomUtil.getRandom().nextBoolean());
+                    else
+                        shouldSnow = RandomUtil.getRandom().nextBoolean();
+
+                    if (shouldSnow)
+                        above.setType(Material.SNOW);
                 } else if (above.getType() == Material.SNOW && currentWeather == Weather.BLIZZARD) {
                     Snow data = (Snow) above.getBlockData();
-                    int layers = data.getLayers() + 1;
+                    int layers = Math.min(isHarmfulBlizzard ? data.getMaximumLayers() : 2, data.getLayers() + 1);
 
                     if (layers >= data.getMaximumLayers()) above.setType(Material.POWDER_SNOW);
                     else {

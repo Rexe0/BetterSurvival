@@ -1,5 +1,6 @@
 package me.rexe0.bettersurvival.gear;
 
+import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.item.ItemType;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -34,6 +35,7 @@ public class AnvilRepair implements Listener {
 
     @EventHandler
     public void onPrepare(PrepareAnvilEvent e) {
+        if (!BetterSurvival.getConfigLoader().isMendingChanges()) return;
         ItemStack tool = e.getInventory().getItem(0);
         ItemStack repairItem = e.getInventory().getItem(1);
 
@@ -66,6 +68,7 @@ public class AnvilRepair implements Listener {
 
     @EventHandler
     public void click(InventoryClickEvent e) {
+        if (!BetterSurvival.getConfigLoader().isMendingChanges()) return;
         Player player = (Player) e.getWhoClicked();
         if (!(e.getInventory() instanceof AnvilInventory inv)) return;
         if (e.getSlot() != 2) return;
@@ -116,6 +119,7 @@ public class AnvilRepair implements Listener {
 
     @EventHandler
     public void onPrepareNetherite(PrepareAnvilEvent e) {
+        if (!BetterSurvival.getConfigLoader().isMendingChanges()) return;
         ItemStack tool = e.getInventory().getItem(0);
         ItemStack repairItem = e.getInventory().getItem(1);
 
@@ -142,6 +146,7 @@ public class AnvilRepair implements Listener {
 
     @EventHandler
     public void clickNetherite(InventoryClickEvent e) {
+        if (!BetterSurvival.getConfigLoader().isMendingChanges()) return;
         Player player = (Player) e.getWhoClicked();
         if (!(e.getInventory() instanceof AnvilInventory inv)) return;
         if (e.getSlot() != 2) return;

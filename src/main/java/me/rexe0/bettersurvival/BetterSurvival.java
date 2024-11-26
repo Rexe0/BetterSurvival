@@ -1,5 +1,6 @@
 package me.rexe0.bettersurvival;
 
+import me.rexe0.bettersurvival.config.ConfigLoader;
 import me.rexe0.bettersurvival.farming.*;
 import me.rexe0.bettersurvival.fishing.CatchListener;
 import me.rexe0.bettersurvival.fishing.FishFile;
@@ -32,6 +33,11 @@ public final class BetterSurvival extends JavaPlugin {
     private static final String defaultWorld = "world";
 
     private Map<NamespacedKey, Recipe> recipes;
+    private static ConfigLoader configLoader;
+
+    public static ConfigLoader getConfigLoader() {
+        return configLoader;
+    }
 
     public World getDefaultWorld() {
         return Bukkit.getWorld(defaultWorld);
@@ -54,6 +60,10 @@ public final class BetterSurvival extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+
+        ConfigLoader loader = new ConfigLoader(getConfig());
+        getCommand("bettersurvivalreload").setExecutor(loader);
+        configLoader = loader;
 
         FishFile.fileCheck();
         FishFile.loadData();

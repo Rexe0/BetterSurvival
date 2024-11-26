@@ -1,0 +1,6 @@
+# Enables the mending changes which prevents the mending enchantment from healing items by picking up exp
+# Instead it reduces anvil cost when picking up exp, which allows players to repair items constantly with materials
+enable-mending-changes: true
+# When this setting is enabled, blizzards will deal damage to players who are not wearing a piece of leather armour
+# Additionally, snow will stack up much faster and eventually become powdered snow
+enable-blizzard-harmful: true
