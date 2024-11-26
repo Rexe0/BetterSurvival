@@ -28,7 +28,7 @@ public class HorseBreeding implements Listener {
 
         EntityDataUtil.setDoubleValue(horse, "horseHealth0", firstAllele);
         EntityDataUtil.setDoubleValue(horse, "horseHealth1", secondAllele);
-        horse.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue((firstAllele+secondAllele)/2);
+        horse.getAttribute(Attribute.MAX_HEALTH).setBaseValue((firstAllele+secondAllele)/2);
         horse.setHealth((firstAllele+secondAllele)/2);
     }
     private void setSpeed(Horse horse, double firstAllele, double secondAllele) {
@@ -38,7 +38,7 @@ public class HorseBreeding implements Listener {
 
         EntityDataUtil.setDoubleValue(horse, "horseSpeed0", firstAllele);
         EntityDataUtil.setDoubleValue(horse, "horseSpeed1", secondAllele);
-        horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue((firstAllele+secondAllele)/2);
+        horse.getAttribute(Attribute.MOVEMENT_SPEED).setBaseValue((firstAllele+secondAllele)/2);
     }
     private void setJumpHeight(Horse horse, double firstAllele, double secondAllele) {
         firstAllele = mutateGene(firstAllele, JUMP_MIN, JUMP_MAX);
@@ -47,7 +47,7 @@ public class HorseBreeding implements Listener {
 
         EntityDataUtil.setDoubleValue(horse, "horseJump0", firstAllele);
         EntityDataUtil.setDoubleValue(horse, "horseJump1", secondAllele);
-        horse.getAttribute(Attribute.HORSE_JUMP_STRENGTH).setBaseValue((firstAllele+secondAllele)/2);
+        horse.getAttribute(Attribute.JUMP_STRENGTH).setBaseValue((firstAllele+secondAllele)/2);
     }
 
     private double mutateGene(double allele, double min, double max) {

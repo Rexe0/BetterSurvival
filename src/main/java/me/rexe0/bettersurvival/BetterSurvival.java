@@ -68,8 +68,6 @@ public final class BetterSurvival extends JavaPlugin {
         FishFile.fileCheck();
         FishFile.loadData();
 
-        VillagerChange.limitMinorPositiveMax();
-
         getServer().getPluginManager().registerEvents(new WorldGeneration(), this);
         getServer().getPluginManager().registerEvents(new AnvilRepair(), this);
         getServer().getPluginManager().registerEvents(new ElderGuardianDrops(), this);

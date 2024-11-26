@@ -116,7 +116,7 @@ public class EnderDragonChanges implements Listener {
                         RandomUtil.getRandom().nextInt(-80, 80)).getLocation();
                 location.getWorld().strikeLightning(location);
 
-                double maxHealth = dragon.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+                double maxHealth = dragon.getAttribute(Attribute.MAX_HEALTH).getValue();
                 dragon.setHealth(Math.min(maxHealth, dragon.getHealth()+maxHealth/200));
 
                 i++;

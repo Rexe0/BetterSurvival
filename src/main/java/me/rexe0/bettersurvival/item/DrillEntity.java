@@ -113,7 +113,7 @@ public class DrillEntity {
 
         for (Block blk : blocks)
             if (blk.getType().isBlock()) {
-                blk.getWorld().spawnParticle(Particle.BLOCK_CRACK, blk.getLocation().add(0.5, 0.5, 0.5), 30, 0.4, 0.4, 0.4, 0, blk.getType().createBlockData());
+                blk.getWorld().spawnParticle(Particle.BLOCK, blk.getLocation().add(0.5, 0.5, 0.5), 30, 0.4, 0.4, 0.4, 0, blk.getType().createBlockData());
 
                 PersistentDataContainer data1 = new CustomBlockData(blk, BetterSurvival.getInstance());
                 if (data1.has(DrillEntity.key, PersistentDataType.BOOLEAN)) {
@@ -157,7 +157,7 @@ public class DrillEntity {
         // Effects
         location.getWorld().playSound(location, Sound.ENTITY_BLAZE_SHOOT, 0.5f, 0);
         location.getWorld().playSound(location, Sound.BLOCK_STONE_BREAK, 0.7f, 1);
-        location.getWorld().spawnParticle(Particle.SMOKE_LARGE, location.clone().add(0.5, 0.8, 0.5), 10, 0.1, 0.1, 0.1, 0);
+        location.getWorld().spawnParticle(Particle.LARGE_SMOKE, location.clone().add(0.5, 0.8, 0.5), 10, 0.1, 0.1, 0.1, 0);
 
     }
 

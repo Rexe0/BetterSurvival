@@ -56,7 +56,7 @@ public class AmethystArrow extends Item {
             direction.multiply(0.25);
             for (int i = 0; i < 4; i++) {
                 location.add(direction);
-                location.getWorld().spawnParticle(Particle.REDSTONE, location, 1, 0, 0, 0, 0, COLOR);
+                location.getWorld().spawnParticle(Particle.DUST, location, 1, 0, 0, 0, 0, COLOR);
             }
             direction.multiply(4);
             for (Entity en : location.getWorld().getNearbyEntities(location, 3, 3, 3)) {

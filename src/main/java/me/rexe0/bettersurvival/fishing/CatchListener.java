@@ -15,7 +15,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.block.Biome;
-import org.bukkit.craftbukkit.v1_20_R3.entity.CraftFishHook;
+import org.bukkit.craftbukkit.v1_21_R2.entity.CraftFishHook;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.FishHook;
 import org.bukkit.entity.Item;
@@ -108,7 +108,7 @@ public class CatchListener implements Listener {
         e.getHook().setMinWaitTime(min);
         e.getHook().setMaxWaitTime(max);
 
-        EntityDataUtil.setIntegerValue(e.getHook(), "luckLevel", fishingRod.getEnchantmentLevel(Enchantment.LUCK));
+        EntityDataUtil.setIntegerValue(e.getHook(), "luckLevel", fishingRod.getEnchantmentLevel(Enchantment.LUCK_OF_THE_SEA));
 
         FishingHook hook = ((CraftFishHook)e.getHook()).getHandle();
         hook.applyLure = false;

@@ -27,7 +27,7 @@ public class AnimalBreeding implements Listener {
         int age = amount > 5 ? 0 : time;
 
         if (amount > 5) {
-            mother.getWorld().spawnParticle(Particle.VILLAGER_ANGRY, mother.getLocation().add(0, 1, 0)
+            mother.getWorld().spawnParticle(Particle.ANGRY_VILLAGER, mother.getLocation().add(0, 1, 0)
                     , 10, 0.3, 0.15, 0.3, 0);
             e.setCancelled(true);
         }

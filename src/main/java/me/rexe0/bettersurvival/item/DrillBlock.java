@@ -30,9 +30,10 @@ public class DrillBlock extends Item {
         ItemStack item = super.getItem();
         ItemMeta meta = item.getItemMeta();
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
         item.setItemMeta(meta);
 
-        item.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+        item.addUnsafeEnchantment(Enchantment.PROTECTION, 1);
         return item;
     }
 

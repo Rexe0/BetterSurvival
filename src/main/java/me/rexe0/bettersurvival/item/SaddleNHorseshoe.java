@@ -21,8 +21,9 @@ public class SaddleNHorseshoe extends Item {
         ItemStack item = super.getItem();
         ItemMeta meta = item.getItemMeta();
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
         item.setItemMeta(meta);
-        item.addUnsafeEnchantment(Enchantment.ARROW_DAMAGE, 1);
+        item.addUnsafeEnchantment(Enchantment.POWER, 1);
         return item;
     }
 
@@ -30,7 +31,7 @@ public class SaddleNHorseshoe extends Item {
         ItemStack item = ItemType.SADDLE_N_HORSESHOE.getItem().getItem();
         return new SmithingTransformRecipe(new NamespacedKey(BetterSurvival.getInstance(), getID()),
                 item,
-                new RecipeChoice.MaterialChoice(Material.AIR),
+                new RecipeChoice.MaterialChoice(Material.IRON_BLOCK),
                 new RecipeChoice.MaterialChoice(Material.SADDLE),
                 new RecipeChoice.MaterialChoice(Material.IRON_BLOCK));
     }

@@ -25,16 +25,17 @@ public class Cornucopia extends Item {
     public void onConsume(Player player) {
         player.setFoodLevel(Math.min(20, player.getFoodLevel()+FOOD_INCREASE));
         player.setSaturation(Math.min(player.getFoodLevel(), player.getSaturation()+SATURATION_INCREASE));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 40, 0, true, false));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, 40, 0, true, false));
     }
     @Override
     public ItemStack getItem() {
         ItemStack item = super.getItem();
         ItemMeta meta = item.getItemMeta();
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
         item.setItemMeta(meta);
 
-        item.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+        item.addUnsafeEnchantment(Enchantment.PROTECTION, 1);
         return item;
     }
     @Override

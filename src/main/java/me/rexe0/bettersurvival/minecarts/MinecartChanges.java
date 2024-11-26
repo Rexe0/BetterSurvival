@@ -11,8 +11,8 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.Dispenser;
 import org.bukkit.block.data.Directional;
 import org.bukkit.block.data.type.RedstoneRail;
-import org.bukkit.craftbukkit.v1_20_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_20_R3.entity.CraftMinecartFurnace;
+import org.bukkit.craftbukkit.v1_21_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_21_R2.entity.CraftMinecartFurnace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Minecart;
@@ -56,7 +56,7 @@ public class MinecartChanges implements Listener {
     public void onSpawn(VehicleCreateEvent e) {
         if (!(e.getVehicle() instanceof Minecart minecart)) return;
         minecart.setFlyingVelocityMod(new Vector(1.4, 0.95, 1.4));
-        if (minecart.getType() != EntityType.MINECART_FURNACE) return;
+        if (minecart.getType() != EntityType.FURNACE_MINECART) return;
         if (EntityDataUtil.getStringValue(minecart, "isCustomMinecartFurnace").equals("true")) return;
         // Run 1 tick later to prevent ghost item from spawning
         Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> {
@@ -79,7 +79,7 @@ public class MinecartChanges implements Listener {
         Block target = e.getBlock().getLocation().add(face.getDirection()).getBlock();
 
         Optional<Entity> furnace = target.getWorld().getNearbyEntities(target.getLocation(), 1.5, 1.5, 1.5).stream()
-                .filter(en -> en.getType() == EntityType.MINECART_FURNACE)
+                .filter(en -> en.getType() == EntityType.FURNACE_MINECART)
                 .findFirst();
 
         if (furnace.isEmpty()) return;
@@ -90,12 +90,17 @@ public class MinecartChanges implements Listener {
         MinecartFurnace minecart = ((CraftMinecartFurnace) furnace.get()).getHandle();
 
         // The minecart will go always to the left of the dispenser
-        switch (face) {
-            case EAST -> minecart.zPush = -1;
-            case NORTH -> minecart.xPush = -1;
-            case WEST -> minecart.zPush = 1;
-            case SOUTH -> minecart.xPush = 1;
-        }
+        double x = switch (face) {
+            default -> 0;
+            case NORTH -> -1;
+            case SOUTH -> 1;
+        };
+        double z = switch (face) {
+            default -> 0;
+            case EAST -> -1;
+            case WEST -> 1;
+        };
+        minecart.push(x, 0, z);
 
         minecart.fuel += Math.min(3600, 32767);
 

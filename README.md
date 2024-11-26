@@ -29,7 +29,6 @@ This is a plugin that contains several features that I think would improve the c
 - The Drill Block can now be crafted using 7 Copper Blocks, 1 Redstone Dust and 1 Diamond Pickaxe. When placed and fed coal as fuel, it starts digging a 3x3 tunnel in the direction it is facing. However, it can not break certain blocks that are too 'hard' (Example: Obsidian, Bedrock, etc.).
 
 **Villagers:**
-- Villagers will no longer grant huge discounts to players that have cured them. They can still grant small discounts from curing that will eventually spread to other villagers that they talk to. (This prevents trades that are far too cheap and also encourages the completion of raids)
 - Wandering Traders will now always sell either a Stopwatch (When held shows your current speed in km/h), Metal Detector (Detects any ores a few blocks under you when held) or a Fish Codex (see Fishing section) 
 
 **Minecarts:**
@@ -94,7 +93,7 @@ This is a plugin that contains several features that I think would improve the c
 - Maximum horse stats increased, especially speed (Up to 21.5 blocks/s)
 - Horse breeding and stats now work on a completely new system. Every naturally spawned horse has two randomly chosen alleles for each gene (health, speed and jumpheight). Its actual speed/health/jump height is the average value between its two alleles.
 - When two horses breed, the foul inherits two of the four alleles from its parents with a slight chance of positive or negative mutation.
-- Added Saddle 'n' Horseshoe which halves the fall damage a horse takes when worn. Can be crafted by combining a saddle and iron block at a smithing table.
+- Added Saddle 'n' Horseshoe which halves the fall damage a horse takes when worn. Can be crafted by combining a saddle and 2 iron blocks at a smithing table.
 
 **Seasons:**
 - Added Seasons to the game. Every world starts in Spring, with each season lasting 30 in game days.

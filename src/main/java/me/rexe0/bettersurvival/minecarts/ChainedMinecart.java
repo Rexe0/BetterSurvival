@@ -25,7 +25,7 @@ public class ChainedMinecart implements Listener {
     public static void run() {
         for (World world : Bukkit.getWorlds())
             for (Minecart minecart : world.getEntitiesByClass(Minecart.class)) {
-                if (minecart.getType() == EntityType.MINECART_FURNACE) {
+                if (minecart.getType() == EntityType.FURNACE_MINECART) {
                     Chunk chunk = minecart.getLocation().getChunk();
                     boolean successful = chunk.addPluginChunkTicket(BetterSurvival.getInstance());
 
@@ -68,7 +68,7 @@ public class ChainedMinecart implements Listener {
         direction.normalize().multiply(0.25);
         for (double i = 0; i < origin.distance(target); i += 0.25) {
             origin.add(direction);
-            origin.getWorld().spawnParticle(Particle.REDSTONE, origin, 1, 0, 0, 0, 0, COLOR);
+            origin.getWorld().spawnParticle(Particle.DUST, origin, 1, 0, 0, 0, 0, COLOR);
         }
 
 

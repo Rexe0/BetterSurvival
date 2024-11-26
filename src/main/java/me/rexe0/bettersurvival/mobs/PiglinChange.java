@@ -39,8 +39,8 @@ public class PiglinChange implements Listener {
         e.setCancelled(true);
 
         Piglin piglin = (Piglin) zombie.getWorld().spawnEntity(zombie.getLocation(), EntityType.PIGLIN);
-        piglin.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(32);
-        piglin.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(32);
+        piglin.getAttribute(Attribute.MAX_HEALTH).setBaseValue(32);
+        piglin.getAttribute(Attribute.MAX_HEALTH).setBaseValue(32);
         piglin.setHealth(32);
         piglin.setAdult();
         piglin.setImmuneToZombification(true);

@@ -69,8 +69,8 @@ public class HarvestModifier implements Listener {
 
         // Fortune hoes. Other fortune tools shouldn't work
         ItemStack item = player.getEquipment().getItemInMainHand();
-        if (item.hasItemMeta() && item.getItemMeta().hasEnchant(Enchantment.LOOT_BONUS_BLOCKS) && item.getType().toString().contains("HOE")) {
-            int level = item.getItemMeta().getEnchantLevel(Enchantment.LOOT_BONUS_BLOCKS);
+        if (item.hasItemMeta() && item.getItemMeta().hasEnchant(Enchantment.FORTUNE) && item.getType().toString().contains("HOE")) {
+            int level = item.getItemMeta().getEnchantLevel(Enchantment.FORTUNE);
             for (int i = 0; i < level; i++)
                 if (RandomUtil.getRandom().nextInt(3) == 0) {
                     dropCount++;
@@ -176,7 +176,7 @@ public class HarvestModifier implements Listener {
         int tier = ItemDataUtil.getIntegerValue(item, "fertilizerTier");
         data.set(BONEMEAL_KEY, PersistentDataType.INTEGER, tier);
 
-        block.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, block.getLocation().add(0.5, 0.1, 0.5), 20, 0.3, 0.2, 0.3, 0);
+        block.getWorld().spawnParticle(Particle.HAPPY_VILLAGER, block.getLocation().add(0.5, 0.1, 0.5), 20, 0.3, 0.2, 0.3, 0);
         return 1;
     }
 }

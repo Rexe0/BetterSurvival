@@ -3,3 +3,7 @@ version: '${project.version}'
 main: me.rexe0.bettersurvival.BetterSurvival
 api-version: '1.20'
 load: STARTUP
+commands:
+  bettersurvivalreload:
+    description: Reloads the config
+    usage: /bettersurvivalreload

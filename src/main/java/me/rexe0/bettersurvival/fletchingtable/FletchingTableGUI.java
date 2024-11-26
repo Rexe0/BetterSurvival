@@ -89,6 +89,7 @@ public class FletchingTableGUI implements Listener {
                 lore.add(ChatColor.GRAY+"an ingredient in the second slot.");
                 meta.setLore(lore);
                 meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
                 item.setItemMeta(meta);
                 inv.setItem(i, item);
             }
@@ -116,7 +117,7 @@ public class FletchingTableGUI implements Listener {
                         : Material.RED_STAINED_GLASS_PANE)));
 
         if (!left || !right) {
-            inv.getItem(14).removeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL);
+            inv.getItem(14).removeEnchantment(Enchantment.PROTECTION);
 
             item = new ItemStack(Material.BARRIER);
             ItemMeta meta = item.getItemMeta();
@@ -125,7 +126,7 @@ public class FletchingTableGUI implements Listener {
             inv.setItem(16, item);
             return;
         }
-        inv.getItem(14).addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+        inv.getItem(14).addUnsafeEnchantment(Enchantment.PROTECTION, 1);
         if (arrowRecipes.containsKey(item.getType())) {
             ItemStack result = arrowRecipes.get(item.getType()).clone();
             result.setAmount(inv.getItem(10).getAmount());

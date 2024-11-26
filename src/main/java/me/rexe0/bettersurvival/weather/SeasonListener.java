@@ -8,8 +8,8 @@ import net.minecraft.world.level.biome.BiomeSpecialEffects;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.Snow;
-import org.bukkit.craftbukkit.v1_20_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_20_R3.block.CraftBlock;
+import org.bukkit.craftbukkit.v1_21_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_21_R2.block.CraftBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.Criteria;
@@ -168,7 +168,7 @@ public class SeasonListener {
                 if (loc.getY() <= world.getHighestBlockYAt(loc.getBlockX(), loc.getBlockZ())) continue;
 
                 if (season == Season.AUTUMN) {
-                    player.spawnParticle(Particle.REDSTONE, loc.add(0, 5, 0), 10,
+                    player.spawnParticle(Particle.DUST, loc.add(0, 5, 0), 10,
                             10, 10, 10, 0, new Particle.DustOptions(Color.fromRGB(255, 94, 0), 1.5f));
                 } else
                     player.spawnParticle(Particle.CHERRY_LEAVES, loc.add(0, 5, 0), 5,

@@ -2,13 +2,9 @@ package me.rexe0.bettersurvival.fishing;
 
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.util.RandomUtil;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_20_R3.inventory.CraftItemStack;
-import org.bukkit.craftbukkit.v1_20_R3.util.RandomSourceWrapper;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.Random;
 
 public record TreasureDrop(ItemStack item, int minAmount, int maxAmount, int weight) {
     public static TreasureDrop[] treasureDrops = new TreasureDrop[]{
@@ -38,7 +34,7 @@ public record TreasureDrop(ItemStack item, int minAmount, int maxAmount, int wei
         }
         ItemStack item = treasureDrops[idx].item();
         if (item.getType() == Material.BOOK)
-            item = CraftItemStack.asBukkitCopy(EnchantmentHelper.enchantItem(new RandomSourceWrapper(new Random()), CraftItemStack.asNMSCopy(item), 30, false));
+            item = Bukkit.getItemFactory().enchantItem(item, 30, false);
         item.setAmount(RandomUtil.getRandom().nextInt(treasureDrops[idx].minAmount(), treasureDrops[idx].maxAmount()+1));
         return item;
     }

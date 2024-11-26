@@ -136,7 +136,7 @@ public class ComposterChanges implements Listener {
         Levelled levelled = (Levelled) block.getBlockData();
 
         block.getWorld().playSound(block.getLocation(), Sound.BLOCK_COMPOSTER_FILL_SUCCESS, 1, 1);
-        block.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, block.getLocation().add(0.5, 0.6, 0.5), 10, 0.2, 0.2, 0.2, 0);
+        block.getWorld().spawnParticle(Particle.HAPPY_VILLAGER, block.getLocation().add(0.5, 0.6, 0.5), 10, 0.2, 0.2, 0.2, 0);
 
         levelled.setLevel(Math.min(levelled.getLevel() + amount, levelled.getMaximumLevel() - 1));
         block.setBlockData(levelled);
