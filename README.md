@@ -22,7 +22,6 @@ This is a plugin that contains several features that I think would improve the c
 - Farmer Boots can be made using 4 leather and 2 copper ingots which prevent players from breaking crops when worn
 
 **Ores and Mining:**
-- Natural ore generation for iron, gold and ancient debris have been reduced
 - Large Coal deposits can now generate slightly under the surface in Badlands/Mesa biomes
 - Large Iron deposits can now generate slightly under the ocean floor in cold oceans
 - Large Copper deposits can now generate slightly under the surface in very mountainous biomes

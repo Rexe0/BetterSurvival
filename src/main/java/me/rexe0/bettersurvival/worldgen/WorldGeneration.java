@@ -10,13 +10,7 @@ public class WorldGeneration implements Listener {
     @EventHandler
     public void onWorldInit(WorldInitEvent e) {
         World world = e.getWorld();
-        if (world.equals(BetterSurvival.getInstance().getDefaultNether())) {
-            world.getPopulators().add(new ReduceAncientDebris());
-            return;
-        }
         if (!world.equals(BetterSurvival.getInstance().getDefaultWorld())) return;
-        world.getPopulators().add(new ReduceGold());
-        world.getPopulators().add(new ReduceIron());
 
         world.getPopulators().add(new RiverGeneration());
         world.getPopulators().add(new DesertGeneration());
