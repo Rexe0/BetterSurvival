@@ -20,6 +20,7 @@ This is a plugin that contains several features that I think would improve the c
 - If you place all the necessary ingredients for a soup within that cauldron, it will play a distinct sound, indicating that the soup has been cooked (Rabbit Stew requires both mushrooms instead of only one)
 - Right clicking a cauldron full of soup with a bowl will grant you that soup in its bowl form, allowing it to be eaten. This can be done up to three times.
 - Farmer Boots can be made using 4 leather and 2 copper ingots which prevent players from breaking crops when worn
+- Added Cannabis which can be grown and cultivated to higher potencies as well as smoke pipes which can be used to smoke cannabis.
 
 **Ores and Mining:**
 - Large Coal deposits can now generate slightly under the surface in Badlands/Mesa biomes

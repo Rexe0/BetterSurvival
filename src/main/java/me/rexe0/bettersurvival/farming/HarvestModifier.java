@@ -163,13 +163,15 @@ public class HarvestModifier implements Listener {
     private int onBonemeal(Block block, ItemStack item) {
         if (item == null) return -1;
         if (item.getType() != Material.BONE_MEAL) return -1;
+        PersistentDataContainer data = new CustomBlockData(block, BetterSurvival.getInstance());
+
+        if (data.has(CannabisListener.CANNABIS_KEY, PersistentDataType.DOUBLE)) return 0;
         if (!cropDrops.containsKey(block.getType())) return -1;
 
         // Can only bonemeal the crop when it is nascent
         if (((Ageable)block.getBlockData()).getAge() > 1)
             return 0;
 
-        PersistentDataContainer data = new CustomBlockData(block, BetterSurvival.getInstance());
 
         if (data.has(BONEMEAL_KEY, PersistentDataType.INTEGER)) return 0;
 

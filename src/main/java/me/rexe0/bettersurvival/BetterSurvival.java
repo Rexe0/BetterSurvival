@@ -92,6 +92,7 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EnderDragonChanges(), this);
         getServer().getPluginManager().registerEvents(new CatchListener(), this);
         getServer().getPluginManager().registerEvents(new ItemListener(), this);
+        getServer().getPluginManager().registerEvents(new CannabisListener(), this);
 
         recipes = new HashMap<>();
         recipes.put(RailRecipes.getRailRecipe().getKey(), RailRecipes.getRailRecipe());
@@ -112,6 +113,7 @@ public final class BetterSurvival extends JavaPlugin {
             ChainedMinecart.run();
             SeasonListener.run();
             HolidayListener.run();
+            CannabisListener.run();
         }, 0, 1);
         Bukkit.getScheduler().runTaskTimer(this, () -> Bukkit.getOnlinePlayers().forEach((player) -> {
             for (ItemType type : ItemType.values()) {

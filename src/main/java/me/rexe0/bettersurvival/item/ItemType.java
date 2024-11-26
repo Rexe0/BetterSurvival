@@ -21,6 +21,8 @@ public enum ItemType {
     EXPLOSIVE_ARROW(new ExplosiveArrow()),
     TOXIC_ARROW(new ToxicArrow()),
     SONIC_ARROW(new SonicArrow()),
+    SMOKE_PIPE(new SmokePipe()),
+    CANNABIS(new Cannabis(0)),
     FISH_CODEX(new FishCodex()),
     PLATINUM_ORE(new PlatinumOre()),
     PLATINUM_INGOT(new PlatinumIngot()),

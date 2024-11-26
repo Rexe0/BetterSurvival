@@ -14,6 +14,7 @@ package me.rexe0.bettersurvival.util;
 import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.item.ItemType;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -86,5 +87,36 @@ public class ItemDataUtil {
         } catch (IllegalArgumentException e) {
             return null;
         }
+    }
+    public static boolean hasItem(String itemID, int amount, Player player) {
+        int materialsAmount = 0;
+        for (ItemStack itemStack : player.getInventory().getContents()) {
+            if (itemStack == null) continue;
+            if (!itemStack.hasItemMeta()) continue;
+            if (isItem(itemStack, itemID))
+                materialsAmount += itemStack.getAmount();
+        }
+        return materialsAmount >= amount;
+    }
+    public static ItemStack removeItems(String itemID, int amount, Player player) {
+        ItemStack itemStack = null;
+        int counter = amount;
+        for (ItemStack item : player.getInventory().getContents()) {
+            if (item == null) continue;
+            if (!item.hasItemMeta()) continue;
+            if (isItem(item, itemID)) {
+                if (item.getAmount() <= counter) {
+                    itemStack = item;
+                    counter -= item.getAmount();
+                    item.setAmount(0);
+                } else if (item.getAmount() > counter) {
+                    itemStack = item;
+                    item.setAmount(item.getAmount() - counter);
+                    counter = 0;
+                    break;
+                }
+            }
+        }
+        return itemStack;
     }
 }

@@ -35,6 +35,9 @@ public class ItemListener implements Listener {
     public void onBlockPlace(BlockPlaceEvent e) {
         DrillBlock drillBlock = (DrillBlock) ItemType.DRILL_BLOCK.getItem();
         drillBlock.onBlockPlace(e);
+
+        Cannabis cannabis = (Cannabis) ItemType.CANNABIS.getItem();
+        cannabis.onBlockPlace(e);
     }
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
