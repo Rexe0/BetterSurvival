@@ -45,13 +45,18 @@ public class AmethystArrow extends Item {
         }
 
         private void run() {
-            if (i == 5) {
+            if (i == 6) {
                 isFinished = true;
                 return;
             }
 
-            // TODO: Track nearest enemy slightly - Without tracking the shards feel useless
-
+            // Slight tracking
+            LivingEntity closest = getClosestTarget();
+            if (closest != null) {
+                Vector dir = closest.getBoundingBox().getCenter().toLocation(location.getWorld()).subtract(location).toVector().normalize();
+                dir.multiply(0.1);
+                direction.add(dir);
+            }
 
             direction.multiply(0.25);
             for (int i = 0; i < 4; i++) {
@@ -73,6 +78,21 @@ public class AmethystArrow extends Item {
             target.damage(damage, player);
 
             isFinished = true;
+        }
+
+        private LivingEntity getClosestTarget() {
+            LivingEntity closest = null;
+            double closestDistance = Double.MAX_VALUE;
+            for (Entity en : location.getWorld().getNearbyEntities(location, 5, 5, 5)) {
+                if (!(en instanceof LivingEntity living)) continue;
+                if (living.equals(entity)) continue;
+                double distance = living.getLocation().distance(location);
+                if (distance < closestDistance) {
+                    closest = living;
+                    closestDistance = distance;
+                }
+            }
+            return closest;
         }
 
         public BukkitRunnable getRunnable() {
