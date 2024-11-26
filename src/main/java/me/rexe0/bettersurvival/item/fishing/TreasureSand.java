@@ -28,7 +28,7 @@ public class TreasureSand extends Item {
         if (!ItemDataUtil.isItem(e.getItemInHand(), getID())) return;
         Block block = e.getBlock();
         BrushableBlock state = (BrushableBlock) block.getState();
-        state.setItem(TreasureDrop.getTreasureItem());
+        state.setItem(TreasureDrop.getTreasureItem(e.getPlayer()));
         state.update();
     }
 }

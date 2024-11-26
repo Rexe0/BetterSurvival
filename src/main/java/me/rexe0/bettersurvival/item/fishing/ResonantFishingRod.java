@@ -9,6 +9,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.recipe.CraftingBookCategory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ public class ResonantFishingRod extends Item {
     public ShapedRecipe getRecipe() {
         ItemStack item = ItemType.RESONANT_FISHING_ROD.getItem().getItem();
         ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(BetterSurvival.getInstance(), getID()), item);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         recipe.shape("  #", " #$", "# $");
         recipe.setIngredient('#', new RecipeChoice.ExactChoice(ItemType.RESONANT_INGOT.getItem().getItem()));
         recipe.setIngredient('$', Material.STRING);

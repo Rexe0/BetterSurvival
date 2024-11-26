@@ -1,10 +1,15 @@
 package me.rexe0.bettersurvival.fishing;
 
+import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.util.RandomUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.KnowledgeBookMeta;
 
 public record TreasureDrop(ItemStack item, int minAmount, int maxAmount, int weight) {
     public static TreasureDrop[] treasureDrops = new TreasureDrop[]{
@@ -22,7 +27,17 @@ public record TreasureDrop(ItemStack item, int minAmount, int maxAmount, int wei
     };
 
 
-    public static ItemStack getTreasureItem() {
+    public static ItemStack getTreasureItem(Player player) {
+        if (!player.getDiscoveredRecipes().contains(new NamespacedKey(BetterSurvival.getInstance(), ItemType.RESONANT_FISHING_ROD.getItem().getID()))
+                && RandomUtil.getRandom().nextInt(0, 100) == 0) {
+            ItemStack item = new ItemStack(Material.KNOWLEDGE_BOOK);
+            KnowledgeBookMeta meta = (KnowledgeBookMeta) item.getItemMeta();
+            meta.setDisplayName(ChatColor.DARK_AQUA+"Lost Fisherman Knowledge");
+            meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.RESONANT_FISHING_ROD.getItem().getID()));
+            meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.RESONANT_INGOT.getItem().getID()));
+            item.setItemMeta(meta);
+            return item;
+        }
         int totalWeight = 0;
         for (TreasureDrop drop : treasureDrops)
             totalWeight += drop.weight();
