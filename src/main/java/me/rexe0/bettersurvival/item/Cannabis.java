@@ -32,6 +32,10 @@ public class Cannabis extends Item {
     @Override
     public List<String> getLore() {
         List<String> lore = super.getLore();
+        lore.add(ChatColor.GRAY+"A plant with potential psychoactive");
+        lore.add(ChatColor.GRAY+"effects. It seems to like warmer");
+        lore.add(ChatColor.GRAY+"temperatures.");
+        lore.add(" ");
         lore.add(ChatColor.GRAY+"Potency: "+ChatColor.GREEN+potency+"%");
         return lore;
     }

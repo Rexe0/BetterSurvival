@@ -20,7 +20,8 @@ This is a plugin that contains several features that I think would improve the c
 - If you place all the necessary ingredients for a soup within that cauldron, it will play a distinct sound, indicating that the soup has been cooked (Rabbit Stew requires both mushrooms instead of only one)
 - Right clicking a cauldron full of soup with a bowl will grant you that soup in its bowl form, allowing it to be eaten. This can be done up to three times.
 - Farmer Boots can be made using 4 leather and 2 copper ingots which prevent players from breaking crops when worn
-- Added Cannabis which can be grown and cultivated to higher potencies as well as smoke pipes which can be used to smoke cannabis.
+- Added Cannabis which can be grown and cultivated to higher potencies if grown in a warm environment with high quality fertilizer
+- Added the Smoke Pipe which can be used to extract the psychoactive effects of Cannabis, crafted using 2 sticks, 1 coal and 1 torch
 
 **Ores and Mining:**
 - Large Coal deposits can now generate slightly under the surface in Badlands/Mesa biomes
@@ -29,7 +30,7 @@ This is a plugin that contains several features that I think would improve the c
 - The Drill Block can now be crafted using 7 Copper Blocks, 1 Redstone Dust and 1 Diamond Pickaxe. When placed and fed coal as fuel, it starts digging a 3x3 tunnel in the direction it is facing. However, it can not break certain blocks that are too 'hard' (Example: Obsidian, Bedrock, etc.).
 
 **Villagers:**
-- Wandering Traders will now always sell either a Stopwatch (When held shows your current speed in km/h), Metal Detector (Detects any ores a few blocks under you when held) or a Fish Codex (see Fishing section) 
+- Wandering Traders will now always sell either a Stopwatch (When held shows your current speed in km/h), Metal Detector (Detects any ores a few blocks under you when held), a Fish Codex (see Fishing section), or Cannabis
 
 **Minecarts:**
 - Minecarts can now be linked together using by Sneak + Right Clicking on them with chains. The first minecart clicked will pull the second one that was clicked.

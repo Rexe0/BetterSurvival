@@ -5,12 +5,13 @@ import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.item.Cannabis;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.util.RandomUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import me.rexe0.bettersurvival.weather.Season;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.biome.Biome;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Bisected;
+import org.bukkit.craftbukkit.v1_21_R2.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -54,16 +55,32 @@ public class CannabisListener implements Listener {
         for (Player player : Bukkit.getOnlinePlayers()) {
             Block block;
             for (int i = 0; i < 80; i++) {
-                block = player.getLocation().add(
+                Location loc = player.getLocation().add(
                         RandomUtil.getRandom().nextInt(-64, 64),
                         RandomUtil.getRandom().nextInt(-64, 64),
-                        RandomUtil.getRandom().nextInt(-64, 64)).getBlock();
+                        RandomUtil.getRandom().nextInt(-64, 64));
+                block = loc.getBlock();
+                if (block.getLightLevel() < 5) continue;
                 if (block.getType() == Material.FERN && block.getRelative(0, 1, 0).getType() == Material.AIR) {
                     PersistentDataContainer data = new CustomBlockData(block, BetterSurvival.getInstance());
+
                     if (data.has(CANNABIS_KEY, PersistentDataType.INTEGER)) {
                         int potency = data.get(CANNABIS_KEY, PersistentDataType.INTEGER);
-                        potency += RandomUtil.getRandom().nextInt(-5, 5);
-                        potency = Math.min(100, Math.max(0, potency));
+                        int change = switch (Season.getSeason()) {
+                            default -> 4;
+                            case AUTUMN -> 3;
+                            case WINTER -> 2;
+                        };
+
+                        if (data.has(HarvestModifier.BONEMEAL_KEY, PersistentDataType.INTEGER)) {
+                            change += data.get(HarvestModifier.BONEMEAL_KEY, PersistentDataType.INTEGER);
+                            data.remove(HarvestModifier.BONEMEAL_KEY);
+                        }
+                        Biome biome = ((CraftWorld) block.getWorld()).getHandle().getBiome(new BlockPos(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ())).value();
+                        if (biome.climateSettings.temperature() >= 0.8f) change++;
+
+                        potency += RandomUtil.getRandom().nextInt(change-6, change);
+                        potency = Math.min(68+change*4, Math.max(0, potency));
                         setCannabisPlant(block, Bisected.Half.BOTTOM, potency, data);
 
                         block = block.getRelative(0, 1, 0);
