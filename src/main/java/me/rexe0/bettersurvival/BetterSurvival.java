@@ -61,6 +61,8 @@ public final class BetterSurvival extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
+        saveDefaultConfig();
+
         ConfigLoader loader = new ConfigLoader(getConfig());
         getCommand("bettersurvivalreload").setExecutor(loader);
         configLoader = loader;
