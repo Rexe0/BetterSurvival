@@ -1,13 +1,15 @@
 package me.rexe0.bettersurvival.util;
 
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
 import org.apache.commons.codec.binary.Base64;
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.profile.PlayerProfile;
+import org.bukkit.profile.PlayerTextures;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.UUID;
 
 public class SkullUtil {
@@ -19,21 +21,18 @@ public class SkullUtil {
      * @return itemstack
      */
     public static ItemStack getCustomSkull(ItemStack head, String url) {
+        if(url.isEmpty())return head;
 
         SkullMeta headMeta = (SkullMeta) head.getItemMeta();
-        GameProfile profile = new GameProfile(UUID.randomUUID(), UUID.randomUUID().toString());
-        byte[] encodedData = Base64.encodeBase64(String.format("{textures:{SKIN:{url:\"%s\"}}}", url).getBytes());
-        profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
-        Method setProfileMethod = null;
+        PlayerProfile profile = Bukkit.createPlayerProfile(UUID.randomUUID());
+        PlayerTextures textures = profile.getTextures();
         try {
-            setProfileMethod = headMeta.getClass().getDeclaredMethod("setProfile", GameProfile.class);
-            setProfileMethod.setAccessible(true);
-            setProfileMethod.invoke(headMeta, profile);
-        } catch (NoSuchMethodException | IllegalArgumentException | IllegalAccessException |
-                 InvocationTargetException e1) {
-            e1.printStackTrace();
+            textures.setSkin(new URI(url).toURL());
+        } catch (URISyntaxException | MalformedURLException ex) {
+            ex.printStackTrace();
         }
-
+        profile.setTextures(textures);
+        headMeta.setOwnerProfile(profile);
         head.setItemMeta(headMeta);
         return head;
     }
