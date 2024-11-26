@@ -7,6 +7,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.recipe.CraftingBookCategory;
 
 public class FarmerBoots extends Item {
     public FarmerBoots() {
@@ -18,6 +19,7 @@ public class FarmerBoots extends Item {
         ItemStack item = ItemType.FARMER_BOOTS.getItem().getItem();
 
         ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(BetterSurvival.getInstance(), getID()), item);
+        recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         recipe.shape("# #", "# #", "& &");
         recipe.setIngredient('#', Material.LEATHER);
         recipe.setIngredient('&', Material.COPPER_INGOT);
