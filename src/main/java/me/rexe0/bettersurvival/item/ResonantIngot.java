@@ -15,11 +15,11 @@ public class ResonantIngot extends Item {
     @Override
     public ItemStack getItem() {
         ItemStack item = super.getItem();
+        item.addUnsafeEnchantment(Enchantment.PROTECTION, 1);
         ItemMeta meta = item.getItemMeta();
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
         item.setItemMeta(meta);
-        item.addUnsafeEnchantment(Enchantment.PROTECTION, 1);
         return item;
     }
 
