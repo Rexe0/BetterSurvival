@@ -52,7 +52,7 @@ public class Cocaine extends Item {
         cocaine.setAmount(cocaine.getAmount()-1);
         player.getEquipment().setItemInMainHand(cocaine);
 
-        player.playSound(player.getLocation(), Sound.ENTITY_HORSE_BREATHE, 0.75f, 1.2f);
+        player.playSound(player.getLocation(), Sound.ENTITY_HORSE_BREATHE, 1, 1.2f);
 
         int nauseaLevel = player.hasPotionEffect(PotionEffectType.NAUSEA) ? player.getPotionEffect(PotionEffectType.NAUSEA).getAmplifier() : -1;
         nauseaLevel++;
