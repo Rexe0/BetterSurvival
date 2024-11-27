@@ -123,6 +123,7 @@ public final class BetterSurvival extends JavaPlugin {
             CannabisListener.run();
             CocaineListener.run();
             DeepDarkChanges.run();
+            AnimalBreeding.run();
         }, 0, 1);
         Bukkit.getScheduler().runTaskTimer(this, () -> Bukkit.getOnlinePlayers().forEach((player) -> {
             for (ItemType type : ItemType.values()) {

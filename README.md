@@ -7,6 +7,7 @@ This is a plugin that contains several features that I think would improve the c
 - Wheat and Beetroot will now only drop one of themselves and two of their respective seeds when they are fully grown
 - Bonemealing Wheat, Beetroot, Carrots and Potatoes no longer instantly grows them. However, if they are bonemealed when initially placed, they will always yield one extra drop and seed when harvested at full growth.
 - Composting fish now grants fertilizer, a type of bonemeal which increases the growth rate of the crop depending on its tier
+- Cows, pigs and sheep now have a small chance to randomly poop out low tier fertilizer
 - Fortune hoes are now the only tool that can cause crops to drop more of itself now.
 - Wheat Seeds, Beetroot Seeds, Carrots and Potatoes can now be automatically planted using a dispenser
 - Added Suspicious Stew recipe for Pitcher Plant -> Grants Luck I for 5 minutes

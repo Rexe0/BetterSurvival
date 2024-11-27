@@ -1,9 +1,13 @@
 package me.rexe0.bettersurvival.farming;
 
 import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.item.Fertilizer;
+import me.rexe0.bettersurvival.util.RandomUtil;
 import me.rexe0.bettersurvival.weather.Season;
 import org.bukkit.Particle;
-import org.bukkit.entity.Breedable;
+import org.bukkit.Sound;
+import org.bukkit.World;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityBreedEvent;
@@ -42,5 +46,16 @@ public class AnimalBreeding implements Listener {
                 mother.setBreed(false);
             }
         }.runTaskLater(BetterSurvival.getInstance(), 1);
+    }
+
+    public static void run() {
+        World world = BetterSurvival.getInstance().getDefaultWorld();
+        for (LivingEntity entity : world.getLivingEntities()) {
+            if (entity instanceof Cow || entity instanceof Pig || entity instanceof Sheep) {
+                if (RandomUtil.getRandom().nextInt(12000) != 0) continue;
+                entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1, 0);
+                entity.getWorld().dropItemNaturally(entity.getBoundingBox().getCenter().toLocation(world), new Fertilizer(RandomUtil.getRandom().nextInt(5) == 0 ? 2 : 1).getItem());
+            }
+        }
     }
 }
