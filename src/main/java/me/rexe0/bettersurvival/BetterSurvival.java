@@ -1,6 +1,7 @@
 package me.rexe0.bettersurvival;
 
 import me.rexe0.bettersurvival.config.ConfigLoader;
+import me.rexe0.bettersurvival.deepdark.DeepDarkChanges;
 import me.rexe0.bettersurvival.farming.*;
 import me.rexe0.bettersurvival.fishing.CatchListener;
 import me.rexe0.bettersurvival.fishing.FishFile;
@@ -94,6 +95,7 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ItemListener(), this);
         getServer().getPluginManager().registerEvents(new CannabisListener(), this);
         getServer().getPluginManager().registerEvents(new CocaineListener(), this);
+        getServer().getPluginManager().registerEvents(new DeepDarkChanges(), this);
 
         recipes = new HashMap<>();
         recipes.put(RailRecipes.getRailRecipe().getKey(), RailRecipes.getRailRecipe());
@@ -116,6 +118,7 @@ public final class BetterSurvival extends JavaPlugin {
             HolidayListener.run();
             CannabisListener.run();
             CocaineListener.run();
+            DeepDarkChanges.run();
         }, 0, 1);
         Bukkit.getScheduler().runTaskTimer(this, () -> Bukkit.getOnlinePlayers().forEach((player) -> {
             for (ItemType type : ItemType.values()) {
