@@ -80,7 +80,7 @@ public class CannabisListener implements Listener {
                         if (biome.climateSettings.temperature() >= 0.8f) change++;
 
                         potency += RandomUtil.getRandom().nextInt(change-6, change);
-                        potency = Math.min(68+change*4, Math.max(0, potency));
+                        potency = Math.min(64+change*4, Math.max(0, potency));
                         setCannabisPlant(block, Bisected.Half.BOTTOM, potency, data);
 
                         block = block.getRelative(0, 1, 0);
