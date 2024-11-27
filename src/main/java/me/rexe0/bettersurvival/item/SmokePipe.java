@@ -34,7 +34,7 @@ public class SmokePipe extends Item {
         ItemStack cannabis = ItemDataUtil.removeItems(ItemType.CANNABIS.getItem().getID(), 1, player);
         int potency = ItemDataUtil.getIntegerValue(cannabis, "potency");
 
-        for (int i = 0; i < Math.max(1, potency*10); i++)
+        for (int i = 0; i < Math.max(1, potency); i++)
             player.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, player.getEyeLocation(), 0, 1, 1, 1, 0.01);
         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_BREATH, 0.5f, 0.5f);
 
