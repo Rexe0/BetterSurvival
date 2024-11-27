@@ -6,7 +6,10 @@ import me.rexe0.bettersurvival.item.ItemType;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Villager;
+import org.bukkit.event.entity.VillagerAcquireTradeEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.MerchantRecipe;
 import org.bukkit.inventory.ShapedRecipe;
 
 import java.util.ArrayList;
@@ -24,6 +27,16 @@ public class CopperFishingRod extends Item {
         return lore;
     }
 
+    public void onAcquireTrade(Villager villager, VillagerAcquireTradeEvent e) {
+        if (villager.getProfession() != Villager.Profession.FISHERMAN) return;
+
+        if (e.getRecipe().getResult().getType() == Material.COD_BUCKET) {
+            MerchantRecipe trade = new MerchantRecipe(ItemType.COPPER_FISHING_ROD.getItem().getItem(), 0, 4, true, 10, 0);
+            trade.addIngredient(new ItemStack(Material.EMERALD, 5));
+            trade.addIngredient(new ItemStack(Material.STRING, 2));
+            e.setRecipe(trade);
+        }
+    }
     public ShapedRecipe getRecipe() {
         ItemStack item = ItemType.COPPER_FISHING_ROD.getItem().getItem();
 
