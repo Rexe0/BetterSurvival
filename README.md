@@ -65,6 +65,8 @@ This is a plugin that contains several features that I think would improve the c
 - Placing a Glowstone Block as a fletching ingredient gives spectral arrows
 
 **Mobs:**
+- Mobs now have a 25% chance to critically strike a player in a random part of their body. If the player does not have armor in that part, they will take 1.5x the damage
+- If the player does have armor to protect from the critical strike, the armor will take extra damage to its durability
 - After a player has made netherite gear for the first time, buffed piglins will begin to naturally spawn in the overworld around them
 - Phantoms will no longer naturally drop phantom membranes
 - After a player enters the end, phantoms that naturally spawn around them will be slightly bigger and can drop phantom membranes (to repair elytra with)

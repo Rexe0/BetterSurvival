@@ -97,6 +97,7 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new CannabisListener(), this);
         getServer().getPluginManager().registerEvents(new CocaineListener(), this);
         getServer().getPluginManager().registerEvents(new DeepDarkChanges(), this);
+        getServer().getPluginManager().registerEvents(new CriticalAttackListener(), this);
 
         CustomBlockData.registerListener(this);
 
