@@ -9,9 +9,20 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.List;
+
 public class SmokePipe extends Item {
     public SmokePipe() {
         super(Material.STICK, ChatColor.GREEN+"Smoke Pipe", "SMOKE_PIPE");
+    }
+
+    @Override
+    public List<String> getLore() {
+        List<String> lore = super.getLore();
+        lore.add(ChatColor.GRAY+"A small wooden pipe, allowing you");
+        lore.add(ChatColor.GRAY+"to smoke cannabis to suppress");
+        lore.add(ChatColor.GRAY+"appetite and hunger.");
+        return lore;
     }
 
     @Override
@@ -33,6 +44,9 @@ public class SmokePipe extends Item {
 
         player.addPotionEffect(new PotionEffect(PotionEffectType.NAUSEA, (24*potency), nauseaLevel, true, false));
         player.addPotionEffect(new PotionEffect(PotionEffectType.MINING_FATIGUE, (24*potency), 0, true, false));
+
+        if (player.getFoodLevel() < potency/6)
+            player.setFoodLevel(Math.min(potency/6, player.getFoodLevel()+3));
 
         if (nauseaLevel == 5) {
             player.damage(8);
