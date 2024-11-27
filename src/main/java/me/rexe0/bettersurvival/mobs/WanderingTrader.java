@@ -1,6 +1,7 @@
 package me.rexe0.bettersurvival.mobs;
 
 import me.rexe0.bettersurvival.item.Cannabis;
+import me.rexe0.bettersurvival.item.CocaLeaves;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.util.RandomUtil;
 import org.bukkit.Material;
@@ -19,7 +20,13 @@ public class WanderingTrader implements Listener {
             case 1 -> ItemType.METAL_DETECTOR.getItem().getItem();
             case 2 -> ItemType.FISH_CODEX.getItem().getItem();
             case 3 -> {
-                ItemStack itemStack = new Cannabis(RandomUtil.getRandom().nextInt(0, 15)).getItem();
+                int potency = RandomUtil.getRandom().nextInt(0, 15);
+                ItemStack itemStack;
+                if (trader.getLocation().getBlock().getBiome().toString().contains("JUNGLE"))
+                    itemStack = new CocaLeaves(potency).getItem();
+                else
+                    itemStack = new Cannabis(potency).getItem();
+
                 itemStack.setAmount(1);
                 yield itemStack;
             }

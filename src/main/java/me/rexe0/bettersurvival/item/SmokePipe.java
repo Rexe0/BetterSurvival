@@ -28,9 +28,16 @@ public class SmokePipe extends Item {
         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_BREATH, 0.5f, 0.5f);
 
 
-        player.addPotionEffect(new PotionEffect(PotionEffectType.NAUSEA, (24*potency), 1, true, false));
+        int nauseaLevel = player.hasPotionEffect(PotionEffectType.NAUSEA) ? player.getPotionEffect(PotionEffectType.NAUSEA).getAmplifier() : -1;
+        nauseaLevel++;
+
+        player.addPotionEffect(new PotionEffect(PotionEffectType.NAUSEA, (24*potency), nauseaLevel, true, false));
         player.addPotionEffect(new PotionEffect(PotionEffectType.MINING_FATIGUE, (24*potency), 0, true, false));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, (6*potency), 0, true, false));
+
+        if (nauseaLevel == 5) {
+            player.damage(8);
+            player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 600, 3, true, false));
+        }
 
     }
     public ShapedRecipe getRecipe() {

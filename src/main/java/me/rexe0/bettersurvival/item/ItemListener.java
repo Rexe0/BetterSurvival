@@ -38,6 +38,12 @@ public class ItemListener implements Listener {
 
         Cannabis cannabis = (Cannabis) ItemType.CANNABIS.getItem();
         cannabis.onBlockPlace(e);
+
+        CocaLeaves cocaLeaves = (CocaLeaves) ItemType.COCA_LEAVES.getItem();
+        cocaLeaves.onBlockPlace(e);
+
+        BlockOfCocaine blockOfCocaine = (BlockOfCocaine) ItemType.BLOCK_OF_COCAINE.getItem();
+        blockOfCocaine.onBlockPlace(e);
     }
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
