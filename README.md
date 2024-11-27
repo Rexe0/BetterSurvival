@@ -22,6 +22,10 @@ This is a plugin that contains several features that I think would improve the c
 - Farmer Boots can be made using 4 leather and 2 copper ingots which prevent players from breaking crops when worn
 - Added Cannabis which can be grown and cultivated to higher potencies if grown in a warm environment with high quality fertilizer
 - Added the Smoke Pipe which can be used to extract the psychoactive effects of Cannabis, crafted using 2 sticks, 1 coal and 1 torch
+- Added Coca Leaves which can be grown and cultivated to higher potencies if grown in a warm and humid environment with high quality fertilizer
+- Cocaine can be extracted from 5 Coca Leaves using a crafting table. It can be directly used to grant stimulating effects
+- Blocks of Cocaine can be created with 9 Cocaine to allow for compact storage
+- Using Cocaine or Cannabis too much in a short time span will cause an overdose dealing large damage to the player
 
 **Ores and Mining:**
 - Large Coal deposits can now generate slightly under the surface in Badlands/Mesa biomes
@@ -30,7 +34,7 @@ This is a plugin that contains several features that I think would improve the c
 - The Drill Block can now be crafted using 7 Copper Blocks, 1 Redstone Dust and 1 Diamond Pickaxe. When placed and fed coal as fuel, it starts digging a 3x3 tunnel in the direction it is facing. However, it can not break certain blocks that are too 'hard' (Example: Obsidian, Bedrock, etc.).
 
 **Villagers:**
-- Wandering Traders will now always sell either a Stopwatch (When held shows your current speed in km/h), Metal Detector (Detects any ores a few blocks under you when held), a Fish Codex (see Fishing section), or Cannabis
+- Wandering Traders will now always sell either a Stopwatch (When held shows your current speed in km/h), Metal Detector (Detects any ores a few blocks under you when held), a Fish Codex (see Fishing section) or a drug plant (Cannabis or Coca Leaves if in the jungle)
 
 **Minecarts:**
 - Minecarts can now be linked together using by Sneak + Right Clicking on them with chains. The first minecart clicked will pull the second one that was clicked.
