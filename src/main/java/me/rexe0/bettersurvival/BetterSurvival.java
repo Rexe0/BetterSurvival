@@ -1,5 +1,6 @@
 package me.rexe0.bettersurvival;
 
+import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.config.ConfigLoader;
 import me.rexe0.bettersurvival.deepdark.DeepDarkChanges;
 import me.rexe0.bettersurvival.farming.*;
@@ -96,6 +97,8 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new CannabisListener(), this);
         getServer().getPluginManager().registerEvents(new CocaineListener(), this);
         getServer().getPluginManager().registerEvents(new DeepDarkChanges(), this);
+
+        CustomBlockData.registerListener(this);
 
         recipes = new HashMap<>();
         recipes.put(RailRecipes.getRailRecipe().getKey(), RailRecipes.getRailRecipe());
