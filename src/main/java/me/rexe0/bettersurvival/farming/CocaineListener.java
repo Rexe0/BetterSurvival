@@ -151,18 +151,17 @@ public class CocaineListener implements Listener {
                             case WINTER -> 1;
                         };
 
-                        int length = 1;
-                        for (int j = 1; j < 5; j++) {
-                            if (block.getRelative(0, -j, 0).getType() == Material.OAK_LEAVES
-                                    && (new CustomBlockData(block, BetterSurvival.getInstance())).has(COCAINE_KEY, PersistentDataType.INTEGER)) length++;
-                            else break;
-                        }
+                        int length = getCocaLength(block);
                         if (length >= 5) continue;
 
+                        int fertilizerTier = 0;
                         if (data.has(HarvestModifier.BONEMEAL_KEY, PersistentDataType.INTEGER)) {
-                            change += data.get(HarvestModifier.BONEMEAL_KEY, PersistentDataType.INTEGER);
+                            fertilizerTier = data.get(HarvestModifier.BONEMEAL_KEY, PersistentDataType.INTEGER);
                             data.remove(HarvestModifier.BONEMEAL_KEY);
                         }
+
+                        change += fertilizerTier;
+
                         Biome biome = ((CraftWorld) block.getWorld()).getHandle().getBiome(new BlockPos(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ())).value();
                         if (biome.climateSettings.temperature() >= 0.8f) change++;
                         if (biome.climateSettings.downfall() >= 0.9f) change++;
@@ -179,6 +178,7 @@ public class CocaineListener implements Listener {
 
                         block = block.getRelative(0, 1, 0);
                         data = new CustomBlockData(block, BetterSurvival.getInstance());
+                        data.set(HarvestModifier.BONEMEAL_KEY, PersistentDataType.INTEGER, fertilizerTier);
                         setCocaPlant(block, potency, data);
                     }
                 }
@@ -192,5 +192,15 @@ public class CocaineListener implements Listener {
         block.setBlockData(leaves);
 
         data.set(COCAINE_KEY, PersistentDataType.INTEGER, potency);
+    }
+
+    public static int getCocaLength(Block block) {
+        int length = 1;
+        for (int j = 1; j < 5; j++) {
+            if (block.getRelative(0, -j, 0).getType() == Material.OAK_LEAVES
+                    && (new CustomBlockData(block, BetterSurvival.getInstance())).has(COCAINE_KEY, PersistentDataType.INTEGER)) length++;
+            else break;
+        }
+        return length;
     }
 }
