@@ -34,6 +34,7 @@ This is a plugin that contains several features that I think would improve the c
 - Large Copper deposits can now generate slightly under the surface in very mountainous biomes
 - Sculk Catalysts in the Deep Dark can now passively spread sculk to nearby blocks
 - Mining Sculk Shriekers now has a chance to yield 1 Echo Shard
+- Placing torches or lanterns in the deep dark will cause nearby players to receive Darkness and hear a hear a heartbeat underground
 - The Drill Block can now be crafted using 7 Copper Blocks, 1 Redstone Dust and 1 Diamond Pickaxe. When placed and fed coal as fuel, it starts digging a 3x3 tunnel in the direction it is facing. However, it can not break certain blocks that are too 'hard' (Example: Obsidian, Bedrock, etc.).
 
 **Villagers:**
