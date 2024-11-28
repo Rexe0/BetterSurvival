@@ -53,6 +53,8 @@ public class AnimalBreeding implements Listener {
         for (LivingEntity entity : world.getLivingEntities()) {
             if (entity instanceof Cow || entity instanceof Pig || entity instanceof Sheep) {
                 if (RandomUtil.getRandom().nextInt(12000) != 0) continue;
+                boolean nearbyPlayer = entity.getWorld().getPlayers().stream().anyMatch(player -> player.getLocation().distanceSquared(entity.getLocation()) < 10000);
+                if (!nearbyPlayer) continue;
                 entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1, 0);
                 entity.getWorld().dropItemNaturally(entity.getBoundingBox().getCenter().toLocation(world), new Fertilizer(RandomUtil.getRandom().nextInt(5) == 0 ? 2 : 1).getItem());
             }
