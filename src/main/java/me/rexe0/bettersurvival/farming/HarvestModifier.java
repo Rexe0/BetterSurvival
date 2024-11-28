@@ -78,9 +78,10 @@ public class HarvestModifier implements Listener {
                 }
 
             Damageable damageable = (Damageable) item.getItemMeta();
-            damageable.setDamage(damageable.getDamage() - 1);
-            if (damageable.getDamage() == item.getType().getMaxDurability())
+            damageable.setDamage(damageable.getDamage() + 1);
+            if (damageable.getDamage() >= item.getType().getMaxDurability())
                 player.getEquipment().setItemInMainHand(null);
+            item.setItemMeta(damageable);
         }
 
         if (HolidayListener.bumperCropHarvest(block.getWorld()))
