@@ -1,7 +1,6 @@
 package me.rexe0.bettersurvival.mobs;
 
 import me.rexe0.bettersurvival.util.RandomUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,6 +13,7 @@ import org.bukkit.inventory.meta.Damageable;
 public class CriticalAttackListener implements Listener {
     @EventHandler
     public void onHit(EntityDamageByEntityEvent e) {
+        if (e.isCancelled()) return;
         if (!(e.getEntity() instanceof Player player)) return;
         if (e.getDamager() instanceof Player) return;
 
@@ -21,7 +21,6 @@ public class CriticalAttackListener implements Listener {
         // Critical hit
         EquipmentSlot slot = EquipmentSlot.values()[RandomUtil.getRandom().nextInt(2, 6)];
         ItemStack armor = player.getInventory().getItem(slot);
-        Bukkit.broadcastMessage(slot +"     "+armor);
 
         if (armor == null || armor.getType().isAir()) {
             e.setDamage(e.getDamage() * 1.5);
