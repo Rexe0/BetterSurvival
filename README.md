@@ -1,4 +1,4 @@
-This is a plugin that contains several features that I think would improve the classic survival experience. This plugin is only functional in Spigot 1.20.1.
+This is a plugin that contains several features that I think would improve the classic survival experience. This plugin is only functional in Spigot 1.21.3
 
 ### Features
 **Agriculture:**
