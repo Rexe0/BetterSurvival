@@ -18,8 +18,8 @@ public record TreasureDrop(ItemStack item, int minAmount, int maxAmount, int wei
             new TreasureDrop(new ItemStack(Material.RAW_GOLD), 1, 3, 10),
             new TreasureDrop(new ItemStack(Material.NAUTILUS_SHELL), 1, 2, 10),
             new TreasureDrop(new ItemStack(Material.PRISMARINE_CRYSTALS), 3, 7, 7),
-            new TreasureDrop(new ItemStack(Material.SADDLE), 1, 1, 6),
             new TreasureDrop(new ItemStack(ItemType.PLATINUM_ORE.getItem().getItem()), 1, 1, 6),
+            new TreasureDrop(new ItemStack(Material.SADDLE), 1, 1, 5),
             new TreasureDrop(new ItemStack(Material.HEART_OF_THE_SEA), 1, 1, 4),
             new TreasureDrop(new ItemStack(Material.DIAMOND), 1, 3, 2),
             new TreasureDrop(new ItemStack(Material.BOOK), 1, 1, 2), // Lvl 30 Book
