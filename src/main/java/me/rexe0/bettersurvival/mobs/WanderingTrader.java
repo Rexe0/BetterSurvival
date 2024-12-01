@@ -6,7 +6,6 @@ import me.rexe0.bettersurvival.item.CocaLeaves;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.util.RandomUtil;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.npc.WanderingTraderSpawner;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_21_R2.CraftWorld;
@@ -16,9 +15,6 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 public class WanderingTrader implements Listener {
     @EventHandler
@@ -51,18 +47,12 @@ public class WanderingTrader implements Listener {
             private int i = 0;
             @Override
             public void run() {
-                if (!Bukkit.getOnlinePlayers().isEmpty() && i >= 2400/Bukkit.getOnlinePlayers().size()) {
+                if (!Bukkit.getOnlinePlayers().isEmpty() && i >= 4800/Bukkit.getOnlinePlayers().size()) {
                     i = 0;
                     // Increase wandering trader spawn rates when there are more players online
                     ServerLevel level = ((CraftWorld) BetterSurvival.getInstance().getDefaultWorld()).getHandle();
                     WanderingTraderSpawner spawner = new WanderingTraderSpawner(level.L);
-                    try {
-                        Method method = spawner.getClass().getDeclaredMethod("spawn", ServerLevel.class);
-                        method.setAccessible(true);
-                        method.invoke(spawner, level);
-                    } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
+                    spawner.spawn(level);
                 }
 
                 i++;

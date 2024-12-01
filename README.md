@@ -39,6 +39,7 @@ This is a plugin that contains several features that I think would improve the c
 
 **Villagers:**
 - Wandering Traders will now always sell either a Stopwatch (When held shows your current speed in km/h), Metal Detector (Detects any ores a few blocks under you when held), a Fish Codex (see Fishing section) or a drug plant (Cannabis or Coca Leaves if in the jungle)
+- Wandering Traders will now spawn more often scaling with the amount of online players
 
 **Minecarts:**
 - Minecarts can now be linked together using by Sneak + Right Clicking on them with chains. The first minecart clicked will pull the second one that was clicked.
