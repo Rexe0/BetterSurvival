@@ -5,16 +5,16 @@ import me.rexe0.bettersurvival.item.Cannabis;
 import me.rexe0.bettersurvival.item.CocaLeaves;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.util.RandomUtil;
+import me.rexe0.bettersurvival.weather.SeasonListener;
 import net.minecraft.server.level.ServerLevel;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_21_R2.CraftWorld;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class WanderingTrader implements Listener {
     @EventHandler
@@ -42,21 +42,15 @@ public class WanderingTrader implements Listener {
         trader.setRecipe(trader.getRecipeCount()-2, trade);
     }
 
-    public static void runTimer() {
-        new BukkitRunnable() {
-            private int i = 0;
-            @Override
-            public void run() {
-                if (!Bukkit.getOnlinePlayers().isEmpty() && i >= 4800/Bukkit.getOnlinePlayers().size()) {
-                    i = 0;
-                    // Increase wandering trader spawn rates when there are more players online
-                    ServerLevel level = ((CraftWorld) BetterSurvival.getInstance().getDefaultWorld()).getHandle();
-                    WanderingTraderSpawner spawner = new WanderingTraderSpawner(level.L);
-                    spawner.spawn(level);
-                }
-
-                i++;
-            }
-        }.runTaskTimer(BetterSurvival.getInstance(), 0, 20);
+    public static void run() {
+        World world = BetterSurvival.getInstance().getDefaultWorld();
+        if (SeasonListener.getDays() < 30) return;
+        if (world.getTime() != 1) return;
+        if (SeasonListener.getDays() % 5 == 0) {
+            // Spawn wandering trader at the start of the day, every 5 days after the first season
+            ServerLevel level = ((CraftWorld) world).getHandle();
+            WanderingTraderSpawner spawner = new WanderingTraderSpawner(level.L);
+            spawner.spawn(level);
+        }
     }
 }

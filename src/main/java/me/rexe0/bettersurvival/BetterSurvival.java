@@ -115,7 +115,6 @@ public final class BetterSurvival extends JavaPlugin {
         recipes.values().forEach(r -> getServer().addRecipe(r));
 
         DrillEntity.runTimer();
-        WanderingTrader.runTimer();
 
         Bukkit.getScheduler().runTaskTimer(this, () -> {
             ChainedMinecart.run();
@@ -125,6 +124,7 @@ public final class BetterSurvival extends JavaPlugin {
             CocaineListener.run();
             DeepDarkChanges.run();
             AnimalBreeding.run();
+            WanderingTrader.run();
         }, 0, 1);
         Bukkit.getScheduler().runTaskTimer(this, () -> Bukkit.getOnlinePlayers().forEach((player) -> {
             for (ItemType type : ItemType.values()) {
