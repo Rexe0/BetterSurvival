@@ -105,7 +105,7 @@ public class CatchListener implements Listener {
             max *= 1 - (fishingRod.getEnchantmentLevel(Enchantment.LURE) * 0.1);
         }
 
-        e.getHook().setMinWaitTime(min);
+        e.getHook().setMinWaitTime(Math.max(0, min));
         e.getHook().setMaxWaitTime(max);
 
         EntityDataUtil.setIntegerValue(e.getHook(), "luckLevel", fishingRod.getEnchantmentLevel(Enchantment.LUCK_OF_THE_SEA));
