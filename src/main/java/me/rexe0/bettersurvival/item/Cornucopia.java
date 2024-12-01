@@ -14,11 +14,21 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.List;
+
 public class Cornucopia extends Item {
     private final int FOOD_INCREASE = 4;
     private final int SATURATION_INCREASE = 6;
     public Cornucopia() {
         super(Material.GOLDEN_CARROT, ChatColor.GREEN+"Cornucopia", "CORNUCOPIA");
+    }
+
+    @Override
+    public List<String> getLore() {
+        List<String> lore = super.getLore();
+        lore.add(ChatColor.GRAY+"Restores "+ChatColor.GREEN+(6+FOOD_INCREASE)+ChatColor.GRAY+" hunger and "+ChatColor.GREEN+(14+6));
+        lore.add(ChatColor.GRAY+"saturation.");
+        return lore;
     }
 
     @Override
