@@ -27,7 +27,7 @@ public class GoldBobber extends Item {
     @Override
     public void onLootGenerate(LootGenerateEvent e) {
         String key = e.getLootTable().getKey().getKey();
-        if (key.equals("chests/desert_temple"))
-            if (RandomUtil.getRandom().nextBoolean())e.getLoot().add(getItem());
+        if (key.equals("chests/desert_pyramid"))
+            if (RandomUtil.getRandom().nextBoolean()) e.getLoot().add(getItem());
     }
 }
