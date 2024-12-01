@@ -15,6 +15,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -45,20 +46,27 @@ public class WanderingTrader implements Listener {
         trader.setRecipe(trader.getRecipeCount()-2, trade);
     }
 
-    // Runs every 24000 ticks (20 minutes)
     public static void runTimer() {
-        Bukkit.getScheduler().runTaskTimer(BetterSurvival.getInstance(), () -> {
-            if (Bukkit.getOnlinePlayers().size() <= 1) return;
-            // Increase wandering trader spawn rates when there are more players online
-            ServerLevel level = ((CraftWorld) BetterSurvival.getInstance().getDefaultWorld()).getHandle();
-            WanderingTraderSpawner spawner = new WanderingTraderSpawner(level.L);
-            try {
-                Method method = spawner.getClass().getDeclaredMethod("spawn", ServerLevel.class);
-                method.setAccessible(true);
-                method.invoke(spawner, level);
-            } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-                e.printStackTrace();
+        new BukkitRunnable() {
+            private int i = 0;
+            @Override
+            public void run() {
+                if (i >= 2400/Bukkit.getOnlinePlayers().size()) {
+                    i = 0;
+                    // Increase wandering trader spawn rates when there are more players online
+                    ServerLevel level = ((CraftWorld) BetterSurvival.getInstance().getDefaultWorld()).getHandle();
+                    WanderingTraderSpawner spawner = new WanderingTraderSpawner(level.L);
+                    try {
+                        Method method = spawner.getClass().getDeclaredMethod("spawn", ServerLevel.class);
+                        method.setAccessible(true);
+                        method.invoke(spawner, level);
+                    } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                i++;
             }
-        }, 0, 48000/Bukkit.getOnlinePlayers().size());
+        }.runTaskTimer(BetterSurvival.getInstance(), 0, 20);
     }
 }
