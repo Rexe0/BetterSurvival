@@ -1,15 +1,23 @@
 package me.rexe0.bettersurvival.mobs;
 
+import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.item.Cannabis;
 import me.rexe0.bettersurvival.item.CocaLeaves;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.util.RandomUtil;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.npc.WanderingTraderSpawner;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_21_R2.CraftWorld;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class WanderingTrader implements Listener {
     @EventHandler
@@ -35,5 +43,22 @@ public class WanderingTrader implements Listener {
         trade.addIngredient(new ItemStack(Material.EMERALD, 20));
         trade.addIngredient(new ItemStack(trade.getResult().getType(), 1));
         trader.setRecipe(trader.getRecipeCount()-2, trade);
+    }
+
+    // Runs every 24000 ticks (20 minutes)
+    public static void runTimer() {
+        Bukkit.getScheduler().runTaskTimer(BetterSurvival.getInstance(), () -> {
+            if (Bukkit.getOnlinePlayers().size() <= 2) return;
+            // Increase wandering trader spawn rates when there are more players online
+            ServerLevel level = ((CraftWorld) BetterSurvival.getInstance().getDefaultWorld()).getHandle();
+            WanderingTraderSpawner spawner = new WanderingTraderSpawner(level.L.overworldData());
+            try {
+                Method method = spawner.getClass().getDeclaredMethod("spawn", ServerLevel.class);
+                method.setAccessible(true);
+                method.invoke(spawner, level);
+            } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }, 0, 24000);
     }
 }
