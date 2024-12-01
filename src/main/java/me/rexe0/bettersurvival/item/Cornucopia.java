@@ -26,8 +26,8 @@ public class Cornucopia extends Item {
     @Override
     public List<String> getLore() {
         List<String> lore = super.getLore();
-        lore.add(ChatColor.GRAY+"Restores "+ChatColor.GREEN+(6+FOOD_INCREASE)+ChatColor.GRAY+" hunger and "+ChatColor.GREEN+(14+6));
-        lore.add(ChatColor.GRAY+"saturation.");
+        lore.add(ChatColor.GRAY+"Restores "+ChatColor.GREEN+(6+FOOD_INCREASE)+ChatColor.GRAY+" hunger and ");
+        lore.add(""+ChatColor.GREEN+(14+SATURATION_INCREASE)+ChatColor.GRAY+" saturation.");
         return lore;
     }
 
