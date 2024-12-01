@@ -30,7 +30,7 @@ public class WanderingTrader implements Listener {
             case 3 -> {
                 int potency = RandomUtil.getRandom().nextInt(0, 15);
                 ItemStack itemStack;
-                if (trader.getLocation().getBlock().getBiome().toString().contains("JUNGLE"))
+                if (RandomUtil.getRandom().nextBoolean())
                     itemStack = new CocaLeaves(potency).getItem();
                 else
                     itemStack = new Cannabis(potency).getItem();
