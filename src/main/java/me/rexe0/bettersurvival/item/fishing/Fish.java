@@ -40,6 +40,7 @@ public class Fish extends Item {
     public enum FishType {
         SARDINE(Material.COD,ChatColor.GREEN+"Sardine", BiomeGroup.OCEAN, new Season[]{Season.AUTUMN, Season.SUMMER, Season.SPRING}, Time.ANY, 1, 4, 50),
         ANCHOVY(Material.COD,ChatColor.GREEN+"Anchovy", BiomeGroup.OCEAN, new Season[]{Season.SUMMER, Season.AUTUMN, Season.WINTER}, Time.ANY, 1, 5, 50),
+        PILOT_FISH(Material.COD,ChatColor.GREEN+"Pilot Fish", BiomeGroup.OCEAN, new Season[]{Season.SPRING, Season.WINTER, Season.AUTUMN}, Time.ANY, 4, 10, 50),
         TUNA(Material.COD,ChatColor.BLUE+"Tuna", BiomeGroup.OCEAN, new Season[]{Season.SPRING, Season.SUMMER}, Time.DAY, 10, 18, 30),
         TROUT(Material.SALMON,ChatColor.BLUE+"Trout", BiomeGroup.OCEAN, new Season[]{Season.SPRING, Season.SUMMER, Season.AUTUMN}, Time.NIGHT, 8, 20, 30),
         RED_MULLET(Material.SALMON,ChatColor.BLUE+"Red Mullet", BiomeGroup.OCEAN, new Season[]{Season.AUTUMN, Season.WINTER}, Time.NIGHT, 10, 20, 30),
