@@ -41,7 +41,7 @@ public class FishStew extends Item {
                 int ticks = effect == PotionEffectType.REGENERATION ? (int) (weight * 10) : (int) weight*100;
                 int minutes = ticks/1200;
                 int seconds = (ticks/20)%60;
-                lore.add(ChatColor.GRAY+getEffectName(effect)
+                lore.add(ChatColor.GRAY+getEffectName(effect)+" "
                         +(ItemDataUtil.IntegerToRomanNumeral((int) (weight/group.getEffectDivisor()+1)))
                         +" ("+minutes+":"+String.format("%02d", seconds)+")");
             }
