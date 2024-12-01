@@ -2,13 +2,11 @@ package me.rexe0.bettersurvival.farming;
 
 import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import me.rexe0.bettersurvival.util.RandomUtil;
 import me.rexe0.bettersurvival.weather.HolidayListener;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Dispenser;
 import org.bukkit.block.data.Ageable;
@@ -23,6 +21,7 @@ import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.KnowledgeBookMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -41,6 +40,20 @@ public class HarvestModifier implements Listener {
         cropDrops.put(Material.BEETROOTS, new Material[]{Material.BEETROOT_SEEDS, Material.BEETROOT});
     }
 
+    @EventHandler
+    public void onHarvestWheat(BlockBreakEvent e) {
+        if (e.getBlock().getType() != Material.WHEAT) return;
+        Player player = e.getPlayer();
+        if (player.getStatistic(Statistic.MINE_BLOCK, Material.WHEAT) == 300) {
+            ItemStack item = new ItemStack(Material.KNOWLEDGE_BOOK);
+            KnowledgeBookMeta meta = (KnowledgeBookMeta) item.getItemMeta();
+            meta.setDisplayName(ChatColor.DARK_AQUA+"Lost Farmer Knowledge");
+            meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.FARMER_BOOTS.getItem().getID()));
+            meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.CORNUCOPIA.getItem().getID()));
+            item.setItemMeta(meta);
+            player.getWorld().dropItemNaturally(e.getBlock().getLocation(), item);
+        }
+    }
     @EventHandler
     public void onHarvest(BlockBreakEvent e) {
         Block block = e.getBlock();

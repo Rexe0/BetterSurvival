@@ -33,11 +33,12 @@ public record TreasureDrop(ItemStack item, int minAmount, int maxAmount, int wei
             ItemStack item = new ItemStack(Material.KNOWLEDGE_BOOK);
             KnowledgeBookMeta meta = (KnowledgeBookMeta) item.getItemMeta();
             meta.setDisplayName(ChatColor.DARK_AQUA+"Lost Fisherman Knowledge");
+            meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.COPPER_FISHING_ROD.getItem().getID()));
+            meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.PLATINUM_FISHING_ROD.getItem().getID()));
             meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.RESONANT_FISHING_ROD.getItem().getID()));
             meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.RESONANT_INGOT.getItem().getID()));
             meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.MAGNET.getItem().getID()));
             meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.PREMIUM_BAIT.getItem().getID()));
-            meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.FARMER_BOOTS.getItem().getID()));
             meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.DRILL_BLOCK.getItem().getID()));
             item.setItemMeta(meta);
             return item;
