@@ -48,10 +48,10 @@ public class WanderingTrader implements Listener {
     // Runs every 24000 ticks (20 minutes)
     public static void runTimer() {
         Bukkit.getScheduler().runTaskTimer(BetterSurvival.getInstance(), () -> {
-            if (Bukkit.getOnlinePlayers().size() <= 2) return;
+            if (Bukkit.getOnlinePlayers().size() <= 1) return;
             // Increase wandering trader spawn rates when there are more players online
             ServerLevel level = ((CraftWorld) BetterSurvival.getInstance().getDefaultWorld()).getHandle();
-            WanderingTraderSpawner spawner = new WanderingTraderSpawner(level.L.overworldData());
+            WanderingTraderSpawner spawner = new WanderingTraderSpawner(level.L);
             try {
                 Method method = spawner.getClass().getDeclaredMethod("spawn", ServerLevel.class);
                 method.setAccessible(true);
@@ -59,6 +59,6 @@ public class WanderingTrader implements Listener {
             } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
                 e.printStackTrace();
             }
-        }, 0, 24000);
+        }, 0, 48000/Bukkit.getOnlinePlayers().size());
     }
 }
