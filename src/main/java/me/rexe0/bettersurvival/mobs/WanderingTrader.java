@@ -51,7 +51,7 @@ public class WanderingTrader implements Listener {
             private int i = 0;
             @Override
             public void run() {
-                if (i >= 2400/Bukkit.getOnlinePlayers().size()) {
+                if (!Bukkit.getOnlinePlayers().isEmpty() && i >= 2400/Bukkit.getOnlinePlayers().size()) {
                     i = 0;
                     // Increase wandering trader spawn rates when there are more players online
                     ServerLevel level = ((CraftWorld) BetterSurvival.getInstance().getDefaultWorld()).getHandle();
