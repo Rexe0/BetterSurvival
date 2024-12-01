@@ -47,6 +47,7 @@ public class Fish extends Item {
 
         CLOWNFISH(Material.TROPICAL_FISH,ChatColor.GREEN+"Clownfish", BiomeGroup.WARM_OCEAN, new Season[]{Season.SUMMER, Season.SPRING}, Time.ANY, 2, 7, 50),
         SUNFISH(Material.COD,ChatColor.GREEN+"Sunfish", BiomeGroup.WARM_OCEAN, new Season[]{Season.SUMMER, Season.SPRING, Season.AUTUMN}, Time.ANY, 3, 10, 50),
+        POMFRET(Material.COD,ChatColor.GREEN+"Pomfret", BiomeGroup.WARM_OCEAN, new Season[]{Season.WINTER, Season.AUTUMN}, Time.ANY, 5, 8, 50),
         SEA_CUCUMBER(Material.KELP,ChatColor.BLUE+"Sea Cucumber", BiomeGroup.WARM_OCEAN, new Season[]{Season.WINTER, Season.SPRING, Season.AUTUMN}, Time.DAY, 6, 15, 30),
         PUFFERFISH(Material.PUFFERFISH,ChatColor.BLUE+"Pufferfish", BiomeGroup.WARM_OCEAN, new Season[]{Season.WINTER, Season.SPRING, Season.AUTUMN}, Time.NIGHT, 6, 15, 30),
         JELLYFISH(Material.COD,ChatColor.DARK_PURPLE+"Jellyfish", BiomeGroup.WARM_OCEAN, new Season[]{Season.WINTER, Season.AUTUMN}, Time.NIGHT, 10, 25, 10),
