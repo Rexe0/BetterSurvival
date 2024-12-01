@@ -107,7 +107,7 @@ public class FishingMinigame {
         // Fish Location
         if (difficulty == Difficulty.EASY) {
             double amount = RandomUtil.getRandom().nextDouble(0.004, 0.008);
-            fishLocation = Math.min(1, Math.max(0, fishLocation+(i % 200 < 100 ? amount : -amount)));
+            fishLocation = Math.min(1, Math.max(0, fishLocation+(i % 150 < 75 ? amount : -amount)));
         } else if (difficulty == Difficulty.MEDIUM) {
             int stage = i % 100 < 40 ? 0 : (i % 100 < 70 ? 1 : 2); // Stage 0 is floating, Stage 1 is hovering, Stage 2 is sinking
             double amount = RandomUtil.getRandom().nextDouble(0.005, 0.008);
