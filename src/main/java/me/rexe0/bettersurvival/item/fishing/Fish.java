@@ -38,8 +38,8 @@ public class Fish extends Item {
     }
 
     public enum FishType {
-        SARDINE(Material.COD,ChatColor.GREEN+"Sardine", BiomeGroup.OCEAN, new Season[]{Season.AUTUMN, Season.SUMMER, Season.SPRING}, Time.ANY, 1, 8, 50),
-        ANCHOVY(Material.COD,ChatColor.GREEN+"Anchovy", BiomeGroup.OCEAN, new Season[]{Season.SUMMER, Season.AUTUMN, Season.WINTER}, Time.ANY, 1, 6, 50),
+        SARDINE(Material.COD,ChatColor.GREEN+"Sardine", BiomeGroup.OCEAN, new Season[]{Season.AUTUMN, Season.SUMMER, Season.SPRING}, Time.ANY, 1, 4, 50),
+        ANCHOVY(Material.COD,ChatColor.GREEN+"Anchovy", BiomeGroup.OCEAN, new Season[]{Season.SUMMER, Season.AUTUMN, Season.WINTER}, Time.ANY, 1, 5, 50),
         TUNA(Material.COD,ChatColor.BLUE+"Tuna", BiomeGroup.OCEAN, new Season[]{Season.SPRING, Season.SUMMER}, Time.DAY, 10, 18, 30),
         TROUT(Material.SALMON,ChatColor.BLUE+"Trout", BiomeGroup.OCEAN, new Season[]{Season.SPRING, Season.SUMMER, Season.AUTUMN}, Time.NIGHT, 8, 20, 30),
         RED_MULLET(Material.SALMON,ChatColor.BLUE+"Red Mullet", BiomeGroup.OCEAN, new Season[]{Season.AUTUMN, Season.WINTER}, Time.NIGHT, 10, 20, 30),
@@ -62,6 +62,7 @@ public class Fish extends Item {
         BREAM(Material.COD,ChatColor.GREEN+"Bream", BiomeGroup.RIVER, new Season[]{Season.SUMMER, Season.WINTER, Season.AUTUMN}, Time.ANY, 4, 6, 50),
         PIKE(Material.COD,ChatColor.GREEN+"Pike", BiomeGroup.RIVER, new Season[]{Season.AUTUMN, Season.WINTER, Season.SPRING}, Time.ANY, 2, 8, 50),
         SHAD(Material.COD,ChatColor.BLUE+"Shad", BiomeGroup.RIVER, new Season[]{Season.SUMMER, Season.WINTER, Season.SPRING}, Time.NIGHT, 5, 12, 30),
+        RAINBOW_TROUT(Material.SALMON,ChatColor.DARK_PURPLE+"Rainbow Trout", BiomeGroup.RIVER, new Season[]{Season.SUMMER, Season.WINTER, Season.SPRING}, Time.DUSK, 10, 17, 30),
 
         NEON_TETRA(Material.COD,ChatColor.GREEN+"Neon Tetra", BiomeGroup.JUNGLE, new Season[]{Season.SUMMER, Season.SPRING, Season.AUTUMN, Season.WINTER}, Time.ANY, 2, 5, 50),
         COCOA_FISH(Material.COD,ChatColor.GREEN+"Cocoa Fish", BiomeGroup.JUNGLE, new Season[]{Season.SUMMER, Season.SPRING}, Time.DAY, 4, 7, 50),
