@@ -11,6 +11,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FishStew extends Item {
     // Arrays are linked by index
     private BiomeGroup[] biomeGroups;
@@ -20,6 +23,48 @@ public class FishStew extends Item {
         super(Material.MUSHROOM_STEW, ChatColor.GREEN+"Fish Stew", "FISH_STEW");
         this.biomeGroups = biomeGroups;
         this.fishWeights = fishWeights;
+    }
+
+    @Override
+    public List<String> getLore() {
+        List<String> lore = new ArrayList<>();
+        for (int i = 0; i < biomeGroups.length; i++) {
+            BiomeGroup group = biomeGroups[i];
+            PotionEffectType effect = group.getEffect();
+            double weight = fishWeights[i];
+
+            if (effect == PotionEffectType.HUNGER)
+                lore.add(ChatColor.GRAY+"+"+(Math.round((weight/group.getEffectDivisor())*100)/100)+" Hunger");
+            else if (effect == PotionEffectType.SATURATION)
+                lore.add(ChatColor.GRAY+"+"+(Math.round((weight/group.getEffectDivisor())*100)/100)+" Saturation");
+            else {
+                int ticks = effect == PotionEffectType.REGENERATION ? (int) (weight * 10) : (int) weight*100;
+                int minutes = ticks/1200;
+                int seconds = (ticks/20)%60;
+                lore.add(ChatColor.GRAY+getEffectName(effect)
+                        +(ItemDataUtil.IntegerToRomanNumeral((int) (weight/group.getEffectDivisor()+1)))
+                        +" ("+minutes+":"+String.format("%02d", seconds)+")");
+            }
+        }
+        return lore;
+    }
+
+    private String getEffectName(PotionEffectType effect) {
+        String key = effect.getKey().getKey().toLowerCase();
+        StringBuilder builder = new StringBuilder();
+        boolean capitalize = true;
+        for (int i = 0; i < key.length(); i++) {
+            char c = key.charAt(i);
+            if (c == '_') {
+                builder.append(' ');
+                capitalize = true;
+                continue;
+            }
+            builder.append(capitalize ? Character.toUpperCase(c) : c);
+            capitalize = false;
+
+        }
+        return key.substring(0, 1).toUpperCase() + key.substring(1).toLowerCase();
     }
 
     @Override
