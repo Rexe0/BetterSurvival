@@ -303,7 +303,7 @@ public class SeasonListener {
                         above.setType(Material.SNOW);
                 } else if (above.getType() == Material.SNOW && currentWeather == Weather.BLIZZARD) {
                     Snow data = (Snow) above.getBlockData();
-                    int layers = Math.min(isHarmfulBlizzard ? data.getMaximumLayers() : 2, data.getLayers() + 1);
+                    int layers = Math.min(isHarmfulBlizzard ? data.getMaximumLayers() : 1, data.getLayers() + 1);
 
                     if (layers >= data.getMaximumLayers()) above.setType(Material.POWDER_SNOW);
                     else {
