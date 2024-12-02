@@ -3,6 +3,7 @@ package me.rexe0.bettersurvival.mobs;
 import me.rexe0.bettersurvival.util.RandomUtil;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -15,7 +16,7 @@ public class CriticalAttackListener implements Listener {
     public void onHit(EntityDamageByEntityEvent e) {
         if (e.isCancelled()) return;
         if (!(e.getEntity() instanceof Player player)) return;
-        if (e.getDamager() instanceof Player) return;
+        if (e.getDamager() instanceof Player || (e.getDamager() instanceof Projectile projectile && projectile.getShooter() instanceof Player)) return;
 
         if (RandomUtil.getRandom().nextInt(4) != 0) return;
         // Critical hit
