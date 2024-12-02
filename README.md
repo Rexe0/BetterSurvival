@@ -81,6 +81,7 @@ This is a plugin that contains several features that I think would improve the c
   - It can summon a fireball that moves rapidly towards the player and explodes (Similar to Ghast but with heavier damage)
   - It can cloak every player in darkness and call on a few Endermen to start targeting each player
 - The Ender Dragon can drop 2-4 dragon scales on death
+- Camels can now naturally spawn in the desert biome
 
 **Fishing:**
 - Almost completely reworked the fishing system
