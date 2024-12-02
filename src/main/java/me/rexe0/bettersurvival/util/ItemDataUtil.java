@@ -20,6 +20,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.awt.*;
+
 public class ItemDataUtil {
 
     public static ItemMeta setStringValue(ItemStack item, String key, String value) {
@@ -179,4 +181,19 @@ public class ItemDataUtil {
 
         return s;
     }
+
+    // Add color ranging from red to green based on value and max
+    public static String getFormattedColorString(String string, int value, int max) {
+        int red = 255;
+        int green = 255;
+        double ratio = (double) value / max;
+        if (ratio >= 0.5)
+            red = (int) (255*(2-(ratio*2)));
+        if (ratio <= 0.5)
+            green = (int) (255*(ratio*2));
+        net.md_5.bungee.api.ChatColor chatColor = net.md_5.bungee.api.ChatColor.of(new Color(red, green, 0));
+
+        return chatColor+string;
+    }
+
 }

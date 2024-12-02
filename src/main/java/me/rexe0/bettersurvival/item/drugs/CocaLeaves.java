@@ -38,7 +38,7 @@ public class CocaLeaves extends Item {
         lore.add(ChatColor.GRAY+"effects. It seems to like very warm");
         lore.add(ChatColor.GRAY+"and humid climates.");
         lore.add(" ");
-        lore.add(ChatColor.GRAY+"Potency: "+ChatColor.GREEN+potency+"%");
+        lore.add(ChatColor.GRAY+"Potency: "+(ItemDataUtil.getFormattedColorString(potency+"", potency, 100))+"%");
         return lore;
     }
 

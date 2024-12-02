@@ -42,7 +42,7 @@ public class Cocaine extends Item {
         lore.add(ChatColor.GRAY+"A white powder with strong stimulating");
         lore.add(ChatColor.GRAY+"psychoactive effects.");
         lore.add(" ");
-        lore.add(ChatColor.GRAY+"Potency: "+ChatColor.GREEN+potency+"%");
+        lore.add(ChatColor.GRAY+"Potency: "+(ItemDataUtil.getFormattedColorString(potency+"", potency, 100))+"%");
         return lore;
     }
 

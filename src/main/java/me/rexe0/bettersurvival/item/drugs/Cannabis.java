@@ -37,7 +37,7 @@ public class Cannabis extends Item {
         lore.add(ChatColor.GRAY+"effects. It seems to like warmer");
         lore.add(ChatColor.GRAY+"temperatures.");
         lore.add(" ");
-        lore.add(ChatColor.GRAY+"Potency: "+ChatColor.GREEN+potency+"%");
+        lore.add(ChatColor.GRAY+"Potency: "+(ItemDataUtil.getFormattedColorString(potency+"", potency, 100))+"%");
         return lore;
     }
 
