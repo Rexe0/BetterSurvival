@@ -45,10 +45,9 @@ public class PiglinChange implements Listener {
         piglin.setAdult();
         piglin.setImmuneToZombification(true);
 
-        // 50% chance for sword, 25% for crossbow, 25% for axe
+        // 50% chance for sword, 50% for crossbow
         if (RandomUtil.getRandom().nextBoolean()) piglin.getEquipment().setItemInMainHand(new ItemStack(Material.GOLDEN_SWORD));
-        else if (RandomUtil.getRandom().nextBoolean()) piglin.getEquipment().setItemInMainHand(new ItemStack(Material.CROSSBOW));
-        else piglin.getEquipment().setItemInMainHand(new ItemStack(Material.GOLDEN_AXE));
+        else piglin.getEquipment().setItemInMainHand(new ItemStack(Material.CROSSBOW));
 
         // If a nearby player has been to the end, the piglins will have a piece of netherite armor that can't drop
         if (nearbyEndPlayer) {
