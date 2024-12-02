@@ -1,6 +1,9 @@
 package me.rexe0.bettersurvival.item;
 
 import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.item.drugs.BlockOfCocaine;
+import me.rexe0.bettersurvival.item.drugs.Cannabis;
+import me.rexe0.bettersurvival.item.drugs.CocaLeaves;
 import me.rexe0.bettersurvival.item.fishing.FishCodex;
 import me.rexe0.bettersurvival.util.EntityDataUtil;
 import me.rexe0.bettersurvival.util.ItemDataUtil;

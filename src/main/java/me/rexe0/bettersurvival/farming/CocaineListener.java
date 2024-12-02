@@ -2,10 +2,10 @@ package me.rexe0.bettersurvival.farming;
 
 import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.BetterSurvival;
-import me.rexe0.bettersurvival.item.BlockOfCocaine;
-import me.rexe0.bettersurvival.item.CocaLeaves;
-import me.rexe0.bettersurvival.item.Cocaine;
 import me.rexe0.bettersurvival.item.ItemType;
+import me.rexe0.bettersurvival.item.drugs.BlockOfCocaine;
+import me.rexe0.bettersurvival.item.drugs.CocaLeaves;
+import me.rexe0.bettersurvival.item.drugs.Cocaine;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import me.rexe0.bettersurvival.util.RandomUtil;
 import me.rexe0.bettersurvival.weather.Season;

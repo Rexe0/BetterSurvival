@@ -1,6 +1,7 @@
 package me.rexe0.bettersurvival.item;
 
 import me.rexe0.bettersurvival.fishing.BiomeGroup;
+import me.rexe0.bettersurvival.item.drugs.*;
 import me.rexe0.bettersurvival.item.fishing.*;
 import org.bukkit.ChatColor;
 

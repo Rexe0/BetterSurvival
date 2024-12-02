@@ -1,6 +1,8 @@
-package me.rexe0.bettersurvival.item;
+package me.rexe0.bettersurvival.item.drugs;
 
 import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.item.Item;
+import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

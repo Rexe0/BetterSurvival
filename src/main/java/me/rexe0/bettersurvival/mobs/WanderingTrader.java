@@ -1,9 +1,9 @@
 package me.rexe0.bettersurvival.mobs;
 
 import me.rexe0.bettersurvival.BetterSurvival;
-import me.rexe0.bettersurvival.item.Cannabis;
-import me.rexe0.bettersurvival.item.CocaLeaves;
 import me.rexe0.bettersurvival.item.ItemType;
+import me.rexe0.bettersurvival.item.drugs.Cannabis;
+import me.rexe0.bettersurvival.item.drugs.CocaLeaves;
 import me.rexe0.bettersurvival.util.RandomUtil;
 import me.rexe0.bettersurvival.weather.SeasonListener;
 import net.minecraft.server.level.ServerLevel;
