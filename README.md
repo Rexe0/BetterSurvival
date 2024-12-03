@@ -38,8 +38,10 @@ This is a plugin that contains several features that I think would improve the c
 - The Drill Block can now be crafted using 7 Copper Blocks, 1 Redstone Dust and 1 Diamond Pickaxe. When placed and fed coal as fuel, it starts digging a 3x3 tunnel in the direction it is facing. However, it can not break certain blocks that are too 'hard' (Example: Obsidian, Bedrock, etc.).
 
 **Villagers:**
-- Wandering Traders will now always sell either a Stopwatch (When held shows your current speed in km/h), Metal Detector (Detects any ores a few blocks under you when held), a Fish Codex (see Fishing section) or a drug plant (Cannabis or Coca Leaves if in the jungle)
-- Wandering Traders are now guaranteed to spawn every 5 in game days after the first Spring
+- Wandering traders will now offer to buy 2-3 exotic items for emeralds
+- Wandering Traders will now always sell either a Stopwatch (When held shows your current speed in km/h), Metal Detector (Detects any ores a few blocks under you when held), a Fish Codex (see Fishing section)
+ -Wandering Traders will now always sell either Cannabis or Coca Leaves
+- Wandering Traders are now guaranteed to spawn every 10 in game days after the first Spring
 
 **Minecarts:**
 - Minecarts can now be linked together using by Sneak + Right Clicking on them with chains. The first minecart clicked will pull the second one that was clicked.

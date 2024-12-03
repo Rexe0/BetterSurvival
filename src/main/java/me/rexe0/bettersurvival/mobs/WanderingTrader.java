@@ -16,38 +16,74 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class WanderingTrader implements Listener {
+    private final Map<ItemStack, Integer> sellTrades;
+
+    public WanderingTrader() {
+        sellTrades = new HashMap<>();
+        sellTrades.put(new ItemStack(Material.ECHO_SHARD), 3);
+        sellTrades.put(new ItemStack(Material.TURTLE_SCUTE), 3);
+        sellTrades.put(new ItemStack(Material.ARMADILLO_SCUTE), 2);
+        sellTrades.put(new ItemStack(Material.RABBIT_FOOT), 2);
+        sellTrades.put(new ItemStack(Material.AMETHYST_SHARD), 2);
+        sellTrades.put(new ItemStack(Material.SPONGE), 4);
+        sellTrades.put(new ItemStack(Material.WITHER_ROSE), 3);
+        sellTrades.put(new ItemStack(Material.HEART_OF_THE_SEA), 4);
+        sellTrades.put(new ItemStack(Material.SADDLE), 4);
+        sellTrades.put(new ItemStack(Material.GRASS_BLOCK), 3);
+        sellTrades.put(new ItemStack(Material.DRAGON_BREATH), 5);
+        sellTrades.put(new ItemStack(Material.CAKE), 4);
+        sellTrades.put(new ItemStack(Material.BUBBLE_CORAL_BLOCK), 2);
+        sellTrades.put(new ItemStack(Material.FIRE_CORAL_BLOCK), 2);
+    }
     @EventHandler
     public void onSpawn(CreatureSpawnEvent e) {
         if (!(e.getEntity() instanceof org.bukkit.entity.WanderingTrader trader)) return;
-        ItemStack item = switch (RandomUtil.getRandom().nextInt(4)) {
-            default -> ItemType.STOPWATCH.getItem().getItem();
-            case 1 -> ItemType.METAL_DETECTOR.getItem().getItem();
-            case 2 -> ItemType.FISH_CODEX.getItem().getItem();
-            case 3 -> {
-                int potency = RandomUtil.getRandom().nextInt(0, 15);
-                ItemStack itemStack;
-                if (RandomUtil.getRandom().nextBoolean())
-                    itemStack = new CocaLeaves(potency).getItem();
-                else
-                    itemStack = new Cannabis(potency).getItem();
 
-                itemStack.setAmount(1);
-                yield itemStack;
+        List<MerchantRecipe> recipes = new ArrayList<>(trader.getRecipes());
+
+        for (int i = 0; i < 2; i++) {
+            ItemStack item;
+            if (i == 0) item = switch (RandomUtil.getRandom().nextInt(3)) {
+                default -> ItemType.STOPWATCH.getItem().getItem();
+                case 1 -> ItemType.METAL_DETECTOR.getItem().getItem();
+                case 2 -> ItemType.FISH_CODEX.getItem().getItem();
+            };
+            else {
+                int potency = RandomUtil.getRandom().nextInt(0, 15);
+                item = switch (RandomUtil.getRandom().nextInt(2)) {
+                    default -> new Cannabis(potency).getItem();
+                    case 1 -> new CocaLeaves(potency).getItem();
+//                    case 2 -> new Yeast().getItem();
+                };
             }
-        };
-        MerchantRecipe trade = new MerchantRecipe(item, 1);
-        trade.addIngredient(new ItemStack(Material.EMERALD, 20));
-        trade.addIngredient(new ItemStack(trade.getResult().getType(), 1));
-        trader.setRecipe(trader.getRecipeCount()-2, trade);
+
+            MerchantRecipe trade = new MerchantRecipe(item, 1);
+            trade.addIngredient(new ItemStack(Material.EMERALD, 20));
+            trade.addIngredient(new ItemStack(trade.getResult().getType() == Material.FROG_SPAWN_EGG ? Material.PUMPKIN_SEEDS : trade.getResult().getType(), 1));
+            recipes.add(0, trade);
+        }
+        for (int i = 0; i < RandomUtil.getRandom().nextInt(2, 4); i++) {
+            ItemStack item = (ItemStack) sellTrades.keySet().toArray()[RandomUtil.getRandom().nextInt(sellTrades.size())];
+            MerchantRecipe trade = new MerchantRecipe(new ItemStack(Material.EMERALD, sellTrades.get(item)), 1);
+            trade.addIngredient(item);
+            recipes.add(0, trade);
+        }
+
+        trader.setRecipes(recipes);
     }
 
     public static void run() {
         World world = BetterSurvival.getInstance().getDefaultWorld();
         if (SeasonListener.getDays() < 30) return;
         if (world.getTime() != 1) return;
-        if (SeasonListener.getDays() % 5 == 0) {
-            // Spawn wandering trader at the start of the day, every 5 days after the first season
+        if (SeasonListener.getDays() % 10 == 9) {
+            // Spawn wandering trader at the start of the day, every 10 days after the first season
             ServerLevel level = ((CraftWorld) world).getHandle();
             WanderingTraderSpawner spawner = new WanderingTraderSpawner(level.L);
             spawner.spawn(level);
