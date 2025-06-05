@@ -40,12 +40,19 @@ public class AlcoholListener implements Listener {
         PersistentDataContainer data = new CustomBlockData(block, BetterSurvival.getInstance());
         if (data.has(BARREL_TYPE_KEY, PersistentDataType.STRING)) {
             e.setDropItems(false);
+            Barrel barrel = (Barrel) block.getState();
+            List<ItemStack> items = new ArrayList<>(Arrays.asList(barrel.getInventory().getContents()));
+
             BarrelType type = BarrelType.valueOf(data.get(BARREL_TYPE_KEY, PersistentDataType.STRING));
 
             data.remove(BARREL_TYPE_KEY);
             data.remove(BARREL_AGE_KEY);
-            ItemStack item = new ReinforcedBarrel(type).getItem();
-            block.getWorld().dropItemNaturally(block.getLocation(), item);
+
+            items.add(new ReinforcedBarrel(type).getItem());
+            items.forEach(item -> {
+                if (item == null || item.getType() == Material.AIR) return;
+                block.getWorld().dropItemNaturally(block.getLocation(), item);
+            });
         }
     }
     @EventHandler
@@ -80,7 +87,7 @@ public class AlcoholListener implements Listener {
             if (item == null) continue;
             if (item.getType() != Material.POTION) continue;
             PotionMeta meta = (PotionMeta) item.getItemMeta();
-            if (!meta.hasCustomEffects() || meta.getBasePotionType() == PotionType.WATER) {
+            if (!meta.hasCustomEffects() && (!meta.hasBasePotionType() || meta.getBasePotionType() == PotionType.WATER)) {
                 items.add(item);
                 continue;
             }
