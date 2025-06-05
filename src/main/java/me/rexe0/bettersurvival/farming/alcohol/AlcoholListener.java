@@ -98,6 +98,7 @@ public class AlcoholListener implements Listener {
         List<ItemStack> fermentableItems = new ArrayList<>();
         for (ItemStack item : inventory.getContents()) {
             if (item == null) continue;
+            if (item.getType() == Material.FROGSPAWN || item.getType() == Material.AIR || item.getType() == Material.POTION) continue; // Ignore yeast, air and potions
 
             boolean useable = requiredMaterial != null && item.getType() == requiredMaterial;
             if (requiredMaterial == null)
