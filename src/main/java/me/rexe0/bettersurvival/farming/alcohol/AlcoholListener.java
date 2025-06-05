@@ -69,7 +69,7 @@ public class AlcoholListener implements Listener {
             // Only ferment if the time has passed the threshold
             if (currentTime - lastAction < FERMENT_TIME) return;
 
-            double actions = (double) (currentTime - lastAction) / FERMENT_TIME;
+            double actions = Math.min(20, (double) (currentTime - lastAction) / FERMENT_TIME);
             while (actions >= 1) {
                 ferment(((Barrel) block.getState()).getInventory());
                 actions--;
@@ -115,14 +115,23 @@ public class AlcoholListener implements Listener {
         return fermentableItems;
     }
     private void ferment(Inventory inventory) {
+        List<ItemStack> containers = getContainers(inventory);
+        if (containers.isEmpty()) return;
+
         int yeast = Arrays.stream(inventory.getContents())
                 .filter(item -> item != null && ItemDataUtil.isItem(item, ItemType.YEAST.getItem().getID()))
                 .mapToInt(ItemStack::getAmount)
                 .sum();
 
+        int yeastShared = yeast;
 
-        for (ItemStack container : getContainers(inventory)) {
-            if (yeast <= 0) break;
+
+        for (ItemStack container : containers) {
+            if (yeastShared <= 0) break;
+            double yeastPer = (double) yeast /containers.size();
+            if (yeastPer % 1 != 0)
+                yeastPer = Math.ceil(yeastPer);
+
 
             WineType type = null;
             double concentration = ItemDataUtil.getDoubleValue(container, "concentration");
@@ -144,7 +153,7 @@ public class AlcoholListener implements Listener {
             int foodCount = Math.min(Math.min(type.getFruitCost(),
                     fermentableItems.stream()
                             .mapToInt(ItemStack::getAmount)
-                            .sum()), yeast);
+                            .sum()), (int) yeastPer);
 
             concentration = Math.min(Wine.MAX_CONCENTRATION, concentration + (double) foodCount / type.getFruitCost());
 
@@ -184,7 +193,7 @@ public class AlcoholListener implements Listener {
             }
 
             // Each yeast can only contribute once per fermentation tick
-            yeast -= foodCount;
+            yeastShared -= foodCount;
 
             // Modify the ItemStack object in the inventory directly
             ItemStack item = new Wine(concentration, type).getItem();
