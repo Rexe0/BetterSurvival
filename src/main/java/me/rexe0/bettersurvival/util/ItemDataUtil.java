@@ -183,10 +183,10 @@ public class ItemDataUtil {
     }
 
     // Add color ranging from red to green based on value and max
-    public static String getFormattedColorString(String string, int value, int max) {
+    public static String getFormattedColorString(String string, double value, int max) {
         int red = 255;
         int green = 255;
-        double ratio = (double) value / max;
+        double ratio = value / max;
         if (ratio >= 0.5)
             red = (int) (255*(2-(ratio*2)));
         if (ratio <= 0.5)

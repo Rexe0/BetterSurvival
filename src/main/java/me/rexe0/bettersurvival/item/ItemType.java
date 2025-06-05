@@ -1,6 +1,7 @@
 package me.rexe0.bettersurvival.item;
 
 import me.rexe0.bettersurvival.farming.alcohol.BarrelType;
+import me.rexe0.bettersurvival.farming.alcohol.WineType;
 import me.rexe0.bettersurvival.fishing.BiomeGroup;
 import me.rexe0.bettersurvival.item.drugs.*;
 import me.rexe0.bettersurvival.item.fishing.*;
@@ -31,7 +32,7 @@ public enum ItemType {
     BLOCK_OF_COCAINE(new BlockOfCocaine(0)),
     YEAST(new Yeast()),
     REINFORCED_BARREL(new ReinforcedBarrel(BarrelType.OAK)),
-    BEER(new Beer(0)),
+    WINE(new Wine(0, WineType.SWEET_BERRY)),
 
     FISH_CODEX(new FishCodex()),
     PLATINUM_ORE(new PlatinumOre()),

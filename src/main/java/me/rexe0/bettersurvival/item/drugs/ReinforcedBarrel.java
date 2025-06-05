@@ -2,7 +2,6 @@ package me.rexe0.bettersurvival.item.drugs;
 
 import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.BetterSurvival;
-import me.rexe0.bettersurvival.farming.CocaineListener;
 import me.rexe0.bettersurvival.farming.alcohol.AlcoholListener;
 import me.rexe0.bettersurvival.farming.alcohol.BarrelType;
 import me.rexe0.bettersurvival.item.Item;
@@ -12,7 +11,6 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Barrel;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.type.Leaves;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -80,5 +78,6 @@ public class ReinforcedBarrel extends Item {
         PersistentDataContainer data = new CustomBlockData(block, BetterSurvival.getInstance());
 
         data.set(AlcoholListener.BARREL_TYPE_KEY, PersistentDataType.STRING, type.name());
+        data.set(AlcoholListener.BARREL_AGE_KEY, PersistentDataType.LONG, System.currentTimeMillis());
     }
 }

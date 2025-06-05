@@ -4,7 +4,6 @@ import me.rexe0.bettersurvival.farming.alcohol.WineType;
 import me.rexe0.bettersurvival.item.Item;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.ChatColor;
-import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -15,10 +14,10 @@ import java.util.List;
 public class Wine extends Item {
     private static final int MAX_CONCENTRATION = 15;
 
-    private final int concentration;
+    private final double concentration;
     private final WineType type;
 
-    public Wine(int concentration, WineType type) {
+    public Wine(double concentration, WineType type) {
         super(Material.POTION, ChatColor.DARK_PURPLE+type.getName(), "WINE");
         this.concentration = Math.min(MAX_CONCENTRATION, concentration);
         this.type = type;
@@ -32,7 +31,7 @@ public class Wine extends Item {
         meta.setMaxStackSize(64);
         meta.setColor(type.getColor());
         item.setItemMeta(meta);
-        item.setItemMeta(ItemDataUtil.setIntegerValue(item, "concentration", concentration));
+        item.setItemMeta(ItemDataUtil.setDoubleValue(item, "concentration", concentration));
         item.setItemMeta(ItemDataUtil.setStringValue(item, "wineType", type.name()));
         return item;
     }
@@ -40,11 +39,21 @@ public class Wine extends Item {
     @Override
     public List<String> getLore() {
         List<String> lore = super.getLore();
-        lore.add(ChatColor.GRAY+"An alcoholic beverage");
-        lore.add(ChatColor.GRAY+"produced from the fermentation");
-        lore.add(ChatColor.GRAY+"of fruit.");
+        if (type == WineType.SUGAR_WASH) {
+            lore.add(ChatColor.GRAY+"A fermented combination of");
+            lore.add(ChatColor.GRAY+"sugar and water. It doesn't");
+            lore.add(ChatColor.GRAY+"taste very nice...");
+        } else if (type == WineType.BEER) {
+            lore.add(ChatColor.GRAY+"A rather light alcoholic");
+            lore.add(ChatColor.GRAY+"beverage produced from the");
+            lore.add(ChatColor.GRAY+"fermentation of starch.");
+        } else {
+            lore.add(ChatColor.GRAY + "An alcoholic beverage");
+            lore.add(ChatColor.GRAY + "produced from the fermentation");
+            lore.add(ChatColor.GRAY + "of fruit.");
+        }
         lore.add(" ");
-        lore.add(ChatColor.GRAY+"Concentration: "+(ItemDataUtil.getFormattedColorString(concentration+"", concentration, MAX_CONCENTRATION))+"%");
+        lore.add(ChatColor.GRAY+"Concentration: "+(ItemDataUtil.getFormattedColorString(concentration+"", Math.round(concentration*100)/100d, MAX_CONCENTRATION))+"%");
         return lore;
     }
 }
