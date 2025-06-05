@@ -12,16 +12,17 @@ import org.bukkit.inventory.meta.PotionMeta;
 import java.util.List;
 
 public class Wine extends Item {
-    private static final int MAX_CONCENTRATION = 15;
+    public static final int MAX_CONCENTRATION = 15;
 
     private final double concentration;
     private final WineType type;
 
     public Wine(double concentration, WineType type) {
-        super(Material.POTION, ChatColor.DARK_PURPLE+type.getName(), "WINE");
-        this.concentration = Math.min(MAX_CONCENTRATION, concentration);
+        super(Material.POTION, type.getName(), "WINE");
+        this.concentration = concentration;
         this.type = type;
     }
+
 
     @Override
     public ItemStack getItem() {

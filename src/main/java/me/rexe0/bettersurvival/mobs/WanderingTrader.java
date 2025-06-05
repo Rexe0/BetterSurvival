@@ -4,6 +4,7 @@ import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.item.drugs.Cannabis;
 import me.rexe0.bettersurvival.item.drugs.CocaLeaves;
+import me.rexe0.bettersurvival.item.drugs.Yeast;
 import me.rexe0.bettersurvival.util.RandomUtil;
 import me.rexe0.bettersurvival.weather.SeasonListener;
 import net.minecraft.server.level.ServerLevel;
@@ -56,16 +57,16 @@ public class WanderingTrader implements Listener {
             };
             else {
                 int potency = RandomUtil.getRandom().nextInt(0, 15);
-                item = switch (RandomUtil.getRandom().nextInt(2)) {
+                item = switch (RandomUtil.getRandom().nextInt(3)) {
                     default -> new Cannabis(potency).getItem();
                     case 1 -> new CocaLeaves(potency).getItem();
-//                    case 2 -> new Yeast().getItem();
+                    case 2 -> new Yeast().getItem();
                 };
             }
 
             MerchantRecipe trade = new MerchantRecipe(item, 1);
             trade.addIngredient(new ItemStack(Material.EMERALD, 20));
-            trade.addIngredient(new ItemStack(trade.getResult().getType() == Material.FROG_SPAWN_EGG ? Material.PUMPKIN_SEEDS : trade.getResult().getType(), 1));
+            trade.addIngredient(new ItemStack(trade.getResult().getType() == Material.FROGSPAWN ? Material.PUMPKIN_SEEDS : trade.getResult().getType(), 1));
             recipes.add(0, trade);
         }
         for (int i = 0; i < RandomUtil.getRandom().nextInt(2, 4); i++) {

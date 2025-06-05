@@ -31,7 +31,7 @@ public class AlcoholListener implements Listener {
     public static final NamespacedKey BARREL_TYPE_KEY = new NamespacedKey(BetterSurvival.getInstance(), "BARREL_TYPE");
     // Stores the last time the barrel had an action
     public static final NamespacedKey BARREL_AGE_KEY = new NamespacedKey(BetterSurvival.getInstance(), "BARREL_AGE");
-    private static final int FERMENT_TIME = 1000 * 60 * 10; // It takes 10 minutes to ferment
+    private static final int FERMENT_TIME = 1000 * 10; // It takes 10 minutes to ferment
 
     @EventHandler
     public void onHarvest(BlockBreakEvent e) {
@@ -58,10 +58,11 @@ public class AlcoholListener implements Listener {
         if (data.has(BARREL_AGE_KEY, PersistentDataType.LONG) && block.getType() == Material.BARREL) {
             long lastAction = data.get(BARREL_AGE_KEY, PersistentDataType.LONG);
             long currentTime = System.currentTimeMillis();
-            // If the last action was less than 5 seconds ago, ignore the click
+
+            // Only ferment if the time has passed the threshold
             if (currentTime - lastAction < FERMENT_TIME) return;
 
-            float actions = (float) (currentTime - lastAction) / FERMENT_TIME;
+            double actions = (double) (currentTime - lastAction) / FERMENT_TIME;
             while (actions >= 1) {
                 ferment(((Barrel) block.getState()).getInventory());
                 actions--;
@@ -112,8 +113,14 @@ public class AlcoholListener implements Listener {
                 .mapToInt(ItemStack::getAmount)
                 .sum();
 
+
         for (ItemStack container : getContainers(inventory)) {
+            if (yeast <= 0) break;
+
             WineType type = null;
+            double concentration = ItemDataUtil.getDoubleValue(container, "concentration");
+            if (concentration >= Wine.MAX_CONCENTRATION) continue; // Already at max concentration
+
             try {
                 type = WineType.valueOf(ItemDataUtil.getStringValue(container, "wineType"));
             } catch (Exception ignored) { // If it is a water bottle
@@ -132,25 +139,50 @@ public class AlcoholListener implements Listener {
                             .mapToInt(ItemStack::getAmount)
                             .sum()), yeast);
 
-            double concentration = ItemDataUtil.getDoubleValue(container, "concentration");
-            concentration += (double) foodCount / type.getFruitCost();
+            concentration = Math.min(Wine.MAX_CONCENTRATION, concentration + (double) foodCount / type.getFruitCost());
 
             // Remove the used items from the inventory
+            int n = foodCount;
             for (ItemStack item : fermentableItems) {
-                if (item.getAmount() > foodCount) {
-                    item.setAmount(item.getAmount() - foodCount);
+                if (item.getAmount() > n) {
+                    item.setAmount(item.getAmount() - n);
                     break;
                 } else {
-                    foodCount -= item.getAmount();
+                    n -= item.getAmount();
                     item.setAmount(0);
                 }
             }
+
+            // If the concentration is at max, kill off the yeast
+            if (concentration >= Wine.MAX_CONCENTRATION) {
+                n = foodCount;
+                for (ItemStack item : inventory.getContents()) {
+                    if (item == null || !ItemDataUtil.isItem(item, ItemType.YEAST.getItem().getID())) continue;
+                    if (item.getAmount() > n) {
+                        item.setAmount(item.getAmount() - n);
+                        break;
+                    } else {
+                        n -= item.getAmount();
+                        item.setAmount(0);
+                    }
+                }
+            } else {
+                // If not, the yeast have a chance to multiply where the chance is based on the concentration of the wine
+                double chance = (1-(concentration / Wine.MAX_CONCENTRATION))/10;
+                for (ItemStack item : inventory.getContents()) {
+                    if (item == null || !ItemDataUtil.isItem(item, ItemType.YEAST.getItem().getID())) continue;
+                    if (Math.random() < chance)
+                        item.setAmount(item.getAmount() + 1);
+                }
+            }
+
+            // Each yeast can only contribute once per fermentation tick
+            yeast -= foodCount;
 
             // Modify the ItemStack object in the inventory directly
             ItemStack item = new Wine(concentration, type).getItem();
             container.setType(item.getType());
             container.setItemMeta(item.getItemMeta());
-
 
         }
 

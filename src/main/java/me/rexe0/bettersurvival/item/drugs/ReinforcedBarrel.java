@@ -46,7 +46,7 @@ public class ReinforcedBarrel extends Item {
         lore.add(ChatColor.GRAY+"The type of wood the barrel is made");
         lore.add(ChatColor.GRAY+"from affects the flavours of the product.");
         lore.add(" ");
-        lore.add(ChatColor.GRAY+"Type: " + type.getName());
+        lore.add(ChatColor.GRAY+"Type: " + ChatColor.GREEN + type.getName());
         return lore;
     }
     @Override
@@ -59,8 +59,8 @@ public class ReinforcedBarrel extends Item {
             recipe.setIngredient('#', type.getPlanks());
             recipe.setIngredient('@', Material.BARREL);
             recipe.setIngredient('$', Material.IRON_INGOT);
+            recipes.put(recipe.getKey(), recipe);
         }
-
         return recipes;
     }
     public void onBlockPlace(BlockPlaceEvent e) {
@@ -70,7 +70,7 @@ public class ReinforcedBarrel extends Item {
         BarrelType barrelType = BarrelType.valueOf(ItemDataUtil.getStringValue(item, "barrelType"));
 
         Block block = e.getBlock();
-        block.setType(Material.BARREL);
+
         Barrel barrel = (Barrel) block.getState();
         barrel.setCustomName("Reinforced "+barrelType.getName()+" Barrel");
         barrel.update();
