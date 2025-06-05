@@ -88,6 +88,8 @@ public class AlcoholListener implements Listener {
             if (item.getType() != Material.POTION) continue;
             PotionMeta meta = (PotionMeta) item.getItemMeta();
             if (!meta.hasCustomEffects() && (!meta.hasBasePotionType() || meta.getBasePotionType() == PotionType.WATER)) {
+                if (ItemDataUtil.getDoubleValue(item, "concentration") >= Wine.MAX_CONCENTRATION) continue; // Already at max concentration
+
                 items.add(item);
                 continue;
             }
@@ -136,7 +138,6 @@ public class AlcoholListener implements Listener {
 
             WineType type = null;
             double concentration = ItemDataUtil.getDoubleValue(container, "concentration");
-            if (concentration >= Wine.MAX_CONCENTRATION) continue; // Already at max concentration
 
             try {
                 type = WineType.valueOf(ItemDataUtil.getStringValue(container, "wineType"));
