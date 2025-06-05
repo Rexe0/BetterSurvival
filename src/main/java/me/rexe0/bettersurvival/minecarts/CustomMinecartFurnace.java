@@ -4,7 +4,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.vehicle.MinecartFurnace;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_21_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_21_R3.CraftWorld;
 
 public class CustomMinecartFurnace extends MinecartFurnace {
     public CustomMinecartFurnace(Location location) {
