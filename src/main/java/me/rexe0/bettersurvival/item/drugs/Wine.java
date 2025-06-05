@@ -54,7 +54,7 @@ public class Wine extends Item {
             lore.add(ChatColor.GRAY + "of fruit.");
         }
         lore.add(" ");
-        lore.add(ChatColor.GRAY+"Concentration: "+(ItemDataUtil.getFormattedColorString(concentration+"", Math.round(concentration*100)/100d, MAX_CONCENTRATION))+"%");
+        lore.add(ChatColor.GRAY+"Concentration: "+(ItemDataUtil.getFormattedColorString((Math.round(concentration*100)/100d)+"", concentration, MAX_CONCENTRATION))+"%");
         return lore;
     }
 }
