@@ -1,5 +1,6 @@
 package me.rexe0.bettersurvival.item.drugs;
 
+import me.rexe0.bettersurvival.farming.alcohol.WineType;
 import me.rexe0.bettersurvival.item.Item;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.ChatColor;
@@ -12,12 +13,15 @@ import org.bukkit.inventory.meta.PotionMeta;
 import java.util.List;
 
 public class Wine extends Item {
-    private static final int MAX_CONCENTRATION = 25;
+    private static final int MAX_CONCENTRATION = 15;
 
     private final int concentration;
-    public Wine(int concentration) {
-        super(Material.POTION, ChatColor.DARK_PURPLE+"Wine", "WINE");
+    private final WineType type;
+
+    public Wine(int concentration, WineType type) {
+        super(Material.POTION, ChatColor.DARK_PURPLE+type.getName(), "WINE");
         this.concentration = Math.min(MAX_CONCENTRATION, concentration);
+        this.type = type;
     }
 
     @Override
@@ -26,9 +30,10 @@ public class Wine extends Item {
         PotionMeta meta = (PotionMeta) item.getItemMeta();
         meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
         meta.setMaxStackSize(64);
-        meta.setColor(Color.fromRGB(173, 14, 40));
+        meta.setColor(type.getColor());
         item.setItemMeta(meta);
         item.setItemMeta(ItemDataUtil.setIntegerValue(item, "concentration", concentration));
+        item.setItemMeta(ItemDataUtil.setStringValue(item, "wineType", type.name()));
         return item;
     }
 

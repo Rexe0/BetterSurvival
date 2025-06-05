@@ -4,6 +4,7 @@ import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.item.drugs.BlockOfCocaine;
 import me.rexe0.bettersurvival.item.drugs.Cannabis;
 import me.rexe0.bettersurvival.item.drugs.CocaLeaves;
+import me.rexe0.bettersurvival.item.drugs.ReinforcedBarrel;
 import me.rexe0.bettersurvival.item.fishing.FishCodex;
 import me.rexe0.bettersurvival.util.EntityDataUtil;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
@@ -47,6 +48,9 @@ public class ItemListener implements Listener {
 
         BlockOfCocaine blockOfCocaine = (BlockOfCocaine) ItemType.BLOCK_OF_COCAINE.getItem();
         blockOfCocaine.onBlockPlace(e);
+
+        ReinforcedBarrel reinforcedBarrel = (ReinforcedBarrel) ItemType.REINFORCED_BARREL.getItem();
+        reinforcedBarrel.onBlockPlace(e);
     }
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {

@@ -12,7 +12,7 @@ import org.bukkit.inventory.meta.PotionMeta;
 import java.util.List;
 
 public class Beer extends Item {
-    private static final int MAX_CONCENTRATION = 12;
+    private static final int MAX_CONCENTRATION = 10;
 
     private final int concentration;
     public Beer(int concentration) {
