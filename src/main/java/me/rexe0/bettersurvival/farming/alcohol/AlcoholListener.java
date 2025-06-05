@@ -172,7 +172,7 @@ public class AlcoholListener implements Listener {
 
             // If the concentration is at max, kill off the yeast
             if (concentration >= Wine.MAX_CONCENTRATION) {
-                n = foodCount;
+                n = Math.min(16, foodCount*2);
                 for (ItemStack item : inventory.getContents()) {
                     if (item == null || !ItemDataUtil.isItem(item, ItemType.YEAST.getItem().getID())) continue;
                     if (item.getAmount() > n) {
