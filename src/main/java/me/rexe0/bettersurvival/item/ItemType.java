@@ -32,7 +32,7 @@ public enum ItemType {
     BLOCK_OF_COCAINE(new BlockOfCocaine(0)),
     YEAST(new Yeast()),
     REINFORCED_BARREL(new ReinforcedBarrel(BarrelType.OAK)),
-    WINE(new Wine(0, WineType.SWEET_BERRY)),
+    WINE(new Wine(0, WineType.SWEET_BERRY, 0)),
 
     FISH_CODEX(new FishCodex()),
     PLATINUM_ORE(new PlatinumOre()),

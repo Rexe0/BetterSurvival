@@ -4,7 +4,8 @@ import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.config.ConfigLoader;
 import me.rexe0.bettersurvival.deepdark.DeepDarkChanges;
 import me.rexe0.bettersurvival.farming.*;
-import me.rexe0.bettersurvival.farming.alcohol.AlcoholListener;
+import me.rexe0.bettersurvival.farming.alcohol.AgingListener;
+import me.rexe0.bettersurvival.farming.alcohol.FermentListener;
 import me.rexe0.bettersurvival.fishing.CatchListener;
 import me.rexe0.bettersurvival.fishing.FishFile;
 import me.rexe0.bettersurvival.fletchingtable.FletchingTableGUI;
@@ -100,7 +101,8 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new DeepDarkChanges(), this);
         getServer().getPluginManager().registerEvents(new CriticalAttackListener(), this);
         getServer().getPluginManager().registerEvents(new CamelChanges(), this);
-        getServer().getPluginManager().registerEvents(new AlcoholListener(), this);
+        getServer().getPluginManager().registerEvents(new FermentListener(), this);
+        getServer().getPluginManager().registerEvents(new AgingListener(), this);
 
         CustomBlockData.registerListener(this);
 

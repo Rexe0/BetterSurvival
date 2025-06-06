@@ -27,11 +27,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class AlcoholListener implements Listener {
+public class FermentListener implements Listener {
     public static final NamespacedKey BARREL_TYPE_KEY = new NamespacedKey(BetterSurvival.getInstance(), "BARREL_TYPE");
+    public static final NamespacedKey BARREL_PRODUCTS_KEY = new NamespacedKey(BetterSurvival.getInstance(), "BARREL_PRODUCTS");
     // Stores the last time the barrel had an action
-    public static final NamespacedKey BARREL_AGE_KEY = new NamespacedKey(BetterSurvival.getInstance(), "BARREL_AGE");
-    private static final int FERMENT_TIME = 1000 * 10; // It takes 10 minutes to ferment
+    public static final NamespacedKey LAST_FERMENT_KEY = new NamespacedKey(BetterSurvival.getInstance(), "LAST_FERMENT");
+    private static final int FERMENT_TIME = 1000 * 10; // It takes 10 minutes for one ferment tick
 
     @EventHandler
     public void onHarvest(BlockBreakEvent e) {
@@ -44,11 +45,14 @@ public class AlcoholListener implements Listener {
             List<ItemStack> items = new ArrayList<>(Arrays.asList(barrel.getInventory().getContents()));
 
             BarrelType type = BarrelType.valueOf(data.get(BARREL_TYPE_KEY, PersistentDataType.STRING));
+            List<WineType> previousProducts = ReinforcedBarrel.decodePreviousProducts(data.get(BARREL_PRODUCTS_KEY, PersistentDataType.STRING));
 
             data.remove(BARREL_TYPE_KEY);
-            data.remove(BARREL_AGE_KEY);
+            data.remove(LAST_FERMENT_KEY);
+            data.remove(BARREL_PRODUCTS_KEY);
+            data.remove(AgingListener.BARREL_AGE_KEY);
 
-            items.add(new ReinforcedBarrel(type).getItem());
+            items.add(new ReinforcedBarrel(type, previousProducts).getItem());
             items.forEach(item -> {
                 if (item == null || item.getType() == Material.AIR) return;
                 block.getWorld().dropItemNaturally(block.getLocation(), item);
@@ -62,22 +66,25 @@ public class AlcoholListener implements Listener {
         Block block = e.getClickedBlock();
 
         PersistentDataContainer data = new CustomBlockData(block, BetterSurvival.getInstance());
-        if (data.has(BARREL_AGE_KEY, PersistentDataType.LONG) && block.getType() == Material.BARREL) {
-            long lastAction = data.get(BARREL_AGE_KEY, PersistentDataType.LONG);
+        if (data.has(LAST_FERMENT_KEY, PersistentDataType.LONG) && block.getType() == Material.BARREL) {
+            long lastAction = data.get(LAST_FERMENT_KEY, PersistentDataType.LONG);
             long currentTime = System.currentTimeMillis();
 
             // Only ferment if the time has passed the threshold
             if (currentTime - lastAction < FERMENT_TIME) return;
+            Inventory inventory = ((Barrel) block.getState()).getInventory();
 
+            boolean fermented = false;
             double actions = Math.min(20, (double) (currentTime - lastAction) / FERMENT_TIME);
             while (actions >= 1) {
-                ferment(((Barrel) block.getState()).getInventory());
+                if (ferment(inventory, data)) fermented = true;
                 actions--;
             }
-            e.getPlayer().playSound(block.getLocation(), Sound.BLOCK_BREWING_STAND_BREW, 1f, 0f);
+            if (fermented)
+                e.getPlayer().playSound(block.getLocation(), Sound.BLOCK_BREWING_STAND_BREW, 1f, 0f);
 
             // Update the last action time
-            data.set(BARREL_AGE_KEY, PersistentDataType.LONG, (long) (currentTime-(FERMENT_TIME*actions)));
+            data.set(LAST_FERMENT_KEY, PersistentDataType.LONG, (long) (currentTime-(FERMENT_TIME*actions)));
         }
     }
 
@@ -88,7 +95,7 @@ public class AlcoholListener implements Listener {
             if (item.getType() != Material.POTION) continue;
             PotionMeta meta = (PotionMeta) item.getItemMeta();
             if (!meta.hasCustomEffects() && (!meta.hasBasePotionType() || meta.getBasePotionType() == PotionType.WATER)) {
-                if (ItemDataUtil.getDoubleValue(item, "concentration") >= Wine.MAX_CONCENTRATION) continue; // Already at max concentration
+                if (ItemDataUtil.getDoubleValue(item, "concentration") >= Wine.MAX_FERMENT_CONCENTRATION) continue; // Already at max concentration
 
                 items.add(item);
                 continue;
@@ -117,17 +124,20 @@ public class AlcoholListener implements Listener {
         }
         return fermentableItems;
     }
-    private void ferment(Inventory inventory) {
+    private boolean ferment(Inventory inventory, PersistentDataContainer data) {
         List<ItemStack> containers = getContainers(inventory);
-        if (containers.isEmpty()) return;
+        if (containers.isEmpty()) return false;
 
         int yeast = Arrays.stream(inventory.getContents())
                 .filter(item -> item != null && ItemDataUtil.isItem(item, ItemType.YEAST.getItem().getID()))
                 .mapToInt(ItemStack::getAmount)
                 .sum();
 
+        if (yeast <= 0) return false;
+
         int yeastShared = yeast;
 
+        List<WineType> previousProducts = ReinforcedBarrel.decodePreviousProducts(data.get(BARREL_PRODUCTS_KEY, PersistentDataType.STRING));
 
         for (ItemStack container : containers) {
             if (yeastShared <= 0) break;
@@ -157,7 +167,7 @@ public class AlcoholListener implements Listener {
                             .mapToInt(ItemStack::getAmount)
                             .sum()), (int) yeastPer);
 
-            concentration = Math.min(Wine.MAX_CONCENTRATION, concentration + (double) foodCount / type.getFruitCost());
+            concentration = Math.min(Wine.MAX_FERMENT_CONCENTRATION, concentration + (double) foodCount / type.getFruitCost());
 
             // Remove the used items from the inventory
             int n = foodCount;
@@ -172,7 +182,7 @@ public class AlcoholListener implements Listener {
             }
 
             // If the concentration is at max, kill off the yeast
-            if (concentration >= Wine.MAX_CONCENTRATION) {
+            if (concentration >= Wine.MAX_FERMENT_CONCENTRATION) {
                 n = Math.min(16, foodCount*2);
                 for (ItemStack item : inventory.getContents()) {
                     if (item == null || !ItemDataUtil.isItem(item, ItemType.YEAST.getItem().getID())) continue;
@@ -186,7 +196,7 @@ public class AlcoholListener implements Listener {
                 }
             } else {
                 // If not, the yeast have a chance to multiply where the chance is based on the concentration of the wine
-                double chance = (1-(concentration / Wine.MAX_CONCENTRATION))/10;
+                double chance = (1-(concentration / Wine.MAX_FERMENT_CONCENTRATION))/10;
                 for (ItemStack item : inventory.getContents()) {
                     if (item == null || !ItemDataUtil.isItem(item, ItemType.YEAST.getItem().getID())) continue;
                     if (Math.random() < chance)
@@ -198,11 +208,13 @@ public class AlcoholListener implements Listener {
             yeastShared -= foodCount;
 
             // Modify the ItemStack object in the inventory directly
-            ItemStack item = new Wine(concentration, type).getItem();
+            ItemStack item = new Wine(concentration, type, ItemDataUtil.getIntegerValue(container, "age")).getItem();
             container.setType(item.getType());
             container.setItemMeta(item.getItemMeta());
 
+            previousProducts.add(type);
         }
-
+        data.set(BARREL_PRODUCTS_KEY, PersistentDataType.STRING, ReinforcedBarrel.encodePreviousProducts(previousProducts));
+        return true;
     }
 }
