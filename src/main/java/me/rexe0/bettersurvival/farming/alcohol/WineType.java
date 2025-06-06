@@ -7,7 +7,7 @@ import org.bukkit.Material;
 public enum WineType {
     SWEET_BERRY(ChatColor.DARK_PURPLE, "Sweet Berry Wine", "Sweet Berries", Material.SWEET_BERRIES, 4),
     GLOW_BERRY(ChatColor.DARK_PURPLE, "Glow Berry Wine", "Glow Berries", Material.GLOW_BERRIES, 4, Color.fromRGB(255, 106, 13)),
-    MELON(ChatColor.DARK_PURPLE, "Melon Wine", "Melons", Material.GLOW_BERRIES, 4, Color.fromRGB(255, 0, 47)),
+    MELON(ChatColor.DARK_PURPLE, "Melon Wine", "Melons", Material.MELON_SLICE, 4, Color.fromRGB(255, 0, 47)),
     CHORUS_FRUIT(ChatColor.DARK_PURPLE, "Chorus Wine", "Chorus Fruits", Material.CHORUS_FRUIT, 8, Color.fromRGB(144, 0, 255)),
     APPLE(ChatColor.GOLD, "Apple Cider", "Apples", Material.APPLE, 4, Color.fromRGB(255, 81, 33)),
     GOLDEN_APPLE(ChatColor.GOLD, "Golden Apple Cider", "Golden Apples", Material.GOLDEN_APPLE, 2, Color.fromRGB(255, 174, 0)),
