@@ -21,12 +21,17 @@ This is a plugin that contains several features that I think would improve the c
 - If you place all the necessary ingredients for a soup within that cauldron, it will play a distinct sound, indicating that the soup has been cooked (Rabbit Stew requires both mushrooms instead of only one)
 - Right clicking a cauldron full of soup with a bowl will grant you that soup in its bowl form, allowing it to be eaten. This can be done up to three times.
 - Farmer Boots can be made using 4 leather and 2 copper ingots which prevent players from breaking crops when worn
+
+**Drugs & Alcohol:**
 - Added Cannabis which can be grown and cultivated to higher potencies if grown in a warm environment with high quality fertilizer
 - Added the Smoke Pipe which can be used to extract the psychoactive effects of Cannabis, crafted using 2 sticks, 1 coal and 1 torch
 - Added Coca Leaves which can be grown and cultivated to higher potencies if grown in a warm and humid environment with high quality fertilizer
 - Cocaine can be extracted from 5 Coca Leaves using a crafting table. It can be directly used to grant stimulating effects
 - Blocks of Cocaine can be created with 9 Cocaine to allow for compact storage
 - Using Cocaine or Cannabis too much in a short time span will cause an overdose dealing large damage to the player
+- Added Yeast which can be used to ferment sugar and starch into alcohol alongside water
+- Added Reinforced Barrel which can be crafted from 6 planks, 1 barrel and 2 iron ingots. This barrel is needed for fermentation, distillation and aging
+- Added various alcoholic drinks and spirits obtained from fermentation and distillation which can be drunk to suppress hunger (although consuming too much can lead to alcohol poisoning)
 
 **Ores and Mining:**
 - Large Coal deposits can now generate slightly under the surface in Badlands/Mesa biomes
@@ -40,7 +45,7 @@ This is a plugin that contains several features that I think would improve the c
 **Villagers:**
 - Wandering traders will now offer to buy 2-3 exotic items for emeralds
 - Wandering Traders will now always sell either a Stopwatch (When held shows your current speed in km/h), Metal Detector (Detects any ores a few blocks under you when held), a Fish Codex (see Fishing section)
- -Wandering Traders will now always sell either Cannabis or Coca Leaves
+- Wandering Traders will now always sell either Cannabis, Coca Leaves or Yeast
 - Wandering Traders are now guaranteed to spawn every 10 in game days after the first Spring
 
 **Minecarts:**
