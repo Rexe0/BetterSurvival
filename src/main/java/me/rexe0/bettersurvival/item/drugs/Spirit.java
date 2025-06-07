@@ -23,8 +23,9 @@ public class Spirit extends Item {
     private final WineType secondaryFlavor;
     private final WineType tertiaryFlavor;
     private final BarrelType quaternaryFlavor;
+    private final boolean hasMethanol;
 
-    public Spirit(double concentration, SpiritType type, int age, WineType secondaryFlavor, WineType tertiaryFlavor, BarrelType quaternaryFlavor) {
+    public Spirit(double concentration, SpiritType type, int age, WineType secondaryFlavor, WineType tertiaryFlavor, BarrelType quaternaryFlavor, boolean hasMethanol) {
         super(Material.POTION, type.getNameColor()+type.getName(), "SPIRIT");
         this.concentration = concentration;
         this.type = type;
@@ -32,6 +33,7 @@ public class Spirit extends Item {
         this.secondaryFlavor = secondaryFlavor;
         this.tertiaryFlavor = tertiaryFlavor;
         this.quaternaryFlavor = quaternaryFlavor;
+        this.hasMethanol = hasMethanol;
     }
 
     @Override
@@ -51,6 +53,7 @@ public class Spirit extends Item {
             item.setItemMeta(ItemDataUtil.setStringValue(item, "tertiaryFlavor", tertiaryFlavor.name()));
         if (quaternaryFlavor != null)
             item.setItemMeta(ItemDataUtil.setStringValue(item, "quaternaryFlavor", quaternaryFlavor.name()));
+        item.setItemMeta(ItemDataUtil.setIntegerValue(item, "hasMethanol", hasMethanol ? 1 : 0));
         return item;
     }
 
@@ -103,6 +106,10 @@ public class Spirit extends Item {
             }
             if (quaternaryFlavor != null)
                 lore.add(ChatColor.GRAY+"- "+quaternaryFlavor.getName());
+        }
+        if (hasMethanol) {
+            lore.add(" ");
+            lore.add(ChatColor.RED+"Warning: High Methanol %");
         }
         return lore;
     }

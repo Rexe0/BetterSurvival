@@ -111,7 +111,7 @@ public class DistillListener implements Listener {
                 k++;
             }
             // Modify the bottle directly
-            ItemStack item = (new Spirit(Math.min(Spirit.MAX_DISTILL_CONCENTRATION, (1-concentration)*100), SpiritType.DISTILLATE, 0, null, tertiaryFlavor, null)).getItem();
+            ItemStack item = (new Spirit(Math.min(Spirit.MAX_DISTILL_CONCENTRATION, (1-concentration)*100), SpiritType.DISTILLATE, 0, null, tertiaryFlavor, null, Math.random() < 0.1)).getItem();
             bottle.setType(item.getType());
             bottle.setItemMeta(item.getItemMeta());
 

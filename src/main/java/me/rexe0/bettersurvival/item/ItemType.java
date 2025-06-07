@@ -34,7 +34,7 @@ public enum ItemType {
     YEAST(new Yeast()),
     REINFORCED_BARREL(new ReinforcedBarrel(BarrelType.OAK)),
     WINE(new Wine(0, WineType.SWEET_BERRY, 0)),
-    SPIRIT(new Spirit(0, SpiritType.SWEET_BERRY, 0, null, null, null)),
+    SPIRIT(new Spirit(0, SpiritType.SWEET_BERRY, 0, null, null, null, false)),
 
     FISH_CODEX(new FishCodex()),
     PLATINUM_ORE(new PlatinumOre()),

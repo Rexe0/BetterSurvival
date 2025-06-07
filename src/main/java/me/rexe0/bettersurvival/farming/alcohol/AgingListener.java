@@ -163,7 +163,7 @@ public class AgingListener implements Listener {
                     }
                 }
 
-                drink = new Spirit(concentration, type, age, secondaryFlavor, WineType.valueOf(ItemDataUtil.getStringValue(item, "tertiaryFlavor")), barrelFlavor).getItem();
+                drink = new Spirit(concentration, type, age, secondaryFlavor, WineType.valueOf(ItemDataUtil.getStringValue(item, "tertiaryFlavor")), barrelFlavor, ItemDataUtil.getIntegerValue(item, "hasMethanol") == 1).getItem();
             }
 
             // Modify the ItemStack object in the inventory directly
