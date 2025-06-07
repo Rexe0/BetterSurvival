@@ -29,7 +29,7 @@ import java.util.List;
 public class AgingListener implements Listener {
     // Stores the last time the barrel had an action
     public static final NamespacedKey BARREL_AGE_KEY = new NamespacedKey(BetterSurvival.getInstance(), "BARREL_AGE");
-    private static final int AGE_TIME = 1000 * 10; // It takes 10 hours for one age tick
+    private static final int AGE_TIME = 1000 * 60 * 60 * 10; // It takes 10 hours for one age tick
 
     @EventHandler
     public void onRightClick(PlayerInteractEvent e) {

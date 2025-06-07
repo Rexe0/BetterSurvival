@@ -27,7 +27,7 @@ import java.util.List;
 public class DistillListener implements Listener {
     // Stores the last time the barrel had an action
     public static final NamespacedKey LAST_DISTILL_KEY = new NamespacedKey(BetterSurvival.getInstance(), "LAST_DISTILL");
-    private static final int AGE_TIME = 1000 * 10; // It takes 15 minutes for one distill tick
+    private static final int AGE_TIME = 1000 * 60 * 15; // It takes 15 minutes for one distill tick
 
     @EventHandler
     public void onRightClick(PlayerInteractEvent e) {

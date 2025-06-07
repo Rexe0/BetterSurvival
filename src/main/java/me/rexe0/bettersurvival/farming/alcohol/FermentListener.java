@@ -33,7 +33,7 @@ public class FermentListener implements Listener {
     public static final NamespacedKey BARREL_PRODUCTS_KEY = new NamespacedKey(BetterSurvival.getInstance(), "BARREL_PRODUCTS");
     // Stores the last time the barrel had an action
     public static final NamespacedKey LAST_FERMENT_KEY = new NamespacedKey(BetterSurvival.getInstance(), "LAST_FERMENT");
-    private static final int FERMENT_TIME = 1000 * 10; // It takes 10 minutes for one ferment tick
+    private static final int FERMENT_TIME = 1000 * 60 * 10; // It takes 10 minutes for one ferment tick
 
     @EventHandler
     public void onHarvest(BlockBreakEvent e) {
