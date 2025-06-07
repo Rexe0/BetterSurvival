@@ -65,6 +65,7 @@ public class ReinforcedBarrel extends Item {
             recipe.setIngredient('#', type.getPlanks());
             recipe.setIngredient('@', Material.BARREL);
             recipe.setIngredient('$', Material.IRON_INGOT);
+            recipe.setGroup("REINFORCED_BARREL");
             recipes.put(recipe.getKey(), recipe);
         }
         return recipes;
