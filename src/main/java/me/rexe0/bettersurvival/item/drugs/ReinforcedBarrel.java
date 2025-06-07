@@ -2,10 +2,7 @@ package me.rexe0.bettersurvival.item.drugs;
 
 import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.BetterSurvival;
-import me.rexe0.bettersurvival.farming.alcohol.AgingListener;
-import me.rexe0.bettersurvival.farming.alcohol.BarrelType;
-import me.rexe0.bettersurvival.farming.alcohol.FermentListener;
-import me.rexe0.bettersurvival.farming.alcohol.WineType;
+import me.rexe0.bettersurvival.farming.alcohol.*;
 import me.rexe0.bettersurvival.item.Item;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.ChatColor;
@@ -93,6 +90,7 @@ public class ReinforcedBarrel extends Item {
         data.set(FermentListener.BARREL_PRODUCTS_KEY, PersistentDataType.STRING, previousProductsString);
         data.set(FermentListener.LAST_FERMENT_KEY, PersistentDataType.LONG, System.currentTimeMillis());
         data.set(AgingListener.BARREL_AGE_KEY, PersistentDataType.LONG, System.currentTimeMillis());
+        data.set(DistillListener.LAST_DISTILL_KEY, PersistentDataType.LONG, System.currentTimeMillis());
     }
 
     public static List<WineType> decodePreviousProducts(String string) {

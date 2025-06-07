@@ -4,6 +4,7 @@ import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.item.drugs.ReinforcedBarrel;
+import me.rexe0.bettersurvival.item.drugs.Spirit;
 import me.rexe0.bettersurvival.item.drugs.Wine;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.Material;
@@ -11,6 +12,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.block.Barrel;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -34,9 +36,10 @@ public class AgingListener implements Listener {
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         if (e.getClickedBlock() == null) return;
         Block block = e.getClickedBlock();
+        if (block.getType() != Material.BARREL || block.getRelative(BlockFace.DOWN).getType() == Material.CAMPFIRE) return;
 
         PersistentDataContainer data = new CustomBlockData(block, BetterSurvival.getInstance());
-        if (data.has(BARREL_AGE_KEY, PersistentDataType.LONG) && block.getType() == Material.BARREL) {
+        if (data.has(BARREL_AGE_KEY, PersistentDataType.LONG)) {
             long lastAction = data.get(BARREL_AGE_KEY, PersistentDataType.LONG);
             long currentTime = System.currentTimeMillis();
 
@@ -61,23 +64,46 @@ public class AgingListener implements Listener {
     private List<ItemStack> getContainers(Inventory inventory) {
         List<ItemStack> items = new ArrayList<>();
         WineType type = null;
+        SpiritType type1 = null;
         for (ItemStack item : inventory.getContents()) {
             if (item == null) continue;
             if (item.getType() != Material.POTION) continue;
-            if (!ItemDataUtil.isItem(item, ItemType.WINE.getItem().getID())) continue;
-
-            if (type == null)
-                type = WineType.valueOf(ItemDataUtil.getStringValue(item, "wineType"));
-            else if (type != WineType.valueOf(ItemDataUtil.getStringValue(item, "wineType"))) {
-                // All items in the barrel must be of the same type
-                return new ArrayList<>();
+            if (ItemDataUtil.isItem(item, ItemType.WINE.getItem().getID()) && type1 == null) {
+                if (type == null)
+                    type = WineType.valueOf(ItemDataUtil.getStringValue(item, "wineType"));
+                else if (type != WineType.valueOf(ItemDataUtil.getStringValue(item, "wineType"))) {
+                    // All items in the barrel must be of the same type
+                    return new ArrayList<>();
+                }
+                items.add(item);
+            } else if (ItemDataUtil.isItem(item, ItemType.SPIRIT.getItem().getID()) && type == null) {
+                if (type1 == null)
+                    type1 = SpiritType.valueOf(ItemDataUtil.getStringValue(item, "spiritType"));
+                else if (type1 != SpiritType.valueOf(ItemDataUtil.getStringValue(item, "spiritType"))) {
+                    // All items in the barrel must be of the same type
+                    return new ArrayList<>();
+                }
+                items.add(item);
             }
 
-            items.add(item);
         }
         return items;
     }
 
+    private List<ItemStack> getSpiritFlavoringMaterials(Inventory inventory) {
+        List<ItemStack> fermentableItems = new ArrayList<>();
+        for (ItemStack item : inventory.getContents()) {
+            if (item == null) continue;
+            if (item.getType() == Material.FROGSPAWN || item.getType() == Material.AIR || item.getType() == Material.POTION) continue; // Ignore yeast, air and potions
+
+            for (SpiritType spiritType : SpiritType.values())
+                if (item.getType() == spiritType.getFruit()) {
+                    fermentableItems.add(item);
+                    break;
+                }
+        }
+        return fermentableItems;
+    }
 
     private boolean age(Inventory inventory, PersistentDataContainer data) {
         List<ItemStack> containers = getContainers(inventory);
@@ -95,9 +121,9 @@ public class AgingListener implements Listener {
 
         for (ItemStack item : containers) {
             // Every age tick, increase the age of the wine by 1 and the concentration by 1%, up to the cap
+            boolean isWine = ItemDataUtil.isItem(item, ItemType.WINE.getItem().getID());
             int age = ItemDataUtil.getIntegerValue(item, "age")+1;
-            double concentration = Math.min(Wine.MAX_AGE_CONCENTRATION, ItemDataUtil.getDoubleValue(item, "concentration")+1);
-            WineType type = WineType.valueOf(ItemDataUtil.getStringValue(item, "wineType"));
+            double concentration = Math.min(isWine ? Wine.MAX_AGE_CONCENTRATION : Spirit.MAX_AGE_CONCENTRATION, ItemDataUtil.getDoubleValue(item, "concentration")+1);
 
             WineType secondaryFlavor = null;
             try {
@@ -107,19 +133,42 @@ public class AgingListener implements Listener {
             if (age >= 2 && secondaryFlavor == null && !previousProducts.isEmpty())
                 secondaryFlavor = previousProducts.get((int) (Math.random() * previousProducts.size()));
 
-
-            BarrelType tertiaryFlavor = null;
+            BarrelType barrelFlavor = null;
             try {
-                tertiaryFlavor = BarrelType.valueOf(ItemDataUtil.getStringValue(item, "tertiaryFlavor"));
+                barrelFlavor = BarrelType.valueOf(ItemDataUtil.getStringValue(item,  isWine ? "tertiaryFlavor" : "quaternaryFlavor"));
             } catch (IllegalArgumentException ignored) {}
 
             if (age == 5)
-                tertiaryFlavor = barrelType;
+                barrelFlavor = barrelType;
+
+            ItemStack drink;
+            if (isWine) {
+                WineType type = WineType.valueOf(ItemDataUtil.getStringValue(item, "wineType"));
+
+                drink = new Wine(concentration, type, age, secondaryFlavor, barrelFlavor).getItem();
+            } else {
+                SpiritType type = SpiritType.valueOf(ItemDataUtil.getStringValue(item, "spiritType"));
+                // If the distillate is unflavored and has sufficient alcohol concentration, flavor it with a random fruit in the barrel
+                if (type == SpiritType.DISTILLATE && concentration > 35) {
+                    List<ItemStack> flavoringMaterials = getSpiritFlavoringMaterials(inventory);
+                    if (!flavoringMaterials.isEmpty()) {
+                        ItemStack flavoringMaterial = flavoringMaterials.get((int) (Math.random() * flavoringMaterials.size()));
+
+                        type = SpiritType.getSpiritType(flavoringMaterial.getType());
+                        if (type == SpiritType.BEER && concentration > 60)
+                            type = SpiritType.VODKA;
+
+                        flavoringMaterial.setAmount(flavoringMaterial.getAmount() - 1); // Remove the flavoring material from the inventory
+
+                    }
+                }
+
+                drink = new Spirit(concentration, type, age, secondaryFlavor, WineType.valueOf(ItemDataUtil.getStringValue(item, "tertiaryFlavor")), barrelFlavor).getItem();
+            }
 
             // Modify the ItemStack object in the inventory directly
-            ItemStack wine = new Wine(concentration, type, age, secondaryFlavor, tertiaryFlavor).getItem();
-            item.setType(wine.getType());
-            item.setItemMeta(wine.getItemMeta());
+            item.setType(drink.getType());
+            item.setItemMeta(drink.getItemMeta());
         }
         return true;
     }

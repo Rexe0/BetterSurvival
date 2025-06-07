@@ -11,6 +11,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.block.Barrel;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -51,6 +52,7 @@ public class FermentListener implements Listener {
             data.remove(LAST_FERMENT_KEY);
             data.remove(BARREL_PRODUCTS_KEY);
             data.remove(AgingListener.BARREL_AGE_KEY);
+            data.remove(DistillListener.LAST_DISTILL_KEY);
 
             items.add(new ReinforcedBarrel(type, previousProducts).getItem());
             items.forEach(item -> {
@@ -64,9 +66,10 @@ public class FermentListener implements Listener {
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         if (e.getClickedBlock() == null) return;
         Block block = e.getClickedBlock();
+        if (block.getType() != Material.BARREL || block.getRelative(BlockFace.DOWN).getType() == Material.CAMPFIRE) return;
 
         PersistentDataContainer data = new CustomBlockData(block, BetterSurvival.getInstance());
-        if (data.has(LAST_FERMENT_KEY, PersistentDataType.LONG) && block.getType() == Material.BARREL) {
+        if (data.has(LAST_FERMENT_KEY, PersistentDataType.LONG)) {
             long lastAction = data.get(LAST_FERMENT_KEY, PersistentDataType.LONG);
             long currentTime = System.currentTimeMillis();
 

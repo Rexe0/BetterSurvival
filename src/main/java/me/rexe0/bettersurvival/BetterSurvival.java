@@ -5,6 +5,7 @@ import me.rexe0.bettersurvival.config.ConfigLoader;
 import me.rexe0.bettersurvival.deepdark.DeepDarkChanges;
 import me.rexe0.bettersurvival.farming.*;
 import me.rexe0.bettersurvival.farming.alcohol.AgingListener;
+import me.rexe0.bettersurvival.farming.alcohol.DistillListener;
 import me.rexe0.bettersurvival.farming.alcohol.FermentListener;
 import me.rexe0.bettersurvival.fishing.CatchListener;
 import me.rexe0.bettersurvival.fishing.FishFile;
@@ -101,6 +102,7 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new DeepDarkChanges(), this);
         getServer().getPluginManager().registerEvents(new CriticalAttackListener(), this);
         getServer().getPluginManager().registerEvents(new CamelChanges(), this);
+        getServer().getPluginManager().registerEvents(new DistillListener(), this);
         getServer().getPluginManager().registerEvents(new FermentListener(), this);
         getServer().getPluginManager().registerEvents(new AgingListener(), this);
 
