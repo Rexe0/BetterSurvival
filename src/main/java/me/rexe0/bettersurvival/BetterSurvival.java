@@ -5,6 +5,7 @@ import me.rexe0.bettersurvival.config.ConfigLoader;
 import me.rexe0.bettersurvival.deepdark.DeepDarkChanges;
 import me.rexe0.bettersurvival.farming.*;
 import me.rexe0.bettersurvival.farming.alcohol.AgingListener;
+import me.rexe0.bettersurvival.farming.alcohol.AlcoholListener;
 import me.rexe0.bettersurvival.farming.alcohol.DistillListener;
 import me.rexe0.bettersurvival.farming.alcohol.FermentListener;
 import me.rexe0.bettersurvival.fishing.CatchListener;
@@ -105,6 +106,7 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new DistillListener(), this);
         getServer().getPluginManager().registerEvents(new FermentListener(), this);
         getServer().getPluginManager().registerEvents(new AgingListener(), this);
+        getServer().getPluginManager().registerEvents(new AlcoholListener(), this);
 
         CustomBlockData.registerListener(this);
 
@@ -145,6 +147,8 @@ public final class BetterSurvival extends JavaPlugin {
                     type.getItem().armorEquipped(player);
             }
         }), 0, 5);
+
+        Bukkit.getScheduler().runTaskTimer(getInstance(), () -> Bukkit.getOnlinePlayers().forEach(AlcoholListener::alcoholTick), 0, 1200);
     }
 
     @Override

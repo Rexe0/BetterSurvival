@@ -1,5 +1,6 @@
 package me.rexe0.bettersurvival.item.drugs;
 
+import me.rexe0.bettersurvival.farming.alcohol.AlcoholListener;
 import me.rexe0.bettersurvival.farming.alcohol.BarrelType;
 import me.rexe0.bettersurvival.farming.alcohol.SpiritType;
 import me.rexe0.bettersurvival.farming.alcohol.WineType;
@@ -7,9 +8,13 @@ import me.rexe0.bettersurvival.item.Item;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
@@ -112,5 +117,22 @@ public class Spirit extends Item {
             lore.add(ChatColor.RED+"Warning: High Methanol %");
         }
         return lore;
+    }
+
+    public void onDrink(PlayerItemConsumeEvent e) {
+        if (!ItemDataUtil.isItem(e.getItem(), getID())) return;
+        Player player = e.getPlayer();
+        ItemStack item = e.getItem();
+        double concentration = ItemDataUtil.getDoubleValue(item, "concentration");
+        boolean hasMethanol = ItemDataUtil.getIntegerValue(item, "hasMethanol") == 1;
+
+        AlcoholListener.increaseAlcoholContent(player, concentration);
+
+        if (hasMethanol) {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, (int) (200+concentration*12), 0, true, false));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, (int) (200+concentration*12), 3, true, false));
+        } else
+            player.setFoodLevel(Math.min(20, player.getFoodLevel()+6));
+
     }
 }

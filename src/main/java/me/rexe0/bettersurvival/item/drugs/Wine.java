@@ -1,11 +1,14 @@
 package me.rexe0.bettersurvival.item.drugs;
 
+import me.rexe0.bettersurvival.farming.alcohol.AlcoholListener;
 import me.rexe0.bettersurvival.farming.alcohol.BarrelType;
 import me.rexe0.bettersurvival.farming.alcohol.WineType;
 import me.rexe0.bettersurvival.item.Item;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -90,5 +93,16 @@ public class Wine extends Item {
                 lore.add(ChatColor.GRAY+"- "+tertiaryFlavor.getName());
         }
         return lore;
+    }
+    public void onDrink(PlayerItemConsumeEvent e) {
+        if (!ItemDataUtil.isItem(e.getItem(), getID())) return;
+        Player player = e.getPlayer();
+        ItemStack item = e.getItem();
+        double concentration = ItemDataUtil.getDoubleValue(item, "concentration");
+
+        AlcoholListener.increaseAlcoholContent(player, concentration);
+
+        player.setFoodLevel(Math.min(20, player.getFoodLevel()+2));
+
     }
 }

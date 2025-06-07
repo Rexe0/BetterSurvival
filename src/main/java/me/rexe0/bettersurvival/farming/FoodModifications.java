@@ -4,6 +4,8 @@ import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.fishing.BiomeGroup;
 import me.rexe0.bettersurvival.item.ItemType;
+import me.rexe0.bettersurvival.item.drugs.Spirit;
+import me.rexe0.bettersurvival.item.drugs.Wine;
 import me.rexe0.bettersurvival.item.fishing.Fish;
 import me.rexe0.bettersurvival.item.fishing.FishStew;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
@@ -55,6 +57,8 @@ public class FoodModifications implements Listener {
     @EventHandler
     public void onDrink(PlayerItemConsumeEvent e) {
         ((FishStew)ItemType.FISH_STEW.getItem()).onDrink(e);
+        ((Spirit)ItemType.SPIRIT.getItem()).onDrink(e);
+        ((Wine)ItemType.WINE.getItem()).onDrink(e);
         if (e.getItem().getType() != Material.HONEY_BOTTLE) return;
         e.getPlayer().removePotionEffect(PotionEffectType.WITHER);
     }
