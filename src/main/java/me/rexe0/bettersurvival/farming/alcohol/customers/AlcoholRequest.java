@@ -137,26 +137,32 @@ public class AlcoholRequest extends Request {
         int priceIncrease = checkRequirements(item);
         if (priceIncrease == -1) return -1; // Requirements not met
 
+        boolean isWine = this.isWine != null ? this.isWine : ItemDataUtil.isItem(item, ItemType.WINE.getItem().getID());
+        WineType secondary = ItemDataUtil.getStringValue(item, "secondaryFlavor").isEmpty() ? null : WineType.valueOf(ItemDataUtil.getStringValue(item, "secondaryFlavor"));
+        BarrelType tertiary = ItemDataUtil.getStringValue(item, "tertiaryFlavor").isEmpty() ? null : BarrelType.valueOf(ItemDataUtil.getStringValue(item, "tertiaryFlavor"));
+        WineType quaternary = ItemDataUtil.getStringValue(item, "quaternaryFlavor").isEmpty() ? null : WineType.valueOf(ItemDataUtil.getStringValue(item, "quaternaryFlavor"));
+
         if (isWine) {
             Wine wine = new Wine(
                     concentration,
                     WineType.valueOf(ItemDataUtil.getStringValue(item, "wineType")),
                     ItemDataUtil.getIntegerValue(item, "age"),
-                    WineType.valueOf(ItemDataUtil.getStringValue(item, "secondaryFlavor")),
-                    BarrelType.valueOf(ItemDataUtil.getStringValue(item, "tertiaryFlavor"))
+                    secondary,
+                    tertiary
             );
             return wine.getPrice()+priceIncrease;
         }
+        if (ItemDataUtil.getIntegerValue(item, "hasMethanol") == 1) return -3;
         Spirit spirit = new Spirit(
                 concentration,
                 SpiritType.valueOf(ItemDataUtil.getStringValue(item, "spiritType")),
                 ItemDataUtil.getIntegerValue(item, "age"),
-                WineType.valueOf(ItemDataUtil.getStringValue(item, "secondaryFlavor")),
-                BarrelType.valueOf(ItemDataUtil.getStringValue(item, "tertiaryFlavor")),
-                WineType.valueOf(ItemDataUtil.getStringValue(item, "quaternaryFlavor")),
-                ItemDataUtil.getIntegerValue(item, "hasMethanol") == 1
+                secondary,
+                tertiary,
+                quaternary,
+                false
         );
-        return spirit.getPrice() == 0 ? 0 : spirit.getPrice()+priceIncrease;
+        return spirit.getPrice()+priceIncrease;
     }
 
     public String getMessage() {
