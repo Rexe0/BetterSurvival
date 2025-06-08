@@ -91,7 +91,7 @@ public class DistillListener implements Listener {
         for (ItemStack bottle : bottles) {
             int j = 0; // Counter for the number of distilled wines
             double concentration = 1;
-            WineType tertiaryFlavor = null;
+            WineType quaternaryFlavor = null;
 
             if (k >= containers.size()) return true; // No more containers to distill
 
@@ -102,16 +102,16 @@ public class DistillListener implements Listener {
                 concentration *= (1-(ItemDataUtil.getDoubleValue(item, "concentration")/100));
 
                 if (ItemDataUtil.isItem(item, ItemType.WINE.getItem().getID()))
-                    tertiaryFlavor = WineType.valueOf(ItemDataUtil.getStringValue(item, "wineType"));
-                else if (tertiaryFlavor == null)
-                    tertiaryFlavor = WineType.valueOf(ItemDataUtil.getStringValue(item, "tertiaryFlavor"));
+                    quaternaryFlavor = WineType.valueOf(ItemDataUtil.getStringValue(item, "wineType"));
+                else if (quaternaryFlavor == null)
+                    quaternaryFlavor = WineType.valueOf(ItemDataUtil.getStringValue(item, "quaternaryFlavor"));
 
                 item.setAmount(0); // Remove the item directly from the inventory
                 j++;
                 k++;
             }
             // Modify the bottle directly
-            ItemStack item = (new Spirit(Math.min(Spirit.MAX_DISTILL_CONCENTRATION, (1-concentration)*100), SpiritType.DISTILLATE, 0, null, tertiaryFlavor, null, Math.random() < 0.1)).getItem();
+            ItemStack item = (new Spirit(Math.min(Spirit.MAX_DISTILL_CONCENTRATION, (1-concentration)*100), SpiritType.DISTILLATE, 0, null, null, quaternaryFlavor, Math.random() < 0.1)).getItem();
             bottle.setType(item.getType());
             bottle.setItemMeta(item.getItemMeta());
 

@@ -94,6 +94,18 @@ public class Wine extends Item {
         }
         return lore;
     }
+
+    public int getPrice() {
+        double price = 0.5 * concentration * type.getPriceMultiplier();
+
+        price += age*2;
+        if (secondaryFlavor != null)
+            price += 4 * secondaryFlavor.getPriceMultiplier();
+        if (tertiaryFlavor != null)
+            price += 5;
+
+        return (int) Math.ceil(price);
+    }
     public void onDrink(PlayerItemConsumeEvent e) {
         if (!ItemDataUtil.isItem(e.getItem(), getID())) return;
         Player player = e.getPlayer();

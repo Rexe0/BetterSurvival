@@ -26,11 +26,11 @@ public class Spirit extends Item {
     private final SpiritType type;
     private final int age;
     private final WineType secondaryFlavor;
-    private final WineType tertiaryFlavor;
-    private final BarrelType quaternaryFlavor;
+    private final BarrelType tertiaryFlavor;
+    private final WineType quaternaryFlavor;
     private final boolean hasMethanol;
 
-    public Spirit(double concentration, SpiritType type, int age, WineType secondaryFlavor, WineType tertiaryFlavor, BarrelType quaternaryFlavor, boolean hasMethanol) {
+    public Spirit(double concentration, SpiritType type, int age, WineType secondaryFlavor, BarrelType tertiaryFlavor, WineType quaternaryFlavor, boolean hasMethanol) {
         super(Material.POTION, type.getNameColor()+type.getName(), "SPIRIT");
         this.concentration = concentration;
         this.type = type;
@@ -100,23 +100,36 @@ public class Spirit extends Item {
         if (secondaryFlavor != null || tertiaryFlavor != null || quaternaryFlavor != null) {
             lore.add(" ");
             lore.add(ChatColor.GRAY+"Additional Flavors:");
-            if ((secondaryFlavor != null && tertiaryFlavor != null) && (secondaryFlavor == tertiaryFlavor)) {
+            if ((secondaryFlavor != null && quaternaryFlavor != null) && (secondaryFlavor == quaternaryFlavor)) {
                 String flavorName = secondaryFlavor.getNameColor()+""+ChatColor.BOLD+"Bold "+secondaryFlavor.getFlavorName();
                 lore.add(ChatColor.GRAY + "- " + flavorName);
             } else {
                 if (secondaryFlavor != null)
                     lore.add(ChatColor.GRAY + "- " + secondaryFlavor.getNameColor() + secondaryFlavor.getFlavorName());
-                if (tertiaryFlavor != null)
-                    lore.add(ChatColor.GRAY + "- " + tertiaryFlavor.getNameColor() + tertiaryFlavor.getFlavorName());
+                if (quaternaryFlavor != null)
+                    lore.add(ChatColor.GRAY + "- " + quaternaryFlavor.getNameColor() + quaternaryFlavor.getFlavorName());
             }
-            if (quaternaryFlavor != null)
-                lore.add(ChatColor.GRAY+"- "+quaternaryFlavor.getName());
+            if (tertiaryFlavor != null)
+                lore.add(ChatColor.GRAY+"- "+tertiaryFlavor.getName());
         }
         if (hasMethanol) {
             lore.add(" ");
             lore.add(ChatColor.RED+"Warning: High Methanol %");
         }
         return lore;
+    }
+
+    public int getPrice() {
+        if (hasMethanol) return 0;
+        double price = 0.4 * concentration * type.getPriceMultiplier();
+
+        price += age*2;
+        if (secondaryFlavor != null)
+            price += 4 * secondaryFlavor.getPriceMultiplier();
+        if (quaternaryFlavor != null)
+            price += 5;
+
+        return (int) Math.ceil(price);
     }
 
     public void onDrink(PlayerItemConsumeEvent e) {

@@ -8,6 +8,7 @@ import me.rexe0.bettersurvival.farming.alcohol.AgingListener;
 import me.rexe0.bettersurvival.farming.alcohol.AlcoholListener;
 import me.rexe0.bettersurvival.farming.alcohol.DistillListener;
 import me.rexe0.bettersurvival.farming.alcohol.FermentListener;
+import me.rexe0.bettersurvival.farming.alcohol.customers.CustomerListener;
 import me.rexe0.bettersurvival.fishing.CatchListener;
 import me.rexe0.bettersurvival.fishing.FishFile;
 import me.rexe0.bettersurvival.fletchingtable.FletchingTableGUI;
@@ -107,6 +108,7 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new FermentListener(), this);
         getServer().getPluginManager().registerEvents(new AgingListener(), this);
         getServer().getPluginManager().registerEvents(new AlcoholListener(), this);
+        getServer().getPluginManager().registerEvents(new CustomerListener(), this);
 
         CustomBlockData.registerListener(this);
 

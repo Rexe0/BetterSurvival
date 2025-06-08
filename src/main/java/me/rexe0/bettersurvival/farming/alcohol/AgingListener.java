@@ -135,7 +135,7 @@ public class AgingListener implements Listener {
 
             BarrelType barrelFlavor = null;
             try {
-                barrelFlavor = BarrelType.valueOf(ItemDataUtil.getStringValue(item,  isWine ? "tertiaryFlavor" : "quaternaryFlavor"));
+                barrelFlavor = BarrelType.valueOf(ItemDataUtil.getStringValue(item, "tertiaryFlavor"));
             } catch (IllegalArgumentException ignored) {}
 
             if (age == 5)
@@ -163,7 +163,7 @@ public class AgingListener implements Listener {
                     }
                 }
 
-                drink = new Spirit(concentration, type, age, secondaryFlavor, WineType.valueOf(ItemDataUtil.getStringValue(item, "tertiaryFlavor")), barrelFlavor, ItemDataUtil.getIntegerValue(item, "hasMethanol") == 1).getItem();
+                drink = new Spirit(concentration, type, age, secondaryFlavor, barrelFlavor, WineType.valueOf(ItemDataUtil.getStringValue(item, "quaternaryFlavor")), ItemDataUtil.getIntegerValue(item, "hasMethanol") == 1).getItem();
             }
 
             // Modify the ItemStack object in the inventory directly
