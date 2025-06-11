@@ -108,24 +108,24 @@ public class AlcoholRequest extends Request {
                 else
                     type = SpiritType.valueOf(ItemDataUtil.getStringValue(item, "spiritType"));
                 if (!this.type.equals(type)) return -1; // Wrong type
-                else priceIncrease++;
+                else priceIncrease+=3;
             }
         }
         if (secondaryFlavor != null){
             if (secondaryFlavor != WineType.valueOf(ItemDataUtil.getStringValue(item, "secondaryFlavor"))) return -1; // Wrong secondary flavor
-            else priceIncrease++;
+            else priceIncrease+=3;
         }
         if (tertiaryFlavor != null) {
             if (tertiaryFlavor != BarrelType.valueOf(ItemDataUtil.getStringValue(item, "tertiaryFlavor"))) return -1; // Wrong tertiary flavor
-            else priceIncrease+=2;
+            else priceIncrease+=5;
         }
         if (quaternaryFlavor != null) {
             if (quaternaryFlavor != WineType.valueOf(ItemDataUtil.getStringValue(item, "quaternaryFlavor"))) return -1; // Wrong quaternary flavor
-            else priceIncrease++;
+            else priceIncrease+=2;
         }
 
         if (minimumAge > ItemDataUtil.getIntegerValue(item, "age")) return -1; // Not aged enough
-        else priceIncrease++;
+        else priceIncrease += 5;
 
         return priceIncrease;
     }
