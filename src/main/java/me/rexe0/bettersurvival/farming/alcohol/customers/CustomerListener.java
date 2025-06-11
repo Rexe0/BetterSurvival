@@ -151,6 +151,7 @@ public class CustomerListener implements Listener {
         } else item.setAmount(0);
 
         player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_CELEBRATE  , 1, 1);
+        player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP  , 1, 1.8f);
 
         while (price > 0) {
             ItemStack emerald = new ItemStack(Material.EMERALD);
