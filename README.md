@@ -32,6 +32,7 @@ This is a plugin that contains several features that I think would improve the c
 - Added Yeast which can be used to ferment sugar and starch into alcohol alongside water
 - Added Reinforced Barrel which can be crafted from 6 planks, 1 barrel and 2 iron ingots. This barrel is needed for fermentation, distillation and aging
 - Added various alcoholic drinks and spirits obtained from fermentation and distillation which can be drunk to suppress hunger (although consuming too much can lead to alcohol poisoning)
+- Drugs & Alcohol can be offered to Nitwit Villagers who will buy them for emeralds, with the amount depending on the quality of the drug/alcohol
 
 **Ores and Mining:**
 - Large Coal deposits can now generate slightly under the surface in Badlands/Mesa biomes
@@ -47,6 +48,9 @@ This is a plugin that contains several features that I think would improve the c
 - Wandering Traders will now always sell either a Stopwatch (When held shows your current speed in km/h), Metal Detector (Detects any ores a few blocks under you when held), a Fish Codex (see Fishing section)
 - Wandering Traders will now always sell either Cannabis, Coca Leaves or Yeast
 - Wandering Traders are now guaranteed to spawn every 10 in game days after the first Spring
+- Breeding Villagers now has a 5% chance to yield a Nitwit Villager
+- Nitwit Villagers can now make requests for Drugs & Alcohol and will buy them in exchange for emeralds (These requests reset at the start of every day)
+- Occasionally, Travelling Nitwits will spawn near the player at the start of the day and make requests and leave once the day has finished
 
 **Minecarts:**
 - Minecarts can now be linked together using by Sneak + Right Clicking on them with chains. The first minecart clicked will pull the second one that was clicked.
