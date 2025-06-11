@@ -104,6 +104,7 @@ public class CustomerListener implements Listener {
         if (e.getRightClicked().getType() != EntityType.VILLAGER) return;
         Villager villager = (Villager) e.getRightClicked();
         if (villager.getProfession() != Villager.Profession.NITWIT) return;
+        if (!villager.isAdult()) return;
         Player player = e.getPlayer();
 
         String requestString = EntityDataUtil.getStringValue(villager, "request");
