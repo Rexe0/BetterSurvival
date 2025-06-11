@@ -7,6 +7,7 @@ import me.rexe0.bettersurvival.farming.alcohol.SpiritType;
 import me.rexe0.bettersurvival.farming.alcohol.WineType;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.util.EntityDataUtil;
+import me.rexe0.bettersurvival.weather.SeasonListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -33,22 +34,30 @@ public class CustomerListener implements Listener {
 
 
     public boolean hasTalkedToVillager(Player player, Villager villager) {
-        villagerHistory.putIfAbsent(player, new VillagerHistory());
-        VillagerHistory history = villagerHistory.get(player);
+        VillagerHistory history = getVillagerHistory(player);
         return history.hasOffer(villager);
     }
     public ItemStack getVillagerOffer(Player player, Villager villager) {
-        villagerHistory.putIfAbsent(player, new VillagerHistory());
-        VillagerHistory history = villagerHistory.get(player);
+        VillagerHistory history = getVillagerHistory(player);
 
         return history.getOffer(villager);
     }
     public void setVillagerOffer(Player player, Villager villager, ItemStack item) {
-        villagerHistory.putIfAbsent(player, new VillagerHistory());
-        VillagerHistory history = villagerHistory.get(player);
+        VillagerHistory history = getVillagerHistory(player);
         history.addOffer(villager, item);
     }
+    public void removeVillagerOffer(Player player, Villager villager) {
+        VillagerHistory history = getVillagerHistory(player);
+        history.removeOffer(villager);
+    }
+    private VillagerHistory getVillagerHistory(Player player) {
+        villagerHistory.putIfAbsent(player, new VillagerHistory());
+        return villagerHistory.get(player);
+    }
 
+    private boolean isTravellingCustomer(Villager villager) {
+        return villager.getScoreboardTags().contains("isTravellingCustomer");
+    }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
@@ -59,9 +68,15 @@ public class CustomerListener implements Listener {
     public void onNitwitSpawn(CreatureSpawnEvent e) {
         if (e.getEntityType() != EntityType.VILLAGER) return;
         Villager villager = (Villager) e.getEntity();
+
+        // Small chance for breeding to yield a nitwit
+        if (e.getSpawnReason() == CreatureSpawnEvent.SpawnReason.BREEDING)
+            if (Math.random() < 0.05) villager.setProfession(Villager.Profession.NITWIT);
+
         if (villager.getProfession() != Villager.Profession.NITWIT) return;
 
-        EntityDataUtil.setStringValue(villager, "request", Request.encodeAsString(generateRequest(ItemType.WINE)));
+        if (isTravellingCustomer(villager))
+            EntityDataUtil.setStringValue(villager, "request", Request.encodeAsString(generateRequest(ItemType.WINE)));
     }
     @EventHandler
     public void onTalk(PlayerInteractEntityEvent e) {
@@ -71,8 +86,25 @@ public class CustomerListener implements Listener {
         Player player = e.getPlayer();
 
         String requestString = EntityDataUtil.getStringValue(villager, "request");
-        if (requestString.isEmpty()) return;
-        Request request = Request.decodeString(requestString);
+        Request request = null;
+        if (requestString.isEmpty()) {
+            if (isTravellingCustomer(villager)) {
+                sendMessage(player, "Thanks for the trade. I'll be leaving soon...");
+                return;
+            } else {
+                int requestDay = EntityDataUtil.getIntegerValue(villager, "requestDay");
+                int day = SeasonListener.getDays();
+                if (requestDay == day) {
+                    sendMessage(player, "I don't have any other requests for the day. Thanks.");
+                    return;
+                } else {
+                    request = generateRequest(ItemType.WINE);
+                    EntityDataUtil.setStringValue(villager, "request", Request.encodeAsString(request));
+                    EntityDataUtil.setIntegerValue(villager, "requestDay", day);
+                }
+            }
+        }
+        if (request == null) request = Request.decodeString(requestString);
         onTalk(player, villager, request);
     }
 
@@ -118,7 +150,7 @@ public class CustomerListener implements Listener {
             item.setAmount(item.getAmount() - amountRequest.getAmount());
         } else item.setAmount(0);
 
-        player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADE, 1, 1);
+        player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_CELEBRATE  , 1, 1);
 
         while (price > 0) {
             ItemStack emerald = new ItemStack(Material.EMERALD);
@@ -135,9 +167,9 @@ public class CustomerListener implements Listener {
                     Item droppedItem = player.getWorld().dropItemNaturally(player.getLocation(), left);
                     droppedItem.setOwner(player.getUniqueId());
                 }
-
         }
-
+        EntityDataUtil.setStringValue(villager, "request", "");
+        removeVillagerOffer(player, villager);
     }
     private void sendMessage(Player player, String... messages) {
         sendMessage(player, 50, messages);
@@ -206,6 +238,9 @@ public class CustomerListener implements Listener {
         }
         public boolean hasOffer(Villager villager) {
             return villagerOffer.containsKey(villager.getUniqueId());
+        }
+        public void removeOffer(Villager villager) {
+            villagerOffer.remove(villager.getUniqueId());
         }
         public ItemStack getOffer(Villager villager) {
             return villagerOffer.get(villager.getUniqueId());
