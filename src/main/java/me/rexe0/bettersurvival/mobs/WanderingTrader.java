@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 public class WanderingTrader implements Listener {
+    private static final CustomerSpawner customerSpawner = new CustomerSpawner();
+
     private final Map<ItemStack, Integer> sellTrades;
 
     public WanderingTrader() {
@@ -81,12 +83,13 @@ public class WanderingTrader implements Listener {
     }
 
     public static void run() {
-        World world = BetterSurvival.getInstance().getDefaultWorld();
         if (SeasonListener.getDays() < 30) return;
+        World world = BetterSurvival.getInstance().getDefaultWorld();
+        if (world.getTime() % 100 == 0)
+            customerSpawner.despawn(world);
         if (world.getTime() != 1) return;
         ServerLevel level = ((CraftWorld) world).getHandle();
 
-        CustomerSpawner customerSpawner = new CustomerSpawner();
         customerSpawner.spawn(level);
 
         if (SeasonListener.getDays() % 10 == 9) {

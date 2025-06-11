@@ -1,6 +1,7 @@
 package me.rexe0.bettersurvival.farming.alcohol.customers;
 
 import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.util.EntityDataUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -13,7 +14,9 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_21_R4.entity.CraftVillager;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
 import javax.annotation.Nullable;
@@ -23,6 +26,15 @@ import java.util.Iterator;
 public class CustomerSpawner {
     private final RandomSource random = RandomSource.create();
 
+    // Despawn all travelling customers that have been alive for more than 10 minutes (5 mins if their request is filled)
+    public void despawn(World world) {
+        for (org.bukkit.entity.Villager villager : world.getEntitiesByClass(org.bukkit.entity.Villager.class)) {
+            if (villager.getProfession() != org.bukkit.entity.Villager.Profession.NITWIT) continue;
+            if (!villager.getScoreboardTags().contains("isTravellingCustomer")) continue;
+            if (villager.getTicksLived() < (EntityDataUtil.getStringValue(villager, "request").isEmpty() ? 6000 : 12000)) continue;
+            villager.remove();
+        }
+    }
     public void spawn(ServerLevel worldserver) {
         for (ServerPlayer entityplayer : worldserver.getPlayers(LivingEntity::isAlive)) {
 //            if (random.nextInt(3) != 0) continue;
@@ -36,6 +48,7 @@ public class CustomerSpawner {
             nitwitVillager.goalSelector.addGoal(2, new WanderToPositionGoal(nitwitVillager, 2.0, 0.35, blockPosition));
             nitwitVillager.restrictTo(blockPosition, 16);
             nitwitVillager.addTag("isTravellingCustomer");
+            nitwitVillager.setVillagerData(nitwitVillager.getVillagerData().withProfession(CraftVillager.CraftProfession.bukkitToMinecraftHolder(org.bukkit.entity.Villager.Profession.NITWIT)));
         }
     }
 

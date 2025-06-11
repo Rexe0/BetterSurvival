@@ -73,10 +73,13 @@ public class CustomerListener implements Listener {
         if (e.getSpawnReason() == CreatureSpawnEvent.SpawnReason.BREEDING)
             if (Math.random() < 0.05) villager.setProfession(Villager.Profession.NITWIT);
 
-        if (villager.getProfession() != Villager.Profession.NITWIT) return;
 
-        if (isTravellingCustomer(villager))
-            EntityDataUtil.setStringValue(villager, "request", Request.encodeAsString(generateRequest(ItemType.WINE)));
+        // Delayed to let the scoreboard tag exist
+        Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> {
+            if (villager.getProfession() != Villager.Profession.NITWIT) return;
+            if (isTravellingCustomer(villager))
+                EntityDataUtil.setStringValue(villager, "request", Request.encodeAsString(generateRequest(ItemType.WINE)));
+        }, 1);
     }
     @EventHandler
     public void onTalk(PlayerInteractEntityEvent e) {
