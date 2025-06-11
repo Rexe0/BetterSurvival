@@ -37,7 +37,9 @@ public class CustomerSpawner {
     }
     public void spawn(ServerLevel worldserver) {
         for (ServerPlayer entityplayer : worldserver.getPlayers(LivingEntity::isAlive)) {
-//            if (random.nextInt(3) != 0) continue;
+            Request request = CustomerListener.generateRequest(entityplayer.getBukkitEntity());
+            if (request == null) return;
+            if (random.nextInt(3) != 0) continue;
             BlockPos blockPosition = entityplayer.blockPosition();
 
             BlockPos spawnPosition = this.findSpawnPositionNear(worldserver, blockPosition, 48);
@@ -49,6 +51,8 @@ public class CustomerSpawner {
             nitwitVillager.restrictTo(blockPosition, 16);
             nitwitVillager.addTag("isTravellingCustomer");
             nitwitVillager.setVillagerData(nitwitVillager.getVillagerData().withProfession(CraftVillager.CraftProfession.bukkitToMinecraftHolder(org.bukkit.entity.Villager.Profession.NITWIT)));
+
+            EntityDataUtil.setStringValue(nitwitVillager.getBukkitEntity(), "request", Request.encodeAsString(request));
         }
     }
 

@@ -149,6 +149,7 @@ public final class BetterSurvival extends JavaPlugin {
                     type.getItem().armorEquipped(player);
             }
         }), 0, 5);
+        Bukkit.getScheduler().runTaskTimer(this, CustomerListener::run, 0, 20);
 
         Bukkit.getScheduler().runTaskTimer(getInstance(), () -> Bukkit.getOnlinePlayers().forEach(AlcoholListener::alcoholTick), 0, 1200);
     }

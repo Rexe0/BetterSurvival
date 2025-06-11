@@ -7,6 +7,7 @@ import me.rexe0.bettersurvival.farming.alcohol.SpiritType;
 import me.rexe0.bettersurvival.farming.alcohol.WineType;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.util.EntityDataUtil;
+import me.rexe0.bettersurvival.util.ItemDataUtil;
 import me.rexe0.bettersurvival.weather.SeasonListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -23,15 +24,40 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 public class CustomerListener implements Listener {
     // Villagers that players have already talked to
     private final Map<Player, VillagerHistory> villagerHistory = new HashMap<>();
 
+    public static void run() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (player.getScoreboardTags().contains("ownsAllDrugs")) continue;
+            boolean hasCannabis = EntityDataUtil.getIntegerValue(player, "hasHadCannabis") > 0;
+            boolean hasAlcohol = EntityDataUtil.getIntegerValue(player, "hasHadAlcohol") > 0;
+            boolean hasCocaine = EntityDataUtil.getIntegerValue(player, "hasHadCocaine") > 0;
+
+            for (ItemStack item : player.getInventory().getContents()) {
+                if (hasCannabis && hasAlcohol && hasCocaine) break;
+                if (item == null || item.getType() == Material.AIR) continue;
+                if (ItemDataUtil.isItem(item, "CANNABIS"))
+                    hasCannabis = true;
+                else if (ItemDataUtil.isItem(item, "COCAINE"))
+                    hasCocaine = true;
+                else if (ItemDataUtil.isItem(item, "WINE") || ItemDataUtil.isItem(item, "SPIRIT"))
+                    hasAlcohol = true;
+            }
+            EntityDataUtil.setIntegerValue(player, "hasHadCannabis", hasCannabis ? 1 : 0);
+            EntityDataUtil.setIntegerValue(player, "hasHadAlcohol", hasAlcohol ? 1 : 0);
+            EntityDataUtil.setIntegerValue(player, "hasHadCocaine", hasCocaine ? 1 : 0);
+
+            // Add scoreboard tag if player has all drugs to prevent checking all this stuff every tick
+            if (hasCannabis && hasAlcohol && hasCocaine) player.addScoreboardTag("ownsAllDrugs");
+        }
+    }
+    public static boolean hasHadDrug(Player player, String drug) {
+        return EntityDataUtil.getIntegerValue(player, "hasHad" + drug) > 0;
+    }
 
     public boolean hasTalkedToVillager(Player player, Villager villager) {
         VillagerHistory history = getVillagerHistory(player);
@@ -72,14 +98,6 @@ public class CustomerListener implements Listener {
         // Small chance for breeding to yield a nitwit
         if (e.getSpawnReason() == CreatureSpawnEvent.SpawnReason.BREEDING)
             if (Math.random() < 0.05) villager.setProfession(Villager.Profession.NITWIT);
-
-
-        // Delayed to let the scoreboard tag exist
-        Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> {
-            if (villager.getProfession() != Villager.Profession.NITWIT) return;
-            if (isTravellingCustomer(villager))
-                EntityDataUtil.setStringValue(villager, "request", Request.encodeAsString(generateRequest(ItemType.WINE)));
-        }, 1);
     }
     @EventHandler
     public void onTalk(PlayerInteractEntityEvent e) {
@@ -101,7 +119,8 @@ public class CustomerListener implements Listener {
                     sendMessage(player, "I don't have any other requests for the day. Thanks.");
                     return;
                 } else {
-                    request = generateRequest(ItemType.WINE);
+                    request = generateRequest(player);
+                    if (request == null) return;
                     EntityDataUtil.setStringValue(villager, "request", Request.encodeAsString(request));
                     EntityDataUtil.setIntegerValue(villager, "requestDay", day);
                 }
@@ -185,7 +204,15 @@ public class CustomerListener implements Listener {
             i++;
         }
     }
-    public Request generateRequest(ItemType type) {
+    public static Request generateRequest(Player player) {
+        List<ItemType> obtained = new ArrayList<>();
+        if (hasHadDrug(player, "Cannabis")) obtained.add(ItemType.CANNABIS);
+        if (hasHadDrug(player, "Alcohol")) obtained.add(ItemType.WINE);
+        if (hasHadDrug(player, "Cocaine")) obtained.add(ItemType.COCAINE);
+        if (obtained.isEmpty()) return null;
+        return generateRequest(obtained.get((int) (obtained.size()*Math.random())));
+    }
+    public static  Request generateRequest(ItemType type) {
         Random random = new Random();
         return switch (type) {
             // Normal distribution mean = 16.5
@@ -198,7 +225,7 @@ public class CustomerListener implements Listener {
             }
         };
     }
-    public AlcoholRequest generateAlcoholRequest(Random random) {
+    public static AlcoholRequest generateAlcoholRequest(Random random) {
         if (random.nextBoolean())
             return new AlcoholRequest();
 
