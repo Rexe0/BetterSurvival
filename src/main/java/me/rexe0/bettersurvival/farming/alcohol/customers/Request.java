@@ -67,10 +67,15 @@ public abstract class Request {
                 BarrelType tertiaryFlavor = null;
                 WineType quaternaryFlavor = null;
 
+                Boolean isWine = null;
                 if (parts[0].equals("WINE")) {
-                    type = WineType.valueOf(parts[1]);
+                    isWine = true;
+                    if (!parts[1].equals("NONE"))
+                        type = WineType.valueOf(parts[1]);
                 } else if (parts[0].equals("SPIRIT")) {
-                    type = SpiritType.valueOf(parts[1]);
+                    isWine = false;
+                    if (!parts[1].equals("NONE"))
+                        type = SpiritType.valueOf(parts[1]);
                 } else if (!parts[0].equals("ANY")) {
                     throw new IllegalArgumentException("Invalid alcohol type: " + parts[0]);
                 }
@@ -88,7 +93,10 @@ public abstract class Request {
                 int minimumAge = Integer.parseInt(parts[5]);
                 int minimumConcentration = Integer.parseInt(parts[6]);
 
-                AlcoholRequest request = new AlcoholRequest(type, secondaryFlavor, tertiaryFlavor, quaternaryFlavor, minimumAge);
+                AlcoholRequest request;
+                if (isWine != null && type == null) {
+                    request = new AlcoholRequest(isWine);
+                } else request = new AlcoholRequest(type, secondaryFlavor, tertiaryFlavor, quaternaryFlavor, minimumAge);
                 request.setMinimumConcentration(minimumConcentration);
                 return request;
             }
