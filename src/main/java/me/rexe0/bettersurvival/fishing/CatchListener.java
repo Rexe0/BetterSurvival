@@ -15,7 +15,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.block.Biome;
-import org.bukkit.craftbukkit.v1_21_R3.entity.CraftFishHook;
+import org.bukkit.craftbukkit.v1_21_R4.entity.CraftFishHook;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.FishHook;
 import org.bukkit.entity.Item;

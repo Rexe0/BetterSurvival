@@ -25,7 +25,7 @@ public class CustomerSpawner {
 
     public void spawn(ServerLevel worldserver) {
         for (ServerPlayer entityplayer : worldserver.getPlayers(LivingEntity::isAlive)) {
-            if (random.nextInt(3) != 0) continue;
+//            if (random.nextInt(3) != 0) continue;
             BlockPos blockPosition = entityplayer.blockPosition();
 
             BlockPos spawnPosition = this.findSpawnPositionNear(worldserver, blockPosition, 48);
