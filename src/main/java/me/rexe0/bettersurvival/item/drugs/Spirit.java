@@ -101,7 +101,7 @@ public class Spirit extends Item {
             lore.add(" ");
             lore.add(ChatColor.GRAY+"Additional Flavors:");
             if ((secondaryFlavor != null && quaternaryFlavor != null) && (secondaryFlavor == quaternaryFlavor)) {
-                String flavorName = secondaryFlavor.getNameColor()+""+ChatColor.BOLD+"Bold "+secondaryFlavor.getFlavorName();
+                String flavorName = secondaryFlavor.getNameColor()+""+ChatColor.BOLD+secondaryFlavor.getBoldFlavorName();
                 lore.add(ChatColor.GRAY + "- " + flavorName);
             } else {
                 if (secondaryFlavor != null)

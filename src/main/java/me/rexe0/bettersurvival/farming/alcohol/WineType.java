@@ -56,6 +56,12 @@ public enum WineType implements AlcoholType {
         return flavorName;
     }
 
+    public String getBoldFlavorName() {
+        if (this == BEER) return "Very Bitter";
+        else if (this == SUGAR_WASH) return "Extremely Sweet";
+        return "Bold "+flavorName;
+    }
+
     public ChatColor getNameColor() {
         return nameColor;
     }

@@ -184,10 +184,16 @@ public class AlcoholRequest extends Request {
             if (secondaryFlavor == WineType.BEER) flavorName = "Bitterness";
             else if (secondaryFlavor == WineType.SUGAR_WASH) flavorName = "Sweetness";
 
-            sb.append(" with a taste of ").append(secondaryFlavor.getNameColor()).append(flavorName).append(ChatColor.RESET);
+            boolean bold = isWine != null && ((isWine && secondaryFlavor == type) || (!isWine && quaternaryFlavor != null && secondaryFlavor == quaternaryFlavor));
+
+            if (bold)
+                sb.append(" with a ").append(secondaryFlavor.getNameColor()).append("Bold Taste").append(ChatColor.RESET);
+            else
+                sb.append(" with a taste of ").append(secondaryFlavor.getNameColor()).append(flavorName).append(ChatColor.RESET);
+
             if (tertiaryFlavor != null) {
                 sb.append(" and a hint of ").append(tertiaryFlavor.getName()).append(" Wood").append(ChatColor.RESET);
-                if (quaternaryFlavor != null) {
+                if (quaternaryFlavor != null && !bold) {
                     flavorName = quaternaryFlavor.getFlavorName();
                     if (quaternaryFlavor == WineType.BEER) flavorName = "Bitterness";
                     else if (quaternaryFlavor == WineType.SUGAR_WASH) flavorName = "Sweetness";
