@@ -1,6 +1,7 @@
 package me.rexe0.bettersurvival.mobs;
 
 import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.farming.alcohol.customers.CustomerSpawner;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.item.drugs.Cannabis;
 import me.rexe0.bettersurvival.item.drugs.CocaLeaves;
@@ -83,9 +84,13 @@ public class WanderingTrader implements Listener {
         World world = BetterSurvival.getInstance().getDefaultWorld();
         if (SeasonListener.getDays() < 30) return;
         if (world.getTime() != 1) return;
+        ServerLevel level = ((CraftWorld) world).getHandle();
+
+        CustomerSpawner customerSpawner = new CustomerSpawner();
+        customerSpawner.spawn(level);
+
         if (SeasonListener.getDays() % 10 == 9) {
             // Spawn wandering trader at the start of the day, every 10 days after the first season
-            ServerLevel level = ((CraftWorld) world).getHandle();
             WanderingTraderSpawner spawner = new WanderingTraderSpawner(level.L);
             spawner.spawn(level);
         }
