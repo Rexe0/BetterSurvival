@@ -49,7 +49,7 @@ public class HarvestModifier implements Listener {
             KnowledgeBookMeta meta = (KnowledgeBookMeta) item.getItemMeta();
             meta.setDisplayName(ChatColor.DARK_AQUA+"Lost Farmer Knowledge");
             meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.FARMER_BOOTS.getItem().getID()));
-            meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.CORNUCOPIA.getItem().getID()));
+            meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.AMBROSIA.getItem().getID()));
             item.setItemMeta(meta);
             player.getWorld().dropItemNaturally(e.getBlock().getLocation(), item);
         }
