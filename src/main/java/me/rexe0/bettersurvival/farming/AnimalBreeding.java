@@ -1,7 +1,7 @@
 package me.rexe0.bettersurvival.farming;
 
 import me.rexe0.bettersurvival.BetterSurvival;
-import me.rexe0.bettersurvival.item.Fertilizer;
+import me.rexe0.bettersurvival.item.farming.Fertilizer;
 import me.rexe0.bettersurvival.util.RandomUtil;
 import me.rexe0.bettersurvival.weather.Season;
 import org.bukkit.Particle;

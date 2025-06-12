@@ -1,5 +1,6 @@
-package me.rexe0.bettersurvival.item;
+package me.rexe0.bettersurvival.item.arrows;
 
+import me.rexe0.bettersurvival.item.Item;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Particle;

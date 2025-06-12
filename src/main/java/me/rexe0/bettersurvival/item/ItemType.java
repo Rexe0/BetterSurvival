@@ -4,7 +4,14 @@ import me.rexe0.bettersurvival.farming.alcohol.BarrelType;
 import me.rexe0.bettersurvival.farming.alcohol.SpiritType;
 import me.rexe0.bettersurvival.farming.alcohol.WineType;
 import me.rexe0.bettersurvival.fishing.BiomeGroup;
+import me.rexe0.bettersurvival.item.arrows.AmethystArrow;
+import me.rexe0.bettersurvival.item.arrows.ExplosiveArrow;
+import me.rexe0.bettersurvival.item.arrows.SonicArrow;
+import me.rexe0.bettersurvival.item.arrows.ToxicArrow;
 import me.rexe0.bettersurvival.item.drugs.*;
+import me.rexe0.bettersurvival.item.farming.Cornucopia;
+import me.rexe0.bettersurvival.item.farming.FarmerBoots;
+import me.rexe0.bettersurvival.item.farming.Fertilizer;
 import me.rexe0.bettersurvival.item.fishing.*;
 import org.bukkit.ChatColor;
 

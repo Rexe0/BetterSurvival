@@ -1,6 +1,8 @@
-package me.rexe0.bettersurvival.item;
+package me.rexe0.bettersurvival.item.farming;
 
 import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.item.Item;
+import me.rexe0.bettersurvival.item.ItemType;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

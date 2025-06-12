@@ -1,6 +1,7 @@
-package me.rexe0.bettersurvival.item;
+package me.rexe0.bettersurvival.item.arrows;
 
 import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.item.Item;
 import me.rexe0.bettersurvival.util.RandomUtil;
 import org.bukkit.*;
 import org.bukkit.entity.Arrow;

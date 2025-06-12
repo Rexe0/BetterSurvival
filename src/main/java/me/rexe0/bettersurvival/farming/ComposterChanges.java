@@ -2,7 +2,7 @@ package me.rexe0.bettersurvival.farming;
 
 import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.BetterSurvival;
-import me.rexe0.bettersurvival.item.Fertilizer;
+import me.rexe0.bettersurvival.item.farming.Fertilizer;
 import me.rexe0.bettersurvival.item.fishing.Fish;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.*;
