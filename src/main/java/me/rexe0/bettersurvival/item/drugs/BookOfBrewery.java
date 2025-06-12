@@ -1,12 +1,16 @@
 package me.rexe0.bettersurvival.item.drugs;
 
+import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.farming.alcohol.BarrelType;
 import me.rexe0.bettersurvival.item.Item;
-import me.rexe0.bettersurvival.util.RandomUtil;
+import me.rexe0.bettersurvival.item.ItemType;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.event.world.LootGenerateEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.inventory.meta.KnowledgeBookMeta;
 
 import java.util.List;
 
@@ -49,7 +53,18 @@ public class BookOfBrewery extends Item {
     @Override
     public void onLootGenerate(LootGenerateEvent e) {
         String key = e.getLootTable().getKey().getKey();
-        if (key.equals("chests/shipwreck_treasure"))
-            if (RandomUtil.getRandom().nextBoolean()) e.getLoot().add(getItem());
+
+        if (key.equals("chests/shipwreck_treasure")) {
+            ItemStack item = new ItemStack(Material.KNOWLEDGE_BOOK);
+            KnowledgeBookMeta meta = (KnowledgeBookMeta) item.getItemMeta();
+            meta.setDisplayName(ChatColor.DARK_AQUA+"Lost Brewing Knowledge");
+            String ID = ItemType.REINFORCED_BARREL.getItem().getID();
+            for (BarrelType type : BarrelType.values())
+                meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ID+"_"+type.name()));
+            item.setItemMeta(meta);
+            e.getLoot().add(item);
+
+            e.getLoot().add(getItem());
+        }
     }
 }
