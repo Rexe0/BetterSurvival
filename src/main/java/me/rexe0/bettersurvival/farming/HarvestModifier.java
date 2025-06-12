@@ -3,6 +3,7 @@ package me.rexe0.bettersurvival.farming;
 import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.item.ItemType;
+import me.rexe0.bettersurvival.util.EntityDataUtil;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import me.rexe0.bettersurvival.util.RandomUtil;
 import me.rexe0.bettersurvival.weather.HolidayListener;
@@ -97,8 +98,16 @@ public class HarvestModifier implements Listener {
             item.setItemMeta(damageable);
         }
 
-        if (HolidayListener.bumperCropHarvest(block.getWorld()))
+        if (HolidayListener.bumperCropHarvest(block.getWorld())) {
             dropCount += 2;
+            seedCount++;
+        }
+
+        int level = EntityDataUtil.getIntegerValue(player, "upgradeLevel.FARMING");
+        if (Math.random() < 0.1 * level) {
+            dropCount++;
+            seedCount++;
+        }
 
         block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(drops[0], seedCount));
         if (drops.length > 1)

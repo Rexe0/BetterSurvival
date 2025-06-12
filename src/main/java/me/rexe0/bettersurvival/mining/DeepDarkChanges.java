@@ -1,4 +1,4 @@
-package me.rexe0.bettersurvival.deepdark;
+package me.rexe0.bettersurvival.mining;
 
 import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.util.RandomUtil;

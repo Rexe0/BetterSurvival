@@ -2,7 +2,6 @@ package me.rexe0.bettersurvival;
 
 import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.config.ConfigLoader;
-import me.rexe0.bettersurvival.deepdark.DeepDarkChanges;
 import me.rexe0.bettersurvival.farming.*;
 import me.rexe0.bettersurvival.farming.alcohol.AgingListener;
 import me.rexe0.bettersurvival.farming.alcohol.AlcoholListener;
@@ -20,6 +19,8 @@ import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.minecarts.ChainedMinecart;
 import me.rexe0.bettersurvival.minecarts.MinecartChanges;
 import me.rexe0.bettersurvival.minecarts.RailRecipes;
+import me.rexe0.bettersurvival.mining.DeepDarkChanges;
+import me.rexe0.bettersurvival.mining.MiningListener;
 import me.rexe0.bettersurvival.mobs.*;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import me.rexe0.bettersurvival.weather.HolidayListener;
@@ -108,6 +109,7 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new AgingListener(), this);
         getServer().getPluginManager().registerEvents(new AlcoholListener(), this);
         getServer().getPluginManager().registerEvents(new CustomerListener(), this);
+        getServer().getPluginManager().registerEvents(new MiningListener(), this);
 
         CustomBlockData.registerListener(this);
 

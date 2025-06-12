@@ -187,13 +187,20 @@ public class CatchListener implements Listener {
         if (caughtTreasure)
             // Run it a tick later so that the item spawned has the same velocity as the caught fish
             Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> {
+                int level = EntityDataUtil.getIntegerValue(player, "upgradeLevel.FISHING");
+
+                int amount = (Math.random() < level*0.08 ? 2 : 1);
+                treasureItem.setAmount(amount);
                 Item treasure = player.getWorld().dropItem(item.getLocation(), treasureItem);
                 treasure.setVelocity(item.getVelocity());
                 treasure.setOwner(player.getUniqueId());
                 treasure.setPickupDelay(0);
 
                 player.playSound(player.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1, 2);
-                player.sendMessage(ChatColor.GREEN+"You managed to pull up some additional treasure.");
+                String message = ChatColor.GREEN+"You managed to pull up some additional treasure.";
+                if (amount == 2)
+                    message = ChatColor.GOLD+""+ChatColor.MAGIC+"I "+message+ChatColor.GOLD+ChatColor.MAGIC+" I";
+                player.sendMessage(message);
             }, 1);
     }
 

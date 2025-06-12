@@ -32,9 +32,10 @@ public enum ItemType {
     EXPLOSIVE_ARROW(new ExplosiveArrow()),
     TOXIC_ARROW(new ToxicArrow()),
     SONIC_ARROW(new SonicArrow()),
-    SMOKE_PIPE(new SmokePipe()),
+    UPGRADE_BOOK(new UpgradeBook(UpgradeBook.Upgrade.BREWING)),
 
     CANNABIS(new Cannabis(0)),
+    SMOKE_PIPE(new SmokePipe()),
     COCA_LEAVES(new CocaLeaves(0)),
     COCAINE(new Cocaine(0)),
     BLOCK_OF_COCAINE(new BlockOfCocaine(0)),

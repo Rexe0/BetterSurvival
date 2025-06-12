@@ -3,6 +3,7 @@ package me.rexe0.bettersurvival.mobs;
 import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.farming.alcohol.customers.CustomerSpawner;
 import me.rexe0.bettersurvival.item.ItemType;
+import me.rexe0.bettersurvival.item.UpgradeBook;
 import me.rexe0.bettersurvival.item.drugs.Cannabis;
 import me.rexe0.bettersurvival.item.drugs.CocaLeaves;
 import me.rexe0.bettersurvival.item.drugs.Yeast;
@@ -51,6 +52,12 @@ public class WanderingTrader implements Listener {
 
         List<MerchantRecipe> recipes = new ArrayList<>(trader.getRecipes());
 
+        for (int i = 0; i < RandomUtil.getRandom().nextInt(2, 4); i++) {
+            ItemStack item = (ItemStack) sellTrades.keySet().toArray()[RandomUtil.getRandom().nextInt(sellTrades.size())];
+            MerchantRecipe trade = new MerchantRecipe(new ItemStack(Material.EMERALD, sellTrades.get(item)), 1);
+            trade.addIngredient(item);
+            recipes.add(0, trade);
+        }
         for (int i = 0; i < 2; i++) {
             ItemStack item;
             if (i == 0) item = switch (RandomUtil.getRandom().nextInt(3)) {
@@ -72,12 +79,13 @@ public class WanderingTrader implements Listener {
             trade.addIngredient(new ItemStack(trade.getResult().getType() == Material.FROGSPAWN ? Material.PUMPKIN_SEEDS : trade.getResult().getType(), 1));
             recipes.add(0, trade);
         }
-        for (int i = 0; i < RandomUtil.getRandom().nextInt(2, 4); i++) {
-            ItemStack item = (ItemStack) sellTrades.keySet().toArray()[RandomUtil.getRandom().nextInt(sellTrades.size())];
-            MerchantRecipe trade = new MerchantRecipe(new ItemStack(Material.EMERALD, sellTrades.get(item)), 1);
-            trade.addIngredient(item);
-            recipes.add(0, trade);
-        }
+
+        ItemStack upgradeBook = new UpgradeBook(UpgradeBook.Upgrade.values()[(int) (Math.random()* UpgradeBook.Upgrade.values().length)]).getItem();
+        MerchantRecipe upgradeTrade = new MerchantRecipe(upgradeBook, 1);
+        upgradeTrade.addIngredient(new ItemStack(Material.EMERALD, 64));
+        upgradeTrade.addIngredient(new ItemStack(Material.EMERALD, 64));
+        recipes.add(0, upgradeTrade);
+
 
         trader.setRecipes(recipes);
     }

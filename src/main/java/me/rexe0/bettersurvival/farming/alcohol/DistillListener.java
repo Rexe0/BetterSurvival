@@ -4,6 +4,7 @@ import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.item.drugs.Spirit;
+import me.rexe0.bettersurvival.util.EntityDataUtil;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -11,6 +12,7 @@ import org.bukkit.Sound;
 import org.bukkit.block.Barrel;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -46,7 +48,7 @@ public class DistillListener implements Listener {
             if (currentTime - lastAction < AGE_TIME) return;
             Inventory inventory = ((Barrel) block.getState()).getInventory();
 
-            if (distill(inventory))
+            if (distill(inventory, e.getPlayer()))
                 e.getPlayer().playSound(block.getLocation(), Sound.BLOCK_BREWING_STAND_BREW, 1f, 1.5f);
 
             // Update the last action time
@@ -75,7 +77,7 @@ public class DistillListener implements Listener {
         return items;
     }
 
-    private boolean distill(Inventory inventory) {
+    private boolean distill(Inventory inventory, Player player) {
         // Kill off any yeast due to heat
         Arrays.stream(inventory.getContents())
                 .filter(item -> item != null && item.getType() == Material.FROGSPAWN && ItemDataUtil.isItem(item, ItemType.YEAST.getItem().getID()))
@@ -110,8 +112,11 @@ public class DistillListener implements Listener {
                 j++;
                 k++;
             }
+
+            int level = EntityDataUtil.getIntegerValue(player, "upgradeLevel.BREWING");
+            boolean hasMethanol = Math.random() < (0.1 - (level * 0.02)); // 10% chance to have methanol, reduced by 2% per level
             // Modify the bottle directly
-            ItemStack item = (new Spirit(Math.min(Spirit.MAX_DISTILL_CONCENTRATION, (1-concentration)*100), SpiritType.DISTILLATE, 0, null, null, quaternaryFlavor, Math.random() < 0.1)).getItem();
+            ItemStack item = (new Spirit(Math.min(Spirit.MAX_DISTILL_CONCENTRATION, (1-concentration)*100), SpiritType.DISTILLATE, 0, null, null, quaternaryFlavor, hasMethanol)).getItem();
             bottle.setType(item.getType());
             bottle.setAmount(1);
             bottle.setItemMeta(item.getItemMeta());
