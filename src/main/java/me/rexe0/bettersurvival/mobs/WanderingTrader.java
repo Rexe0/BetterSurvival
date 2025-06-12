@@ -81,7 +81,7 @@ public class WanderingTrader implements Listener {
         }
 
         ItemStack upgradeBook = new UpgradeBook(UpgradeBook.Upgrade.values()[(int) (Math.random()* UpgradeBook.Upgrade.values().length)]).getItem();
-        MerchantRecipe upgradeTrade = new MerchantRecipe(upgradeBook, 1);
+        MerchantRecipe upgradeTrade = new MerchantRecipe(upgradeBook, 5);
         upgradeTrade.addIngredient(new ItemStack(Material.EMERALD, 64));
         upgradeTrade.addIngredient(new ItemStack(Material.EMERALD, 64));
         recipes.add(0, upgradeTrade);
