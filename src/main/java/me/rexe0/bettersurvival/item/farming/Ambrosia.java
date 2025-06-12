@@ -18,11 +18,11 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
-public class Cornucopia extends Item {
+public class Ambrosia extends Item {
     private final int FOOD_INCREASE = 4;
     private final int SATURATION_INCREASE = 6;
-    public Cornucopia() {
-        super(Material.GOLDEN_CARROT, ChatColor.GREEN+"Cornucopia", "CORNUCOPIA");
+    public Ambrosia() {
+        super(Material.GOLDEN_CARROT, ChatColor.GREEN+"Ambrosia", "AMBROSIA");
     }
 
     @Override
@@ -52,7 +52,7 @@ public class Cornucopia extends Item {
     }
     @Override
     public Recipe getRecipe() {
-        ItemStack item = ItemType.CORNUCOPIA.getItem().getItem();
+        ItemStack item = ItemType.AMBROSIA.getItem().getItem();
 
         ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(BetterSurvival.getInstance(), getID()), item);
         recipe.shape(" % ", "#@#", "&%&");

@@ -9,7 +9,7 @@ import me.rexe0.bettersurvival.item.arrows.ExplosiveArrow;
 import me.rexe0.bettersurvival.item.arrows.SonicArrow;
 import me.rexe0.bettersurvival.item.arrows.ToxicArrow;
 import me.rexe0.bettersurvival.item.drugs.*;
-import me.rexe0.bettersurvival.item.farming.Cornucopia;
+import me.rexe0.bettersurvival.item.farming.Ambrosia;
 import me.rexe0.bettersurvival.item.farming.FarmerBoots;
 import me.rexe0.bettersurvival.item.farming.Fertilizer;
 import me.rexe0.bettersurvival.item.fishing.*;
@@ -23,7 +23,7 @@ public enum ItemType {
     SADDLE_N_HORSESHOE(new SaddleNHorseshoe()),
     DRAGON_SCALE(new DragonScale()),
     FARMER_BOOTS(new FarmerBoots()),
-    CORNUCOPIA(new Cornucopia()),
+    AMBROSIA(new Ambrosia()),
     WEATHER_RADIO(new WeatherRadio()),
     WEATHER_BEACON(new WeatherBeacon()),
     FERTILIZER(new Fertilizer(1)),
