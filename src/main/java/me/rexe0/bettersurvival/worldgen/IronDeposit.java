@@ -12,10 +12,18 @@ import java.util.Random;
 
 public class IronDeposit extends BlockPopulator {
 
+    private SimplexOctaveGenerator generator;
+    public SimplexOctaveGenerator getGenerator(long seed) {
+        if (generator == null) {
+            generator = new SimplexOctaveGenerator(new Random(seed), 2);
+            generator.setScale(0.5);
+        }
+        return generator;
+    }
+
     @Override
     public void populate(WorldInfo worldInfo, Random random, int chunkX, int chunkZ, LimitedRegion limitedRegion) {
-        SimplexOctaveGenerator generator = new SimplexOctaveGenerator(new Random(worldInfo.getSeed()), 2);
-        generator.setScale(0.5);
+        SimplexOctaveGenerator generator = getGenerator(worldInfo.getSeed());
 
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {

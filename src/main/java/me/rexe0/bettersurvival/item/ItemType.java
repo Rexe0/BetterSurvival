@@ -16,6 +16,8 @@ import me.rexe0.bettersurvival.item.fishing.*;
 import org.bukkit.ChatColor;
 
 public enum ItemType {
+    NOISE_MAP(new NoiseMap()),
+
     STOPWATCH(new Stopwatch()),
     METAL_DETECTOR(new MetalDetector()),
     DRILL_BLOCK(new DrillBlock()),
