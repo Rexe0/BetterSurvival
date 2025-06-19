@@ -22,7 +22,7 @@ public class PlatinumFishingRod extends Item {
     @Override
     public List<String> getLore() {
         List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.GRAY+"Can use Bait when fishing.");
+        lore.add(ChatColor.GRAY+"Can use Bait and Tackle when fishing.");
         return lore;
     }
 

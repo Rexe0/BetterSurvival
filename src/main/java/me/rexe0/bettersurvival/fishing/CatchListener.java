@@ -44,23 +44,23 @@ public class CatchListener implements Listener {
         Player player = e.getPlayer();
         ItemStack fishingRod = e.getHand() == EquipmentSlot.HAND
                 ? player.getEquipment().getItemInMainHand() : player.getEquipment().getItemInOffHand();
-        ItemType itemType = ItemDataUtil.getItemType(fishingRod);
+        ItemType rodType = ItemDataUtil.getItemType(fishingRod);
 
         int min = 100;
         int max = 600;
-        if (itemType != null) {
-            min = switch (itemType) {
-                default -> 100;
+        if (rodType != null) {
+            min = switch (rodType) {
                 case COPPER_FISHING_ROD -> 75;
                 case PLATINUM_FISHING_ROD -> 50;
                 case RESONANT_FISHING_ROD -> 25;
+                default -> 100;
             };
 
-            max = switch (itemType) {
-                default -> 600;
+            max = switch (rodType) {
                 case COPPER_FISHING_ROD -> 550;
                 case PLATINUM_FISHING_ROD -> 500;
                 case RESONANT_FISHING_ROD -> 400;
+                default -> 600;
             };
 
             // Check for bait in the player's inventory and reduce its amount by 1
@@ -68,13 +68,16 @@ public class CatchListener implements Listener {
             for (ItemStack itemStack : player.getInventory().getContents()) {
                 ItemType type = ItemDataUtil.getItemType(itemStack);
                 if (type != null && type.isBait()) {
+                    boolean isLure = type.isTackle(); // Lures count as both bait and tackle
+                    if (!rodType.canUseTackle() && isLure) continue;
                     bait = type;
-                    itemStack.setAmount(itemStack.getAmount() - 1);
+                    if (!isLure) // Lures shouldn't be consumed
+                        itemStack.setAmount(itemStack.getAmount() - 1);
                     break;
                 }
             }
-            if (bait != null && itemType.canUseBait()) {
-                float multiplier = bait == ItemType.PREMIUM_BAIT ? 0.25f : 0.5f;
+            if (bait != null && rodType.canUseBait()) {
+                double multiplier = bait.getBaitMultiplier();
                 min *= multiplier;
                 max *= multiplier;
 
@@ -82,7 +85,7 @@ public class CatchListener implements Listener {
             }
 
             // Check for tackle in the player's inventory
-            if (itemType.canUseTackle())
+            if (rodType.canUseTackle())
                 for (ItemStack itemStack : player.getInventory().getContents()) {
                     ItemType type = ItemDataUtil.getItemType(itemStack);
                     if (type != null && type.isTackle()) {

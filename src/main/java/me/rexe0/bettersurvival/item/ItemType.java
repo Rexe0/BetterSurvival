@@ -56,6 +56,8 @@ public enum ItemType {
     JUMBO_HOOK(new JumboHook()),
     VIBRANT_BOBBER(new VibrantBobber()),
     GOLD_BOBBER(new GoldBobber()),
+    DULL_LURE(new DullLure()),
+    SHINY_LURE(new ShinyLure()),
     BAIT(new Bait()),
     MAGNET(new Magnet()),
     PREMIUM_BAIT(new PremiumBait()),
@@ -77,17 +79,31 @@ public enum ItemType {
     }
 
     public boolean isBait() {
-        return this == BAIT || this == MAGNET || this == PREMIUM_BAIT;
+        return this == BAIT || this == MAGNET || this == PREMIUM_BAIT
+                || this == DULL_LURE || this == SHINY_LURE;
     }
+
+    public double getBaitMultiplier() {
+        if (!isBait()) return 1;
+        return switch (this) {
+            case BAIT,MAGNET -> 0.5;
+            case PREMIUM_BAIT -> 0.25;
+            case DULL_LURE -> 0.8;
+            case SHINY_LURE -> 0.6;
+            default -> 1;
+        };
+    }
+
     public boolean isTackle() {
-        return this == BARBED_HOOK || this == JUMBO_HOOK || this == VIBRANT_BOBBER || this == GOLD_BOBBER;
+        return this == BARBED_HOOK || this == JUMBO_HOOK || this == VIBRANT_BOBBER
+                || this == GOLD_BOBBER || this == DULL_LURE || this == SHINY_LURE;
     }
 
     public boolean canUseBait() {
         return this == COPPER_FISHING_ROD || this == PLATINUM_FISHING_ROD || this == RESONANT_FISHING_ROD;
     }
     public boolean canUseTackle() {
-        return this == RESONANT_FISHING_ROD;
+        return this == RESONANT_FISHING_ROD || this == PLATINUM_FISHING_ROD;
     }
     public boolean isArrow() {
         return this == AMETHYST_ARROW || this == EXPLOSIVE_ARROW || this == TOXIC_ARROW || this == SONIC_ARROW;

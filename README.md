@@ -100,19 +100,21 @@ This is a plugin that contains several features that I think would improve the c
 - Almost completely reworked the fishing system
 - There are now different types of fishing rods: Default, Copper, Platinum and Resonant. Each one having a faster catch time than the previous
 - Copper fishing rod is crafted using 3 Copper Blocks and 2 String in the same way as a regular fishing rod and can use bait
-- Platinum fishing rod is crafting using 3 Platinum Ingots and 2 String in the same way as a regular fishing rod and can use bait
+- Platinum fishing rod is crafting using 3 Platinum Ingots and 2 String in the same way as a regular fishing rod and can use bait AND tackle
 - Resonant fishing rod is crafting using 3 Resonant Ingots and 2 String in the same way as a regular fishing rod and can use bait AND tackle
 - 1 Resonant Ingot can be crafted using 2 Platinum Ingots and 2 Echo Shards
 - Regular bait can be obtained by smelting rotten flesh in a furnace. Using it will half the time it takes to catch a fish.
 - Magnet bait can be obtain my surrounding a copper ingot with iron nuggets and it increases the chance to catch treasure
 - Premium bait can be crafted with 1 golden carrot and 1 baked potato. Using it will reduce the time it takes to catch a fish by 75%.
 - There are 4 types of tackle that can be obtained from Desert Temples, Shipwrecks, Mineshaft chests and Fisherman Villagers 
+- There are 2 types of tackle that can be crafted (Dull and Shiny Lures)
 - Rain increases the rate at which fish can be caught
 - Different types of fish can now be caught depending on the season, time of day and biome
 - Rarer fish are typically heavier and must be caught through a minigame where you keep the fish inside the green area
 - 3 Fish can be placed in a cauldron with fire/campfire under it to create Fish Stew which grants potion effects/benefits depending on the fish used and their weights
 - Treasure Sand can be caught when fishing which can be brushed containing revamped treasure
 - Treasure Chests can also be caught when fishing which contains 3 pieces of treasure
+- Treasure has a small chance to yield Lost Fisherman's Knowledge which when used grants the recipes for all relevant fishing items
 - Wandering Trader can now sell Fish Codex which displays all fish that exist and how many they have caught alongside other information
 
 **Horses:**
