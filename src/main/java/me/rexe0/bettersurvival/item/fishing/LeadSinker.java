@@ -15,7 +15,7 @@ import java.util.List;
 
 public class LeadSinker extends Item {
     public LeadSinker() {
-        super(Material.IRON_NUGGET, ChatColor.GREEN+"Lead Sinker", "LEAD_SINKER");
+        super(Material.FIREWORK_STAR, ChatColor.GREEN+"Lead Sinker", "LEAD_SINKER");
     }
 
     @Override

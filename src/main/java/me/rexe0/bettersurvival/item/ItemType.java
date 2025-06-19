@@ -98,7 +98,8 @@ public enum ItemType {
 
     public boolean isTackle() {
         return this == BARBED_HOOK || this == JUMBO_HOOK || this == VIBRANT_BOBBER
-                || this == GOLD_BOBBER || this == DULL_LURE || this == SHINY_LURE;
+                || this == GOLD_BOBBER || this == DULL_LURE || this == SHINY_LURE
+                || this == LEAD_SINKER || this == STEEL_SINKER;
     }
 
     public boolean canUseBait() {

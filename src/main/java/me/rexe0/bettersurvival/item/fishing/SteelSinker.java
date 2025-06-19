@@ -15,7 +15,7 @@ import java.util.List;
 
 public class SteelSinker extends Item {
     public SteelSinker() {
-        super(Material.IRON_NUGGET, ChatColor.GREEN+"Steel Sinker", "STEEL_SINKER");
+        super(Material.GHAST_TEAR, ChatColor.GREEN+"Steel Sinker", "STEEL_SINKER");
     }
 
     @Override
@@ -41,7 +41,7 @@ public class SteelSinker extends Item {
     @Override
     public void onLootGenerate(LootGenerateEvent e) {
         String key = e.getLootTable().getKey().getKey();
-        if (key.equals("chests/underwater_ruin_big"))
-            if (RandomUtil.getRandom().nextBoolean()) e.getLoot().add(getItem());
+        if (key.equals("chests/underwater_ruin_small"))
+            if (RandomUtil.getRandom().nextInt(3) == 0) e.getLoot().add(getItem());
     }
 }

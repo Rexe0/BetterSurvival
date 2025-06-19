@@ -10,6 +10,8 @@ import me.rexe0.bettersurvival.util.EntityDataUtil;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import me.rexe0.bettersurvival.weather.Season;
 import me.rexe0.bettersurvival.weather.SeasonListener;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.world.entity.projectile.FishingHook;
 import org.bukkit.*;
 import org.bukkit.block.Biome;
@@ -62,19 +64,34 @@ public class CatchListener implements Listener {
                 default -> 600;
             };
 
-            // Check for bait in the player's inventory and reduce its amount by 1
+            ItemType tackle = null;
             ItemType bait = null;
-            for (ItemStack itemStack : player.getInventory().getContents()) {
-                ItemType type = ItemDataUtil.getItemType(itemStack);
-                if (type != null && type.isBait()) {
-                    boolean isLure = type.isTackle(); // Lures count as both bait and tackle
-                    if (!rodType.canUseTackle() && isLure) continue;
-                    bait = type;
-                    if (!isLure) // Lures shouldn't be consumed
+
+            // Check for tackle in the player's inventory
+            if (rodType.canUseTackle())
+                for (ItemStack itemStack : player.getInventory().getContents()) {
+                    ItemType type = ItemDataUtil.getItemType(itemStack);
+                    if (type != null && type.isTackle()) {
+                        tackle = type;
+                        if (type.isBait()) // If it's a lure, set the bait as the tackle as well
+                            bait = type;
+                        break;
+                    }
+                }
+
+            // Check for bait in the player's inventory and reduce its amount by 1
+            if (bait == null) {
+                for (ItemStack itemStack : player.getInventory().getContents()) {
+                    ItemType type = ItemDataUtil.getItemType(itemStack);
+                    if (type != null && type.isBait()) {
+                        if (type.isTackle()) continue; // Ignore lures because their logic is calculated beforehand
+                        bait = type;
                         itemStack.setAmount(itemStack.getAmount() - 1);
-                    break;
+                        break;
+                    }
                 }
             }
+
             if (bait != null && rodType.canUseBait()) {
                 double multiplier = bait.getBaitMultiplier();
                 min *= multiplier;
@@ -83,24 +100,21 @@ public class CatchListener implements Listener {
                 EntityDataUtil.setStringValue(e.getHook(), "baitType", bait.name());
             }
 
-            // Check for tackle in the player's inventory
-            ItemType tackle = null;
-            if (rodType.canUseTackle())
-                for (ItemStack itemStack : player.getInventory().getContents()) {
-                    ItemType type = ItemDataUtil.getItemType(itemStack);
-                    if (type != null && type.isTackle()) {
-                        tackle = type;
-                        break;
-                    }
-                }
             if (tackle != null) {
                 if (tackle == ItemType.LEAD_SINKER) {
-                    min += 100;
-                    max += 100;
+                    min += 150;
+                    max += 150;
                 }
 
                 EntityDataUtil.setStringValue(e.getHook(), "tackleType", tackle.name());
             }
+
+
+
+            String actionBar = ChatColor.BLUE+" | ";
+            if (bait != null) actionBar = bait.getItem().getName() + actionBar;
+            if (tackle != null) actionBar = actionBar + tackle.getItem().getName();
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionBar));
         }
 
         // If its raining, reduce fishing time by 10%
