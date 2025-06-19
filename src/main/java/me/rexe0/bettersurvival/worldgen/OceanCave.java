@@ -5,9 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Waterlogged;
-import org.bukkit.block.data.type.AmethystCluster;
-import org.bukkit.block.data.type.CoralWallFan;
-import org.bukkit.block.data.type.SeaPickle;
+import org.bukkit.block.data.type.*;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.LimitedRegion;
 import org.bukkit.generator.WorldInfo;
@@ -124,6 +122,9 @@ public class OceanCave extends BlockPopulator {
 
     public void changeType(LimitedRegion region, int x, int y, int z, CaveType type, SimplexOctaveGenerator generator, Random random) {
         Material material = region.getType(x, y, z);
+
+        if (material == Material.PACKED_ICE || material == Material.BLUE_ICE) return;
+
         if (type == CaveType.CORAL) {
             generator.setScale(0.05);
             double noise = generator.noise(x, y, z, 2, 2, true);
@@ -139,6 +140,42 @@ public class OceanCave extends BlockPopulator {
                     material = random.nextInt(25) == 0 ? Material.BUDDING_AMETHYST : Material.AMETHYST_BLOCK;
                     region.setType(x, y, z, material);
                 }
+        } else if (type == CaveType.SCULK) {
+
+            if (!material.name().contains("SCULK")) {
+                generator.setScale(0.02);
+                double noise = generator.noise(x, y, z, 2, 2, true);
+                if (noise < 0.15) material = Material.SCULK;
+                else material = Material.DEEPSLATE;
+                region.setType(x, y, z, material);
+
+                if (noise >= 0.15 && noise < 0.25) {
+                    Vector vec;
+                    for (int i = 0; i < 6; i++) {
+                        vec = switch (i) {
+                            case 0 -> new Vector(1, 0, 0);
+                            case 1 -> new Vector(-1, 0, 0);
+                            case 2 -> new Vector(0, 1, 0);
+                            case 3 -> new Vector(0, -1, 0);
+                            case 4 -> new Vector(0, 0, 1);
+                            default -> new Vector(0, 0, -1);
+                        };
+                        int dx = x + vec.getBlockX();
+                        int dy = y + vec.getBlockY();
+                        int dz = z + vec.getBlockZ();
+                        Material mat = region.getType(dx, dy, dz);
+                        if (mat != Material.WATER && mat != Material.SCULK_VEIN) continue;
+
+                        SculkVein sculkVein;
+                        if (mat == Material.SCULK_VEIN) sculkVein = (SculkVein) region.getBlockData(dx, dy, dz);
+                        else sculkVein = (SculkVein) Material.SCULK_VEIN.createBlockData();
+
+                        sculkVein.setWaterlogged(true);
+                        sculkVein.setFace(getBlockFace(vec).getOppositeFace(), true);
+                        region.setBlockData(dx, dy, dz, sculkVein);
+                    }
+                }
+            }
         }
 
         switch (type) {
@@ -191,10 +228,7 @@ public class OceanCave extends BlockPopulator {
                             } else {
                                 CoralWallFan fan = (CoralWallFan) coralWallFans[random.nextInt(coralWallFans.length)].createBlockData();
                                 fan.setWaterlogged(true);
-                                if (fanOffset.getX() == 1) fan.setFacing(BlockFace.EAST);
-                                else if (fanOffset.getX() == -1) fan.setFacing(BlockFace.WEST);
-                                else if (fanOffset.getZ() == 1) fan.setFacing(BlockFace.SOUTH);
-                                else if (fanOffset.getZ() == -1) fan.setFacing(BlockFace.NORTH);
+                                fan.setFacing(getBlockFace(fanOffset));
 
                                 region.setBlockData(x + vec.getBlockX(), y + vec.getBlockY(), z + vec.getBlockZ(), fan);
                             }
@@ -243,18 +277,28 @@ public class OceanCave extends BlockPopulator {
                             AmethystCluster cluster = (AmethystCluster) amethystBuds[random.nextInt(amethystBuds.length)].createBlockData();
 
                             cluster.setWaterlogged(true);
-                            if (clusterOffset.getX() == 1) cluster.setFacing(BlockFace.EAST);
-                            else if (clusterOffset.getX() == -1) cluster.setFacing(BlockFace.WEST);
-                            else if (clusterOffset.getZ() == 1) cluster.setFacing(BlockFace.SOUTH);
-                            else if (clusterOffset.getZ() == -1) cluster.setFacing(BlockFace.NORTH);
-                            else if (clusterOffset.getY() == 1) cluster.setFacing(BlockFace.UP);
-                            else if (clusterOffset.getY() == -1) cluster.setFacing(BlockFace.DOWN);
+                            cluster.setFacing(getBlockFace(clusterOffset));
 
                             region.setBlockData(x + vec.getBlockX(), y + vec.getBlockY(), z + vec.getBlockZ(), cluster);
                         }
                         vec.subtract(clusterOffset);
                     }
                 }
+            }
+            case SCULK -> {
+                if (material != Material.SCULK || region.getType(x, y+1, z) != Material.WATER) return;
+                if (random.nextInt(18) != 0) return;
+                material = random.nextInt(10) == 0 ? Material.SCULK_SHRIEKER : Material.SCULK_SENSOR;
+                if (material == Material.SCULK_SHRIEKER) {
+                    SculkShrieker shrieker = (SculkShrieker) material.createBlockData();
+                    shrieker.setWaterlogged(true);
+                    shrieker.setCanSummon(true);
+                    region.setBlockData(x, y+1, z, shrieker);
+                    return;
+                }
+                Waterlogged waterlogged = (Waterlogged) material.createBlockData();
+                waterlogged.setWaterlogged(true);
+                region.setBlockData(x, y+1, z, waterlogged);
             }
         }
     }
@@ -268,6 +312,14 @@ public class OceanCave extends BlockPopulator {
             case 4 -> new Vector(0, 0 ,1);
             case 5 -> new Vector(0, 0 ,-1);
         };
+    }
+    public BlockFace getBlockFace(Vector offset) {
+        if (offset.getX() == 1) return BlockFace.EAST;
+        if (offset.getX() == -1) return BlockFace.WEST;
+        if (offset.getZ() == 1) return BlockFace.SOUTH;
+        if (offset.getZ() == -1) return BlockFace.NORTH;
+        if (offset.getY() == 1) return BlockFace.UP;
+        return BlockFace.DOWN;
     }
 
     public CaveType getCaveType(LimitedRegion region, int x, int y, int z, SimplexOctaveGenerator generator) {
@@ -286,14 +338,15 @@ public class OceanCave extends BlockPopulator {
         noise = Math.ceil(Math.abs(noise*10))/10;
         if (negative) noise *= -1;
 
-        if (noise < -0.5) return CaveType.CORAL;
-        // Default Cave buffer -0.5 to -0.4
-        if (noise > -0.4 && noise < -0.2) return CaveType.GEODE;
-        // Large Default Cave buffer -0.2 to 0.2
-        if (noise > 0.2 && noise < 0.4) return CaveType.KELP;
-        // Default Cave buffer 0.4 to 0.5
-        if (noise > 0.5) return CaveType.SCULK;
-        return CaveType.DEFAULT;
+        return CaveType.SCULK;
+//        if (noise < -0.5) return CaveType.CORAL;
+//        // Default Cave buffer -0.5 to -0.4
+//        if (noise > -0.4 && noise < -0.2) return CaveType.GEODE;
+//        // Large Default Cave buffer -0.2 to 0.2
+//        if (noise > 0.2 && noise < 0.4) return CaveType.KELP;
+//        // Default Cave buffer 0.4 to 0.5
+//        if (noise > 0.5) return CaveType.SCULK;
+//        return CaveType.DEFAULT;
     }
     public Material getMaterial(double noise) {
         noise = (noise+1)/2;

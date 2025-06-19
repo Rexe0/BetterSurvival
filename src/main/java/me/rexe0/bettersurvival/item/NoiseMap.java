@@ -34,7 +34,7 @@ public class NoiseMap extends Item implements Listener {
             mapView.setCenterZ(player.getLocation().getBlockZ());
             Thread thread = new Thread(() -> {
                 SimplexOctaveGenerator generator = new SimplexOctaveGenerator(new Random(mapView.getWorld().getSeed()), 2);
-                generator.setScale(0.02);
+                generator.setScale(0.0005);
 
                 MapCursorCollection cursors = new MapCursorCollection();
                 float yaw = player.getLocation().getYaw();
@@ -48,9 +48,23 @@ public class NoiseMap extends Item implements Listener {
 
                 for (int x = -64; x < 64; x++) {
                     for (int z = -64; z < 64; z++) {
-                        double noise = generator.noise(cx+x, cz+z, 1, 64, true);
+                        double noise = generator.noise(cx+(x*10), player.getLocation().getY(), cz+(z*10), 1, 0.5, true);
+
+                        boolean negative = noise < 0;
+                        noise = Math.ceil(Math.abs(noise*10))/10;
+                        if (negative) noise *= -1;
+
                         int colorValue = (int) ((noise + 1) * 127.5); // Normalize noise to 0-255
                         mapCanvas.setPixelColor(x+64, z+64, new Color(colorValue, colorValue, colorValue));
+
+                        if (noise < -0.5)
+                            mapCanvas.setPixelColor(x+64, z+64, new Color(255, 0, 0));
+                        if (noise > -0.4 && noise < -0.2)
+                            mapCanvas.setPixelColor(x+64, z+64, new Color(255, 0, 255));
+                        if (noise > 0.2 && noise < 0.4)
+                            mapCanvas.setPixelColor(x+64, z+64, new Color(0, 255, 0));
+                        if (noise > 0.5)
+                            mapCanvas.setPixelColor(x+64, z+64, new Color(0, 0, 255));
                     }
                 }
             });
