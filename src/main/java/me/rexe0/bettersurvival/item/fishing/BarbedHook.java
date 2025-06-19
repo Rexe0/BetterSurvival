@@ -4,7 +4,11 @@ import me.rexe0.bettersurvival.item.Item;
 import me.rexe0.bettersurvival.util.RandomUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.world.LootGenerateEvent;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +26,16 @@ public class BarbedHook extends Item {
         lore.add(ChatColor.GRAY+"fish is less likely to make erratic movements");
         lore.add(ChatColor.GRAY+"while in the green zone.");
         return lore;
+    }
+
+    @Override
+    public ItemStack getItem() {
+        ItemStack item = super.getItem();
+        ItemMeta meta = item.getItemMeta();
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        meta.addEnchant(Enchantment.PROTECTION, 1, true);
+        item.setItemMeta(meta);
+        return item;
     }
 
     @Override

@@ -4,10 +4,13 @@ import me.rexe0.bettersurvival.item.Item;
 import me.rexe0.bettersurvival.item.ItemType;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.entity.VillagerAcquireTradeEvent;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +28,16 @@ public class JumboHook extends Item {
         lore.add(ChatColor.GRAY+"green zone reduces in size much slower");
         lore.add(ChatColor.GRAY+"when the fish is not within it.");
         return lore;
+    }
+
+    @Override
+    public ItemStack getItem() {
+        ItemStack item = super.getItem();
+        ItemMeta meta = item.getItemMeta();
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        meta.addEnchant(Enchantment.PROTECTION, 1, true);
+        item.setItemMeta(meta);
+        return item;
     }
     public void onAcquireTrade(Villager villager, VillagerAcquireTradeEvent e) {
         if (villager.getProfession() != Villager.Profession.FISHERMAN) return;
