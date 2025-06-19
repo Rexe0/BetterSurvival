@@ -44,6 +44,11 @@ This is a plugin that contains several features that I think would improve the c
 - Placing torches or lanterns in the deep dark will cause nearby players to receive Darkness and hear a hear a heartbeat underground
 - The Drill Block can now be crafted using 7 Copper Blocks, 1 Redstone Dust and 1 Diamond Pickaxe. When placed and fed coal as fuel, it starts digging a 3x3 tunnel in the direction it is facing. However, it can not break certain blocks that are too 'hard' (Example: Obsidian, Bedrock, etc.).
 
+**Oceans:**
+- Deep Oceans are now generally deeper if using the plugin's world generation modifier
+- Hydrothermal vents can generate at deep points on the ocean floor
+- Caves under oceans now have a chance to generate as new types of underwater caves. These include Kelp Caves, Geode Caves, Coral Caves and Sculk Caves
+
 **Villagers:**
 - Wandering traders will now offer to buy 2-3 exotic items for emeralds
 - Wandering Traders will now always sell either a Stopwatch (When held shows your current speed in km/h), Metal Detector (Detects any ores a few blocks under you when held), a Fish Codex (see Fishing section)
