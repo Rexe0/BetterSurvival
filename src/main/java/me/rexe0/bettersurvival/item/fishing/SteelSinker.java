@@ -41,7 +41,7 @@ public class SteelSinker extends Item {
     @Override
     public void onLootGenerate(LootGenerateEvent e) {
         String key = e.getLootTable().getKey().getKey();
-        if (key.equals("chests/underwater_ruins"))
+        if (key.equals("chests/underwater_ruin_big"))
             if (RandomUtil.getRandom().nextBoolean()) e.getLoot().add(getItem());
     }
 }
