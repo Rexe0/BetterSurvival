@@ -3,11 +3,9 @@ package me.rexe0.bettersurvival.mobs;
 import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.util.EntityDataUtil;
+import me.rexe0.bettersurvival.util.ItemDataUtil;
 import me.rexe0.bettersurvival.util.RandomUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -16,6 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EnderDragonChangePhaseEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -39,6 +38,17 @@ public class EnderDragonChanges implements Listener {
         ItemStack item = ItemType.DRAGON_SCALE.getItem().getItem();
         item.setAmount(RandomUtil.getRandom().nextInt(2, 5));
         e.getEntity().getWorld().dropItemNaturally(e.getEntity().getLocation(), item);
+    }
+
+    private static final NamespacedKey WEATHER_BEACON_KEY = new NamespacedKey(BetterSurvival.getInstance(), ItemType.WEATHER_BEACON.name());
+    @EventHandler
+    public void onPickupItem(EntityPickupItemEvent e) {
+        if (!(e.getEntity() instanceof Player player)) return;
+        if (!ItemDataUtil.isItem(e.getItem().getItemStack(), ItemType.DRAGON_SCALE.name())) return;
+        if (player.hasDiscoveredRecipe(WEATHER_BEACON_KEY)) return;
+
+        // Upon picking up a dragon scale, the player will learn the Weather Beacon crafting recipe
+        player.discoverRecipe(WEATHER_BEACON_KEY);
     }
 
     @EventHandler (priority = EventPriority.HIGHEST)
