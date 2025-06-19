@@ -68,7 +68,7 @@ public class AmethystArrow extends Item {
             for (Entity en : location.getWorld().getNearbyEntities(location, 3, 3, 3)) {
                 if (!(en instanceof LivingEntity living)) continue;
                 if (living.equals(entity)) continue;
-                if (!living.getBoundingBox().contains(location.toVector())) continue;
+                if (!living.getBoundingBox().expand(0.4).contains(location.toVector())) continue;
                 damage(living);
             }
 
