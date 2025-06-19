@@ -22,6 +22,7 @@ public class FishingMinigame {
     private final List<ItemStack> items;
     private final Difficulty difficulty;
     private final boolean hasTreasure;
+    private boolean isFirstCatch;
 
     private ItemType tackle;
 
@@ -44,6 +45,7 @@ public class FishingMinigame {
         this.location = 0.5;
         this.fishLocation = RandomUtil.getRandom().nextDouble(0.3, 0.7);
         this.hasTreasure = hasTreasure;
+        this.isFirstCatch = !FishFile.getPlayerData(player).hasCaughtRareFish();
     }
 
     public void setTackle(ItemType tackle) {
@@ -76,7 +78,16 @@ public class FishingMinigame {
 
             UI += color + "|";
         }
-        player.sendTitle(UI, "", 0, 2, 10);
+        String subtitle = "";
+        if (isFirstCatch) {
+            if (i < 100)
+                subtitle = ChatColor.GOLD+"Right Click to move the green bar!";
+            else if (i < 200)
+                subtitle = ChatColor.GOLD+"Keep the "+ChatColor.BLUE+"Fish"+ChatColor.GOLD+" in the green area!";
+            else
+                subtitle = ChatColor.GOLD+"Keep going until the whole bar turns green!";
+        }
+        player.sendTitle(UI, subtitle, 0, 2, 10);
 
         if (hasWon) {
             win();
@@ -90,6 +101,7 @@ public class FishingMinigame {
             else if (getFishLocation() == 0) {// If in red, reduce progress. If in yellow then don't do anything
                 double amount = Math.min(0.075, Math.max(0.005, Math.pow(progress, 2)));
                 if (tackle == ItemType.JUMBO_HOOK) amount /= 2;
+                if (isFirstCatch && i < 200) amount = 0;
                 progress -= amount;
             }
         }
@@ -155,6 +167,7 @@ public class FishingMinigame {
         }
 
         isFinished = true;
+        if (isFirstCatch) FishFile.getPlayerData(player).setHasCaughtRareFish(true);
     }
 
     public void onReel() {

@@ -6,9 +6,19 @@ import java.util.Map;
 
 public class FishData {
     private Map<Fish.FishType, Integer> map;
+    private boolean hasCaughtRareFish;
 
-    public FishData(Map<Fish.FishType, Integer> map) {
+    public FishData(Map<Fish.FishType, Integer> map, boolean hasCaughtRareFish) {
         this.map = map;
+        this.hasCaughtRareFish = hasCaughtRareFish;
+    }
+
+    public boolean hasCaughtRareFish() {
+        return hasCaughtRareFish;
+    }
+
+    public void setHasCaughtRareFish(boolean hasCaughtRareFish) {
+        this.hasCaughtRareFish = hasCaughtRareFish;
     }
 
     public void addFish(Fish.FishType type) {
