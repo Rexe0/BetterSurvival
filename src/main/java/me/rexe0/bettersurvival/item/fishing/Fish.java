@@ -14,12 +14,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Fish extends Item {
-    private final double weight;
+    private double weight;
     private final FishType type;
     public Fish(FishType type) {
         super(type.getMaterial(), type.getName(), type.getID());
         this.weight = RandomUtil.getRandom().nextDouble(type.getMinimumWeight(), type.getMaximumWeight());
         this.type = type;
+    }
+
+    public void addWeight(double amount) {
+        this.weight += amount;
     }
 
     @Override

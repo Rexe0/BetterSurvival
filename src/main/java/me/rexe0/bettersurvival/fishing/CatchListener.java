@@ -11,10 +11,9 @@ import me.rexe0.bettersurvival.util.ItemDataUtil;
 import me.rexe0.bettersurvival.weather.Season;
 import me.rexe0.bettersurvival.weather.SeasonListener;
 import net.minecraft.world.entity.projectile.FishingHook;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.block.Biome;
+import org.bukkit.block.data.Waterlogged;
 import org.bukkit.craftbukkit.v1_21_R4.entity.CraftFishHook;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.FishHook;
@@ -85,14 +84,23 @@ public class CatchListener implements Listener {
             }
 
             // Check for tackle in the player's inventory
+            ItemType tackle = null;
             if (rodType.canUseTackle())
                 for (ItemStack itemStack : player.getInventory().getContents()) {
                     ItemType type = ItemDataUtil.getItemType(itemStack);
                     if (type != null && type.isTackle()) {
-                        EntityDataUtil.setStringValue(e.getHook(), "tackleType", type.name());
+                        tackle = type;
                         break;
                     }
                 }
+            if (tackle != null) {
+                if (tackle == ItemType.LEAD_SINKER) {
+                    min += 100;
+                    max += 100;
+                }
+
+                EntityDataUtil.setStringValue(e.getHook(), "tackleType", tackle.name());
+            }
         }
 
         // If its raining, reduce fishing time by 10%
@@ -162,20 +170,42 @@ public class CatchListener implements Listener {
         boolean caughtTreasure = Math.random() < treasureChance;
 
         // Fish
-        Fish.FishType fish = getCatch(biomes, bait, tackle);
+        Fish.FishType fishType = getCatch(biomes, bait, tackle);
 
         FishingMinigame.Difficulty difficulty = null;
-        if (fish.getName().startsWith(ChatColor.BLUE+"")) difficulty = FishingMinigame.Difficulty.EASY;
-        else if (fish.getName().startsWith(ChatColor.DARK_PURPLE+"")) difficulty = FishingMinigame.Difficulty.MEDIUM;
-        else if (fish.getName().startsWith(ChatColor.GOLD+"")) difficulty = FishingMinigame.Difficulty.HARD;
+        if (fishType.getName().startsWith(ChatColor.BLUE+"")) difficulty = FishingMinigame.Difficulty.EASY;
+        else if (fishType.getName().startsWith(ChatColor.DARK_PURPLE+"")) difficulty = FishingMinigame.Difficulty.MEDIUM;
+        else if (fishType.getName().startsWith(ChatColor.GOLD+"")) difficulty = FishingMinigame.Difficulty.HARD;
+
+        Fish fish = new Fish(fishType);
+
+        if (tackle == ItemType.LEAD_SINKER || tackle == ItemType.STEEL_SINKER) {
+            double amount = 3;
+
+            if (tackle == ItemType.STEEL_SINKER) {
+                int depth = 0;
+                Location loc = hook.getLocation();
+                for (int y = loc.getBlockY()-1; y > -64; y--) {
+                    if (hook.getWorld().getType(loc.getBlockX(), y, loc.getBlockZ()) != Material.WATER) {
+                        if (hook.getWorld().getBlockAt(loc.getBlockX(), y, loc.getBlockZ()).getBlockData() instanceof Waterlogged waterlogged)
+                            if (!waterlogged.isWaterlogged()) break;
+                        else break;
+                    }
+                    depth++;
+                }
+                amount = Math.min(6, depth/7d); // Max increase of 6 lbs at 42 blocks depth
+                if (amount > fishType.getMaximumWeight()) amount = fishType.getMaximumWeight(); // Cap fish weight increase at double
+            }
+            fish.addWeight(amount);
+        }
 
         if (difficulty != null) {
             List<ItemStack> drops = new ArrayList<>();
-            drops.add(new Fish(fish).getItem());
+            drops.add(fish.getItem());
             if (caughtTreasure)
                 drops.add(treasureItem);
 
-            FishingMinigame minigame = new FishingMinigame(player, hook, fish, drops, difficulty, caughtTreasure);
+            FishingMinigame minigame = new FishingMinigame(player, hook, fishType, drops, difficulty, caughtTreasure);
             minigame.setTackle(tackle);
             minigame.getRunnable().runTaskTimer(BetterSurvival.getInstance(), 0, 1);
             minigameMap.put(player.getUniqueId(), minigame);
@@ -183,8 +213,8 @@ public class CatchListener implements Listener {
             e.setCancelled(true);
             return;
         }
-        item.setItemStack(new Fish(fish).getItem());
-        ((FishCodex)ItemType.FISH_CODEX.getItem()).onCatch(player, fish);
+        item.setItemStack(fish.getItem());
+        ((FishCodex)ItemType.FISH_CODEX.getItem()).onCatch(player, fishType);
         applyGlow(item);
 
         if (caughtTreasure)

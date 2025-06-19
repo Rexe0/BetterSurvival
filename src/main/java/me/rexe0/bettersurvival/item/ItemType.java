@@ -58,6 +58,8 @@ public enum ItemType {
     GOLD_BOBBER(new GoldBobber()),
     DULL_LURE(new DullLure()),
     SHINY_LURE(new ShinyLure()),
+    LEAD_SINKER(new LeadSinker()),
+    STEEL_SINKER(new SteelSinker()),
     BAIT(new Bait()),
     MAGNET(new Magnet()),
     PREMIUM_BAIT(new PremiumBait()),
