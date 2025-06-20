@@ -11,9 +11,20 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FarmerBoots extends Item {
     public FarmerBoots() {
         super(Material.LEATHER_BOOTS, ChatColor.GREEN+"Farmer Boots", "FARMER_BOOTS");
+    }
+
+    @Override
+    public List<String> getLore() {
+        List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.GRAY+"Prevents you from trampling");
+        lore.add(ChatColor.GRAY+"crops when jumping on them.");
+        return lore;
     }
 
     @Override
