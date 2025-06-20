@@ -74,6 +74,15 @@ public class ItemListener implements Listener {
                     itemType.getItem().onLeftClick(e.getPlayer());
             }
     }
+    @EventHandler
+    public void onKnowledgeBookUsed(PlayerInteractEvent e) {
+        if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        ItemStack item = e.getItem();
+        if (item == null || item.getType() != Material.KNOWLEDGE_BOOK) return;
+        Player player = e.getPlayer();
+        player.playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1);
+        player.sendMessage(ChatColor.GREEN+"You learned a few crafting recipes. Check them out in the recipe book from the crafting table menu.");
+    }
 
     @EventHandler
     public void onConsume(PlayerItemConsumeEvent e) {
