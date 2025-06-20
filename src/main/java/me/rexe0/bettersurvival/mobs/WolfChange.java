@@ -1,5 +1,6 @@
 package me.rexe0.bettersurvival.mobs;
 
+import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.util.EntityDataUtil;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
@@ -12,10 +13,7 @@ import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.level.pathfinder.PathType;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.ShulkerBox;
 import org.bukkit.craftbukkit.v1_21_R4.entity.CraftWolf;
@@ -62,13 +60,23 @@ public class WolfChange implements Listener {
         player.playSound(wolf.getLocation(), Sound.ENTITY_WOLF_AMBIENT, 1, 0.8f);
         player.spawnParticle(Particle.HAPPY_VILLAGER, wolf.getEyeLocation(), 10, 0.2, 0.2, 0.2, 0);
         EntityDataUtil.setStringValue(wolf, "wolfTrainedItem", type == null ? item.getType().name() : type.name());
+    }
 
-        net.minecraft.world.entity.animal.wolf.Wolf nmsWolf = ((CraftWolf)wolf).getHandle();
-        nmsWolf.goalSelector.addGoal(6, new FollowItemScent(nmsWolf, 1.0, 10, 2.0f));
+    public static void startRunnable() {
+        Bukkit.getScheduler().runTaskTimer(BetterSurvival.getInstance(), () -> {
+            for (World world : Bukkit.getWorlds()) {
+                for (Wolf wolf : world.getEntitiesByClass(Wolf.class)) {
+                    net.minecraft.world.entity.animal.wolf.Wolf nmsWolf = ((CraftWolf)wolf).getHandle();
+                    if (nmsWolf.goalSelector.getAvailableGoals().size() == 12)
+                        nmsWolf.goalSelector.addGoal(6, new FollowItemScent(nmsWolf, 1.0, 10, 2.0f));
+                }
+            }
+        }, 20, 100);
+
     }
 
 
-    public class FollowItemScent extends Goal {
+    public static class FollowItemScent extends Goal {
         private final TamableAnimal tamable;
         @Nullable
         private net.minecraft.world.entity.player.Player target;

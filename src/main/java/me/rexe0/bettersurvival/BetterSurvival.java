@@ -145,6 +145,7 @@ public final class BetterSurvival extends JavaPlugin {
         recipes.values().forEach(r -> getServer().addRecipe(r));
 
         DrillEntity.runTimer();
+        WolfChange.startRunnable();
 
         Bukkit.getScheduler().runTaskTimer(this, () -> {
             ChainedMinecart.run();
