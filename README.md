@@ -51,7 +51,7 @@ This is a plugin that contains several features that I think would improve the c
 
 **Villagers:**
 - Wandering traders will now offer to buy 2-3 exotic items for emeralds
-- Wandering Traders will now always sell either a Stopwatch (When held shows your current speed in km/h), Metal Detector (Detects any ores a few blocks under you when held), a Fish Codex (see Fishing section)
+- Wandering Traders will now always sell either a Stopwatch (When held shows your current speed in km/h), Metal Detector (Detects any ores/metals a few blocks under you when held), a Fish Codex (see Fishing section)
 - Wandering Traders will now always sell either Cannabis, Coca Leaves or Yeast
 - Wandering Traders are now guaranteed to spawn every 10 in game days after the first Spring
 - After the first year, Wandering Traders will also sell a random upgrade book for 128 emeralds. These upgrade books can be consumed, up to a maximum of 5 times, to grant a permanent boost to their respective discipline

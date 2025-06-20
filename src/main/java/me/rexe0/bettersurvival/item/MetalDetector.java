@@ -5,6 +5,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.block.Block;
+import org.bukkit.block.BrushableBlock;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -12,6 +14,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class MetalDetector extends Item {
+    private static final List<Material> METALS = List.of(
+            Material.DIAMOND, Material.EMERALD, Material.LAPIS_LAZULI, Material.REDSTONE,
+            Material.RAW_GOLD, Material.GOLD_INGOT,
+            Material.RAW_IRON, Material.IRON_INGOT,
+            Material.RAW_COPPER, Material.COPPER_INGOT,
+            Material.COPPER_BLOCK, Material.GOLD_BLOCK, Material.IRON_BLOCK,
+            Material.DIAMOND_BLOCK, Material.EMERALD_BLOCK, Material.LAPIS_BLOCK,
+            Material.REDSTONE_BLOCK, Material.NETHERITE_INGOT, Material.NETHERITE_BLOCK
+    );
+
     public MetalDetector() {
         super(Material.IRON_HOE, ChatColor.GREEN+"Metal Detector", "METAL_DETECTOR");
     }
@@ -35,7 +47,7 @@ public class MetalDetector extends Item {
             // Check for metal ore
             boolean found = false;
             for (Location loc : locs) {
-                if (!loc.getBlock().getType().toString().contains("ORE")) continue;
+                if (!hasMetal(loc.getBlock())) continue;
                 found = true;
                 distance = loc.add(0, 1, 0).distance(player.getLocation());
                 break;
@@ -69,5 +81,15 @@ public class MetalDetector extends Item {
 
         player.spigot().sendMessage(net.md_5.bungee.api.ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(actionBar));
 
+    }
+
+    private boolean hasMetal(Block block) {
+        if (block.getType().toString().contains("ORE")) return true;
+        if (block.getState() instanceof BrushableBlock brushable) {
+            Material mat = brushable.getItem().getType();
+            if (mat.toString().contains("ORE")) return true;
+            return METALS.contains(mat);
+        }
+        return false;
     }
 }
