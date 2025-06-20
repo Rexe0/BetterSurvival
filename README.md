@@ -128,6 +128,11 @@ This is a plugin that contains several features that I think would improve the c
 - When two horses breed, the foul inherits two of the four alleles from its parents with a slight chance of positive or negative mutation.
 - Added Saddle 'n' Horseshoe which halves the fall damage a horse takes when worn. Can be crafted by combining a saddle and 2 iron blocks at a smithing table.
 
+**Wolves:**
+- Feeding a tamed wolf food while holding an item in your offhand (an item that does not have durability) will train the wolf to the scent of that item
+- Trained wolves will follow and bark at nearby players that have the item in their inventory
+- Feeding a tamed wolf with nothing in your offhand will remove the trained scent
+
 **Seasons:**
 - Added Seasons to the game. Every world starts in Spring, with each season lasting 30 in game days.
 - Crops grow the fastest in Spring, and the slowest in Winter
