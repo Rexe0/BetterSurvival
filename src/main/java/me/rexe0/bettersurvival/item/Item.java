@@ -53,12 +53,14 @@ public abstract class Item {
 
     }
 
-    public void onRightClick(Player player) {
-
+    // Return whether to cancel the event
+    public boolean onRightClick(Player player) {
+        return false;
     }
 
-    public void onLeftClick(Player player) {
-
+    // Return whether to cancel the event
+    public boolean onLeftClick(Player player) {
+        return false;
     }
 
 

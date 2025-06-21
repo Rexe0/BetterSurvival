@@ -62,12 +62,12 @@ public class UpgradeBook extends Item {
     }
 
     @Override
-    public void onRightClick(Player player) {
+    public boolean onRightClick(Player player) {
         Upgrade upgrade = Upgrade.valueOf(ItemDataUtil.getStringValue(player.getInventory().getItemInMainHand(), "upgradeType"));
         int level = EntityDataUtil.getIntegerValue(player, "upgradeLevel."+upgrade.name());
         if (level >= 5) {
             player.sendMessage(ChatColor.RED+"You have already read this book for the maximum amount of times.");
-            return;
+            return false;
         }
 
         player.playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1);
@@ -78,6 +78,7 @@ public class UpgradeBook extends Item {
         if (upgrade == Upgrade.COMBAT)
             player.getAttribute(Attribute.ARMOR_TOUGHNESS).setBaseValue(
                     player.getAttribute(Attribute.ARMOR_TOUGHNESS).getBaseValue() + 0.5);
+        return false;
     }
 
     public enum Upgrade {

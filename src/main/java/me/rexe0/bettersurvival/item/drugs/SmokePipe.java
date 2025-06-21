@@ -28,10 +28,10 @@ public class SmokePipe extends Item {
     }
 
     @Override
-    public void onRightClick(Player player) {
+    public boolean onRightClick(Player player) {
         if (!ItemDataUtil.hasItem(ItemType.CANNABIS.getItem().getID(), 1, player)) {
             player.sendMessage(ChatColor.RED+"You have nothing to smoke.");
-            return;
+            return false;
         }
         ItemStack cannabis = ItemDataUtil.removeItems(ItemType.CANNABIS.getItem().getID(), 1, player);
         int potency = ItemDataUtil.getIntegerValue(cannabis, "potency");
@@ -55,6 +55,7 @@ public class SmokePipe extends Item {
             player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 600, 3, true, false));
         }
 
+        return false;
     }
     public ShapedRecipe getRecipe() {
         ItemStack item = ItemType.SMOKE_PIPE.getItem().getItem();

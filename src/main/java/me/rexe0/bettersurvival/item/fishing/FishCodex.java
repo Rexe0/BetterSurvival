@@ -26,8 +26,9 @@ public class FishCodex extends Item {
         FishFile.getPlayerData(player).addFish(type);
     }
     @Override
-    public void onRightClick(Player player) {
+    public boolean onRightClick(Player player) {
         player.openInventory(getInventory(player, 1));
+        return false;
     }
 
     public void onInvClick(InventoryClickEvent e) {

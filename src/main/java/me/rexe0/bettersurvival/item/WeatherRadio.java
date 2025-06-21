@@ -20,7 +20,7 @@ public class WeatherRadio extends Item {
     }
 
     @Override
-    public void onRightClick(Player player) {
+    public boolean onRightClick(Player player) {
         Season season = Season.getSeason();
 
         int day = Season.getDayOfSeason();
@@ -53,6 +53,7 @@ public class WeatherRadio extends Item {
 
         player.sendMessage(ChatColor.AQUA+"[Weather Radio] "+ChatColor.WHITE+"It is currently the "+day+suffix+" of "+season.getName()+", Year "+year+". The weather forecast for tomorrow is: ");
         player.sendMessage(forecast);
+        return false;
     }
 
     public void onAcquireTrade(Villager villager, VillagerAcquireTradeEvent e) {

@@ -15,13 +15,14 @@ public class WeatherBeacon extends Item {
     }
 
     @Override
-    public void onRightClick(Player player) {
-        if (SeasonListener.getCurrentWeather() == SeasonListener.Weather.CLEAR) return;
+    public boolean onRightClick(Player player) {
+        if (SeasonListener.getCurrentWeather() == SeasonListener.Weather.CLEAR) return true;
         Bukkit.getOnlinePlayers().forEach(p -> {
             p.sendMessage(ChatColor.GREEN+player.getName()+" cleared the weather using their Weather Beacon.");
             p.playSound(p.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1, 1);
         });
         SeasonListener.setCurrentWeather(SeasonListener.Weather.CLEAR);
+        return true;
     }
 
     @Override

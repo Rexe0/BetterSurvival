@@ -47,7 +47,7 @@ public class Cocaine extends Item {
     }
 
     @Override
-    public void onRightClick(Player player) {
+    public boolean onRightClick(Player player) {
         ItemStack cocaine = player.getEquipment().getItemInMainHand();
         int potency = ItemDataUtil.getIntegerValue(cocaine, "potency");
 
@@ -67,6 +67,7 @@ public class Cocaine extends Item {
             player.damage(8);
             player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 600, 3, true, false));
         }
+        return false;
     }
 
     @Override
