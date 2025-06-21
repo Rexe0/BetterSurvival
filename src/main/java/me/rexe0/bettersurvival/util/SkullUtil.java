@@ -24,6 +24,15 @@ public class SkullUtil {
         if(url.isEmpty())return head;
 
         SkullMeta headMeta = (SkullMeta) head.getItemMeta();
+        PlayerProfile profile = getCustomProfile(url);
+        headMeta.setOwnerProfile(profile);
+        head.setItemMeta(headMeta);
+        return head;
+    }
+
+    public static PlayerProfile getCustomProfile(String url) {
+        if(url.isEmpty()) return null;
+
         PlayerProfile profile = Bukkit.createPlayerProfile(UUID.randomUUID());
         PlayerTextures textures = profile.getTextures();
         try {
@@ -32,8 +41,6 @@ public class SkullUtil {
             ex.printStackTrace();
         }
         profile.setTextures(textures);
-        headMeta.setOwnerProfile(profile);
-        head.setItemMeta(headMeta);
-        return head;
+        return profile;
     }
 }

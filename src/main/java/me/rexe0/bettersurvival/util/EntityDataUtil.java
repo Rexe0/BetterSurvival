@@ -71,4 +71,18 @@ public class EntityDataUtil {
         if (!container.has(entityKey, PersistentDataType.INTEGER)) return 0;
         return container.get(entityKey, PersistentDataType.INTEGER);
     }
+    public static void setLongValue(Entity entity, String key, long value) {
+        NamespacedKey entityKey = new NamespacedKey(BetterSurvival.getInstance(), key);
+
+        entity.getPersistentDataContainer().set(entityKey, PersistentDataType.LONG, value);
+    }
+    public static long getLongValue(Entity entity, String key) {
+        NamespacedKey entityKey = new NamespacedKey(BetterSurvival.getInstance(), key);
+
+        if (entity == null) return 0;
+        PersistentDataContainer container = entity.getPersistentDataContainer();
+
+        if (!container.has(entityKey, PersistentDataType.LONG)) return 0;
+        return container.get(entityKey, PersistentDataType.LONG);
+    }
 }

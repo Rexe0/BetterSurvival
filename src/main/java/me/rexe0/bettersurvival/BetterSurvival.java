@@ -13,10 +13,13 @@ import me.rexe0.bettersurvival.fishing.FishFile;
 import me.rexe0.bettersurvival.fletchingtable.FletchingTableGUI;
 import me.rexe0.bettersurvival.gear.AnvilRepair;
 import me.rexe0.bettersurvival.gear.MendingChange;
+import me.rexe0.bettersurvival.golf.GolfBallEntity;
+import me.rexe0.bettersurvival.golf.GolfClubLogic;
 import me.rexe0.bettersurvival.item.DrillEntity;
 import me.rexe0.bettersurvival.item.ItemListener;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.item.NoiseMap;
+import me.rexe0.bettersurvival.item.golf.GolfTee;
 import me.rexe0.bettersurvival.minecarts.ChainedMinecart;
 import me.rexe0.bettersurvival.minecarts.MinecartChanges;
 import me.rexe0.bettersurvival.minecarts.RailRecipes;
@@ -128,6 +131,7 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new MiningListener(), this);
         getServer().getPluginManager().registerEvents(new NoiseMap(), this);
         getServer().getPluginManager().registerEvents(new WolfChange(), this);
+        getServer().getPluginManager().registerEvents(GolfClubLogic.getInstance(), this);
 
         CustomBlockData.registerListener(this);
 
@@ -156,6 +160,12 @@ public final class BetterSurvival extends JavaPlugin {
             DeepDarkChanges.run();
             AnimalBreeding.run();
             WanderingTrader.run();
+            GolfTee.run();
+            GolfClubLogic.getInstance().run();
+
+            for (GolfBallEntity golfBall : GolfBallEntity.getGolfBalls().toArray(new GolfBallEntity[0]))
+                golfBall.run();
+
         }, 0, 1);
         Bukkit.getScheduler().runTaskTimer(this, () -> Bukkit.getOnlinePlayers().forEach((player) -> {
             for (ItemType type : ItemType.values()) {
@@ -178,6 +188,10 @@ public final class BetterSurvival extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        // Clear all golf balls
+        for (GolfBallEntity golfBall : GolfBallEntity.getGolfBalls().toArray(new GolfBallEntity[0]))
+            golfBall.remove();
+
         recipes.keySet().forEach(r -> getServer().removeRecipe(r));
 
         FishFile.saveData();

@@ -6,6 +6,7 @@ import me.rexe0.bettersurvival.item.drugs.Cannabis;
 import me.rexe0.bettersurvival.item.drugs.CocaLeaves;
 import me.rexe0.bettersurvival.item.drugs.ReinforcedBarrel;
 import me.rexe0.bettersurvival.item.fishing.FishCodex;
+import me.rexe0.bettersurvival.item.golf.GolfTee;
 import me.rexe0.bettersurvival.util.EntityDataUtil;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.Bukkit;
@@ -39,6 +40,9 @@ public class ItemListener implements Listener {
     public void onBlockPlace(BlockPlaceEvent e) {
         DrillBlock drillBlock = (DrillBlock) ItemType.DRILL_BLOCK.getItem();
         drillBlock.onBlockPlace(e);
+
+        GolfTee golfTee = (GolfTee) ItemType.GOLF_TEE.getItem();
+        golfTee.onBlockPlace(e);
 
         Cannabis cannabis = (Cannabis) ItemType.CANNABIS.getItem();
         cannabis.onBlockPlace(e);

@@ -13,6 +13,7 @@ import me.rexe0.bettersurvival.item.farming.Ambrosia;
 import me.rexe0.bettersurvival.item.farming.FarmerBoots;
 import me.rexe0.bettersurvival.item.farming.Fertilizer;
 import me.rexe0.bettersurvival.item.fishing.*;
+import me.rexe0.bettersurvival.item.golf.*;
 import org.bukkit.ChatColor;
 
 public enum ItemType {
@@ -46,6 +47,13 @@ public enum ItemType {
     WINE(new Wine(0, WineType.SWEET_BERRY, 0)),
     SPIRIT(new Spirit(0, SpiritType.SWEET_BERRY, 0, null, null, null, false)),
     BOOK_OF_BREWERY(new BookOfBrewery()),
+
+    GOLF_BALL(new GolfBall()),
+    GOLF_TEE(new GolfTee()),
+    DRIVER(new Driver()),
+    IRON(new Iron()),
+    WEDGE(new Wedge()),
+    PUTTER(new Putter()),
 
     FISH_CODEX(new FishCodex()),
     PLATINUM_ORE(new PlatinumOre()),
