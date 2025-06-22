@@ -1,8 +1,10 @@
 package me.rexe0.bettersurvival.golf;
 
 import com.google.common.primitives.Doubles;
+import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.item.golf.GolfClub;
+import me.rexe0.bettersurvival.item.golf.GolfCup;
 import me.rexe0.bettersurvival.item.golf.Wedge;
 import me.rexe0.bettersurvival.util.SkullUtil;
 import net.md_5.bungee.api.ChatMessageType;
@@ -16,12 +18,13 @@ import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.type.BigDripleaf;
 import org.bukkit.craftbukkit.v1_21_R4.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_21_R4.entity.CraftPlayer;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Transformation;
 import org.bukkit.util.Vector;
@@ -46,7 +49,9 @@ public class GolfBallEntity {
 
     private ItemDisplay display;
     private ItemDisplay camera;
+    private int strokes;
     private int i;
+
     private boolean cameraSet;
     private boolean isGlowing;
     private boolean queuedCameraChanged;
@@ -56,6 +61,7 @@ public class GolfBallEntity {
         this.tee = tee;
         this.velocity = new Vector(0, 0, 0);
         this.i = 0;
+        this.strokes = 0;
     }
 
     public Player getOwner() {
@@ -93,6 +99,7 @@ public class GolfBallEntity {
         velocity.multiply(progress+1)
                 .multiply(multiplier);
 
+        this.strokes++;
         this.i = 0;
         this.location.setDirection(velocity);
         this.velocity = velocity;
@@ -169,19 +176,36 @@ public class GolfBallEntity {
 
         if (tee == null) {
             // If the ball is not on the ground apply gravity
+
             Location loc = location.clone().subtract(0, 0.1, 0);
             if (loc.getBlock().isPassable() || !loc.getBlock().getBoundingBox().contains(loc.toVector()))
                 velocity.setY(velocity.getY() - 0.08);
-            else if (loc.getBlock().getType() == Material.BIG_DRIPLEAF) {
-                BigDripleaf bigDripleaf = (BigDripleaf) loc.getBlock().getBlockData();
-                bigDripleaf.setTilt(bigDripleaf.getTilt() == BigDripleaf.Tilt.NONE ? BigDripleaf.Tilt.PARTIAL : BigDripleaf.Tilt.FULL);
-                loc.getBlock().setBlockData(bigDripleaf);
+            else {
+                // Perform additional check for clean hole sinking. Don't always ray trace to increase performance
+                if (loc.getBlock().getType() == Material.CAULDRON) {
+                    RayTraceResult hit = location.getWorld().rayTraceBlocks(location.clone(), new Vector(0, -1, 0), 0.1, FluidCollisionMode.NEVER, true);
+
+                    if (hit == null) {
+                        velocity.setY(velocity.getY() - 0.08);
+                    }
+                }
             }
         } else if (tee.isDead()) tee = null;
 
         if (velocity.lengthSquared() == 0 && tee == null) {
             location.setYaw(0);
             location.setPitch(0);
+
+            if (strokes >= 1) {
+                PersistentDataContainer data = new CustomBlockData(location.getBlock(), BetterSurvival.getInstance());
+
+                if (data.has(GolfCup.GOLF_CUP_KEY)) {
+                    stopFlyingSound();
+                    setCamera(false);
+                    sink();
+                    return;
+                }
+            }
 
 
             Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> setGlow(true), 10);
@@ -363,6 +387,36 @@ public class GolfBallEntity {
             case POWDER_SNOW, COBWEB -> 0.4f;
             default -> 0.99f;
         };
+    }
+
+    public void sink() {
+        if (strokes == 1) {
+            owner.playSound(owner.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 0.5f, 1.2f);
+            broadcastMessage(ChatColor.GREEN + owner.getName() + ChatColor.WHITE + " has sunk the ball in a "+ChatColor.GOLD+"hole in one!");
+        } else {
+            owner.playSound(owner.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.5f, 0f);
+            broadcastMessage(ChatColor.GREEN + owner.getName() + ChatColor.WHITE + " has sunk the ball in " + ChatColor.GREEN + strokes + ChatColor.WHITE + " strokes!");
+        }
+        Firework firework = (Firework) location.getWorld().spawnEntity(location.clone().add(0, 4, 0), EntityType.FIREWORK_ROCKET);
+        FireworkMeta fireworkMeta = firework.getFireworkMeta();
+
+        if (strokes != 1)
+            fireworkMeta.addEffect(FireworkEffect.builder().withColor(Color.fromRGB(3, 181, 0)).withFade(Color.fromRGB(72, 255, 0)).with(FireworkEffect.Type.BALL_LARGE).build());
+        else
+            fireworkMeta.addEffect(FireworkEffect.builder().withColor(Color.fromRGB(242, 157, 0)).withFlicker().with(FireworkEffect.Type.STAR).build());
+
+        fireworkMeta.setPower(1);
+        firework.setFireworkMeta(fireworkMeta);
+
+        location.getWorld().spawnParticle(Particle.TOTEM_OF_UNDYING, location.getBlock().getLocation().add(0.5, 1, 0.5), strokes == 1 ? 500 : 200, 0, 0, 0, 1);
+
+        remove();
+    }
+    private void broadcastMessage(String message) {
+        for (Player player : location.getWorld().getPlayers()) {
+            if (player.getLocation().distanceSquared(location) > 200*200) continue;
+            player.sendMessage(ChatColor.DARK_GREEN + "[Golf] " + ChatColor.WHITE + message);
+        }
     }
 
     public void spawn() {

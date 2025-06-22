@@ -7,6 +7,7 @@ import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.util.EntityDataUtil;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.*;
+import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.BlockDisplay;
 import org.bukkit.entity.Interaction;
@@ -63,6 +64,8 @@ public class GolfTee extends Item {
             }
         }
 
+        if (!loc.getBlock().getRelative(BlockFace.DOWN).getType().isSolid()) return;
+
         BlockDisplay display = loc.getWorld().spawn(loc, BlockDisplay.class);
         display.setBlock(Material.HOPPER.createBlockData());
         Transformation transformation = display.getTransformation();
@@ -85,17 +88,16 @@ public class GolfTee extends Item {
         for (World world : Bukkit.getWorlds()) {
             for (Interaction interaction : world.getEntitiesByClass(Interaction.class)) {
                 if (!interaction.getScoreboardTags().contains("golfTee")) continue;
+
+                Location loc = interaction.getLocation();
+                if (!loc.getBlock().getRelative(BlockFace.DOWN).getType().isSolid()) {
+                    remove(interaction);
+                    continue;
+                }
+
                 // On left click, break it
                 if (interaction.getLastAttack() != null) {
-                    Location loc = interaction.getLocation();
-
-                    loc.getWorld().dropItemNaturally(loc, new GolfTee().getItem());
-                    loc.getWorld().playSound(loc, Sound.ENTITY_ITEM_PICKUP, 1, 0);
-
-                    interaction.remove();
-                    BlockDisplay tee = (BlockDisplay) Bukkit.getEntity(UUID.fromString(EntityDataUtil.getStringValue(interaction, "golfTeeUUID")));
-                    if (tee != null)
-                        tee.remove();
+                    remove(interaction);
                     continue;
                 }
                 // On right click, place a golf ball if possible
@@ -117,6 +119,17 @@ public class GolfTee extends Item {
                 }
             }
         }
+    }
+
+    private static void remove(Interaction interaction) {
+        Location loc = interaction.getLocation();
+        loc.getWorld().dropItemNaturally(loc, new GolfTee().getItem());
+        loc.getWorld().playSound(loc, Sound.ENTITY_ITEM_PICKUP, 1, 0);
+
+        interaction.remove();
+        BlockDisplay tee = (BlockDisplay) Bukkit.getEntity(UUID.fromString(EntityDataUtil.getStringValue(interaction, "golfTeeUUID")));
+        if (tee != null)
+            tee.remove();
     }
 
     @Override

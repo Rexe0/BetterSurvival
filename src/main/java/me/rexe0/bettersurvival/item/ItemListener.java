@@ -6,6 +6,7 @@ import me.rexe0.bettersurvival.item.drugs.Cannabis;
 import me.rexe0.bettersurvival.item.drugs.CocaLeaves;
 import me.rexe0.bettersurvival.item.drugs.ReinforcedBarrel;
 import me.rexe0.bettersurvival.item.fishing.FishCodex;
+import me.rexe0.bettersurvival.item.golf.GolfCup;
 import me.rexe0.bettersurvival.item.golf.GolfTee;
 import me.rexe0.bettersurvival.util.EntityDataUtil;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
@@ -44,6 +45,9 @@ public class ItemListener implements Listener {
         GolfTee golfTee = (GolfTee) ItemType.GOLF_TEE.getItem();
         golfTee.onBlockPlace(e);
 
+        GolfCup golfCup = (GolfCup) ItemType.GOLF_CUP.getItem();
+        golfCup.onBlockPlace(e);
+
         Cannabis cannabis = (Cannabis) ItemType.CANNABIS.getItem();
         cannabis.onBlockPlace(e);
 
@@ -60,6 +64,9 @@ public class ItemListener implements Listener {
     public void onBlockBreak(BlockBreakEvent e) {
         DrillBlock drillBlock = (DrillBlock) ItemType.DRILL_BLOCK.getItem();
         drillBlock.onBlockBreak(e);
+
+        GolfCup golfCup = (GolfCup) ItemType.GOLF_CUP.getItem();
+        golfCup.onBlockBreak(e);
     }
 
     @EventHandler
