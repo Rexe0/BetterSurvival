@@ -29,6 +29,9 @@ public class GolfClubLogic implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
         golfMenu.remove(e.getPlayer());
+        GolfBallEntity golfBall = getGolfBall(e.getPlayer());
+        if (golfBall != null)
+            golfBall.remove();
     }
     @EventHandler
     public void onLeftClick(PlayerInteractEvent e) {
