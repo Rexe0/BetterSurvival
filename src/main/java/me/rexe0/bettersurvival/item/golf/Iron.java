@@ -65,11 +65,11 @@ public class Iron extends Item implements GolfClub {
 
     @Override
     public double getPower() {
-        return 0.65;
+        return 0.6;
     }
 
     @Override
     public double getLoft() {
-        return 0.5;
+        return 0.48;
     }
 }
