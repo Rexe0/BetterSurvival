@@ -46,6 +46,8 @@ public class GolfClubLogic implements Listener {
         if (!isValid(player, type)) return;
         e.setCancelled(true);
 
+        if (!golfMenu.containsKey(player)) return;
+
         double progress = golfMenu.get(player).getProgress();
 
         GolfClub club = (GolfClub) type.getItem();
