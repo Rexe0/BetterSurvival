@@ -43,10 +43,11 @@ public class GolfBallEntity {
 
     private Player owner;
     private BlockDisplay tee;
+    private BlockDisplay originalTee;
 
     private Location location;
     private Vector velocity;
-    private Location lastLocation;
+    private List<Location> previousLocations;
 
     private ItemDisplay display;
     private ItemDisplay camera;
@@ -60,7 +61,9 @@ public class GolfBallEntity {
     public GolfBallEntity(Player player, BlockDisplay tee) {
         this.owner = player;
         this.tee = tee;
+        this.originalTee = tee;
         this.velocity = new Vector(0, 0, 0);
+        this.previousLocations = new ArrayList<>();
         this.i = 0;
         this.strokes = 0;
     }
@@ -113,11 +116,13 @@ public class GolfBallEntity {
         owner.playSound(display.getLocation(), Sound.BLOCK_STONE_BREAK, 1f, 1.5f);
     }
     public void returnToLastLocation() {
-        if (lastLocation == null) return;
+        if (previousLocations.size() <= 1) return;
+        if (getSpeedSquared() != 0) return;
         strokes++;
-        location = lastLocation;
+        previousLocations.removeLast();
+        location = previousLocations.getLast().clone();
+        if (previousLocations.size() == 1) tee = originalTee;
         velocity = new Vector(0, 0, 0);
-        lastLocation = null;
     }
 
     public void setCamera(boolean set) {
@@ -200,44 +205,47 @@ public class GolfBallEntity {
             }
         } else if (tee.isDead()) tee = null;
 
-        if (velocity.lengthSquared() == 0 && tee == null) {
-            if (lastLocation == null) lastLocation = location.clone();
-
+        if (velocity.lengthSquared() == 0) {
             location.setYaw(0);
             location.setPitch(0);
-
-            if (strokes >= 1) {
-                PersistentDataContainer data = new CustomBlockData(location.getBlock(), BetterSurvival.getInstance());
-
-                if (data.has(GolfCup.GOLF_CUP_KEY)) {
-                    stopFlyingSound();
-                    setCamera(false);
-                    sink();
-                    return;
-                }
-            }
+            if (!previousLocations.getLast().equals(location))
+                previousLocations.add(location.clone());
 
 
-            Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> setGlow(true), 10);
-            if (cameraSet && !queuedCameraChanged) {
-                queuedCameraChanged = true;
-                stopFlyingSound();
+            if (tee == null) {
+                if (strokes >= 1) {
+                    PersistentDataContainer data = new CustomBlockData(location.getBlock(), BetterSurvival.getInstance());
 
-                Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> setCamera(false), 60);
-                Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> {
-                    owner.playSound(camera.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
-                    Location loc = display.getLocation().clone();
-
-                    for (int k = 0; k < 20; k++) {
-                        loc.setY(loc.getY() + 0.5);
-                        if (!loc.getBlock().isPassable()) {
-                            loc.setY(loc.getY() - 0.5);
-                            break;
-                        }
+                    if (data.has(GolfCup.GOLF_CUP_KEY)) {
+                        stopFlyingSound();
+                        setCamera(false);
+                        sink();
+                        return;
                     }
-                    loc.setDirection(display.getLocation().subtract(camera.getLocation()).toVector());
-                    camera.teleport(loc);
-                }, 10);
+                }
+
+
+                Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> setGlow(true), 10);
+                if (cameraSet && !queuedCameraChanged) {
+                    queuedCameraChanged = true;
+                    stopFlyingSound();
+
+                    Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> setCamera(false), 60);
+                    Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> {
+                        owner.playSound(camera.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
+                        Location loc = display.getLocation().clone();
+
+                        for (int k = 0; k < 20; k++) {
+                            loc.setY(loc.getY() + 0.5);
+                            if (!loc.getBlock().isPassable()) {
+                                loc.setY(loc.getY() - 0.5);
+                                break;
+                            }
+                        }
+                        loc.setDirection(display.getLocation().subtract(camera.getLocation()).toVector());
+                        camera.teleport(loc);
+                    }, 10);
+                }
             }
         } else setGlow(false);
 
@@ -253,6 +261,17 @@ public class GolfBallEntity {
             double friction = getFrictionMultiplier(location.clone().subtract(0, 0.1, 0).getBlock(), vec.getY(), false);
             friction = Math.pow(friction, 1d / stepCount);
             vec.multiply(friction);
+
+//            if (location.getBlock().getType() == Material.WATER) {
+//                ServerLevel serverLevel = ((CraftWorld)location.getWorld()).getHandle();
+//
+//                BlockPos.MutableBlockPos blockposition_mutableblockposition = new BlockPos.MutableBlockPos();
+//                FluidState fluid = serverLevel.getFluidState(blockposition_mutableblockposition);
+//                Vec3 vec3d1 = fluid.getFlow(serverLevel, blockposition_mutableblockposition);
+//                Bukkit.broadcastMessage(vec3d1.toString());
+//
+//            }
+
             // Make sure the ball stops if the velocity from friction is too low
             if (vec.lengthSquared() < 0.000000001) vec.multiply(0);
 
@@ -434,6 +453,9 @@ public class GolfBallEntity {
         this.location = tee.getLocation().add(0, 0.25, 0);
         location.setPitch(0);
         location.setYaw(0);
+
+        this.previousLocations.add(location.clone());
+
         this.display = (ItemDisplay) location.getWorld().spawnEntity(location, EntityType.ITEM_DISPLAY);
         ItemStack item = SkullUtil.getCustomSkull(new ItemStack(Material.PLAYER_HEAD), "http://textures.minecraft.net/texture/b4936a032c688050a36d33a4c3f0d56a4a705d8a89dfdded1472438ec000c9d0");
         display.setItemStack(item);
