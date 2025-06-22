@@ -31,20 +31,22 @@ public class WanderingTrader implements Listener {
 
     public WanderingTrader() {
         sellTrades = new HashMap<>();
+        sellTrades.put(new ItemStack(Material.DRAGON_BREATH), 5);
+        sellTrades.put(new ItemStack(Material.PITCHER_PLANT), 5);
+        sellTrades.put(new ItemStack(Material.TORCHFLOWER), 5);
+        sellTrades.put(new ItemStack(Material.CAKE), 4);
+        sellTrades.put(new ItemStack(Material.SPONGE), 4);
+        sellTrades.put(new ItemStack(Material.HEART_OF_THE_SEA), 4);
+        sellTrades.put(new ItemStack(Material.SADDLE), 4);
         sellTrades.put(new ItemStack(Material.ECHO_SHARD), 3);
         sellTrades.put(new ItemStack(Material.TURTLE_SCUTE), 3);
+        sellTrades.put(new ItemStack(Material.WITHER_ROSE), 3);
+        sellTrades.put(new ItemStack(Material.GRASS_BLOCK), 3);
+        sellTrades.put(new ItemStack(Material.BUBBLE_CORAL_BLOCK), 2);
+        sellTrades.put(new ItemStack(Material.FIRE_CORAL_BLOCK), 2);
         sellTrades.put(new ItemStack(Material.ARMADILLO_SCUTE), 2);
         sellTrades.put(new ItemStack(Material.RABBIT_FOOT), 2);
         sellTrades.put(new ItemStack(Material.AMETHYST_SHARD), 2);
-        sellTrades.put(new ItemStack(Material.SPONGE), 4);
-        sellTrades.put(new ItemStack(Material.WITHER_ROSE), 3);
-        sellTrades.put(new ItemStack(Material.HEART_OF_THE_SEA), 4);
-        sellTrades.put(new ItemStack(Material.SADDLE), 4);
-        sellTrades.put(new ItemStack(Material.GRASS_BLOCK), 3);
-        sellTrades.put(new ItemStack(Material.DRAGON_BREATH), 5);
-        sellTrades.put(new ItemStack(Material.CAKE), 4);
-        sellTrades.put(new ItemStack(Material.BUBBLE_CORAL_BLOCK), 2);
-        sellTrades.put(new ItemStack(Material.FIRE_CORAL_BLOCK), 2);
     }
     @EventHandler
     public void onSpawn(CreatureSpawnEvent e) {
