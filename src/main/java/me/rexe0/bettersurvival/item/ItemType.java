@@ -51,6 +51,7 @@ public enum ItemType {
     GOLF_BALL(new GolfBall()),
     GOLF_TEE(new GolfTee()),
     GOLF_CUP(new GolfCup()),
+    GOLF_HORN(new GolfHorn()),
     DRIVER(new Driver()),
     IRON(new Iron()),
     WEDGE(new Wedge()),

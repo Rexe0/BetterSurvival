@@ -63,6 +63,7 @@ public class GolfClubLogic implements Listener {
         GolfBallEntity golfBall = getGolfBall(player);
         if (golfBall == null || golfBall.getSpeedSquared() == 0) return;
         golfBall.setCamera(true);
+        e.setCancelled(true);
     }
 
 
@@ -81,7 +82,7 @@ public class GolfClubLogic implements Listener {
     }
 
 
-    private GolfBallEntity getGolfBall(Player player) {
+    public GolfBallEntity getGolfBall(Player player) {
         for (GolfBallEntity golfBall : GolfBallEntity.getGolfBalls())
             if (golfBall.getOwner().equals(player))
                 return golfBall;

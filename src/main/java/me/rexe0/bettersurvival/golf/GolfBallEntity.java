@@ -46,6 +46,7 @@ public class GolfBallEntity {
 
     private Location location;
     private Vector velocity;
+    private Location lastLocation;
 
     private ItemDisplay display;
     private ItemDisplay camera;
@@ -110,6 +111,13 @@ public class GolfBallEntity {
         owner.playSound(display.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 0.3f, (float) (1.2+(progress*0.2)));
         owner.playSound(display.getLocation(), Sound.ENTITY_BLAZE_HURT, 0.25f,  (float) (1.5+(progress*0.2)));
         owner.playSound(display.getLocation(), Sound.BLOCK_STONE_BREAK, 1f, 1.5f);
+    }
+    public void returnToLastLocation() {
+        if (lastLocation == null) return;
+        strokes++;
+        location = lastLocation;
+        velocity = new Vector(0, 0, 0);
+        lastLocation = null;
     }
 
     public void setCamera(boolean set) {
@@ -182,7 +190,7 @@ public class GolfBallEntity {
                 velocity.setY(velocity.getY() - 0.08);
             else {
                 // Perform additional check for clean hole sinking. Don't always ray trace to increase performance
-                if (loc.getBlock().getType() == Material.CAULDRON) {
+                if (loc.getBlock().getType() == Material.CAULDRON || loc.getBlock().getType().name().contains("STAIRS")) {
                     RayTraceResult hit = location.getWorld().rayTraceBlocks(location.clone(), new Vector(0, -1, 0), 0.1, FluidCollisionMode.NEVER, true);
 
                     if (hit == null) {
@@ -193,6 +201,8 @@ public class GolfBallEntity {
         } else if (tee.isDead()) tee = null;
 
         if (velocity.lengthSquared() == 0 && tee == null) {
+            if (lastLocation == null) lastLocation = location.clone();
+
             location.setYaw(0);
             location.setPitch(0);
 
@@ -368,7 +378,7 @@ public class GolfBallEntity {
         float fluidMultiplier = getFluidMultiplier(location.getBlock().getType());
 
         double groundMultiplier  = switch (contactBlock.getType()) {
-            case GRASS_BLOCK,DIRT_PATH -> 1.2f;
+            case GRASS_BLOCK,DIRT_PATH,GREEN_WOOL,LIME_WOOL,GREEN_CARPET,LIME_CARPET,GREEN_TERRACOTTA,LIME_TERRACOTTA -> 1.2f;
             case DIRT, PODZOL,GRAVEL -> 1.05f;
             default -> 1f;
             case SNOW, SNOW_BLOCK, HAY_BLOCK -> 0.63f;
