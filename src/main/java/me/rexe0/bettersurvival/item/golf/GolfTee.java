@@ -95,14 +95,6 @@ public class GolfTee extends Item {
                     continue;
                 }
 
-                // On left click, break it
-                if (interaction.getLastAttack() != null) {
-                    Player player = interaction.getLastAttack().getPlayer().getPlayer();
-                    if (player == null || !player.isOnline()) continue;
-                    if (player.getGameMode() == GameMode.ADVENTURE) continue;
-                    remove(interaction);
-                    continue;
-                }
                 // On right click, place a golf ball if possible
                 if (interaction.getLastInteraction() != null) {
                     Interaction.PreviousInteraction prev = interaction.getLastInteraction();
@@ -118,6 +110,15 @@ public class GolfTee extends Item {
                     BlockDisplay tee = (BlockDisplay) Bukkit.getEntity(UUID.fromString(EntityDataUtil.getStringValue(interaction, "golfTeeUUID")));
                     if (tee != null)
                         GolfBallSpawner.spawnGolfBall(player, tee);
+                    continue;
+                }
+
+                // On left click, break it
+                if (interaction.getLastAttack() != null) {
+                    Player player = interaction.getLastAttack().getPlayer().getPlayer();
+                    if (player == null || !player.isOnline()) continue;
+                    if (player.getGameMode() == GameMode.ADVENTURE) continue;
+                    remove(interaction);
                     continue;
                 }
             }
