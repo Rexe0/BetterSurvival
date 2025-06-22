@@ -1,5 +1,6 @@
 package me.rexe0.bettersurvival.golf;
 
+import com.google.common.primitives.Doubles;
 import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.item.golf.GolfClub;
 import me.rexe0.bettersurvival.item.golf.Wedge;
@@ -229,20 +230,24 @@ public class GolfBallEntity {
                 // Apply bounce multiplier.   The length < Math.pow(0.28285 / stepCount, 2) part is to make sure the ball doesn't keep bouncing and starts 'rolling'
                 double multiplier = length < Math.pow(0.28285 / stepCount, 2) ? 0 : getFrictionMultiplier(hit.getHitBlock(), 0, true);
 
-                // This part is to make sure to only apply the multiplier to the axis at which the velocity is being reflected upon
-                Vector mask = normal.clone();
-                mask.setX(Math.abs(mask.getX()));
-                mask.setY(Math.abs(mask.getY()));
-                mask.setZ(Math.abs(mask.getZ()));
-                mask = new Vector(1, 1, 1).subtract(mask);
+                Vector xAxis = new Vector(1, 0, 0);
+                Vector yAxis = new Vector(0, 1, 0);
+                Vector zAxis = new Vector(0, 0, 1);
 
-                normal.multiply(multiplier);
-                normal.setX(Math.abs(normal.getX()));
-                normal.setY(Math.abs(normal.getY()));
-                normal.setZ(Math.abs(normal.getZ()));
-                normal.add(mask);
+                // Apply multiplier based on angle of the collision. If collides with the floor, instead ignore this so that the ball rolls
+                Vector forceDistribution = normal.getY() == 1 ? normal.clone() :
+                        new Vector(
+                        Math.abs(Doubles.constrainToRange(vec.dot(xAxis) / (vec.length() * xAxis.length()), -1.0, 1.0)),
+                        Math.abs(Doubles.constrainToRange(vec.dot(yAxis) / (vec.length() * yAxis.length()), -1.0, 1.0)),
+                        Math.abs(Doubles.constrainToRange(vec.dot(zAxis) / (vec.length() * zAxis.length()), -1.0, 1.0)));
 
-                v.multiply(normal);
+                forceDistribution.multiply(1-multiplier);
+                forceDistribution.setX(1-forceDistribution.getX());
+                forceDistribution.setY(1-forceDistribution.getY());
+                forceDistribution.setZ(1-forceDistribution.getZ());
+
+                v.multiply(forceDistribution);
+
 
                 // Compute remaining distance in this substep
                 double used = hit.getHitPosition().subtract(location.toVector()).length();
@@ -281,7 +286,8 @@ public class GolfBallEntity {
                 case SAND, RED_SAND, SOUL_SAND, MUD -> 0.06f;
                 case HONEY_BLOCK -> 0f;
             };
-            if (contactBlock.isPassable()) groundMultiplier = 1;
+            if (isCollision) groundMultiplier *= 0.7;
+            else if (contactBlock.isPassable()) groundMultiplier = 1;
         }
 
         return groundMultiplier * fluidMultiplier;
