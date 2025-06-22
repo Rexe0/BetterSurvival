@@ -136,7 +136,7 @@ public class GolfTee extends Item {
     public Recipe getRecipe() {
         ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(BetterSurvival.getInstance(), getID()), getItem());
         recipe.shape("# #", "###", " # ");
-        recipe.setIngredient('#', Material.IRON_INGOT);
+        recipe.setIngredient('#', Material.COPPER_INGOT);
         return recipe;
     }
 }
