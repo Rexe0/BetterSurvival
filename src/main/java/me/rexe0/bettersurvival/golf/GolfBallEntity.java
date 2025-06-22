@@ -179,62 +179,7 @@ public class GolfBallEntity {
             // Make sure the ball stops if the velocity from friction is too low
             if (vec.lengthSquared() < 0.000000001) vec.multiply(0);
 
-            if (vec.lengthSquared() > 0) {
-                double maxDistance = vec.length();
-                RayTraceResult hit = display.getWorld().rayTraceBlocks(location.clone(), vec, maxDistance, FluidCollisionMode.NEVER, true);
-
-                if (hit == null) {
-                    // No collision
-                    location.add(vec);
-                } else {
-                    // Set location to collision point
-                    Vector collisionPoint = hit.getHitPosition();
-                    location.setX(collisionPoint.getX());
-                    location.setY(collisionPoint.getY());
-                    location.setZ(collisionPoint.getZ());
-
-                    // Get the normal vector to the block face
-                    Vector normal = new Vector(
-                            hit.getHitBlockFace().getModX(),
-                            hit.getHitBlockFace().getModY(),
-                            hit.getHitBlockFace().getModZ()
-                    );
-
-                    // r = d - 2(d.n)n
-                    Vector v = vec.clone().subtract(normal.clone().multiply(2 * vec.dot(normal)));
-                    double length = vec.lengthSquared();
-
-                    // Apply bounce multiplier.   The length < Math.pow(0.28285 / stepCount, 2) part is to make sure the ball doesn't keep bouncing and starts 'rolling'
-                    double multiplier = length < Math.pow(0.28285 / stepCount, 2) ? 0 : getFrictionMultiplier(hit.getHitBlock(), 0, true);
-
-                    // This part is to make sure to only apply the multiplier to the axis at which the velocity is being reflected upon
-                    Vector mask = normal.clone();
-                    mask.setX(Math.abs(mask.getX()));
-                    mask.setY(Math.abs(mask.getY()));
-                    mask.setZ(Math.abs(mask.getZ()));
-                    mask = new Vector(1, 1, 1).subtract(mask);
-
-                    normal.multiply(multiplier);
-                    normal.setX(Math.abs(normal.getX()));
-                    normal.setY(Math.abs(normal.getY()));
-                    normal.setZ(Math.abs(normal.getZ()));
-                    normal.add(mask);
-
-                    v.multiply(normal);
-
-                    // Compute remaining distance in this substep
-                    double used = hit.getHitPosition().subtract(location.toVector()).length();
-                    double remain = maxDistance - used;
-                    if (remain > 0 && v.lengthSquared() > 0) {
-                        // step out along the reflected vector, scaled to `remain`
-                        location.add(v.clone().normalize().multiply(remain));
-
-                        vec = v.multiply(remain / maxDistance);
-                    } else {
-                        vec = v;
-                    }
-                }
-            }
+            vec = collisionDetection(vec, stepCount);
 
             Location loc = location.clone().add(0, SCALE / 4, 0);
             display.teleport(loc);
@@ -253,6 +198,65 @@ public class GolfBallEntity {
 
         }
         velocity = vec.multiply(stepCount);
+    }
+
+    private Vector collisionDetection(Vector vec, int stepCount) {
+        if (vec.lengthSquared() > 0) {
+            double maxDistance = vec.length();
+            RayTraceResult hit = display.getWorld().rayTraceBlocks(location.clone(), vec, maxDistance, FluidCollisionMode.NEVER, true);
+
+            if (hit == null) {
+                // No collision
+                location.add(vec);
+            } else {
+                // Set location to collision point
+                Vector collisionPoint = hit.getHitPosition();
+                location.setX(collisionPoint.getX());
+                location.setY(collisionPoint.getY());
+                location.setZ(collisionPoint.getZ());
+
+                // Get the normal vector to the block face
+                Vector normal = new Vector(
+                        hit.getHitBlockFace().getModX(),
+                        hit.getHitBlockFace().getModY(),
+                        hit.getHitBlockFace().getModZ()
+                );
+
+                // r = d - 2(d.n)n
+                Vector v = vec.clone().subtract(normal.clone().multiply(2 * vec.dot(normal)));
+                double length = vec.lengthSquared();
+
+                // Apply bounce multiplier.   The length < Math.pow(0.28285 / stepCount, 2) part is to make sure the ball doesn't keep bouncing and starts 'rolling'
+                double multiplier = length < Math.pow(0.28285 / stepCount, 2) ? 0 : getFrictionMultiplier(hit.getHitBlock(), 0, true);
+
+                // This part is to make sure to only apply the multiplier to the axis at which the velocity is being reflected upon
+                Vector mask = normal.clone();
+                mask.setX(Math.abs(mask.getX()));
+                mask.setY(Math.abs(mask.getY()));
+                mask.setZ(Math.abs(mask.getZ()));
+                mask = new Vector(1, 1, 1).subtract(mask);
+
+                normal.multiply(multiplier);
+                normal.setX(Math.abs(normal.getX()));
+                normal.setY(Math.abs(normal.getY()));
+                normal.setZ(Math.abs(normal.getZ()));
+                normal.add(mask);
+
+                v.multiply(normal);
+
+                // Compute remaining distance in this substep
+                double used = hit.getHitPosition().subtract(location.toVector()).length();
+                double remain = maxDistance - used;
+                if (remain > 0 && v.lengthSquared() > 0) {
+                    // step out along the reflected vector, scaled to `remain`
+                    // Run additional collision check to ensure the ball doesn't get stuck in a block if it does collide again
+                    v = collisionDetection(v.multiply(remain / maxDistance), stepCount);
+                }
+                this.location.setDirection(v);
+                return v;
+            }
+        }
+        return vec;
     }
 
     // Velocity multiplier when a ball moves along a material
