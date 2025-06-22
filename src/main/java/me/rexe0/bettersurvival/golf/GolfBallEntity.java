@@ -268,8 +268,8 @@ public class GolfBallEntity {
         // Only apply ground friction when the ball has low y-velocity (not bouncing/flying)
         if (Math.abs(yVelocity) < 0.01) {
             groundMultiplier = switch (contactBlock.getType()) {
-                case BLUE_ICE -> isCollision ? 0.7f : 0.9f;
-                case ICE, PACKED_ICE -> isCollision ? 0.65f : 0.8f;
+                case BLUE_ICE -> isCollision ? 0.52f : 0.9f;
+                case ICE, PACKED_ICE -> isCollision ? 0.5f : 0.8f;
                 case SLIME_BLOCK -> isCollision ? 0.9f : 0.25f;
                 case ACACIA_PLANKS, PALE_OAK_PLANKS, BAMBOO_PLANKS,
                         BIRCH_PLANKS, CHERRY_PLANKS, CRIMSON_PLANKS,
