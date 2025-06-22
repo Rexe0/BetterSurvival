@@ -13,11 +13,14 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.BigDripleaf;
 import org.bukkit.craftbukkit.v1_21_R4.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_21_R4.entity.CraftPlayer;
 import org.bukkit.entity.*;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Transformation;
@@ -102,8 +105,24 @@ public class GolfBallEntity {
         cameraSet = set;
         Entity entity = set ? camera : owner;
 
+        setItemsVisible(!set);
+
         ClientboundSetCameraPacket packet = new ClientboundSetCameraPacket(((CraftEntity)entity).getHandle());
         ((CraftPlayer)owner).getHandle().connection.sendPacket(packet);
+
+    }
+
+    public void setItemsVisible(boolean visible) {
+        if (!visible)
+            owner.getAttribute(Attribute.ATTACK_SPEED).addModifier(new AttributeModifier(new NamespacedKey(BetterSurvival.getInstance(), "hideItemsGolf"), -1, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlotGroup.ANY));
+        else {
+            for (AttributeModifier modifier : owner.getAttribute(Attribute.ATTACK_SPEED).getModifiers())
+                if (modifier.getKey().equals(new NamespacedKey(BetterSurvival.getInstance(), "hideItemsGolf"))) {
+                    owner.getAttribute(Attribute.ATTACK_SPEED).removeModifier(modifier);
+                    break;
+                }
+
+        }
     }
     private void setGlow(boolean glow) {
         if (isGlowing == glow) return;
