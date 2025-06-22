@@ -378,7 +378,8 @@ public class GolfBallEntity {
         float fluidMultiplier = getFluidMultiplier(location.getBlock().getType());
 
         double groundMultiplier  = switch (contactBlock.getType()) {
-            case GRASS_BLOCK,DIRT_PATH,GREEN_WOOL,LIME_WOOL,GREEN_CARPET,LIME_CARPET,GREEN_TERRACOTTA,LIME_TERRACOTTA -> 1.2f;
+            case GRASS_BLOCK,DIRT_PATH,GREEN_WOOL,LIME_WOOL,GREEN_CARPET,LIME_CARPET,
+                    GREEN_TERRACOTTA,LIME_TERRACOTTA,GREEN_CONCRETE,LIME_CONCRETE,GREEN_CONCRETE_POWDER,LIME_CONCRETE_POWDER -> 1.2f;
             case DIRT, PODZOL,GRAVEL -> 1.05f;
             default -> 1f;
             case SNOW, SNOW_BLOCK, HAY_BLOCK -> 0.63f;
