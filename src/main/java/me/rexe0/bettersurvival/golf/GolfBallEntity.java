@@ -49,6 +49,7 @@ public class GolfBallEntity {
     private int i;
     private boolean cameraSet;
     private boolean isGlowing;
+    private boolean queuedCameraChanged;
 
     public GolfBallEntity(Player player, BlockDisplay tee) {
         this.owner = player;
@@ -98,6 +99,10 @@ public class GolfBallEntity {
         this.tee = null;
 
         owner.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.YELLOW+"Right Click to follow the ball!"));
+
+        owner.playSound(display.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 0.3f, (float) (1.2+(progress*0.2)));
+        owner.playSound(display.getLocation(), Sound.ENTITY_BLAZE_HURT, 0.25f,  (float) (1.5+(progress*0.2)));
+        owner.playSound(display.getLocation(), Sound.BLOCK_STONE_BREAK, 1f, 1.5f);
     }
 
     public void setCamera(boolean set) {
@@ -110,8 +115,21 @@ public class GolfBallEntity {
         ClientboundSetCameraPacket packet = new ClientboundSetCameraPacket(((CraftEntity)entity).getHandle());
         ((CraftPlayer)owner).getHandle().connection.sendPacket(packet);
 
+        if (set)
+            playFlyingSound();
+        else
+            queuedCameraChanged = false;
     }
 
+    private void playFlyingSound() {
+        if (!cameraSet) return;
+        float multiplier = (float) Math.min(velocity.length(), 2);
+
+        owner.playSound(owner.getLocation(), Sound.ITEM_ELYTRA_FLYING, 0.5f+(multiplier/4), 1f+(multiplier/4));
+    }
+    private void stopFlyingSound() {
+        owner.stopSound(Sound.ITEM_ELYTRA_FLYING);
+    }
     public void setItemsVisible(boolean visible) {
         if (!visible)
             owner.getAttribute(Attribute.ATTACK_SPEED).addModifier(new AttributeModifier(new NamespacedKey(BetterSurvival.getInstance(), "hideItemsGolf"), -1, AttributeModifier.Operation.MULTIPLY_SCALAR_1, EquipmentSlotGroup.ANY));
@@ -165,10 +183,15 @@ public class GolfBallEntity {
             location.setYaw(0);
             location.setPitch(0);
 
+
             Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> setGlow(true), 10);
-            if (cameraSet) {
+            if (cameraSet && !queuedCameraChanged) {
+                queuedCameraChanged = true;
+                stopFlyingSound();
+
                 Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> setCamera(false), 60);
                 Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> {
+                    owner.playSound(camera.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
                     Location loc = display.getLocation().clone();
 
                     for (int k = 0; k < 20; k++) {
@@ -234,6 +257,9 @@ public class GolfBallEntity {
                 location.setX(collisionPoint.getX());
                 location.setY(collisionPoint.getY());
                 location.setZ(collisionPoint.getZ());
+
+                location.getWorld().playSound(location, hit.getHitBlock().getBlockData().getSoundGroup().getFallSound(), SoundCategory.BLOCKS, 1f, 0.8f);
+                location.getWorld().spawnParticle(Particle.BLOCK, location, 10, 0.1, 0.1, 0.1, 0, hit.getHitBlock().getBlockData());
 
                 // Get the normal vector to the block face
                 Vector normal = new Vector(
@@ -318,7 +344,7 @@ public class GolfBallEntity {
         float fluidMultiplier = getFluidMultiplier(location.getBlock().getType());
 
         double groundMultiplier  = switch (contactBlock.getType()) {
-            case GRASS_BLOCK,DIRT_PATH -> 1.1f;
+            case GRASS_BLOCK,DIRT_PATH -> 1.2f;
             case DIRT, PODZOL,GRAVEL -> 1.05f;
             default -> 1f;
             case SNOW, SNOW_BLOCK, HAY_BLOCK -> 0.63f;
