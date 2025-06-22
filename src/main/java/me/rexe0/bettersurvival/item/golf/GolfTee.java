@@ -97,6 +97,9 @@ public class GolfTee extends Item {
 
                 // On left click, break it
                 if (interaction.getLastAttack() != null) {
+                    Player player = interaction.getLastAttack().getPlayer().getPlayer();
+                    if (player == null || !player.isOnline()) continue;
+                    if (player.getGameMode() == GameMode.ADVENTURE) continue;
                     remove(interaction);
                     continue;
                 }
