@@ -63,11 +63,11 @@ public class Putter extends Item implements GolfClub {
 
     @Override
     public double getPower() {
-        return 0.3;
+        return 0.5;
     }
 
     @Override
     public double getLoft() {
-        return 0.1;
+        return 0.05;
     }
 }
