@@ -25,9 +25,12 @@ public class Wedge extends Item implements GolfClub {
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.GRAY+"A type of golf club used");
         lore.add(ChatColor.GRAY+"for short distance precision");
-        lore.add(ChatColor.GRAY+"shots.");
+        lore.add(ChatColor.GRAY+"shots or to wedge the ball");
+        lore.add(ChatColor.GRAY+"out of hazards.");
+        lore.add(" ");
         lore.add(ChatColor.GRAY+"It generates a significant");
-        lore.add(ChatColor.GRAY+"amount of loft.");
+        lore.add(ChatColor.GRAY+"amount of loft with very");
+        lore.add(ChatColor.GRAY+"little horizontal power.");
         return lore;
     }
 

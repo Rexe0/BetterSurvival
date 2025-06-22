@@ -25,7 +25,10 @@ public class Driver extends Item implements GolfClub {
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.GRAY+"A type of golf club used");
         lore.add(ChatColor.GRAY+"for hitting the ball long distances.");
-        lore.add(ChatColor.GRAY+"It generates very little loft.");
+        lore.add(" ");
+        lore.add(ChatColor.GRAY+"It generates little loft");
+        lore.add(ChatColor.GRAY+"with a huge amount of");
+        lore.add(ChatColor.GRAY+"horizontal power.");
         return lore;
     }
 

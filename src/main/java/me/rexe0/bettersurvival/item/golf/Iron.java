@@ -26,7 +26,9 @@ public class Iron extends Item implements GolfClub {
         lore.add(ChatColor.GRAY+"A type of golf club used");
         lore.add(ChatColor.GRAY+"for a variety of medium-range");
         lore.add(ChatColor.GRAY+"shots.");
-        lore.add(ChatColor.GRAY+"It generates moderate loft.");
+        lore.add(" ");
+        lore.add(ChatColor.GRAY+"It generates moderate loft");
+        lore.add(ChatColor.GRAY+"with strong horizontal power.");
         return lore;
     }
 

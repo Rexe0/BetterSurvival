@@ -26,7 +26,10 @@ public class Putter extends Item implements GolfClub {
         lore.add(ChatColor.GRAY+"A type of golf club used");
         lore.add(ChatColor.GRAY+"to finish the hole with");
         lore.add(ChatColor.GRAY+"precision.");
-        lore.add(ChatColor.GRAY+"It generates tiny loft.");
+        lore.add(" ");
+        lore.add(ChatColor.GRAY+"It generates tiny loft");
+        lore.add(ChatColor.GRAY+"and a small amount of");
+        lore.add(ChatColor.GRAY+"horizontal power.");
         return lore;
     }
 
