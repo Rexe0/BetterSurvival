@@ -50,6 +50,7 @@ public class Iron extends Item implements GolfClub {
         recipe.shape("###", "#$#", "###");
         recipe.setIngredient('#', Material.COPPER_INGOT);
         recipe.setIngredient('$', getMaterial());
+        recipe.setGroup("GOLF");
         return recipe;
     }
 

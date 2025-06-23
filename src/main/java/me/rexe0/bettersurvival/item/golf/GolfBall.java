@@ -43,6 +43,7 @@ public class GolfBall extends Item {
         recipe.shape("###", "#$#", "###");
         recipe.setIngredient('#', Material.IRON_INGOT);
         recipe.setIngredient('$', Material.COAL_BLOCK);
+        recipe.setGroup("GOLF");
         return recipe;
     }
 }

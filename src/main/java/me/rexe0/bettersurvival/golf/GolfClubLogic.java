@@ -1,17 +1,20 @@
 package me.rexe0.bettersurvival.golf;
 
+import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.item.golf.GolfClub;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import me.rexe0.bettersurvival.util.RandomUtil;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.world.LootGenerateEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.KnowledgeBookMeta;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +29,53 @@ public class GolfClubLogic implements Listener {
 
     private final Map<Player, GolfClubMenu> golfMenu = new HashMap<>();
 
+
+    @EventHandler
+    public void onLoot(LootGenerateEvent e) {
+        // Gives knowledge book for golf recipes from trial chamber pots, so long as at least one player nearby hasn't discovered them.
+
+        String key = e.getLootTable().getKey().getKey();
+        if (!key.equals("pots/trial_chambers/corridor")) return;
+
+        Location location = e.getLootContext().getLocation();
+        boolean hasGolfRecipes = true;
+        for (Player player : location.getWorld().getPlayers()) {
+            if (player.getLocation().distanceSquared(location) > 2500) continue;
+            if (player.getDiscoveredRecipes().contains(new NamespacedKey(BetterSurvival.getInstance(), ItemType.WEDGE.getItem().getID()))) continue;
+
+            boolean hasGolferKnowledge = false;
+            for (ItemStack item : player.getInventory().getContents()) {
+                if (item == null || item.getType().isAir()) continue;
+                if (ItemDataUtil.isItemName(item, ChatColor.DARK_AQUA+"Lost Golfer Knowledge")) {
+                    hasGolferKnowledge = true;
+                    break;
+                }
+            }
+            if (!hasGolferKnowledge) {
+                hasGolfRecipes = false;
+                break;
+            }
+        }
+
+        if (hasGolfRecipes) return;
+
+        ItemStack item = new ItemStack(Material.KNOWLEDGE_BOOK);
+        KnowledgeBookMeta meta = (KnowledgeBookMeta) item.getItemMeta();
+        meta.setDisplayName(ChatColor.DARK_AQUA+"Lost Golfer Knowledge");
+        meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.GOLF_CUP.getItem().getID()));
+        meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.GOLF_TEE.getItem().getID()));
+        meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.GOLF_HORN.getItem().getID()));
+        meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.GOLF_BALL.getItem().getID()));
+        meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.DRIVER.getItem().getID()));
+        meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.IRON.getItem().getID()));
+        meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.WEDGE.getItem().getID()));
+        meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.PUTTER.getItem().getID()));
+        item.setItemMeta(meta);
+
+        if (RandomUtil.getRandom().nextBoolean()) return;
+
+        e.getLoot().add(item);
+    }
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
         golfMenu.remove(e.getPlayer());

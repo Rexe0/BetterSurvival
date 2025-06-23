@@ -122,6 +122,15 @@ This is a plugin that contains several features that I think would improve the c
 - Treasure has a small chance to yield Lost Fisherman's Knowledge which when used grants the recipes for all relevant fishing items
 - Wandering Trader can now sell Fish Codex which displays all fish that exist and how many they have caught alongside other information
 
+**Golf:**
+- Added Golf as an optional player created mini-game
+- Players can craft a Golf Tee and Golf Cup using copper ingots and place them down in the world to set up their own golf course
+- The Golf Tee allows players to place their Golf Ball on for the starting shot. The Golf Cup lets the player place the hole where the ball needs to be sunk
+- Players can craft Golf Clubs using iron tools surrounded by Copper Ingots. (Driver, Iron, Wedge and Putter)
+- Golf Clubs allow players to hit golf balls by sneaking in front of them while holding one and then left clicking. Where in the bar the player clicks determines the power of the shot and the more a player looks up, the higher up the ball goes
+- Different golf clubs serve different purposes due to their differing horizontal power and vertical loft values
+- Players can also craft a Golf Horn using copper to recall the Golf Ball to its last location in the case it goes out of bounds or into water (at the cost of a stroke)
+
 **Horses:**
 - Maximum horse stats increased, especially speed (Up to 21.5 blocks/s)
 - Horse breeding and stats now work on a completely new system. Every naturally spawned horse has two randomly chosen alleles for each gene (health, speed and jumpheight). Its actual speed/health/jump height is the average value between its two alleles.
