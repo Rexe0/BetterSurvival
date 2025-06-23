@@ -21,21 +21,17 @@ public class GrowthModifier implements Listener {
         Block block = e.getBlock();
         if (!(block.getBlockData() instanceof Ageable ageable)) return;
 
+        double growthChance = 1;
         // Crop grow depends on season. Spring: 60% Growth, Summer or Autumn: 50%, Winter: 20%
-        double growthChance = switch (Season.getSeason()) {
-            default -> 0.5;
-            case SPRING -> 0.6;
-            case WINTER -> 0.2;
-        };
 
         // If its raining, increase growth chance by 20%
         if (SeasonListener.getCurrentWeather() == SeasonListener.Weather.RAIN
                 || SeasonListener.getCurrentWeather() == SeasonListener.Weather.STORM
                 || SeasonListener.getCurrentWeather() == SeasonListener.Weather.TEMPEST) growthChance += 0.2;
 
-        // If there is a sniffer within 20 blocks of the crop, increase the growth chance by 20%
+        // If there is a sniffer within 50 blocks of the crop, increase the growth chance by 20%
         for (Sniffer sniffer : block.getWorld().getEntitiesByClass(Sniffer.class)) {
-            if (sniffer.getLocation().distanceSquared(block.getLocation()) >= 400) continue;
+            if (sniffer.getLocation().distanceSquared(block.getLocation()) >= 2500) continue;
             // Increase by additional 20%
             growthChance += 0.2;
             break;
@@ -47,6 +43,12 @@ public class GrowthModifier implements Listener {
             growthChance += 0.15*data.get(HarvestModifier.BONEMEAL_KEY, PersistentDataType.INTEGER);
 
         growthChance += HolidayListener.bumperCropGrowth(block.getWorld());
+
+        growthChance *= switch (Season.getSeason()) {
+            default -> 0.6;
+            case SPRING -> 0.7;
+            case WINTER -> 0.2;
+        };
 
         if (RandomUtil.getRandom().nextDouble() >= growthChance) {
             e.setCancelled(true);
