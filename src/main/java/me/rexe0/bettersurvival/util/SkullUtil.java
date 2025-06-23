@@ -21,19 +21,21 @@ public class SkullUtil {
      * @return itemstack
      */
     public static ItemStack getCustomSkull(ItemStack head, String url) {
+        return getCustomSkull(head, url, UUID.randomUUID());
+    }
+    public static ItemStack getCustomSkull(ItemStack head, String url, UUID uuid) {
         if(url.isEmpty())return head;
 
         SkullMeta headMeta = (SkullMeta) head.getItemMeta();
-        PlayerProfile profile = getCustomProfile(url);
+        PlayerProfile profile = getCustomProfile(url, uuid);
         headMeta.setOwnerProfile(profile);
         head.setItemMeta(headMeta);
         return head;
     }
-
-    public static PlayerProfile getCustomProfile(String url) {
+    public static PlayerProfile getCustomProfile(String url, UUID uuid) {
         if(url.isEmpty()) return null;
 
-        PlayerProfile profile = Bukkit.createPlayerProfile(UUID.randomUUID());
+        PlayerProfile profile = Bukkit.createPlayerProfile(uuid);
         PlayerTextures textures = profile.getTextures();
         try {
             textures.setSkin(new URI(url).toURL());
