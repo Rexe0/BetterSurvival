@@ -171,7 +171,7 @@ public class SeasonListener {
                 if (loc.getY() <= world.getHighestBlockYAt(loc.getBlockX(), loc.getBlockZ())) continue;
 
                 if (season == Season.AUTUMN) {
-                    player.spawnParticle(Particle.TINTED_LEAVES, loc.add(0, 5, 0), 2,
+                    player.spawnParticle(Particle.TINTED_LEAVES, loc.add(0, 5, 0), 1,
                             10, 10, 10, 0, Color.fromRGB(255, 118, 38));
                 } else
                     player.spawnParticle(Particle.CHERRY_LEAVES, loc.add(0, 5, 0), 5,
