@@ -105,11 +105,14 @@ public class GolfTee extends Item {
 
                     Player player = interaction.getLastInteraction().getPlayer().getPlayer();
                     if (player == null || !player.isOnline()) continue;
-                    if (!ItemDataUtil.isItem(player.getEquipment().getItemInMainHand(), ItemType.GOLF_BALL.getItem().getID())) continue;
+                    ItemStack item = player.getEquipment().getItemInMainHand();
+                    if (!ItemDataUtil.isItem(item, ItemType.GOLF_BALL.getItem().getID())) continue;
 
                     BlockDisplay tee = (BlockDisplay) Bukkit.getEntity(UUID.fromString(EntityDataUtil.getStringValue(interaction, "golfTeeUUID")));
-                    if (tee != null)
+                    if (tee != null) {
+                        item.setAmount(item.getAmount()-1);
                         GolfBallSpawner.spawnGolfBall(player, tee);
+                    }
                     continue;
                 }
 

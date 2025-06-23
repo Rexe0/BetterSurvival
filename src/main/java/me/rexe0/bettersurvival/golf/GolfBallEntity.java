@@ -3,6 +3,7 @@ package me.rexe0.bettersurvival.golf;
 import com.google.common.primitives.Doubles;
 import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.item.golf.GolfBall;
 import me.rexe0.bettersurvival.item.golf.GolfClub;
 import me.rexe0.bettersurvival.item.golf.GolfCup;
 import me.rexe0.bettersurvival.item.golf.Wedge;
@@ -31,6 +32,7 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class GolfBallEntity {
     private static final List<GolfBallEntity> golfBalls = new ArrayList<>();
@@ -475,6 +477,13 @@ public class GolfBallEntity {
 
 
     public void remove() {
+        Map<Integer, ItemStack> items = owner.getInventory().addItem(new GolfBall().getItem());
+        if (!items.isEmpty()) {
+            Item item = owner.getWorld().dropItemNaturally(owner.getLocation(), new GolfBall().getItem());
+            item.setOwner(owner.getUniqueId());
+            item.setPickupDelay(0);
+        }
+
         display.remove();
         camera.remove();
 
