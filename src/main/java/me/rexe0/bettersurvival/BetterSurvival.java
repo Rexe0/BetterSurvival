@@ -128,7 +128,6 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new AlcoholListener(), this);
         getServer().getPluginManager().registerEvents(new CustomerListener(), this);
         getServer().getPluginManager().registerEvents(new MiningListener(), this);
-        getServer().getPluginManager().registerEvents(new NoiseMap(), this);
         getServer().getPluginManager().registerEvents(new WolfChange(), this);
         getServer().getPluginManager().registerEvents(GolfClubLogic.getInstance(), this);
 
