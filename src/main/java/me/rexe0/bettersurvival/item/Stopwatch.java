@@ -8,9 +8,20 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Stopwatch extends Item {
     public Stopwatch() {
         super(Material.CLOCK, ChatColor.GREEN+"Stopwatch", "STOPWATCH");
+    }
+
+    @Override
+    public List<String> getLore() {
+        List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.GRAY+"A device that displays");
+        lore.add(ChatColor.GRAY+"your current speed in km/h.");
+        return lore;
     }
 
     @Override

@@ -29,6 +29,15 @@ public class MetalDetector extends Item {
     }
 
     @Override
+    public List<String> getLore() {
+        List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.GRAY+"A device that detects");
+        lore.add(ChatColor.GRAY+"metal and ores underneath");
+        lore.add(ChatColor.GRAY+"you.");
+        return lore;
+    }
+
+    @Override
     public void holdCheck(Player player) {
         Location location = player.getLocation();
         location.setY(location.getY()-1);
