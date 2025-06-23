@@ -62,13 +62,16 @@ public class SeasonListener {
     public static Set<Chunk> getLoadedChunks() {
         Set<Chunk> chunks = new HashSet<>();
 
+        Chunk chunk;
         for (Player p : Bukkit.getOnlinePlayers()) {
             int cX = p.getLocation().getChunk().getX();
             int cZ = p.getLocation().getChunk().getZ();
 
             for (int x = -5; x <= 5; x++) {
                 for (int z = -5; z <= 5; z++) {
-                    chunks.add(BetterSurvival.getInstance().getDefaultWorld().getChunkAt(cX + x, cZ + z));
+                    chunk = BetterSurvival.getInstance().getDefaultWorld().getChunkAt(cX + x, cZ + z);
+                    if (chunk.isLoaded())
+                        chunks.add(chunk);
                 }
             }
         }

@@ -88,7 +88,8 @@ public class Fish extends Item {
 
 
         GOLDEN_CARP(Material.COD, ChatColor.GOLD+"Golden Carp", BiomeGroup.ANY_OCEAN, new Season[]{Season.SPRING, Season.AUTUMN}, Time.DAWN, 37, 44, 1),
-        ILLUMINATED_GLOOMFISH(Material.COD, ChatColor.GOLD+"Illuminated Gloomfish", BiomeGroup.ANY_OCEAN, new Season[]{Season.WINTER}, Time.WINTER_SOLSTICE_NIGHT, 40, 50, 2);
+        ILLUMINATED_GLOOMFISH(Material.COD, ChatColor.GOLD+"Illuminated Gloomfish", BiomeGroup.ANY_OCEAN, new Season[]{Season.WINTER}, Time.WINTER_SOLSTICE_NIGHT, 40, 50, 2),
+        MONSTER_SALMON(Material.SALMON, ChatColor.GOLD+"Monster Salmon", BiomeGroup.RIVER, new Season[]{Season.AUTUMN}, Time.SALMON_RUN, 35, 52, 3);
 
         private final Material material;
         private final String name;

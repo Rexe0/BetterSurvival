@@ -4,9 +4,12 @@ import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.util.EntityDataUtil;
 import me.rexe0.bettersurvival.util.RandomUtil;
 import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.GlowSquid;
+import org.bukkit.entity.Salmon;
 
 import java.util.Random;
 
@@ -35,6 +38,7 @@ public class HolidayListener {
     private static void tickHighest(Block block) {
         World world = block.getWorld();
         if (Holiday.WINTER_SOLSTICE.isDay(SeasonListener.getDays()) && world.getTime() >= 12000) winterSolsticeTick(block);
+        if (Holiday.SALMON_RUN.isDay(SeasonListener.getDays()) && world.getTime() < 18000) salmonRunTick(block);
     }
 
     private static void winterSolsticeTick(Block blk) {
@@ -52,6 +56,27 @@ public class HolidayListener {
         GlowSquid squid = (GlowSquid) block.getLocation().getWorld().spawnEntity(block.getLocation(), EntityType.GLOW_SQUID);
         // Subtract 6 from ChatColor.values().length to ensure it doesn't select italic/bold/etc.
         EntityDataUtil.setStringValue(squid, "solsticeSquidColor", ChatColor.values()[RandomUtil.getRandom().nextInt(ChatColor.values().length-6)].name());
+    }
+    private static void salmonRunTick(Block blk) {
+        Location loc = blk.getLocation();
+
+        Block block = loc.getWorld().getBlockAt(loc.getBlockX(), 62, loc.getBlockZ());
+        if (block.getType() != Material.WATER || block.getBiome() != Biome.RIVER) return;
+
+        // Splashing particles
+        if (RandomUtil.getRandom().nextBoolean())
+            loc.getWorld().spawnParticle(Particle.SPLASH, block.getLocation().add(0.5, 1, 0.5), 10, 0.5, 0, 0.5, 0);
+
+        int currentAmount = (int) block.getWorld().getEntitiesByClass(Salmon.class).stream()
+                .filter(e -> e.getLocation().distanceSquared(block.getLocation()) < 2500)
+                .count();
+
+        if (blk.getWorld().getTime() > 13000) return;
+        if (currentAmount > 20) return;
+        if (RandomUtil.getRandom().nextInt(150) != 0) return;
+
+        Salmon salmon = (Salmon) block.getLocation().getWorld().spawnEntity(block.getLocation(), EntityType.SALMON);
+        salmon.getAttribute(Attribute.SCALE).setBaseValue(1.25);
     }
 
     public static double bumperCropGrowth(World world) {
