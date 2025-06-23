@@ -281,7 +281,12 @@ public class SeasonListener {
                     } else if (above.getType() == Material.SNOW) {
                         Snow data = (Snow) above.getBlockData();
                         int layers = data.getLayers() - 3;
-                        if (layers <= 0) above.setType(Material.AIR);
+                        if (layers <= 0) {
+                            above.setType(Material.AIR);
+
+                            if (block.getType() == Material.DIRT)
+                                block.setType(Material.GRASS_BLOCK);
+                        }
                         else {
                             data.setLayers(layers);
                             above.setBlockData(data);
