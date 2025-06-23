@@ -17,8 +17,6 @@ import me.rexe0.bettersurvival.item.golf.*;
 import org.bukkit.ChatColor;
 
 public enum ItemType {
-    NOISE_MAP(new NoiseMap()),
-
     STOPWATCH(new Stopwatch()),
     METAL_DETECTOR(new MetalDetector()),
     DRILL_BLOCK(new DrillBlock()),

@@ -18,7 +18,6 @@ import me.rexe0.bettersurvival.golf.GolfClubLogic;
 import me.rexe0.bettersurvival.item.DrillEntity;
 import me.rexe0.bettersurvival.item.ItemListener;
 import me.rexe0.bettersurvival.item.ItemType;
-import me.rexe0.bettersurvival.item.NoiseMap;
 import me.rexe0.bettersurvival.item.golf.GolfTee;
 import me.rexe0.bettersurvival.minecarts.ChainedMinecart;
 import me.rexe0.bettersurvival.minecarts.MinecartChanges;
