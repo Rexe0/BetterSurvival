@@ -4,7 +4,6 @@ import me.rexe0.bettersurvival.fishing.TreasureDrop;
 import me.rexe0.bettersurvival.item.Item;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -45,7 +44,6 @@ public class TreasureSand extends Item {
         } catch (IllegalArgumentException ex) {
             type = null;
         }
-        Bukkit.broadcastMessage(type+"");
 
         Block block = e.getBlock();
         BrushableBlock state = (BrushableBlock) block.getState();
