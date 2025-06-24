@@ -80,9 +80,11 @@ public class FishingMinigame {
         }
         String subtitle = "";
         if (isFirstCatch) {
-            if (i < 100)
-                subtitle = ChatColor.GOLD+"Right Click to move the green bar!";
-            else if (i < 200)
+            if (i < 80)
+                subtitle = ChatColor.GOLD+"Right Click to move the green bar to the right!";
+            else if (i < 160)
+                subtitle = ChatColor.GOLD+"Don't Click to move the green bar to the left!";
+            else if (i < 220)
                 subtitle = ChatColor.GOLD+"Keep the "+ChatColor.BLUE+"Fish"+ChatColor.GOLD+" in the green area!";
             else
                 subtitle = ChatColor.GOLD+"Keep going until the whole bar turns green!";
@@ -101,7 +103,7 @@ public class FishingMinigame {
             else if (getFishLocation() == 0) {// If in red, reduce progress. If in yellow then don't do anything
                 double amount = Math.min(0.075, Math.max(0.005, Math.pow(progress, 2)));
                 if (tackle == ItemType.JUMBO_HOOK) amount /= 2;
-                if (isFirstCatch && i < 200) amount = 0;
+                if (isFirstCatch && i < 220) amount = 0;
                 progress -= amount;
             }
         }
