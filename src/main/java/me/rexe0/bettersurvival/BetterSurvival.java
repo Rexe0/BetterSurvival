@@ -10,6 +10,7 @@ import me.rexe0.bettersurvival.farming.alcohol.FermentListener;
 import me.rexe0.bettersurvival.farming.alcohol.customers.CustomerListener;
 import me.rexe0.bettersurvival.fishing.CatchListener;
 import me.rexe0.bettersurvival.fishing.FishFile;
+import me.rexe0.bettersurvival.fishing.PearlListener;
 import me.rexe0.bettersurvival.fletchingtable.FletchingTableGUI;
 import me.rexe0.bettersurvival.gear.AnvilRepair;
 import me.rexe0.bettersurvival.gear.MendingChange;
@@ -130,6 +131,7 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new MiningListener(), this);
         getServer().getPluginManager().registerEvents(new WolfChange(), this);
         getServer().getPluginManager().registerEvents(GolfClubLogic.getInstance(), this);
+        getServer().getPluginManager().registerEvents(new PearlListener(), this);
 
         CustomBlockData.registerListener(this);
 

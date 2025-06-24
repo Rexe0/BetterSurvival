@@ -76,7 +76,8 @@ public enum ItemType {
     TREASURE_SAND(new TreasureSand(null)),
     COPPER_FISHING_ROD(new CopperFishingRod()),
     PLATINUM_FISHING_ROD(new PlatinumFishingRod()),
-    RESONANT_FISHING_ROD(new ResonantFishingRod());
+    RESONANT_FISHING_ROD(new ResonantFishingRod()),
+    GLEAMING_PEARL(new GleamingPearl());
 
 
     private Item item;
