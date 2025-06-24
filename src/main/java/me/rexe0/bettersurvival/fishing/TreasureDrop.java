@@ -73,10 +73,8 @@ public class TreasureDrop {
             case RESONANT_FISHING_ROD -> 3;
             default -> 0;
         };
-        for (TreasureDrop drop : drops) {
+        for (TreasureDrop drop : drops)
             drop.weight += level - 1;
-            Bukkit.broadcastMessage(drop.getItem().getType()+"    "+drop.getWeight());
-        }
 
         return drops;
     }
