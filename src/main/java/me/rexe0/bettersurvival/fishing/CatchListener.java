@@ -148,6 +148,10 @@ public class CatchListener implements Listener {
         Player player = e.getPlayer();
         FishHook hook = e.getHook();
 
+        ItemStack fishingRod = e.getHand() == EquipmentSlot.HAND
+                ? player.getEquipment().getItemInMainHand() : player.getEquipment().getItemInOffHand();
+        ItemType rodType = ItemDataUtil.getItemType(fishingRod);
+
         ItemType bait;
         try {
             bait = ItemType.valueOf(EntityDataUtil.getStringValue(hook, "baitType"));
@@ -180,7 +184,7 @@ public class CatchListener implements Listener {
         if (tackle == ItemType.VIBRANT_BOBBER) treasureChance *= 0.5;
         if (tackle == ItemType.GOLD_BOBBER) treasureChance += 0.05;
 
-        ItemStack treasureItem = getTreasure();
+        ItemStack treasureItem = getTreasure(rodType);
         boolean caughtTreasure = Math.random() < treasureChance;
 
         // Fish
@@ -266,11 +270,11 @@ public class CatchListener implements Listener {
     }
 
 
-    private ItemStack getTreasure() {
+    private ItemStack getTreasure(ItemType fishingRod) {
         // Treasure Chest
         if (Math.random() < 0.2)
-            return ItemType.TREASURE_CHEST.getItem().getItem();
-        return ItemType.TREASURE_SAND.getItem().getItem();
+            return new TreasureChest(fishingRod).getItem();
+        return new TreasureSand(fishingRod).getItem();
     }
 
     private Fish.FishType getCatch(List<BiomeGroup> biomes, ItemType bait, ItemType tackle) {

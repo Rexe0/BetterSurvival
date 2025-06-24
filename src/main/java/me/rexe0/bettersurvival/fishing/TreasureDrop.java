@@ -13,20 +13,73 @@ import org.bukkit.inventory.meta.KnowledgeBookMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionType;
 
-public record TreasureDrop(ItemStack item, int minAmount, int maxAmount, int weight) {
-    public static TreasureDrop[] treasureDrops = new TreasureDrop[]{
-            new TreasureDrop(ItemType.BAIT.getItem().getItem(), 3, 7, 14),
-            new TreasureDrop(new ItemStack(Material.RAW_IRON), 2, 6, 14),
-            new TreasureDrop(new ItemStack(Material.RAW_GOLD), 1, 3, 10),
-            new TreasureDrop(new ItemStack(Material.NAUTILUS_SHELL), 1, 2, 10),
-            new TreasureDrop(new ItemStack(Material.PRISMARINE_CRYSTALS), 3, 7, 7),
-            new TreasureDrop(new ItemStack(ItemType.PLATINUM_ORE.getItem().getItem()), 1, 1, 6),
-            new TreasureDrop(getWaterBreathingPotion(), 1, 1, 5),
-            new TreasureDrop(new ItemStack(Material.HEART_OF_THE_SEA), 1, 1, 4),
-            new TreasureDrop(new ItemStack(Material.DIAMOND), 1, 3, 2),
-            new TreasureDrop(new ItemStack(Material.BOOK), 1, 1, 2), // Lvl 30 Book
-            new TreasureDrop(new ItemStack(Material.TRIDENT), 1, 1, 1),
-    };
+import java.util.ArrayList;
+import java.util.List;
+
+public class TreasureDrop {
+    private final ItemStack item;
+    private final int minAmount;
+    private final int maxAmount;
+    private int weight;
+
+    public TreasureDrop(ItemStack item, int minAmount, int maxAmount, int weight) {
+        this.item = item;
+        this.minAmount = minAmount;
+        this.maxAmount = maxAmount;
+        this.weight = weight;
+    }
+
+    public ItemStack getItem() {
+        return item;
+    }
+
+    public int getMinAmount() {
+        return minAmount;
+    }
+
+    public int getMaxAmount() {
+        return maxAmount;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+
+
+    public static List<TreasureDrop> getTreasureDrops(ItemType fishingRod) {
+        List<TreasureDrop> drops = new ArrayList<>();
+        drops.add(new TreasureDrop(ItemType.BAIT.getItem().getItem(), 3, 7, 14));
+        drops.add(new TreasureDrop(new ItemStack(Material.RAW_IRON), 2, 6, 14));
+        drops.add(new TreasureDrop(new ItemStack(Material.RAW_GOLD), 1, 3, 10));
+        drops.add(new TreasureDrop(new ItemStack(Material.NAUTILUS_SHELL), 1, 2, 10));
+        drops.add(new TreasureDrop(new ItemStack(Material.PRISMARINE_CRYSTALS), 3, 7, 7));
+        drops.add(new TreasureDrop(new ItemStack(ItemType.PLATINUM_ORE.getItem().getItem()), 1, 1, 6));
+        drops.add(new TreasureDrop(getWaterBreathingPotion(), 1, 1, 5));
+        drops.add(new TreasureDrop(new ItemStack(Material.HEART_OF_THE_SEA), 1, 1, 4));
+        drops.add(new TreasureDrop(new ItemStack(Material.DIAMOND), 1, 3, 2));
+        drops.add(new TreasureDrop(new ItemStack(Material.BOOK), 1, 1, 2)); // Lvl 30 Book
+        drops.add(new TreasureDrop(new ItemStack(Material.TRIDENT), 1, 1, 1));
+
+        int level = 0;
+
+        if (fishingRod != null) level = switch (fishingRod) {
+            case COPPER_FISHING_ROD -> 1;
+            case PLATINUM_FISHING_ROD -> 2;
+            case RESONANT_FISHING_ROD -> 3;
+            default -> 0;
+        };
+        for (TreasureDrop drop : drops) {
+            drop.weight += level - 1;
+            Bukkit.broadcastMessage(drop.getItem().getType()+"    "+drop.getWeight());
+        }
+
+        return drops;
+    }
     private static ItemStack getWaterBreathingPotion() {
         ItemStack item = new ItemStack(Material.POTION);
         PotionMeta meta = (PotionMeta) item.getItemMeta();
@@ -36,7 +89,7 @@ public record TreasureDrop(ItemStack item, int minAmount, int maxAmount, int wei
     }
 
 
-    public static ItemStack getTreasureItem(Player player) {
+    public static ItemStack getTreasureItem(Player player, ItemType fishingRod) {
         if (!player.getDiscoveredRecipes().contains(new NamespacedKey(BetterSurvival.getInstance(), ItemType.RESONANT_FISHING_ROD.getItem().getID()))
                 && RandomUtil.getRandom().nextInt(0, 100) == 0) {
             ItemStack item = new ItemStack(Material.KNOWLEDGE_BOOK);
@@ -54,19 +107,24 @@ public record TreasureDrop(ItemStack item, int minAmount, int maxAmount, int wei
             item.setItemMeta(meta);
             return item;
         }
+        List<TreasureDrop> drops = getTreasureDrops(fishingRod);
+
         int totalWeight = 0;
-        for (TreasureDrop drop : treasureDrops)
-            totalWeight += drop.weight();
+        for (TreasureDrop drop : drops)
+            totalWeight += drop.getWeight();
 
         int idx = 0;
-        for (double r = Math.random() * totalWeight; idx < treasureDrops.length - 1; ++idx) {
-            r -= treasureDrops[idx].weight();
+        for (double r = Math.random() * totalWeight; idx < drops.size() - 1; ++idx) {
+            r -= drops.get(idx).getWeight();
             if (r <= 0.0) break;
         }
-        ItemStack item = treasureDrops[idx].item();
+
+        TreasureDrop drop = drops.get(idx);
+
+        ItemStack item = drop.getItem();
         if (item.getType() == Material.BOOK)
             item = Bukkit.getItemFactory().enchantItem(item, 30, false);
-        item.setAmount(RandomUtil.getRandom().nextInt(treasureDrops[idx].minAmount(), treasureDrops[idx].maxAmount()+1));
+        item.setAmount(RandomUtil.getRandom().nextInt(drop.getMinAmount(), drop.getMaxAmount()+1));
         return item;
     }
 

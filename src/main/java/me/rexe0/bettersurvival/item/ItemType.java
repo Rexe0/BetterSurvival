@@ -72,8 +72,8 @@ public enum ItemType {
     MAGNET(new Magnet()),
     PREMIUM_BAIT(new PremiumBait()),
     FISH(new Fish(Fish.FishType.BASS)),
-    TREASURE_CHEST(new TreasureChest()),
-    TREASURE_SAND(new TreasureSand()),
+    TREASURE_CHEST(new TreasureChest(null)),
+    TREASURE_SAND(new TreasureSand(null)),
     COPPER_FISHING_ROD(new CopperFishingRod()),
     PLATINUM_FISHING_ROD(new PlatinumFishingRod()),
     RESONANT_FISHING_ROD(new ResonantFishingRod());
