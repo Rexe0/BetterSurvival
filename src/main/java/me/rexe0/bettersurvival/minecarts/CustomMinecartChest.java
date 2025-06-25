@@ -4,16 +4,16 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
-import net.minecraft.world.entity.vehicle.MinecartFurnace;
+import net.minecraft.world.entity.vehicle.MinecartChest;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_21_R4.CraftWorld;
 import org.bukkit.entity.Vehicle;
 import org.bukkit.event.vehicle.VehicleEntityCollisionEvent;
 
-public class CustomMinecartFurnace extends MinecartFurnace {
-    public CustomMinecartFurnace(Location location) {
-        super(EntityType.FURNACE_MINECART, ((CraftWorld)location.getWorld()).getHandle());
+public class CustomMinecartChest extends MinecartChest {
+    public CustomMinecartChest(Location location) {
+        super(EntityType.CHEST_MINECART, ((CraftWorld)location.getWorld()).getHandle());
         setPos(location.getX(), location.getY(), location.getZ());
     }
     @Override
@@ -22,30 +22,20 @@ public class CustomMinecartFurnace extends MinecartFurnace {
     }
 
     @Override
-    protected Vec3 applyNaturalSlowdown(Vec3 var0) {
-        Vec3 var1 = var0;
-        if (this.push.lengthSqr() > 1.0E-7) {
-            this.push = this.calculateNewPushAlong(var0);
-            var1 = var0.add(this.push);
-        }
-
+    protected Vec3 applyNaturalSlowdown(Vec3 vec3d) {
         double d0 = getBehavior().getSlowdownFactor();
-        Vec3 vec3d1 = var1.multiply(d0, 0.0, d0);
+        Vec3 vec3d1 = vec3d.multiply(d0, 0.0, d0);
         if (this.isInWater()) {
             vec3d1 = vec3d1.scale(0.949999988079071);
         }
 
         return vec3d1;
     }
-    private Vec3 calculateNewPushAlong(Vec3 var0) {
-        return this.push.horizontalDistanceSqr() > 1.0E-4 && var0.horizontalDistanceSqr() > 0.001 ? this.push.projectedOn(var0).normalize().scale(this.push.length()) : this.push;
-    }
-
 
     @Override
     public void push(Entity entity) {
         if (!this.level().isClientSide && !entity.noPhysics && !this.noPhysics && !this.hasPassenger(entity)) {
-            VehicleEntityCollisionEvent collisionEvent = new VehicleEntityCollisionEvent((Vehicle) this.getBukkitEntity(), entity.getBukkitEntity());
+            VehicleEntityCollisionEvent collisionEvent = new VehicleEntityCollisionEvent((Vehicle)this.getBukkitEntity(), entity.getBukkitEntity());
             this.level().getCraftServer().getPluginManager().callEvent(collisionEvent);
             if (collisionEvent.isCancelled()) {
                 return;

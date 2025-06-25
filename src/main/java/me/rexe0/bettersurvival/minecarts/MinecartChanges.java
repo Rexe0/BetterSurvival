@@ -40,7 +40,7 @@ public class MinecartChanges implements Listener {
         if (rail.getType() != Material.POWERED_RAIL) return;
         // Copper blocks boost max speed
         if (below.getType() == Material.COPPER_BLOCK || below.getType() == Material.WAXED_COPPER_BLOCK)
-            minecart.setMaxSpeed(Math.min(DEFAULT_SPEED*3, minecart.getMaxSpeed()+0.4)); // Minecart must first accelerate before hitting top speed
+            minecart.setMaxSpeed(Math.min(DEFAULT_SPEED*3, minecart.getMaxSpeed()+0.2)); // Minecart must first accelerate before hitting top speed
         else
             minecart.setMaxSpeed(DEFAULT_SPEED);
 
@@ -56,15 +56,46 @@ public class MinecartChanges implements Listener {
     public void onSpawn(VehicleCreateEvent e) {
         if (!(e.getVehicle() instanceof Minecart minecart)) return;
         minecart.setFlyingVelocityMod(new Vector(1.4, 0.95, 1.4));
-        if (minecart.getType() != EntityType.FURNACE_MINECART) return;
-        if (EntityDataUtil.getStringValue(minecart, "isCustomMinecartFurnace").equals("true")) return;
+        minecart.setSlowWhenEmpty(false);
+
+        if (minecart.getType() == EntityType.FURNACE_MINECART) onFurnaceMinecartSpawn(minecart);
+        if (minecart.getType() == EntityType.CHEST_MINECART) onChestMinecartSpawn(minecart);
+        if (minecart.getType() == EntityType.MINECART) onMinecartSpawn(minecart);
+    }
+
+    private void onFurnaceMinecartSpawn(Minecart minecart) {
+        if (EntityDataUtil.getStringValue(minecart, "isCustomMinecart").equals("true")) return;
         // Run 1 tick later to prevent ghost item from spawning
         Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> {
             minecart.remove();
 
             CustomMinecartFurnace cart = new CustomMinecartFurnace(minecart.getLocation());
 
-            EntityDataUtil.setStringValue(cart.getBukkitEntity(), "isCustomMinecartFurnace", "true");
+            EntityDataUtil.setStringValue(cart.getBukkitEntity(), "isCustomMinecart", "true");
+            ((CraftWorld) minecart.getWorld()).getHandle().addFreshEntity(cart);
+        }, 1);
+    }
+    private void onChestMinecartSpawn(Minecart minecart) {
+        if (EntityDataUtil.getStringValue(minecart, "isCustomMinecart").equals("true")) return;
+        // Run 1 tick later to prevent ghost item from spawning
+        Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> {
+            minecart.remove();
+
+            CustomMinecartChest cart = new CustomMinecartChest(minecart.getLocation());
+
+            EntityDataUtil.setStringValue(cart.getBukkitEntity(), "isCustomMinecart", "true");
+            ((CraftWorld) minecart.getWorld()).getHandle().addFreshEntity(cart);
+        }, 1);
+    }
+    private void onMinecartSpawn(Minecart minecart) {
+        if (EntityDataUtil.getStringValue(minecart, "isCustomMinecart").equals("true")) return;
+        // Run 1 tick later to prevent ghost item from spawning
+        Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> {
+            minecart.remove();
+
+            CustomMinecart cart = new CustomMinecart(minecart.getLocation());
+
+            EntityDataUtil.setStringValue(cart.getBukkitEntity(), "isCustomMinecart", "true");
             ((CraftWorld) minecart.getWorld()).getHandle().addFreshEntity(cart);
         }, 1);
     }

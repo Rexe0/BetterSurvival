@@ -3,6 +3,7 @@ package me.rexe0.bettersurvival.minecarts;
 import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.util.EntityDataUtil;
 import org.bukkit.*;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
@@ -23,38 +24,73 @@ public class ChainedMinecart implements Listener {
     private static final Particle.DustOptions COLOR = new Particle.DustOptions(Color.fromRGB(84, 84, 84), 0.8f);
 
     public static void run() {
-        for (World world : Bukkit.getWorlds())
+        for (World world : Bukkit.getWorlds()) {
             for (Minecart minecart : world.getEntitiesByClass(Minecart.class)) {
                 if (minecart.getType() == EntityType.FURNACE_MINECART) {
                     Chunk chunk = minecart.getLocation().getChunk();
-                    boolean successful = chunk.addPluginChunkTicket(BetterSurvival.getInstance());
-
-                    if (successful)
-                        Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> {
-                            if (minecart.getLocation().getChunk().equals(chunk)) return;
-                            chunk.removePluginChunkTicket(BetterSurvival.getInstance());
-                        }, 1);
+                    chunk.addPluginChunkTicket(BetterSurvival.getInstance());
                 }
 
-                setChildSpeed(minecart);
+                if (EntityDataUtil.getStringValue(minecart, "parentMinecart").isEmpty())
+                    setChildSpeed(minecart);
             }
+
+            if (world.getPluginChunkTickets().get(BetterSurvival.getInstance()) == null) continue;
+            for (Chunk chunk : world.getPluginChunkTickets().get(BetterSurvival.getInstance())) {
+                boolean shouldLoad = false;
+                for (Entity entity : chunk.getEntities()) {
+                    if (!(entity instanceof Minecart minecart)) continue;
+                    if (!hasFurnaceParent(minecart)) continue;
+                    shouldLoad = true;
+                    break;
+                }
+
+                if (!shouldLoad)
+                    Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> chunk.removePluginChunkTicket(BetterSurvival.getInstance()), 3);
+            }
+        }
     }
 
-    private static Minecart setChildSpeed(Minecart minecart) {
+    private static boolean hasFurnaceParent(Minecart minecart) {
+        if (minecart.getType() == EntityType.FURNACE_MINECART) return true;
+        String uuid = EntityDataUtil.getStringValue(minecart, "parentMinecart");
+        if (uuid.isEmpty()) return false;
+        Minecart parentCart = (Minecart) Bukkit.getEntity(UUID.fromString(uuid));
+        if (parentCart == null || parentCart.isDead() || !parentCart.getWorld().equals(minecart.getWorld())) return false;
+        return hasFurnaceParent(parentCart);
+    }
+
+    private static void setChildSpeed(Minecart minecart) {
 
         String uuid = EntityDataUtil.getStringValue(minecart, "childMinecart");
-        if (uuid.isEmpty()) return null;
+        String parentUUID = EntityDataUtil.getStringValue(minecart, "parentMinecart");
+        if (!parentUUID.isEmpty()) {
+            Minecart parentCart = (Minecart) Bukkit.getEntity(UUID.fromString(parentUUID));
+            if (parentCart == null || parentCart.isDead() || !parentCart.getWorld().equals(minecart.getWorld())
+                    || parentCart.getLocation().distanceSquared(minecart.getLocation()) > 16) {
+                EntityDataUtil.removeStringValue(minecart, "parentMinecart");
+
+                if (parentCart != null)
+                    EntityDataUtil.removeStringValue(parentCart, "childMinecart");
+                return;
+            }
+        }
+        if (uuid.isEmpty()) return;
         Minecart childCart = (Minecart) Bukkit.getEntity(UUID.fromString(uuid));
 
         // Unlink the carts if they are too far away from each other or the child cart is non-existent
-        if (childCart == null || childCart.isDead() || childCart.getLocation().distanceSquared(minecart.getLocation()) > 16) {
+        if (childCart == null || childCart.isDead() || !childCart.getWorld().equals(minecart.getWorld()) ||
+                childCart.getLocation().distanceSquared(minecart.getLocation()) > 16) {
+
+            if (childCart != null)
+                EntityDataUtil.removeStringValue(childCart, "parentMinecart");
             EntityDataUtil.removeStringValue(minecart, "childMinecart");
             minecart.getWorld().dropItemNaturally(minecart.getLocation(), new ItemStack(Material.CHAIN, 2));
             minecart.getWorld().playSound(minecart.getLocation(), Sound.BLOCK_CHAIN_PLACE, 1, 1.4f);
-            return null;
+            return;
         }
 
-        if (!childCart.getLocation().getBlock().getType().toString().contains("RAIL")) return null;
+        if (!childCart.getLocation().getBlock().getType().toString().contains("RAIL")) return;
 
         // Particle Animation
 
@@ -66,24 +102,22 @@ public class ChainedMinecart implements Listener {
 
         // Create particle effect, with a particle dust every 0.25 blocks
         direction.normalize().multiply(0.25);
-        for (double i = 0; i < origin.distance(target); i += 0.25) {
+        double distance = origin.distance(target);
+        for (double i = 0; i < distance; i += 0.25) {
             origin.add(direction);
             origin.getWorld().spawnParticle(Particle.DUST, origin, 1, 0, 0, 0, 0, COLOR);
         }
 
-
         childCart.setMaxSpeed(minecart.getMaxSpeed());
 
         if (minecart.getLocation().getYaw() != childCart.getLocation().getYaw()) {
-            if (childCart.getVelocity().length() == 0) return null;
+            if (childCart.getVelocity().length() == 0) return;
             Vector velocity = childCart.getVelocity().normalize().setY(0);
             double magnitude = minecart.getVelocity().length();
             childCart.setVelocity(velocity.multiply(magnitude));
-            return null;
-        }
+        } else childCart.setVelocity(minecart.getVelocity().setY(0));
 
-        childCart.setVelocity(minecart.getVelocity().setY(0));
-        return childCart;
+        setChildSpeed(childCart);
     }
 
     private final Map<UUID, UUID> currentMinecartChain = new HashMap<>();
@@ -121,10 +155,12 @@ public class ChainedMinecart implements Listener {
             }
             if (cart.equals(minecart)) return;
             if (EntityDataUtil.getStringValue(minecart, "childMinecart").equals(cart.getUniqueId().toString())) return;
+            if (EntityDataUtil.getStringValue(minecart, "parentMinecart").equals(cart.getUniqueId().toString())) return;
 
 
             item.setAmount(item.getAmount()-1);
             EntityDataUtil.setStringValue(cart, "childMinecart", minecart.getUniqueId().toString());
+            EntityDataUtil.setStringValue(minecart, "parentMinecart", cart.getUniqueId().toString());
             player.playSound(player.getLocation(), Sound.BLOCK_CHAIN_PLACE, 1, 1.4f);
             currentMinecartChain.remove(player.getUniqueId());
             return;
