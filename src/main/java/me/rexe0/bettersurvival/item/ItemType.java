@@ -35,6 +35,7 @@ public enum ItemType {
     SONIC_ARROW(new SonicArrow()),
     UPGRADE_BOOK(new UpgradeBook(UpgradeBook.Upgrade.BREWING)),
     WITHER_RING(new WitherRing()),
+    AN_ANCIENT_EVIL(new AnAncientEvil()),
 
     CANNABIS(new Cannabis(0)),
     SMOKE_PIPE(new SmokePipe()),

@@ -100,6 +100,13 @@ This is a plugin that contains several features that I think would improve the c
   - It can summon a fireball that moves rapidly towards the player and explodes (Similar to Ghast but with heavier damage)
   - It can cloak every player in darkness and call on a few Endermen to start targeting each player
 - The Ender Dragon can drop 2-4 dragon scales on death
+- Spawning a Wither while any nearby player is inflicted with Bad Omen will instead spawn a Primeval Wither
+- The Primeval Wither has far more health than a regular wither and shoots more wither skulls as its health gets slower.
+- It also has a few phases
+    - It will summon Wither Skeletons at 80% and 40% health
+    - It will start an escalating explosion attack at 60% health that slowly expands over time. After some time, or after it is damaged enough, the attack will end.
+    - At 20% health, it will shoot a barrage of wither skulls for a few seconds
+- Killing a Primeval Wither will drop a Wither Ring which grants extra reach to the player when held in the offhand
 
 **Fishing:**
 - Almost completely reworked the fishing system
