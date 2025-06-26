@@ -1,6 +1,7 @@
 package me.rexe0.bettersurvival.mobs;
 
 import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.item.WitherRing;
 import me.rexe0.bettersurvival.util.EntityDataUtil;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
 import org.bukkit.*;
@@ -61,6 +62,7 @@ public class WitherChanges implements Listener {
         if (EntityDataUtil.getIntegerValue(wither, "buffedWither") == 0) return;
 
         playWitherSound(wither, Sound.ENTITY_WITHER_DEATH, 4);
+        wither.getWorld().dropItemNaturally(wither.getLocation(), new WitherRing().getItem());
     }
 
     @EventHandler
