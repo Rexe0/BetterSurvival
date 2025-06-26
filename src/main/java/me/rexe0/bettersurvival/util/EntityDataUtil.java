@@ -14,10 +14,20 @@ package me.rexe0.bettersurvival.util;
 import me.rexe0.bettersurvival.BetterSurvival;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 public class EntityDataUtil {
+    public static void preventItemDrops(LivingEntity entity) {
+        entity.getEquipment().setItemInMainHandDropChance(0);
+        entity.getEquipment().setItemInOffHandDropChance(0);
+
+        entity.getEquipment().setHelmetDropChance(0);
+        entity.getEquipment().setChestplateDropChance(0);
+        entity.getEquipment().setLeggingsDropChance(0);
+        entity.getEquipment().setBootsDropChance(0);
+    }
 
     public static void setStringValue(Entity entity, String key, String value) {
         NamespacedKey entityKey = new NamespacedKey(BetterSurvival.getInstance(), key);

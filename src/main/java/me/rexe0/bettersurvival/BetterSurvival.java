@@ -132,6 +132,7 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new WolfChange(), this);
         getServer().getPluginManager().registerEvents(GolfClubLogic.getInstance(), this);
         getServer().getPluginManager().registerEvents(new PearlListener(), this);
+        getServer().getPluginManager().registerEvents(WitherChanges.getInstance(), this);
 
         CustomBlockData.registerListener(this);
 
@@ -162,6 +163,7 @@ public final class BetterSurvival extends JavaPlugin {
             WanderingTrader.run();
             GolfTee.run();
             GolfClubLogic.getInstance().run();
+            WitherChanges.getInstance().run();
 
             for (GolfBallEntity golfBall : GolfBallEntity.getGolfBalls().toArray(new GolfBallEntity[0]))
                 golfBall.run();

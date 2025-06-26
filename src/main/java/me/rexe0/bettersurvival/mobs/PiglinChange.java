@@ -1,6 +1,7 @@
 package me.rexe0.bettersurvival.mobs;
 
 import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.util.EntityDataUtil;
 import me.rexe0.bettersurvival.util.RandomUtil;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -59,10 +60,7 @@ public class PiglinChange implements Listener {
             }
 
             // Stop them from ever dropping, even with looting enchantment
-            piglin.getEquipment().setHelmetDropChance(-327.67f);
-            piglin.getEquipment().setChestplateDropChance(-327.67f);
-            piglin.getEquipment().setLeggingsDropChance(-327.67f);
-            piglin.getEquipment().setBootsDropChance(-327.67f);
+            EntityDataUtil.preventItemDrops(piglin);
         }
 
 
