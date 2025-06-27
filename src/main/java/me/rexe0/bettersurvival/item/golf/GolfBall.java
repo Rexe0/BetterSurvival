@@ -6,7 +6,6 @@ import me.rexe0.bettersurvival.util.SkullUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
@@ -33,10 +32,9 @@ public class GolfBall extends Item {
         return SkullUtil.getCustomSkull(super.getItem(), "http://textures.minecraft.net/texture/b4936a032c688050a36d33a4c3f0d56a4a705d8a89dfdded1472438ec000c9d0"
                 , UUID.fromString("b520e1b1-5662-42e3-af5e-93280ffe0574"));
     }
-
     @Override
-    public boolean onRightClick(Player player) {
-        return true;
+    public boolean canPlaceBlock() {
+        return false;
     }
 
     @Override

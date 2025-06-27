@@ -23,7 +23,10 @@ public class GleamingPearl extends Item {
         lore.add(ChatColor.GRAY+"to its full potential.");
         return lore;
     }
-
+    @Override
+    public boolean canPlaceBlock() {
+        return false;
+    }
     @Override
     public ItemStack getItem() {
         return SkullUtil.getCustomSkull(super.getItem(), "http://textures.minecraft.net/texture/5170f0940d55022b721a64ea446278f359fe4bb395725dc8e93c02b1229e1a7f"

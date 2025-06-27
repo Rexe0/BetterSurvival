@@ -23,7 +23,10 @@ public class PremiumBait extends Item {
         lore.add(ChatColor.DARK_GRAY+"Bait");
         return lore;
     }
-
+    @Override
+    public boolean canPlaceBlock() {
+        return false;
+    }
     @Override
     public Recipe getRecipe() {
         ShapelessRecipe recipe = new ShapelessRecipe(new NamespacedKey(BetterSurvival.getInstance(), getID()), ItemType.PREMIUM_BAIT.getItem().getItem());

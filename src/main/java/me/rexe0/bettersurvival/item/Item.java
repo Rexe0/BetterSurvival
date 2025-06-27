@@ -63,6 +63,10 @@ public abstract class Item {
         return false;
     }
 
+    public boolean canPlaceBlock() {
+        return true;
+    }
+
 
     public void armorEquipped(Player player) {
 

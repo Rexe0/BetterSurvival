@@ -28,6 +28,11 @@ public class Bait extends Item {
     }
 
     @Override
+    public boolean canPlaceBlock() {
+        return false;
+    }
+
+    @Override
     public Map<NamespacedKey, Recipe> getRecipes() {
         Map<NamespacedKey, Recipe> recipes = new HashMap<>();
         recipes.put(new NamespacedKey(BetterSurvival.getInstance(), getID()), new FurnaceRecipe(new NamespacedKey(BetterSurvival.getInstance(), getID()), getItem(), new RecipeChoice.MaterialChoice(Material.ROTTEN_FLESH), 1, 200));

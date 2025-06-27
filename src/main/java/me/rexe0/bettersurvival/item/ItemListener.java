@@ -59,6 +59,10 @@ public class ItemListener implements Listener {
 
         ReinforcedBarrel reinforcedBarrel = (ReinforcedBarrel) ItemType.REINFORCED_BARREL.getItem();
         reinforcedBarrel.onBlockPlace(e);
+
+        ItemType type = ItemDataUtil.getItemType(e.getItemInHand());
+        if (type == null) return;
+        if (!type.getItem().canPlaceBlock()) e.setCancelled(true);
     }
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
@@ -111,15 +115,6 @@ public class ItemListener implements Listener {
         ItemStack item = e.getPlayer().getEquipment().getBoots();
         if (!ItemDataUtil.isItem(item, ItemType.FARMER_BOOTS.getItem().getID())) return;
         e.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onPlant(PlayerInteractEvent e) {
-        if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
-        if (e.getItem() == null) return;
-        ItemStack item = e.getItem();
-        if (ItemDataUtil.isItem(item, ItemType.BAIT.getItem().getID()) || ItemDataUtil.isItem(item, ItemType.PREMIUM_BAIT.getItem().getID()))
-            e.setCancelled(true);
     }
 
     @EventHandler
