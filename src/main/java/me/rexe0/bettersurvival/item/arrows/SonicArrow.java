@@ -9,6 +9,7 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 public class SonicArrow extends Item {
     public SonicArrow() {
@@ -17,12 +18,17 @@ public class SonicArrow extends Item {
 
     @Override
     public double onArrowDamage(LivingEntity entity, Player player, Arrow arrow, double damage) {
-        return damage*0.75; // Reduce damage. Idk how much to actually reduce because doubling the speed doesn't actually double the damage I think.
+        return damage*1.5;
     }
 
     @Override
     public void onArrowShoot(Player player, Arrow arrow) {
-        arrow.setVelocity(arrow.getVelocity().multiply(2));
+        Vector velocity = arrow.getVelocity();
+        double length = velocity.length();
+        length = Math.min(4, length*2);
+        arrow.setVelocity(velocity.normalize().multiply(length));
+
+        if (length < 4) return;
         new BukkitRunnable() {
             @Override
             public void run() {
