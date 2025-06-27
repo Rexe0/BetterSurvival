@@ -79,6 +79,7 @@ public enum ItemType {
     COPPER_FISHING_ROD(new CopperFishingRod()),
     PLATINUM_FISHING_ROD(new PlatinumFishingRod()),
     RESONANT_FISHING_ROD(new ResonantFishingRod()),
+    OBSIDIAN_FISHING_ROD(new ObsidianFishingRod()),
     GLEAMING_PEARL(new GleamingPearl());
 
 
@@ -114,10 +115,13 @@ public enum ItemType {
     }
 
     public boolean canUseBait() {
-        return this == COPPER_FISHING_ROD || this == PLATINUM_FISHING_ROD || this == RESONANT_FISHING_ROD;
+        return this == COPPER_FISHING_ROD || this == PLATINUM_FISHING_ROD || this == RESONANT_FISHING_ROD || this == OBSIDIAN_FISHING_ROD;
     }
     public boolean canUseTackle() {
         return this == RESONANT_FISHING_ROD || this == PLATINUM_FISHING_ROD;
+    }
+    public boolean canFishInLava() {
+        return this == OBSIDIAN_FISHING_ROD;
     }
     public boolean isArrow() {
         return this == AMETHYST_ARROW || this == EXPLOSIVE_ARROW || this == TOXIC_ARROW || this == SONIC_ARROW;

@@ -12,11 +12,16 @@ import me.rexe0.bettersurvival.weather.Season;
 import me.rexe0.bettersurvival.weather.SeasonListener;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.FishingHook;
+import net.minecraft.world.entity.projectile.Projectile;
 import org.bukkit.*;
 import org.bukkit.block.Biome;
 import org.bukkit.block.data.Waterlogged;
+import org.bukkit.craftbukkit.v1_21_R4.CraftWorld;
 import org.bukkit.craftbukkit.v1_21_R4.entity.CraftFishHook;
+import org.bukkit.craftbukkit.v1_21_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_21_R4.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.FishHook;
 import org.bukkit.entity.Item;
@@ -46,6 +51,17 @@ public class CatchListener implements Listener {
         ItemStack fishingRod = e.getHand() == EquipmentSlot.HAND
                 ? player.getEquipment().getItemInMainHand() : player.getEquipment().getItemInOffHand();
         ItemType rodType = ItemDataUtil.getItemType(fishingRod);
+
+        FishingHook hook = ((CraftFishHook)e.getHook()).getHandle();
+        if (rodType != null && rodType.canFishInLava()) {
+            hook.remove(Entity.RemovalReason.DISCARDED);
+            hook = new LavaHook(((CraftPlayer)player).getHandle(), hook.level());
+
+            Projectile.spawnProjectile(hook, ((CraftWorld)player.getWorld()).getHandle(), CraftItemStack.asNMSCopy(fishingRod));
+            ((CraftPlayer)player).getHandle().fishing = hook;
+        }
+        FishHook bukkitHook = (FishHook) hook.getBukkitEntity();
+
 
         int min = 100;
         int max = 600;
@@ -97,7 +113,7 @@ public class CatchListener implements Listener {
                 min *= multiplier;
                 max *= multiplier;
 
-                EntityDataUtil.setStringValue(e.getHook(), "baitType", bait.name());
+                EntityDataUtil.setStringValue(bukkitHook, "baitType", bait.name());
             }
 
             if (tackle != null) {
@@ -106,7 +122,7 @@ public class CatchListener implements Listener {
                     max += 150;
                 }
 
-                EntityDataUtil.setStringValue(e.getHook(), "tackleType", tackle.name());
+                EntityDataUtil.setStringValue(bukkitHook, "tackleType", tackle.name());
             }
 
 
@@ -130,13 +146,13 @@ public class CatchListener implements Listener {
             max *= 1 - (fishingRod.getEnchantmentLevel(Enchantment.LURE) * 0.1);
         }
 
-        e.getHook().setMinWaitTime(Math.max(0, min));
-        e.getHook().setMaxWaitTime(max);
+        bukkitHook.setMinWaitTime(Math.max(0, min));
+        bukkitHook.setMaxWaitTime(max);
 
-        EntityDataUtil.setIntegerValue(e.getHook(), "luckLevel", fishingRod.getEnchantmentLevel(Enchantment.LUCK_OF_THE_SEA));
+        EntityDataUtil.setIntegerValue(bukkitHook, "luckLevel", fishingRod.getEnchantmentLevel(Enchantment.LUCK_OF_THE_SEA));
 
-        FishingHook hook = ((CraftFishHook)e.getHook()).getHandle();
         hook.applyLure = false;
+        hook.rainInfluenced = false;
     }
 
 
@@ -147,6 +163,7 @@ public class CatchListener implements Listener {
         if (!(e.getCaught() instanceof Item item)) return;
         Player player = e.getPlayer();
         FishHook hook = e.getHook();
+
 
         ItemStack fishingRod = e.getHand() == EquipmentSlot.HAND
                 ? player.getEquipment().getItemInMainHand() : player.getEquipment().getItemInOffHand();
