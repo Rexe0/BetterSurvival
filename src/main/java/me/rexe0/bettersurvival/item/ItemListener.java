@@ -80,9 +80,11 @@ public class ItemListener implements Listener {
         for (ItemType itemType : ItemType.values())
             if (ItemDataUtil.isItem(e.getItem(), itemType.getItem().getID())) {
                 if ((e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) && e.getHand() == EquipmentSlot.HAND)
-                    e.setCancelled(itemType.getItem().onRightClick(e.getPlayer()));
+                    if (itemType.getItem().onRightClick(e.getPlayer()))
+                        e.setCancelled(true);
                 if ((e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) && e.getHand() == EquipmentSlot.HAND)
-                    e.setCancelled(itemType.getItem().onLeftClick(e.getPlayer()));
+                    if (itemType.getItem().onLeftClick(e.getPlayer()))
+                        e.setCancelled(true);
             }
     }
     @EventHandler
