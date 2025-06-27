@@ -33,6 +33,8 @@ public class CoalDeposit extends BlockPopulator {
                 int y = limitedRegion.getHighestBlockYAt(dx, dz, HeightMap.OCEAN_FLOOR_WG)- (exposed ? 2 : 6);
 
                 for (int i = -2; i < 3; i++) {
+                    if (!limitedRegion.isInRegion(dx, y+i, dz)) continue;
+
                     double noise = generator.noise(dx, dz, 0.01, 40, true);
                     noise = noise * noise;
                     if (noise <= 0.7+Math.abs(i/20f)) continue;
