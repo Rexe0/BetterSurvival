@@ -62,7 +62,7 @@ public class WanderingTraderSpawner {
 
                     this.serverLevelData.setWanderingTraderId(entityvillagertrader.getUUID());
                     entityvillagertrader.setWanderTarget(blockposition1);
-                    entityvillagertrader.restrictTo(blockposition1, 16);
+                    entityvillagertrader.setHomeTo(blockposition1, 16);
                     return true;
                 }
             }

@@ -16,7 +16,7 @@ import net.minecraft.world.phys.Vec3;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_21_R4.entity.CraftVillager;
+import org.bukkit.craftbukkit.v1_21_R5.entity.CraftVillager;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
 import javax.annotation.Nullable;
@@ -48,7 +48,7 @@ public class CustomerSpawner {
             Villager nitwitVillager = (Villager) EntityType.VILLAGER.spawn(worldserver, spawnPosition, EntitySpawnReason.EVENT, CreatureSpawnEvent.SpawnReason.NATURAL);
             if (nitwitVillager == null) continue;
             nitwitVillager.goalSelector.addGoal(2, new WanderToPositionGoal(nitwitVillager, 2.0, 0.35, blockPosition));
-            nitwitVillager.restrictTo(blockPosition, 16);
+            nitwitVillager.setHomeTo(blockPosition, 16);
             nitwitVillager.addTag("isTravellingCustomer");
             nitwitVillager.setVillagerData(nitwitVillager.getVillagerData().withProfession(CraftVillager.CraftProfession.bukkitToMinecraftHolder(org.bukkit.entity.Villager.Profession.NITWIT)));
 
