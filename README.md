@@ -66,7 +66,7 @@ This is a plugin that contains several features that I think would improve the c
 - If a minecart travels over an unpowered rail with chiseled deepslate under it, it will stop much faster than usual. Furnace Minecarts also stop burning as well.
 - Furnace minecarts can now travel much faster. They also automatically load chunks, so use a few of them to allow minecart trains to go through unloaded chunks.
 - Dispensers can now automatically power furnace minecarts in the direction they are facing when shooting out coal or charcoal
-- 4 Regular Rails can now be crafted with 6 Iron Nuggets and 1 Stick. This is a much more efficient craft compared to the vanilla craft.
+- 8 Regular Rails can now be crafted with 6 Iron Nuggets and 1 Stick. This is a much more efficient craft compared to the vanilla craft.
 
 **Gear and Loot:**
 - Suspicious sand can now generate on the desert biome's surface. Upon brushing, it can reveal either junk or rarely treasure such as diamonds or emeralds
