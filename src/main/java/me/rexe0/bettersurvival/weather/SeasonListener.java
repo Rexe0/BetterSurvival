@@ -209,6 +209,7 @@ public class SeasonListener {
         if (world.getTime() == 1) {
             // Increment day counter
             addDay();
+            season = Season.getSeason(); // Check season again
 
             if (weatherForecast != null) {
                 switch (weatherForecast) {
