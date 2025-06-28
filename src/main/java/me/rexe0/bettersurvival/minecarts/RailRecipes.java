@@ -8,7 +8,7 @@ import org.bukkit.inventory.ShapedRecipe;
 
 public class RailRecipes {
     public static ShapedRecipe getRailRecipe() {
-        ItemStack item = new ItemStack(Material.RAIL, 4);
+        ItemStack item = new ItemStack(Material.RAIL, 8);
 
         ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(BetterSurvival.getInstance(), "rail"), item);
         recipe.shape("# #", "#@#", "# #");
