@@ -3,6 +3,7 @@ package me.rexe0.bettersurvival.fishing;
 import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.item.fishing.GleamingPearl;
+import me.rexe0.bettersurvival.item.fishing.Magnet;
 import me.rexe0.bettersurvival.util.RandomUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -77,12 +78,18 @@ public class TreasureDrop {
         for (TreasureDrop drop : drops)
             drop.weight += level - 1;
 
-        if (level >= 1)
+        if (level >= 1) {
             drops.add(new TreasureDrop(new ItemStack(Material.PRISMARINE_SHARD), 1, 4, 6));
-        if (level >= 2)
+            drops.add(new TreasureDrop(new Magnet().getItem(), 1, 4, 5));
+        } if (level >= 2)
             drops.add(new TreasureDrop(new ItemStack(Material.COAST_ARMOR_TRIM_SMITHING_TEMPLATE), 1, 1, 3));
-        if (level >= 3)
+        if (level >= 3) {
+            // Make the Gleaming Pearl rarer
+            for (TreasureDrop drop : drops)
+                drop.weight *=2;
+
             drops.add(new TreasureDrop(new GleamingPearl().getItem(), 1, 1, 1));
+        }
         return drops;
     }
     private static ItemStack getWaterBreathingPotion() {
