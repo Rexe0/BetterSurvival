@@ -60,7 +60,7 @@ public class ChainedMinecart implements Listener {
         return hasFurnaceParent(parentCart);
     }
 
-    private static void setChildSpeed(Minecart minecart) {
+    public static void setChildSpeed(Minecart minecart) {
 
         String uuid = EntityDataUtil.getStringValue(minecart, "childMinecart");
         String parentUUID = EntityDataUtil.getStringValue(minecart, "parentMinecart");

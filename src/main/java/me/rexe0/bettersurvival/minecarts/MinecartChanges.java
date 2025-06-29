@@ -142,5 +142,7 @@ public class MinecartChanges implements Listener {
             item.setAmount(item.getAmount() - 1);
             break;
         }
+
+        ChainedMinecart.setChildSpeed((Minecart) minecart.getBukkitEntity());
     }
 }
