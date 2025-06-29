@@ -10,7 +10,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
@@ -60,15 +60,13 @@ public class BlockOfCocaine extends Item {
     }
 
 
-    public void onBlockPlace(BlockPlaceEvent e) {
-        if (!ItemDataUtil.isItem(e.getItemInHand(), getID())) return;
-        if (e.isCancelled()) return;
-        Block block = e.getBlock();
+    public boolean onBlockPlace(Player player, Block block, ItemStack item) {
         block.setType(Material.CALCITE);
 
         PersistentDataContainer data = new CustomBlockData(block, BetterSurvival.getInstance());
 
-        int potency = ItemDataUtil.getIntegerValue(e.getItemInHand(), "potency");
+        int potency = ItemDataUtil.getIntegerValue(item, "potency");
         data.set(CocaineListener.COCAINE_KEY, PersistentDataType.INTEGER, potency);
+        return false;
     }
 }

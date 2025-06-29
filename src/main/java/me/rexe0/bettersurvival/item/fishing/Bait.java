@@ -5,10 +5,9 @@ import me.rexe0.bettersurvival.item.Item;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.FurnaceRecipe;
-import org.bukkit.inventory.Recipe;
-import org.bukkit.inventory.RecipeChoice;
-import org.bukkit.inventory.SmokingRecipe;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,8 +27,8 @@ public class Bait extends Item {
     }
 
     @Override
-    public boolean canPlaceBlock() {
-        return false;
+    public boolean onBlockPlace(Player player, Block block, ItemStack item) {
+        return true;
     }
 
     @Override

@@ -6,6 +6,9 @@ import me.rexe0.bettersurvival.item.ItemType;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapelessRecipe;
 
@@ -23,10 +26,12 @@ public class PremiumBait extends Item {
         lore.add(ChatColor.DARK_GRAY+"Bait");
         return lore;
     }
+
     @Override
-    public boolean canPlaceBlock() {
-        return false;
+    public boolean onBlockPlace(Player player, Block block, ItemStack item) {
+        return true;
     }
+
     @Override
     public Recipe getRecipe() {
         ShapelessRecipe recipe = new ShapelessRecipe(new NamespacedKey(BetterSurvival.getInstance(), getID()), ItemType.PREMIUM_BAIT.getItem().getItem());

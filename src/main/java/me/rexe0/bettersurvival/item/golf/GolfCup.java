@@ -3,14 +3,13 @@ package me.rexe0.bettersurvival.item.golf;
 import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.item.Item;
-import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -50,14 +49,11 @@ public class GolfCup extends Item {
         return item;
     }
 
-    public void onBlockPlace(BlockPlaceEvent e) {
-        if (!ItemDataUtil.isItem(e.getItemInHand(), getID())) return;
-        if (e.isCancelled()) return;
-        Block block = e.getBlock();
-
+    public boolean onBlockPlace(Player player, Block block, ItemStack item) {
         PersistentDataContainer data = new CustomBlockData(block, BetterSurvival.getInstance());
 
         data.set(GOLF_CUP_KEY, PersistentDataType.BOOLEAN, true);
+        return false;
     }
     public void onBlockBreak(BlockBreakEvent e) {
         Block block = e.getBlock();

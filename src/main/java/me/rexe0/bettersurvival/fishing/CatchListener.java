@@ -28,7 +28,6 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -270,12 +269,6 @@ public class CatchListener implements Listener {
                     message = ChatColor.GOLD+""+ChatColor.MAGIC+"I "+message+ChatColor.GOLD+ChatColor.MAGIC+" I";
                 player.sendMessage(message);
             }, 1);
-    }
-
-    @EventHandler
-    public void onPlaceTreasureChest(BlockPlaceEvent e) {
-        ((TreasureChest)ItemType.TREASURE_CHEST.getItem()).onBlockPlace(e);
-        ((TreasureSand)ItemType.TREASURE_SAND.getItem()).onBlockPlace(e);
     }
 
     @EventHandler

@@ -7,12 +7,12 @@ import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.util.EntityDataUtil;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.BlockDisplay;
 import org.bukkit.entity.Interaction;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -48,23 +48,18 @@ public class GolfTee extends Item {
         return item;
     }
 
-    public void onBlockPlace(BlockPlaceEvent e) {
-        if (!ItemDataUtil.isItem(e.getItemInHand(), getID())) return;
-        ItemStack item = e.getItemInHand();
-        Player player = e.getPlayer();
-        e.setCancelled(true);
-
-        Location loc = e.getBlockPlaced().getLocation().add(0.5, 0, 0.5);
+    public boolean onBlockPlace(Player player, Block block, ItemStack item) {
+        Location loc = block.getLocation().add(0.5, 0, 0.5);
 
         for (BlockDisplay display : loc.getWorld().getEntitiesByClass(BlockDisplay.class)) {
             if (display.getLocation().distanceSquared(loc) < 1) {
                 player.sendMessage(ChatColor.RED+"There is already a golf tee here!");
                 player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 0.5f, 0);
-                return;
+                return true;
             }
         }
 
-        if (!loc.getBlock().getRelative(BlockFace.DOWN).getType().isSolid()) return;
+        if (!loc.getBlock().getRelative(BlockFace.DOWN).getType().isSolid()) return true;
 
         BlockDisplay display = loc.getWorld().spawn(loc, BlockDisplay.class);
         display.setBlock(Material.HOPPER.createBlockData());
@@ -82,6 +77,7 @@ public class GolfTee extends Item {
 
         item.setAmount(item.getAmount()-1);
         player.playSound(loc, Sound.ENTITY_ITEM_PICKUP, 1, 1);
+        return true;
     }
 
     public static void run() {

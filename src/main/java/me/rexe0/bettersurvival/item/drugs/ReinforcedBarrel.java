@@ -10,7 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Barrel;
 import org.bukkit.block.Block;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
@@ -70,13 +70,8 @@ public class ReinforcedBarrel extends Item {
         }
         return recipes;
     }
-    public void onBlockPlace(BlockPlaceEvent e) {
-        if (!ItemDataUtil.isItem(e.getItemInHand(), getID())) return;
-        if (e.isCancelled()) return;
-        ItemStack item = e.getItemInHand();
+    public boolean onBlockPlace(Player player, Block block, ItemStack item) {
         BarrelType barrelType = BarrelType.valueOf(ItemDataUtil.getStringValue(item, "barrelType"));
-
-        Block block = e.getBlock();
 
         Barrel barrel = (Barrel) block.getState();
         barrel.setCustomName("Reinforced "+ChatColor.stripColor(barrelType.getName())+" Barrel");
@@ -92,6 +87,7 @@ public class ReinforcedBarrel extends Item {
         data.set(FermentListener.LAST_FERMENT_KEY, PersistentDataType.LONG, System.currentTimeMillis());
         data.set(AgingListener.BARREL_AGE_KEY, PersistentDataType.LONG, System.currentTimeMillis());
         data.set(DistillListener.LAST_DISTILL_KEY, PersistentDataType.LONG, System.currentTimeMillis());
+        return false;
     }
 
     public static List<WineType> decodePreviousProducts(String string) {

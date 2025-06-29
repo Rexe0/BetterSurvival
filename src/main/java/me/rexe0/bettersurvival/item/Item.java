@@ -3,6 +3,7 @@ package me.rexe0.bettersurvival.item;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -63,10 +64,6 @@ public abstract class Item {
         return false;
     }
 
-    public boolean canPlaceBlock() {
-        return true;
-    }
-
 
     public void armorEquipped(Player player) {
 
@@ -82,6 +79,10 @@ public abstract class Item {
 
     }
 
+    // Return whether to cancel the event
+    public boolean onBlockPlace(Player player, Block block, ItemStack item) {
+        return false;
+    }
 
     public double onArrowDamage(LivingEntity entity, Player player, Arrow arrow, double damage) {
         return damage;

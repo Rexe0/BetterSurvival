@@ -1,13 +1,8 @@
 package me.rexe0.bettersurvival.item;
 
 import me.rexe0.bettersurvival.BetterSurvival;
-import me.rexe0.bettersurvival.item.drugs.BlockOfCocaine;
-import me.rexe0.bettersurvival.item.drugs.Cannabis;
-import me.rexe0.bettersurvival.item.drugs.CocaLeaves;
-import me.rexe0.bettersurvival.item.drugs.ReinforcedBarrel;
 import me.rexe0.bettersurvival.item.fishing.FishCodex;
 import me.rexe0.bettersurvival.item.golf.GolfCup;
-import me.rexe0.bettersurvival.item.golf.GolfTee;
 import me.rexe0.bettersurvival.util.EntityDataUtil;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.Bukkit;
@@ -39,30 +34,10 @@ import org.bukkit.inventory.meta.Repairable;
 public class ItemListener implements Listener {
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent e) {
-        DrillBlock drillBlock = (DrillBlock) ItemType.DRILL_BLOCK.getItem();
-        drillBlock.onBlockPlace(e);
-
-        GolfTee golfTee = (GolfTee) ItemType.GOLF_TEE.getItem();
-        golfTee.onBlockPlace(e);
-
-        GolfCup golfCup = (GolfCup) ItemType.GOLF_CUP.getItem();
-        golfCup.onBlockPlace(e);
-
-        Cannabis cannabis = (Cannabis) ItemType.CANNABIS.getItem();
-        cannabis.onBlockPlace(e);
-
-        CocaLeaves cocaLeaves = (CocaLeaves) ItemType.COCA_LEAVES.getItem();
-        cocaLeaves.onBlockPlace(e);
-
-        BlockOfCocaine blockOfCocaine = (BlockOfCocaine) ItemType.BLOCK_OF_COCAINE.getItem();
-        blockOfCocaine.onBlockPlace(e);
-
-        ReinforcedBarrel reinforcedBarrel = (ReinforcedBarrel) ItemType.REINFORCED_BARREL.getItem();
-        reinforcedBarrel.onBlockPlace(e);
-
+        if (e.isCancelled()) return;
         ItemType type = ItemDataUtil.getItemType(e.getItemInHand());
         if (type == null) return;
-        if (!type.getItem().canPlaceBlock()) e.setCancelled(true);
+        if (type.getItem().onBlockPlace(e.getPlayer(), e.getBlockPlaced(), e.getItemInHand())) e.setCancelled(true);
     }
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
@@ -81,15 +56,16 @@ public class ItemListener implements Listener {
     public void onInteract(PlayerInteractEvent e) {
         DrillBlock drillBlock = (DrillBlock) ItemType.DRILL_BLOCK.getItem();
         drillBlock.onRightClick(e);
-        for (ItemType itemType : ItemType.values())
-            if (ItemDataUtil.isItem(e.getItem(), itemType.getItem().getID())) {
-                if ((e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) && e.getHand() == EquipmentSlot.HAND)
-                    if (itemType.getItem().onRightClick(e.getPlayer()))
-                        e.setCancelled(true);
-                if ((e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) && e.getHand() == EquipmentSlot.HAND)
-                    if (itemType.getItem().onLeftClick(e.getPlayer()))
-                        e.setCancelled(true);
-            }
+
+        ItemType type = ItemDataUtil.getItemType(e.getItem());
+        if (type == null) return;
+
+        if ((e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) && e.getHand() == EquipmentSlot.HAND)
+            if (type.getItem().onRightClick(e.getPlayer()))
+                e.setCancelled(true);
+        if ((e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) && e.getHand() == EquipmentSlot.HAND)
+            if (type.getItem().onLeftClick(e.getPlayer()))
+                e.setCancelled(true);
     }
     @EventHandler
     public void onKnowledgeBookUsed(PlayerInteractEvent e) {

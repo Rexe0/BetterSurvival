@@ -8,7 +8,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BrushableBlock;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -35,19 +35,17 @@ public class TreasureSand extends Item {
         return item;
     }
 
-    public void onBlockPlace(BlockPlaceEvent e) {
-        if (!ItemDataUtil.isItem(e.getItemInHand(), getID())) return;
-
+    public boolean onBlockPlace(Player player, Block block, ItemStack item) {
         ItemType type;
         try {
-            type = ItemType.valueOf(ItemDataUtil.getStringValue(e.getItemInHand(), "fishingRodType"));
+            type = ItemType.valueOf(ItemDataUtil.getStringValue(item, "fishingRodType"));
         } catch (IllegalArgumentException ex) {
             type = null;
         }
 
-        Block block = e.getBlock();
         BrushableBlock state = (BrushableBlock) block.getState();
-        state.setItem(TreasureDrop.getTreasureItem(e.getPlayer(), type));
+        state.setItem(TreasureDrop.getTreasureItem(player, type));
         state.update();
+        return false;
     }
 }

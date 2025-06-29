@@ -9,7 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -36,16 +36,14 @@ public class TreasureChest extends Item {
         return item;
     }
 
-    public void onBlockPlace(BlockPlaceEvent e) {
-        if (!ItemDataUtil.isItem(e.getItemInHand(), getID())) return;
+    public boolean onBlockPlace(Player player, Block block, ItemStack item) {
         ItemType type;
         try {
-            type = ItemType.valueOf(ItemDataUtil.getStringValue(e.getItemInHand(), "fishingRodType"));
+            type = ItemType.valueOf(ItemDataUtil.getStringValue(item, "fishingRodType"));
         } catch (IllegalArgumentException ex) {
             type = null;
         }
 
-        Block block = e.getBlock();
         Chest chest = (Chest) block.getState();
         chest.setCustomName(null);
         chest.update();
@@ -53,7 +51,8 @@ public class TreasureChest extends Item {
             int index;
             do index = RandomUtil.getRandom().nextInt(27);
             while (chest.getBlockInventory().getItem(index) != null);
-            chest.getBlockInventory().setItem(index, TreasureDrop.getTreasureItem(e.getPlayer(), type));
+            chest.getBlockInventory().setItem(index, TreasureDrop.getTreasureItem(player, type));
         }
+        return false;
     }
 }
