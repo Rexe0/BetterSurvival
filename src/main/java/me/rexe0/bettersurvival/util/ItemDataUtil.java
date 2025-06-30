@@ -13,6 +13,7 @@ package me.rexe0.bettersurvival.util;
 
 import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.item.ItemType;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -21,6 +22,9 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.awt.*;
+import java.io.*;
+import java.util.Base64;
+import java.util.Map;
 
 public class ItemDataUtil {
 
@@ -194,6 +198,43 @@ public class ItemDataUtil {
         net.md_5.bungee.api.ChatColor chatColor = net.md_5.bungee.api.ChatColor.of(new Color(red, green, 0));
 
         return chatColor+string;
+    }
+
+
+    // Convert ItemStack to a Base64-encoded string
+    public static String itemStackToString(ItemStack item) {
+        if (item.getType().isAir()) return "";
+        try {
+            ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+            ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+
+            Map<String, Object> serialized = item.serialize(); // serialize the ItemStack
+            objectOutput.writeObject(serialized);
+            objectOutput.close();
+
+            return Base64.getEncoder().encodeToString(byteOutput.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // Convert Base64-encoded string back to ItemStack
+    @SuppressWarnings("unchecked")
+    public static ItemStack stringToItemStack(String base64) {
+        if (base64 == null || base64.isEmpty()) return new ItemStack(Material.AIR);
+        try {
+            byte[] data = Base64.getDecoder().decode(base64);
+            ObjectInputStream objectInput = new ObjectInputStream(new ByteArrayInputStream(data));
+
+            Map<String, Object> serialized = (Map<String, Object>) objectInput.readObject();
+            objectInput.close();
+
+            return ItemStack.deserialize(serialized);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

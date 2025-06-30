@@ -2,6 +2,7 @@ package me.rexe0.bettersurvival.weather;
 
 import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.item.ItemType;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -29,8 +30,14 @@ public class LightningRodChanges implements Listener {
         PersistentDataContainer data = new CustomBlockData(block, BetterSurvival.getInstance());
 
         if (data.has(key, PersistentDataType.LONG))
-            if (block.getWorld().getGameTime() - data.get(key, PersistentDataType.LONG) < BURN_TIME)
+            if (block.getWorld().getGameTime() - data.get(key, PersistentDataType.LONG) < BURN_TIME) {
                 e.setTotalCookTime(e.getTotalCookTime() / 2);
+                return;
+            }
+
+
+        // If the furnace is not lightning charged, battery packs shouldnt charge
+        if (e.getRecipe().getKey().getKey().equalsIgnoreCase(ItemType.BATTERY_PACK.getItem().getID()+"_CHARGED")) e.setTotalCookTime(Integer.MAX_VALUE);
     }
 
     @EventHandler

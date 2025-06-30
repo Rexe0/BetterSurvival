@@ -8,6 +8,8 @@ import me.rexe0.bettersurvival.item.arrows.AmethystArrow;
 import me.rexe0.bettersurvival.item.arrows.ExplosiveArrow;
 import me.rexe0.bettersurvival.item.arrows.SonicArrow;
 import me.rexe0.bettersurvival.item.arrows.ToxicArrow;
+import me.rexe0.bettersurvival.item.constructs.BatteryPack;
+import me.rexe0.bettersurvival.item.constructs.ConstructWorkshop;
 import me.rexe0.bettersurvival.item.drugs.*;
 import me.rexe0.bettersurvival.item.farming.Ambrosia;
 import me.rexe0.bettersurvival.item.farming.FarmerBoots;
@@ -80,7 +82,11 @@ public enum ItemType {
     PLATINUM_FISHING_ROD(new PlatinumFishingRod()),
     RESONANT_FISHING_ROD(new ResonantFishingRod()),
     OBSIDIAN_FISHING_ROD(new ObsidianFishingRod()),
-    GLEAMING_PEARL(new GleamingPearl());
+    GLEAMING_PEARL(new GleamingPearl()),
+
+
+    BATTERY_PACK(new BatteryPack(false)),
+    CONSTRUCT_WORKSHOP(new ConstructWorkshop());
 
 
     private Item item;

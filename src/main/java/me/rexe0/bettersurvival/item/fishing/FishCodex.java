@@ -3,6 +3,7 @@ package me.rexe0.bettersurvival.item.fishing;
 import me.rexe0.bettersurvival.fishing.FishData;
 import me.rexe0.bettersurvival.fishing.FishFile;
 import me.rexe0.bettersurvival.item.Item;
+import me.rexe0.bettersurvival.util.InventoryUtil;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import me.rexe0.bettersurvival.util.SkullUtil;
 import org.bukkit.Bukkit;
@@ -52,7 +53,7 @@ public class FishCodex extends Item {
         FishData playerData = FishFile.getPlayerData(player);
         Inventory inv = Bukkit.createInventory(null, 54, ChatColor.DARK_GRAY+"Fish Codex "+page);
 
-        for (int i : getBorder())
+        for (int i : InventoryUtil.getBorder())
             inv.setItem(i, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
         for (int i = 0; i < 54; i++) {
             if (i == 49) {
@@ -82,7 +83,7 @@ public class FishCodex extends Item {
             if (Fish.FishType.values().length <= k) continue;
 
             Fish.FishType type = Fish.FishType.values()[k];
-            int j = convertArrayIndexToInvIndex(i);
+            int j = InventoryUtil.convertArrayIndexToInvIndex(i);
             boolean hasFound = playerData.getAmountFished(type) > 0;
 
             ItemStack item = new ItemStack(hasFound ? type.getMaterial() : Material.PLAYER_HEAD);
@@ -118,36 +119,5 @@ public class FishCodex extends Item {
         return inv;
     }
 
-    private int convertArrayIndexToInvIndex(int i) {
-        // Make sure the integer is within the 28 slots given, 0-27
 
-        while (true) {
-            if (i < 28) {
-                break;
-            }
-            i -= 28;
-        }
-        // Calculate the row number, 0-3. 6 rows in a regular inventory, but minus 2 because of border.
-        int rowNumber = (int) Math.floor(i/7);
-
-        // Calculate the column to add onto the row
-        int columnNumber = (int) Math.floor(i%7);
-
-        // Increase by 1 because of inital row being the border
-        rowNumber++;
-
-        // Increase by 1 because of inital collumn being border
-        columnNumber++;
-
-        return (rowNumber*9)+columnNumber;
-    }
-    private List<Integer> getBorder() {
-        List<Integer> ints = new ArrayList<>();
-        for (int i = 0; i < 54; i++) {
-            if (i <= 8 || i >= 45) ints.add(i);
-            if (i == 9 || i == 18 || i == 27 || i == 36) ints.add(i);
-            if (i == 17 || i == 26 || i == 35 || i == 44) ints.add(i);
-        }
-        return ints;
-    }
 }

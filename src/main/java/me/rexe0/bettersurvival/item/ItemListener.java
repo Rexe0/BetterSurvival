@@ -1,6 +1,7 @@
 package me.rexe0.bettersurvival.item;
 
 import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.item.constructs.ConstructWorkshop;
 import me.rexe0.bettersurvival.item.fishing.FishCodex;
 import me.rexe0.bettersurvival.item.golf.GolfCup;
 import me.rexe0.bettersurvival.util.EntityDataUtil;
@@ -46,6 +47,9 @@ public class ItemListener implements Listener {
 
         GolfCup golfCup = (GolfCup) ItemType.GOLF_CUP.getItem();
         golfCup.onBlockBreak(e);
+
+        ConstructWorkshop constructWorkshop = (ConstructWorkshop) ItemType.CONSTRUCT_WORKSHOP.getItem();
+        constructWorkshop.onBlockBreak(e);
     }
 
     @EventHandler
