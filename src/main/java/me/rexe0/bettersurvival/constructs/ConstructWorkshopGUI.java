@@ -46,7 +46,7 @@ public class ConstructWorkshopGUI implements Listener {
         if (getResearchData(block) == null) return;
 
         if (e.getPlayer().isSneaking()) {
-            if (e.getItem().getType() == Material.GLOWSTONE) e.setCancelled(true);
+            if (e.getItem() != null && e.getItem().getType() == Material.GLOWSTONE) e.setCancelled(true);
             return;
         }
 
