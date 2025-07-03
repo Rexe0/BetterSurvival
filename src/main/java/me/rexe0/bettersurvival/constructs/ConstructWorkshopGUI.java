@@ -78,7 +78,7 @@ public class ConstructWorkshopGUI implements Listener {
         workshopMap.put(player, block);
         setGhastUUID(block, ghast.getUniqueId());
 
-        player.openInventory(getInventory(new GhastConstruct(ghast)));
+        player.openInventory(getInventory(GhastConstruct.getConstruct(ghast.getUniqueId())));
     }
 
     @EventHandler
@@ -281,6 +281,12 @@ public class ConstructWorkshopGUI implements Listener {
 
     private Inventory getInventory(GhastConstruct construct) {
         Inventory inv = Bukkit.createInventory(null, 54, ChatColor.DARK_GRAY+"Construct Workshop");
+
+        if (construct.getMiscellaneous().getUses() > 0 && construct.getMiscellaneousAmmo() <= 0)
+            construct.setMiscellaneous(Miscellaneous.NONE);
+        if (construct.getLoad().getUses() > 0 && construct.getLoadAmmo() <= 0)
+            construct.setLoad(Load.NONE);
+
 
         for (int i = 0; i < 54; i++) {
 
