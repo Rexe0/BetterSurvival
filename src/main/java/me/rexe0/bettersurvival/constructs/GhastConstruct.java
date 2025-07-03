@@ -270,6 +270,12 @@ public class GhastConstruct {
             sendTitle(ChatColor.GREEN+"Fire Extinguished", "", 20);
             getPassengers().forEach(p -> p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EXTINGUISH_FIRE, 1000, 1));
         }
+
+        double healthRatio = ghast.getHealth() / ghast.getAttribute(Attribute.MAX_HEALTH).getValue();
+        if (healthRatio > 0 && healthRatio < 0.5) {
+            // Display smoke
+            ghast.getWorld().spawnParticle(Particle.LARGE_SMOKE, ghast.getLocation().add(0, 2, 0), (int) Math.min(20, 1/healthRatio), 0.6, 0.6, 0.6, 0.01);
+        }
     }
 
     private void sendRadarActionBar(Location location, List<Player> passengers, boolean isEnhanced) {
