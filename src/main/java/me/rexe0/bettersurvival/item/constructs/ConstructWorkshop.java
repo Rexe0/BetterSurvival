@@ -2,10 +2,7 @@ package me.rexe0.bettersurvival.item.constructs;
 
 import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.BetterSurvival;
-import me.rexe0.bettersurvival.constructs.Engine;
-import me.rexe0.bettersurvival.constructs.Harness;
-import me.rexe0.bettersurvival.constructs.Modification;
-import me.rexe0.bettersurvival.constructs.ModificationType;
+import me.rexe0.bettersurvival.constructs.*;
 import me.rexe0.bettersurvival.item.Item;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.ChatColor;
@@ -34,6 +31,8 @@ public class ConstructWorkshop extends Item {
         this(new ArrayList<>());
         researched.add(Harness.NONE);
         researched.add(Engine.NONE);
+        researched.add(Load.NONE);
+        researched.add(Miscellaneous.NONE);
     }
     public ConstructWorkshop(List<Modification> researched) {
         super(Material.RESPAWN_ANCHOR, ChatColor.GREEN+"Construct Workshop", "CONSTRUCT_WORKSHOP");

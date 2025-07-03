@@ -10,6 +10,7 @@ import me.rexe0.bettersurvival.item.arrows.SonicArrow;
 import me.rexe0.bettersurvival.item.arrows.ToxicArrow;
 import me.rexe0.bettersurvival.item.constructs.BatteryPack;
 import me.rexe0.bettersurvival.item.constructs.ConstructWorkshop;
+import me.rexe0.bettersurvival.item.constructs.ControlStick;
 import me.rexe0.bettersurvival.item.drugs.*;
 import me.rexe0.bettersurvival.item.farming.Ambrosia;
 import me.rexe0.bettersurvival.item.farming.FarmerBoots;
@@ -86,6 +87,7 @@ public enum ItemType {
 
 
     BATTERY_PACK(new BatteryPack(false)),
+    CONTROL_STICK(new ControlStick()),
     CONSTRUCT_WORKSHOP(new ConstructWorkshop());
 
 

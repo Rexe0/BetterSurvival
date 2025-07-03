@@ -4,6 +4,7 @@ import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.config.ConfigLoader;
 import me.rexe0.bettersurvival.constructs.ConstructListener;
 import me.rexe0.bettersurvival.constructs.ConstructWorkshopGUI;
+import me.rexe0.bettersurvival.constructs.GhastConstruct;
 import me.rexe0.bettersurvival.farming.*;
 import me.rexe0.bettersurvival.farming.alcohol.AgingListener;
 import me.rexe0.bettersurvival.farming.alcohol.AlcoholListener;
@@ -169,6 +170,7 @@ public final class BetterSurvival extends JavaPlugin {
             GolfClubLogic.getInstance().run();
             WitherChanges.getInstance().run();
             ConstructListener.run();
+            GhastConstruct.tick();
 
             for (GolfBallEntity golfBall : GolfBallEntity.getGolfBalls().toArray(new GolfBallEntity[0]))
                 golfBall.run();

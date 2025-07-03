@@ -63,7 +63,7 @@ public class ConstructWorkshopGUI implements Listener {
             return;
         }
         HappyGhast ghast = hitch.getWorld().getEntitiesByClass(HappyGhast.class).stream()
-                .filter(g -> g.getLeashHolder().equals(hitch))
+                .filter(g -> g.isLeashed() && g.getLeashHolder().equals(hitch))
                 .findFirst()
                 .orElse(null);
 
@@ -164,6 +164,14 @@ public class ConstructWorkshopGUI implements Listener {
             player.openInventory(getInventory(construct, ModificationType.ENGINE, researchData));
             return;
         }
+        if (e.getSlot() == 15) {
+            player.openInventory(getInventory(construct, ModificationType.MISCELLANEOUS, researchData));
+            return;
+        }
+        if (e.getSlot() == 33) {
+            player.openInventory(getInventory(construct, ModificationType.LOAD, researchData));
+            return;
+        }
     }
 
     private void mainMenuClickLogic(GhastConstruct construct, Inventory inventory) {
@@ -221,6 +229,8 @@ public class ConstructWorkshopGUI implements Listener {
         Modification equipped = switch (modificationType) {
             case HARNESS -> construct.getHarness();
             case ENGINE -> construct.getEngine();
+            case LOAD -> construct.getLoad();
+            case MISCELLANEOUS -> construct.getMiscellaneous();
         };
         if (equipped.equals(modification)) {
             player.sendMessage(ChatColor.RED+"This is already equipped.");
@@ -261,6 +271,8 @@ public class ConstructWorkshopGUI implements Listener {
         switch (modificationType) {
             case HARNESS -> construct.setHarness((Harness) modification);
             case ENGINE -> construct.setEngine((Engine) modification);
+            case LOAD -> construct.setLoad((Load) modification);
+            case MISCELLANEOUS -> construct.setMiscellaneous((Miscellaneous) modification);
         }
         construct.update();
 
@@ -294,6 +306,33 @@ public class ConstructWorkshopGUI implements Listener {
                 inv.setItem(i, item);
                 continue;
             }
+            if (i == 15) {
+                Miscellaneous miscellaneous = construct.getMiscellaneous();
+                ItemStack item = new ItemStack(miscellaneous.getIcon());
+                ItemMeta meta = item.getItemMeta();
+                meta.setDisplayName(miscellaneous.getName());
+                List<String> lore = new ArrayList<>();
+                lore.add(ChatColor.DARK_GRAY+"Miscellaneous");
+                lore.addAll(miscellaneous.getDescription());
+                lore.add(" ");
+                if (miscellaneous.getUses() > 0) {
+                    int ammo = construct.getMiscellaneousAmmo();
+                    lore.add(ChatColor.GRAY + "Remaining: " + (ammo == 0 ? ChatColor.RED+"None" : ChatColor.GREEN+""+ammo));
+                    lore.add(" ");
+                }
+
+                List<String> statDescription = getStatDescription(miscellaneous);
+                if (!statDescription.isEmpty()) {
+                    lore.addAll(statDescription);
+                    lore.add(" ");
+                }
+                lore.add(ChatColor.YELLOW+"Click to change.");
+
+                meta.setLore(lore);
+                item.setItemMeta(meta);
+                inv.setItem(i, item);
+                continue;
+            }
             if (i == 29) {
                 Engine engine = construct.getEngine();
                 ItemStack item = new ItemStack(engine.getIcon());
@@ -316,6 +355,34 @@ public class ConstructWorkshopGUI implements Listener {
                 inv.setItem(i, item);
                 continue;
             }
+            if (i == 33) {
+                Load load = construct.getLoad();
+                ItemStack item = new ItemStack(load.getIcon());
+                ItemMeta meta = item.getItemMeta();
+                meta.setDisplayName(load.getName());
+                List<String> lore = new ArrayList<>();
+                lore.add(ChatColor.DARK_GRAY+"Load");
+                lore.addAll(load.getDescription());
+                lore.add(" ");
+
+                if (load.getUses() > 0) {
+                    int ammo = construct.getLoadAmmo();
+                    lore.add(ChatColor.GRAY + "Remaining: " + (ammo == 0 ? ChatColor.RED+"None" : ChatColor.GREEN+""+ammo));
+                    lore.add(" ");
+                }
+
+                List<String> statDescription = getStatDescription(load);
+                if (!statDescription.isEmpty()) {
+                    lore.addAll(statDescription);
+                    lore.add(" ");
+                }
+                lore.add(ChatColor.YELLOW+"Click to change.");
+
+                meta.setLore(lore);
+                item.setItemMeta(meta);
+                inv.setItem(i, item);
+                continue;
+            }
             if (i == 22) {
                 ItemStack item = new ItemStack(Material.PLAYER_HEAD);
                 ItemMeta meta = item.getItemMeta();
@@ -323,8 +390,8 @@ public class ConstructWorkshopGUI implements Listener {
                 List<String> lore = new ArrayList<>();
                 lore.add(ChatColor.GRAY+"Health: "+ChatColor.GREEN+construct.getHealth());
                 lore.add(ChatColor.GRAY+"Armor: "+ChatColor.GREEN+construct.getArmor());
-                lore.add(ChatColor.GRAY+"Top Speed: "+ChatColor.GREEN+(Math.round(construct.getSpeed()*36000)/100d)+" km/h");
-                lore.add(ChatColor.GRAY+"Acceleration: "+ChatColor.GREEN+(Math.round(construct.getAcceleration()*36000)/100d)+" km/h^2");
+                lore.add(ChatColor.GRAY+"Top Speed: "+ChatColor.GREEN+(Math.round(construct.getSpeed()*26000)/100d)+" km/h");
+                lore.add(ChatColor.GRAY+"Acceleration: "+ChatColor.GREEN+(Math.round(construct.getAcceleration()*26000)/100d)+" km/h^2");
                 meta.setLore(lore);
                 item.setItemMeta(meta);
                 inv.setItem(i, SkullUtil.getCustomSkull(item, "http://textures.minecraft.net/texture/504843421c218d0634455fdb1a6c5f7ae5b85098a50b12b9ed9d9310c84dc61b"));
@@ -346,7 +413,7 @@ public class ConstructWorkshopGUI implements Listener {
             inv.setItem(i, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
         }
         boolean left = construct.getHarness() != Harness.NONE && construct.getEngine() != Engine.NONE;
-        boolean right = true;
+        boolean right = construct.getLoad() != Load.NONE && construct.getMiscellaneous() != Miscellaneous.NONE;
         InventoryUtil.getLeftSide().forEach(i -> inv.setItem(i, new ItemStack(left ? Material.LIME_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE)));
         InventoryUtil.getRightSide().forEach(i -> inv.setItem(i, new ItemStack(right ? Material.LIME_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE)));
 
@@ -366,6 +433,8 @@ public class ConstructWorkshopGUI implements Listener {
         Modification equipped = switch (modificationType) {
             case HARNESS -> construct.getHarness();
             case ENGINE -> construct.getEngine();
+            case LOAD -> construct.getLoad();
+            case MISCELLANEOUS -> construct.getMiscellaneous();
         };
 
         int i = 0;

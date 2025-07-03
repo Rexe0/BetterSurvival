@@ -4,7 +4,9 @@ import java.util.List;
 
 public enum ModificationType {
     HARNESS("Harness", Harness.class),
-    ENGINE("Engine", Engine.class);
+    ENGINE("Engine", Engine.class),
+    LOAD("Load", Load.class),
+    MISCELLANEOUS("Miscellaneous", Miscellaneous.class);
 
     private final String name;
     private final Class<? extends Modification> modificationClass;
@@ -28,6 +30,8 @@ public enum ModificationType {
         return switch (this) {
             case HARNESS -> Harness.getAllHarnesses();
             case ENGINE -> Engine.getAllEngines();
+            case LOAD -> Load.getAllLoads();
+            case MISCELLANEOUS -> Miscellaneous.getAllMiscellaneous();
         };
     }
 
