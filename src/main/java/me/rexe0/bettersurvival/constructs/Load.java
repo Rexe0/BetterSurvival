@@ -375,9 +375,9 @@ public class Load extends Modification {
         }
     }
 
-    public static class Missile extends BukkitRunnable {
+    public static class Missile extends BukkitRunnable implements InputListener {
         private static final int POWER = 10;
-        private static final int MAX_SPEED = 2;
+        private static final double MAX_SPEED = 2;
 
         private final Player player;
         private final GhastConstruct construct;
@@ -390,6 +390,7 @@ public class Load extends Modification {
 
         private Vector velocity;
         private TNTPrimed tnt;
+        private int inputTicks;
         private int i;
 
         public Missile(Player player, GhastConstruct construct, MissileType type, LivingEntity target) {
@@ -401,7 +402,7 @@ public class Load extends Modification {
             if (target == null)
                 this.direction = player.getLocation().getDirection().normalize();
             else
-                this.direction = target.getBoundingBox().getCenter().subtract(player.getEyeLocation().toVector()).normalize();
+                this.direction = target.getBoundingBox().getCenter().subtract(construct.getGhast().getLocation().toVector()).normalize();
 
 
             this.velocity = direction.clone().multiply(initialSpeed).setY(-0.4);
@@ -409,8 +410,8 @@ public class Load extends Modification {
 
         @Override
         public void run() {
-            if (!tnt.isValid()) {
-                cancel();
+            if (!tnt.isValid() || i > 600) {
+                end();
                 return;
             }
             ServerTickManager manager = Bukkit.getServerTickManager();
@@ -428,15 +429,20 @@ public class Load extends Modification {
                 tnt.getWorld().playSound(loc, Sound.ENTITY_TNT_PRIMED, 4f, 1.05f);
             }
             if (i >= 7) {
-                if (i > 10 && target != null) {
+                if (i > 10 && target != null && (type == MissileType.HEAT_SEEKING || (type == MissileType.SCULK_SENSING && inputTicks > 0))) {
                     Vector target = flareLogic();
 
                     Vector targetVec = target.subtract(tnt.getLocation().toVector());
 
-                    double dot = targetVec.clone().normalize().dot(direction);
                     double pullMultiplier = 0.003;
-                    if (dot < 0) pullMultiplier = 0.0004;
-                    else if (dot < 0.5) pullMultiplier = 0.001;
+                    double dot = targetVec.clone().normalize().dot(direction);
+
+                    // Heat seeking missiles home even less when the target is not in their FOV
+                    if (type == MissileType.HEAT_SEEKING) {
+                        if (dot < 0) pullMultiplier = 0.0004;
+                        else if (dot < 0.5) pullMultiplier = 0.001;
+                    } else if (dot < 0) pullMultiplier = 0.001;
+
 
                     // Homing Calculations
                     targetVec.multiply(pullMultiplier);
@@ -465,7 +471,7 @@ public class Load extends Modification {
                 if (type == MissileType.HEAT_SEEKING)
                     tnt.getWorld().spawnParticle(Particle.FLAME, loc, 5, 0.15, 0.15, 0.15, 0.01, null, true);
                 else if (type == MissileType.SCULK_SENSING)
-                    tnt.getWorld().spawnParticle(Particle.SONIC_BOOM, loc, 1, 0, 0, 0, 0, null, true);
+                    tnt.getWorld().spawnParticle(Particle.SCULK_SOUL, loc, 5, 0.15, 0.15, 0.15, 0.01, null, true);
 
                 loc.add(velocity);
             }
@@ -473,6 +479,7 @@ public class Load extends Modification {
 
             tnt.setVelocity(velocity);
             i++;
+            if (inputTicks > 0) inputTicks--;
         }
 
         private Vector flareLogic() {
@@ -525,13 +532,35 @@ public class Load extends Modification {
             loc.getWorld().playSound(loc, Sound.BLOCK_BAMBOO_WOOD_BUTTON_CLICK_OFF, 2f, 1f);
             loc.getWorld().playSound(loc, Sound.BLOCK_COPPER_BREAK, 2f, 0.6f);
 
+            ConstructListener.inputListeners.add(this);
+
             runTaskTimer(BetterSurvival.getInstance(), 0, 1);
         }
+        private void end() {
+            cancel();
+            ConstructListener.inputListeners.remove(this);
+        }
+
+        public void onInput(Player player) {
+            if (target == null) return;
+            if (inputTicks > 0) return;
+            if (!target.equals(player) && !target.getPassengers().contains(player)) return;
+            inputTicks = 30;
+            Vibration vibration = new Vibration(player.getEyeLocation(), new Vibration.Destination.EntityDestination(tnt), (int) player.getEyeLocation().distance(tnt.getLocation())/2);
+            tnt.getWorld().spawnParticle(Particle.VIBRATION, player.getEyeLocation(), 1, 0, 0, 0, 0, vibration);
+
+            tnt.getWorld().playSound(tnt.getLocation(), Sound.BLOCK_SCULK_SENSOR_CLICKING, 12, 0.8f);
+        }
+
 
         public enum MissileType {
             STANDARD,
             HEAT_SEEKING,
             SCULK_SENSING
         }
+
+    }
+    public interface InputListener {
+        void onInput(Player player);
     }
 }

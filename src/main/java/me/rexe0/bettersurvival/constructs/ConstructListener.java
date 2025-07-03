@@ -9,15 +9,23 @@ import org.bukkit.entity.HappyGhast;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.event.player.PlayerInputEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BoundingBox;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ConstructListener implements Listener {
+    public static final List<Load.InputListener> inputListeners = new ArrayList<>();
+
     @EventHandler
     public void onGhastExplosionDamage(EntityDamageEvent e) {
         if (!(e.getEntity() instanceof HappyGhast ghast)) return;
@@ -145,6 +153,22 @@ public class ConstructListener implements Listener {
             firework.setVelocity(firework.getVelocity().multiply(3));
         }
     }
+
+    @EventHandler
+    public void onMovementInput(PlayerInputEvent e) {
+        onInput(e.getPlayer());
+    }
+    @EventHandler
+    public void onMouseInput(PlayerInteractEvent e) {
+        if (e.getAction() == Action.PHYSICAL) return;
+        onInput(e.getPlayer());
+    }
+
+    private void onInput(Player player) {
+        for (Load.InputListener listener : inputListeners)
+            listener.onInput(player);
+    }
+
 
 
     public static void run() {
