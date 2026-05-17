@@ -5,12 +5,15 @@ import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.farming.CocaineListener;
 import me.rexe0.bettersurvival.item.Item;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
+import me.rexe0.bettersurvival.util.RandomUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.Leaves;
 import org.bukkit.entity.Player;
+import org.bukkit.event.world.LootGenerateEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.loot.LootTables;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -42,7 +45,13 @@ public class CocaLeaves extends Item {
         return lore;
     }
 
-
+    @Override
+    public void onLootGenerate(LootGenerateEvent e) {
+        if (e.getLootTable().getKey().equals(LootTables.JUNGLE_TEMPLE.getKey())) {
+            for (int i = 0; i < RandomUtil.getRandom().nextInt(2, 6); i++)
+                e.getLoot().add(new CocaLeaves(RandomUtil.getRandom().nextInt(1, 11)).getItem());
+        }
+    }
     public boolean onBlockPlace(Player player, Block block, ItemStack item) {
         block.setType(Material.OAK_LEAVES);
         Leaves leaves = (Leaves) block.getBlockData();

@@ -24,12 +24,15 @@ This is a plugin that contains several features that I think would improve the c
 
 **Drugs & Alcohol:**
 - Added Cannabis which can be grown and cultivated to higher potencies if grown in a warm environment with high quality fertilizer
+- Cannabis can be found in village chests
 - Added the Smoke Pipe which can be used to extract the psychoactive effects of Cannabis, crafted using 2 sticks, 1 coal and 1 torch
-- Added Coca Leaves which can be grown and cultivated to higher potencies if grown in a warm and humid environment with high quality fertilizer
+- Added Coca Leaves which can be grown and cultivated to higher potencies if grown in a warm and humid environment with high quality fertilize
+- Coca leaves can be found in jungle temple chests
 - Cocaine can be extracted from 5 Coca Leaves using a crafting table. It can be directly used to grant stimulating effects
 - Blocks of Cocaine can be created with 9 Cocaine to allow for compact storage
 - Using Cocaine or Cannabis too much in a short time span will cause an overdose dealing large damage to the player
 - Added Yeast which can be used to ferment sugar and starch into alcohol alongside water
+- Yeast can be found in dungeon chests, and rarely drops from zombies
 - Added Reinforced Barrel which can be crafted from 6 planks, 1 barrel and 2 iron ingots. This barrel is needed for fermentation, distillation and aging
 - Added various alcoholic drinks and spirits obtained from fermentation and distillation which can be drunk to suppress hunger (although consuming too much can lead to alcohol poisoning)
 - Drugs & Alcohol can be offered to Nitwit Villagers who will buy them for emeralds, with the amount depending on the quality of the drug/alcohol

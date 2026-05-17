@@ -5,11 +5,14 @@ import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.farming.CannabisListener;
 import me.rexe0.bettersurvival.item.Item;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
+import me.rexe0.bettersurvival.util.RandomUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.world.LootGenerateEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.loot.LootTables;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -39,6 +42,14 @@ public class Cannabis extends Item {
         lore.add(" ");
         lore.add(ChatColor.GRAY+"Potency: "+(ItemDataUtil.getFormattedColorString(potency+"", potency, 100))+"%");
         return lore;
+    }
+
+    @Override
+    public void onLootGenerate(LootGenerateEvent e) {
+        if (e.getLootTable().getKey().getKey().startsWith("chests/village/")) {
+            if (RandomUtil.getRandom().nextInt(5) == 0)
+                e.getLoot().add(new Cannabis(RandomUtil.getRandom().nextInt(1, 11)).getItem());
+        }
     }
 
 
