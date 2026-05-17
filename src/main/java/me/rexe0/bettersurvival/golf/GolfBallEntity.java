@@ -19,8 +19,8 @@ import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_21_R5.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_21_R5.entity.CraftPlayer;
+import org.bukkit.craftbukkit.entity.CraftEntity;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
@@ -135,7 +135,7 @@ public class GolfBallEntity {
         setItemsVisible(!set);
 
         ClientboundSetCameraPacket packet = new ClientboundSetCameraPacket(((CraftEntity)entity).getHandle());
-        ((CraftPlayer)owner).getHandle().connection.sendPacket(packet);
+        ((CraftPlayer)owner).getHandle().connection.send(packet);
 
         if (set)
             playFlyingSound();
@@ -173,7 +173,7 @@ public class GolfBallEntity {
         eData.add(SynchedEntityData.DataValue.create(new EntityDataAccessor<>(0, EntityDataSerializers.BYTE), glowingByte));
         ClientboundSetEntityDataPacket packet = new ClientboundSetEntityDataPacket(display.getEntityId(), eData);
 
-        ((CraftPlayer) owner).getHandle().connection.sendPacket(packet);
+        ((CraftPlayer) owner).getHandle().connection.send(packet);
     }
 
     public boolean canBeHit() {

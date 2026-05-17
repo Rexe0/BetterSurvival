@@ -7,6 +7,7 @@ import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.GlowSquid;
 import org.bukkit.entity.Salmon;
@@ -24,11 +25,11 @@ public class HolidayListener {
         // Winter Solstice extends the night. Summer Solstice extends the day
         if ((Holiday.WINTER_SOLSTICE.isDay(SeasonListener.getDays()) && world.getTime() >= 13000)
                 || (Holiday.SUMMER_SOLSTICE.isDay(SeasonListener.getDays()) && world.getTime() < 13000)) {
-            world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+            world.setGameRule(GameRules.ADVANCE_TIME, false);
 
             if (i == 1) world.setTime(world.getTime()+1);
         } else
-            world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, true);
+            world.setGameRule(GameRules.ADVANCE_TIME, true);
 
         for (Chunk chunk : SeasonListener.getLoadedChunks())
             tickHighest(world.getHighestBlockAt(random.nextInt(16) + chunk.getX() * 16,

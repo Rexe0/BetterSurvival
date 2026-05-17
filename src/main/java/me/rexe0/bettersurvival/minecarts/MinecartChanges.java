@@ -2,7 +2,7 @@ package me.rexe0.bettersurvival.minecarts;
 
 import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.util.EntityDataUtil;
-import net.minecraft.world.entity.vehicle.MinecartFurnace;
+import net.minecraft.world.entity.vehicle.minecart.MinecartFurnace;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -11,8 +11,8 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.Dispenser;
 import org.bukkit.block.data.Directional;
 import org.bukkit.block.data.type.RedstoneRail;
-import org.bukkit.craftbukkit.v1_21_R5.CraftWorld;
-import org.bukkit.craftbukkit.v1_21_R5.entity.CraftMinecartFurnace;
+import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.entity.CraftMinecartFurnace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Minecart;
@@ -116,6 +116,7 @@ public class MinecartChanges implements Listener {
         if (furnace.isEmpty()) return;
 
         e.setCancelled(true);
+
 
 
         MinecartFurnace minecart = ((CraftMinecartFurnace) furnace.get()).getHandle();

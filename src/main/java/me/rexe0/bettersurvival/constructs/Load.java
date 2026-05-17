@@ -546,7 +546,7 @@ public class Load extends Modification {
             if (inputTicks > 0) return;
             if (!target.equals(player) && !target.getPassengers().contains(player)) return;
             inputTicks = 30;
-            Vibration vibration = new Vibration(player.getEyeLocation(), new Vibration.Destination.EntityDestination(tnt), (int) player.getEyeLocation().distance(tnt.getLocation())/2);
+            Vibration vibration = new Vibration(new Vibration.Destination.EntityDestination(tnt), (int) player.getEyeLocation().distance(tnt.getLocation())/2);
             tnt.getWorld().spawnParticle(Particle.VIBRATION, player.getEyeLocation(), 1, 0, 0, 0, 0, vibration);
 
             tnt.getWorld().playSound(tnt.getLocation(), Sound.BLOCK_SCULK_SENSOR_CLICKING, 12, 0.8f);

@@ -8,7 +8,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -16,7 +16,7 @@ import net.minecraft.world.phys.Vec3;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_21_R5.entity.CraftVillager;
+import org.bukkit.craftbukkit.entity.CraftVillager;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
 import javax.annotation.Nullable;

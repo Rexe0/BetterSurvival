@@ -3,6 +3,7 @@ package me.rexe0.bettersurvival.item.golf;
 import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.item.Item;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -17,6 +18,7 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +26,7 @@ import java.util.List;
 public class GolfCup extends Item {
     public static final NamespacedKey GOLF_CUP_KEY = new NamespacedKey(BetterSurvival.getInstance(), "GOLF_CUP");
     public GolfCup() {
-        super(Material.CAULDRON, ChatColor.GREEN+"Golf Hole", "GOLF_HOLE");
+        super(Material.CAULDRON, ChatColor.GREEN+"Golf Cup", "GOLF_CUP");
     }
 
     @Override

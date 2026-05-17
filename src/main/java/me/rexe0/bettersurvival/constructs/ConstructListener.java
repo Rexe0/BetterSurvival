@@ -85,7 +85,7 @@ public class ConstructListener implements Listener {
                 ghast.getWorld().spawnParticle(Particle.LAVA, ghast.getLocation(), (int) (explosionPower*5), d, d, d, 0);
 
                 ghast.getWorld().playSound(ghast.getLocation(), Sound.ENTITY_DRAGON_FIREBALL_EXPLODE, explosionPower/2, 0.6f);
-                ghast.getWorld().createExplosion(ghast.getLocation(), Math.min(15, explosionPower), hasFire, ghast.getWorld().getGameRuleValue(GameRule.MOB_GRIEFING));
+                ghast.getWorld().createExplosion(ghast.getLocation(), Math.min(15, explosionPower), hasFire, ghast.getWorld().getGameRuleValue(GameRules.MOB_GRIEFING));
             }, 5);
         } else
             ghast.getWorld().dropItemNaturally(ghast.getLocation(), construct.getFuel());

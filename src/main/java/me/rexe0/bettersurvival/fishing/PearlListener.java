@@ -38,7 +38,7 @@ public class PearlListener implements Listener {
 
     @EventHandler
     public void onPrepare(PrepareAnvilEvent e) {
-        String name = e.getInventory().getRenameText();
+        String name = e.getView().getRenameText();
         if (name == null || name.isEmpty()) return;
 
         ItemStack item = e.getInventory().getItem(0);

@@ -12,8 +12,8 @@ import net.minecraft.world.entity.SpawnPlacementType;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.entity.ai.village.poi.PoiTypes;
-import net.minecraft.world.entity.animal.horse.TraderLlama;
-import net.minecraft.world.entity.npc.WanderingTrader;
+import net.minecraft.world.entity.animal.equine.TraderLlama;
+import net.minecraft.world.entity.npc.wanderingtrader.WanderingTrader;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -60,7 +60,6 @@ public class WanderingTraderSpawner {
                         this.tryToSpawnLlamaFor(worldserver, entityvillagertrader, 4);
                     }
 
-                    this.serverLevelData.setWanderingTraderId(entityvillagertrader.getUUID());
                     entityvillagertrader.setWanderTarget(blockposition1);
                     entityvillagertrader.setHomeTo(blockposition1, 16);
                     return true;

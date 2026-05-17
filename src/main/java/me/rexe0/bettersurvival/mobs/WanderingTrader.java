@@ -12,7 +12,7 @@ import me.rexe0.bettersurvival.weather.SeasonListener;
 import net.minecraft.server.level.ServerLevel;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_21_R5.CraftWorld;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
@@ -105,7 +105,7 @@ public class WanderingTrader implements Listener {
 
         if (SeasonListener.getDays() % 10 == 9) {
             // Spawn wandering trader at the start of the day, every 10 days after the first season
-            WanderingTraderSpawner spawner = new WanderingTraderSpawner(level.L);
+            WanderingTraderSpawner spawner = new WanderingTraderSpawner(level.serverLevelData);
             spawner.spawn(level);
         }
     }

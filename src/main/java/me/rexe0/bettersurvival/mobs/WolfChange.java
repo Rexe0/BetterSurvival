@@ -16,8 +16,8 @@ import net.minecraft.world.level.pathfinder.PathType;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.ShulkerBox;
-import org.bukkit.craftbukkit.v1_21_R5.entity.CraftWolf;
-import org.bukkit.craftbukkit.v1_21_R5.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.entity.CraftWolf;
+import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Wolf;
 import org.bukkit.event.EventHandler;
@@ -164,7 +164,7 @@ public class WolfChange implements Listener {
         public boolean canContinueToUse() {
             if (tamable.isOrderedToSit() || tamable.isPassenger() || tamable.mayBeLeashed()) return false;
 
-            if (target == null || tamable.getServer() == null || tamable.getServer().server.getPlayer(target.getUUID()) == null
+            if (target == null || tamable.level().getServer() == null || tamable.level().getCraftServer().getPlayer(target.getUUID()) == null
                     || !target.isAlive() || target.distanceToSqr(tamable) > (this.range * this.range)
                     || (owner != null && owner.distanceToSqr(tamable) > (this.range * this.range))) {
                 this.target = null;

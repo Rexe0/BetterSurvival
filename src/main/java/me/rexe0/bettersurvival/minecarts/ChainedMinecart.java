@@ -85,7 +85,7 @@ public class ChainedMinecart implements Listener {
             if (childCart != null)
                 EntityDataUtil.removeStringValue(childCart, "parentMinecart");
             EntityDataUtil.removeStringValue(minecart, "childMinecart");
-            minecart.getWorld().dropItemNaturally(minecart.getLocation(), new ItemStack(Material.CHAIN, 2));
+            minecart.getWorld().dropItemNaturally(minecart.getLocation(), new ItemStack(Material.IRON_CHAIN, 2));
             minecart.getWorld().playSound(minecart.getLocation(), Sound.BLOCK_CHAIN_PLACE, 1, 1.4f);
             return;
         }
@@ -128,7 +128,7 @@ public class ChainedMinecart implements Listener {
 
         String uuid = EntityDataUtil.getStringValue(minecart, "childMinecart");
         if (uuid.isEmpty()) return;
-        minecart.getWorld().dropItemNaturally(minecart.getLocation(), new ItemStack(Material.CHAIN, 2));
+        minecart.getWorld().dropItemNaturally(minecart.getLocation(), new ItemStack(Material.IRON_CHAIN, 2));
         minecart.getWorld().playSound(minecart.getLocation(), Sound.BLOCK_CHAIN_PLACE, 1, 1.4f);
     }
     @EventHandler
@@ -136,7 +136,7 @@ public class ChainedMinecart implements Listener {
         if (!e.getPlayer().isSneaking()) return;
         if (e.getHand() != EquipmentSlot.HAND) return;
         ItemStack item = e.getPlayer().getEquipment().getItemInMainHand();
-        if (item.getType() != Material.CHAIN) return;
+        if (item.getType() != Material.IRON_CHAIN) return;
         if (!(e.getRightClicked() instanceof Minecart minecart)) return;
 
         Player player = e.getPlayer();

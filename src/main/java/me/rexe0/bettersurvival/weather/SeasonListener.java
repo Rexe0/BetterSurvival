@@ -8,8 +8,8 @@ import net.minecraft.world.level.biome.BiomeSpecialEffects;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.Snow;
-import org.bukkit.craftbukkit.v1_21_R5.CraftWorld;
-import org.bukkit.craftbukkit.v1_21_R5.block.CraftBlock;
+import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.block.CraftBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.Criteria;
@@ -104,14 +104,14 @@ public class SeasonListener {
                     || block.getBiome() == org.bukkit.block.Biome.BIRCH_FOREST
                     || block.getBiome() == org.bukkit.block.Biome.SUNFLOWER_PLAINS
                     || block.getBiome() == org.bukkit.block.Biome.MEADOW) {
-                Biome biome = ((CraftBlock) block).getHandle().getBiome(new BlockPos(block.getX(), block.getY(), block.getZ())).value();
+                Biome biome = ((CraftBlock) block).getCraftWorld().getHandle().getBiome(new BlockPos(block.getX(), block.getY(), block.getZ())).value();
 
                 try {
                     BiomeSpecialEffects effects = biome.getSpecialEffects();
-                    Field foliageColorOverride = effects.getClass().getDeclaredField("f"); // foliageColorOverride
+                    Field foliageColorOverride = effects.getClass().getDeclaredField("foliageColorOverride"); // foliageColorOverride
                     foliageColorOverride.setAccessible(true);
 
-                    Field grassColorOverride = effects.getClass().getDeclaredField("g"); // grassColorOverride
+                    Field grassColorOverride = effects.getClass().getDeclaredField("grassColorOverride"); // grassColorOverride
                     grassColorOverride.setAccessible(true);
 
                     if (season == Season.AUTUMN) {
@@ -263,7 +263,7 @@ public class SeasonListener {
 
         Block above = block.getLocation().add(0, 1, 0).getBlock();
         if (block.getType().isOccluding() || Tag.LEAVES.isTagged(block.getType())) {
-            Biome biome = ((CraftBlock) block).getHandle().getBiome(new BlockPos(block.getX(), block.getY(), block.getZ())).value();
+            Biome biome = ((CraftBlock) block).getCraftWorld().getHandle().getBiome(new BlockPos(block.getX(), block.getY(), block.getZ())).value();
 
             // Snow melts in sunny Spring or Summer, in certain warm-hot biomes
             if (biome.climateSettings.temperature() > 0.1 && (season == Season.SPRING || season == Season.SUMMER)

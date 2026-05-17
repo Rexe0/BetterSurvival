@@ -82,7 +82,7 @@ public class LavaHook extends FishingHook {
         Player entityhuman = this.getPlayerOwner();
         if (entityhuman == null) {
             this.discard(EntityRemoveEvent.Cause.DESPAWN);
-        } else if (this.level().isClientSide || !this.shouldStopFishing(entityhuman)) {
+        } else if (this.level().isClientSide() || !this.shouldStopFishing(entityhuman)) {
             if (this.onGround()) {
                 ++this.life;
                 if (this.life >= 1200) {
@@ -144,7 +144,7 @@ public class LavaHook extends FishingHook {
                             this.setDeltaMovement(this.getDeltaMovement().add(0.0, -0.1 * (double)this.syncronizedRandom.nextFloat() * (double)this.syncronizedRandom.nextFloat(), 0.0));
                         }
 
-                        if (!this.level().isClientSide) {
+                        if (!this.level().isClientSide()) {
                             this.catchingFish(blockposition);
                         }
                     } else {

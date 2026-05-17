@@ -9,8 +9,8 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.boss.BarColor;
-import org.bukkit.craftbukkit.v1_21_R5.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_21_R5.entity.CraftWither;
+import org.bukkit.craftbukkit.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.entity.CraftWither;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -96,7 +96,7 @@ public class WitherChanges implements Listener {
         // Has to restore 2/3 of its max health over the course of 22 heal ticks (220 invulnerability ticks)
         e.setAmount(((2*maxHealth)/3)/22);
 
-        if (wither.getInvulnerabilityTicks() == 0) {
+        if (wither.getInvulnerableTicks() == 0) {
             playWitherSound(wither, Sound.ENTITY_WITHER_SPAWN, 4);
             EntityDataUtil.setIntegerValue(wither, "witherPhase", 1);
             wither.setHealth(wither.getAttribute(Attribute.MAX_HEALTH).getValue());
@@ -142,7 +142,7 @@ public class WitherChanges implements Listener {
                 wither.getWorld().spawnParticle(Particle.LARGE_SMOKE, wither.getLocation(), 3, 1, 1, 1, 0.02);
 
                 // Ambient Sound
-                if (wither.getInvulnerabilityTicks() == 0 && random.nextInt(100) == 0) playWitherSound(wither, Sound.ENTITY_WITHER_AMBIENT, 2);
+                if (wither.getInvulnerableTicks() == 0 && random.nextInt(100) == 0) playWitherSound(wither, Sound.ENTITY_WITHER_AMBIENT, 2);
 
                 double healthRatio = wither.getHealth() / wither.getAttribute(Attribute.MAX_HEALTH).getBaseValue();
 
@@ -279,7 +279,7 @@ public class WitherChanges implements Listener {
 
         public FrenzyRunnable(Wither wither) {
             this.wither = wither;
-            this.mobGriefing = wither.getWorld().getGameRuleValue(GameRule.MOB_GRIEFING);
+            this.mobGriefing = wither.getWorld().getGameRuleValue(GameRules.MOB_GRIEFING);
             this.i = 0;
         }
 

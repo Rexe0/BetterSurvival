@@ -1,6 +1,5 @@
 package me.rexe0.bettersurvival.util;
 
-import org.apache.commons.codec.binary.Base64;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -13,7 +12,6 @@ import java.net.URISyntaxException;
 import java.util.UUID;
 
 public class SkullUtil {
-    private static final Base64 base64 = new Base64();
     /**
      * Return a skull that has a custom texture specified by url.
      *
@@ -35,7 +33,7 @@ public class SkullUtil {
     public static PlayerProfile getCustomProfile(String url, UUID uuid) {
         if(url.isEmpty()) return null;
 
-        PlayerProfile profile = Bukkit.createPlayerProfile(uuid);
+        PlayerProfile profile = Bukkit.createPlayerProfile(uuid, uuid.toString().substring(0, 16));
         PlayerTextures textures = profile.getTextures();
         try {
             textures.setSkin(new URI(url).toURL());

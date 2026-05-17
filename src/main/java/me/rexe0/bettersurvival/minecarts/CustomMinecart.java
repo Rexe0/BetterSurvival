@@ -3,11 +3,11 @@ package me.rexe0.bettersurvival.minecarts;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.vehicle.AbstractMinecart;
-import net.minecraft.world.entity.vehicle.Minecart;
+import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
+import net.minecraft.world.entity.vehicle.minecart.Minecart;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_21_R5.CraftWorld;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Vehicle;
 import org.bukkit.event.vehicle.VehicleEntityCollisionEvent;
 
@@ -33,7 +33,7 @@ public class CustomMinecart extends Minecart {
     }
     @Override
     public void push(Entity entity) {
-        if (!this.level().isClientSide && !entity.noPhysics && !this.noPhysics && !this.hasPassenger(entity)) {
+        if (!this.level().isClientSide() && !entity.noPhysics && !this.noPhysics && !this.hasPassenger(entity)) {
             VehicleEntityCollisionEvent collisionEvent = new VehicleEntityCollisionEvent((Vehicle)this.getBukkitEntity(), entity.getBukkitEntity());
             this.level().getCraftServer().getPluginManager().callEvent(collisionEvent);
             if (collisionEvent.isCancelled()) {
