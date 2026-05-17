@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.event.world.LootGenerateEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.loot.LootTables;
 
 import java.util.List;
 
@@ -38,9 +39,7 @@ public class AnAncientEvil extends Item {
 
     @Override
     public void onLootGenerate(LootGenerateEvent e) {
-        String key = e.getLootTable().getKey().getKey();
-
-        if (key.equals("chests/nether_bridge")) {
+        if (e.getLootTable().getKey().equals(LootTables.NETHER_BRIDGE.getKey())) {
             if (RandomUtil.getRandom().nextInt(3) == 0)
                 e.getLoot().add(getItem());
         }

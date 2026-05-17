@@ -15,6 +15,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.world.LootGenerateEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.KnowledgeBookMeta;
+import org.bukkit.loot.LootTables;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,8 +35,7 @@ public class GolfClubLogic implements Listener {
     public void onLoot(LootGenerateEvent e) {
         // Gives knowledge book for golf recipes from trial chamber pots, so long as at least one player nearby hasn't discovered them.
 
-        String key = e.getLootTable().getKey().getKey();
-        if (!key.equals("pots/trial_chambers/corridor")) return;
+        if (!e.getLootTable().getKey().equals(LootTables.TRIAL_CHAMBERS_CORRIDOR_POT.getKey())) return;
 
         Location location = e.getLootContext().getLocation();
         boolean hasGolfRecipes = true;

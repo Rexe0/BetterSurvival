@@ -9,6 +9,7 @@ import org.bukkit.event.world.LootGenerateEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.loot.LootTables;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +40,7 @@ public class VibrantBobber extends Item {
     }
     @Override
     public void onLootGenerate(LootGenerateEvent e) {
-        String key = e.getLootTable().getKey().getKey();
-        if (key.equals("chests/shipwreck_treasure"))
+        if (e.getLootTable().getKey().equals(LootTables.SHIPWRECK_TREASURE.getKey()))
             if (RandomUtil.getRandom().nextBoolean()) e.getLoot().add(getItem());
     }
 }
