@@ -1,7 +1,11 @@
 package me.rexe0.bettersurvival.constructs;
 
 import me.rexe0.bettersurvival.BetterSurvival;
+import net.minecraft.server.level.ServerLevel;
 import org.bukkit.*;
+import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.entity.CraftHappyGhast;
+import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.damage.DamageType;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Firework;
@@ -16,6 +20,7 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInputEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BoundingBox;
@@ -172,22 +177,22 @@ public class ConstructListener implements Listener {
 
 
     public static void run() {
-//        for (World world : Bukkit.getWorlds()) {
-//            ServerLevel level = ((CraftWorld)world).getHandle();
-//            for (HappyGhast ghast : world.getEntitiesByClass(HappyGhast.class)) {
-//                // Weird cast because for some reason CraftHappyGhast.getHandle() returns NoSuchMethodException
-//                net.minecraft.world.entity.animal.Animal nmsGhast = ((CraftAnimals) ghast).getHandle();
-//                if (!(nmsGhast instanceof GhastConstructEntity)) {
-//                    Location loc = ghast.getLocation();
-//
-//                    GhastConstructEntity construct = new GhastConstructEntity(level);
-//                    construct.setPos(loc.getX(), loc.getY(), loc.getZ());
-//                    construct.setBodyArmorItem(CraftItemStack.asNMSCopy(ghast.getEquipment().getItem(EquipmentSlot.BODY)));
-//                    level.addFreshEntity(construct);
-//
-//                    ghast.remove();
-//                }
-//            }
-//        }
+        for (World world : Bukkit.getWorlds()) {
+            ServerLevel level = ((CraftWorld)world).getHandle();
+            for (HappyGhast ghast : world.getEntitiesByClass(HappyGhast.class)) {
+                // Weird cast because for some reason CraftHappyGhast.getHandle() returns NoSuchMethodException
+                net.minecraft.world.entity.animal.happyghast.HappyGhast nmsGhast = (net.minecraft.world.entity.animal.happyghast.HappyGhast) ((CraftHappyGhast)ghast).getHandle();
+                if (!(nmsGhast instanceof GhastConstructEntity)) {
+                    Location loc = ghast.getLocation();
+
+                    GhastConstructEntity construct = new GhastConstructEntity(level);
+                    construct.setPos(loc.getX(), loc.getY(), loc.getZ());
+                    construct.setBodyArmorItem(CraftItemStack.asNMSCopy(ghast.getEquipment().getItem(EquipmentSlot.BODY)));
+                    level.addFreshEntity(construct);
+
+                    ghast.remove();
+                }
+            }
+        }
     }
 }
