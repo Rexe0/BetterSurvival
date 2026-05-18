@@ -12,7 +12,6 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.world.LootGenerateEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.loot.LootTables;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -48,7 +47,7 @@ public class Cannabis extends Item {
     public void onLootGenerate(LootGenerateEvent e) {
         if (e.getLootTable().getKey().getKey().startsWith("chests/village/")) {
             if (RandomUtil.getRandom().nextInt(5) == 0)
-                e.getLoot().add(new Cannabis(RandomUtil.getRandom().nextInt(1, 11)).getItem());
+                e.getLoot().add(new Cannabis(5).getItem());
         }
     }
 

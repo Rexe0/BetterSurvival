@@ -4,7 +4,10 @@ import me.rexe0.bettersurvival.item.Item;
 import me.rexe0.bettersurvival.util.RandomUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.world.LootGenerateEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.loot.LootTables;
 
 import java.util.List;
@@ -34,4 +37,10 @@ public class Yeast extends Item {
                 e.getLoot().add(getItem());
         }
     }
+
+    @Override
+    public boolean onBlockPlace(Player player, Block block, ItemStack item) {
+        return true;
+    }
+
 }

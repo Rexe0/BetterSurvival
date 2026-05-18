@@ -48,8 +48,9 @@ public class CocaLeaves extends Item {
     @Override
     public void onLootGenerate(LootGenerateEvent e) {
         if (e.getLootTable().getKey().equals(LootTables.JUNGLE_TEMPLE.getKey())) {
+            int potency = RandomUtil.getRandom().nextInt(1, 11);
             for (int i = 0; i < RandomUtil.getRandom().nextInt(2, 6); i++)
-                e.getLoot().add(new CocaLeaves(RandomUtil.getRandom().nextInt(1, 11)).getItem());
+                e.getLoot().add(new CocaLeaves(potency).getItem());
         }
     }
     public boolean onBlockPlace(Player player, Block block, ItemStack item) {
