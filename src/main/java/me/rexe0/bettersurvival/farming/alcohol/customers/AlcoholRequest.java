@@ -173,7 +173,7 @@ public class AlcoholRequest extends Request {
         } else {
             if (type == null) {
                 sb.append(" a ");
-                if (isWine) sb.append(ChatColor.GREEN+"wine"+ChatColor.RESET);
+                if (isWine) sb.append(ChatColor.GREEN+"non-distilled alcoholic drink"+ChatColor.RESET);
                 else sb.append(ChatColor.GREEN+"spirit"+ChatColor.RESET);
             } else {
                 sb.append(" ").append(type.getNameColor()).append(type.getName()).append(ChatColor.RESET);
