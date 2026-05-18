@@ -29,6 +29,7 @@ import me.rexe0.bettersurvival.minecarts.RailRecipes;
 import me.rexe0.bettersurvival.mining.DeepDarkChanges;
 import me.rexe0.bettersurvival.mining.MiningListener;
 import me.rexe0.bettersurvival.mobs.*;
+import me.rexe0.bettersurvival.smithing.SmeltingListener;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import me.rexe0.bettersurvival.weather.HolidayListener;
 import me.rexe0.bettersurvival.weather.LightningRodChanges;
@@ -138,6 +139,7 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(WitherChanges.getInstance(), this);
         getServer().getPluginManager().registerEvents(new ConstructWorkshopGUI(), this);
         getServer().getPluginManager().registerEvents(new ConstructListener(), this);
+        getServer().getPluginManager().registerEvents(new SmeltingListener(), this);
 
         CustomBlockData.registerListener(this);
 

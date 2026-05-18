@@ -95,4 +95,10 @@ public class EntityDataUtil {
         if (!container.has(entityKey, PersistentDataType.LONG)) return 0;
         return container.get(entityKey, PersistentDataType.LONG);
     }
+
+    public static boolean hasScoreboardTag(Entity entity, String tag) {
+        for (String t : entity.getScoreboardTags())
+            if (t.equals(tag)) return true;
+        return false;
+    }
 }
