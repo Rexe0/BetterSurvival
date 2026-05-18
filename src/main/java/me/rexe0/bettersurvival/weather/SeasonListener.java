@@ -4,7 +4,6 @@ import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.util.RandomUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.BiomeSpecialEffects;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.Snow;
@@ -16,9 +15,7 @@ import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
-import java.lang.reflect.Field;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 
@@ -95,47 +92,6 @@ public class SeasonListener {
 
     private static void tick(World world) {
         Season season = Season.getSeason();
-
-        for (Player player : world.getPlayers()) {
-            Block block = player.getLocation().getBlock();
-            if (block.getBiome() == org.bukkit.block.Biome.PLAINS
-                    || block.getBiome() == org.bukkit.block.Biome.FOREST
-                    || block.getBiome() == org.bukkit.block.Biome.FLOWER_FOREST
-                    || block.getBiome() == org.bukkit.block.Biome.BIRCH_FOREST
-                    || block.getBiome() == org.bukkit.block.Biome.SUNFLOWER_PLAINS
-                    || block.getBiome() == org.bukkit.block.Biome.MEADOW) {
-                Biome biome = ((CraftBlock) block).getCraftWorld().getHandle().getBiome(new BlockPos(block.getX(), block.getY(), block.getZ())).value();
-
-                try {
-                    BiomeSpecialEffects effects = biome.getSpecialEffects();
-                    Field foliageColorOverride = effects.getClass().getDeclaredField("foliageColorOverride"); // foliageColorOverride
-                    foliageColorOverride.setAccessible(true);
-
-                    Field grassColorOverride = effects.getClass().getDeclaredField("grassColorOverride"); // grassColorOverride
-                    grassColorOverride.setAccessible(true);
-
-                    if (season == Season.AUTUMN) {
-                        if (((Optional<?>) foliageColorOverride.get(effects)).isEmpty())
-                            foliageColorOverride.set(biome.getSpecialEffects(), Optional.of(Integer.parseInt("ff5e00", 16)));
-
-                        if (((Optional<?>)grassColorOverride.get(effects)).isEmpty())
-                            grassColorOverride.set(biome.getSpecialEffects(), Optional.of(Integer.parseInt("f77423", 16)));
-                    } else {
-                        if (((Optional<?>) foliageColorOverride.get(effects)).isPresent())
-                            foliageColorOverride.set(biome.getSpecialEffects(), Optional.empty());
-
-                        if (((Optional<?>)grassColorOverride.get(effects)).isPresent())
-                            grassColorOverride.set(biome.getSpecialEffects(), Optional.empty());
-                    }
-                    foliageColorOverride.setAccessible(false);
-                    grassColorOverride.setAccessible(false);
-                } catch (NoSuchFieldException | IllegalAccessException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-
-
 
         // Ensures the weather stays as it is until the next day
         if (currentWeather == null) currentWeather = Weather.CLEAR;
