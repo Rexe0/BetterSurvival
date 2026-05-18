@@ -8,6 +8,7 @@ import me.rexe0.bettersurvival.item.drugs.Spirit;
 import me.rexe0.bettersurvival.item.drugs.Wine;
 import me.rexe0.bettersurvival.item.fishing.Fish;
 import me.rexe0.bettersurvival.item.fishing.FishStew;
+import me.rexe0.bettersurvival.util.BlockUtil;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -163,9 +164,7 @@ public class FoodModifications implements Listener {
         if (block == null) return;
         if (block.getType() != Material.WATER_CAULDRON) return;
         Block under = block.getLocation().subtract(0, 1, 0).getBlock();
-        if (under.getType() != Material.FIRE
-                && under.getType() != Material.CAMPFIRE
-                && under.getType() != Material.SOUL_CAMPFIRE) return;
+        if (!BlockUtil.isHot(under)) return;
         if (e.getItem() == null) return;
         if (Arrays.stream(soupIngredients).noneMatch(m -> m == e.getItem().getType())) return;
         ItemStack item = e.getItem();

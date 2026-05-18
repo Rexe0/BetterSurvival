@@ -4,6 +4,7 @@ import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.item.drugs.Spirit;
+import me.rexe0.bettersurvival.util.BlockUtil;
 import me.rexe0.bettersurvival.util.EntityDataUtil;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.Material;
@@ -37,7 +38,7 @@ public class DistillListener implements Listener {
         if (e.getClickedBlock() == null) return;
         Block block = e.getClickedBlock();
 
-        if (block.getType() != Material.BARREL || block.getRelative(BlockFace.DOWN).getType() != Material.CAMPFIRE) return;
+        if (block.getType() != Material.BARREL || !BlockUtil.isHot(block.getRelative(BlockFace.DOWN))) return;
 
         PersistentDataContainer data = new CustomBlockData(block, BetterSurvival.getInstance());
         if (data.has(LAST_DISTILL_KEY, PersistentDataType.LONG)) {

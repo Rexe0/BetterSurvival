@@ -5,6 +5,7 @@ import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.item.drugs.ReinforcedBarrel;
 import me.rexe0.bettersurvival.item.drugs.Wine;
+import me.rexe0.bettersurvival.util.BlockUtil;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -66,7 +67,7 @@ public class FermentListener implements Listener {
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         if (e.getClickedBlock() == null) return;
         Block block = e.getClickedBlock();
-        if (block.getType() != Material.BARREL || block.getRelative(BlockFace.DOWN).getType() == Material.CAMPFIRE) return;
+        if (block.getType() != Material.BARREL || BlockUtil.isHot(block.getRelative(BlockFace.DOWN))) return;
 
         PersistentDataContainer data = new CustomBlockData(block, BetterSurvival.getInstance());
         if (data.has(LAST_FERMENT_KEY, PersistentDataType.LONG)) {
