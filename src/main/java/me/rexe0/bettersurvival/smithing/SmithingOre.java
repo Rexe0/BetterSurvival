@@ -1,6 +1,5 @@
 package me.rexe0.bettersurvival.smithing;
 
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 
 import java.awt.*;
@@ -31,7 +30,7 @@ public enum SmithingOre {
 
 
     public String getName() {
-        return ChatColor.of(color)+name;
+        return name;
     }
 
     public int getTime() {

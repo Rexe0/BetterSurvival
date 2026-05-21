@@ -1,11 +1,17 @@
 package me.rexe0.bettersurvival.item.smithing;
 
 import me.rexe0.bettersurvival.smithing.SmithingOre;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 
 public enum SmithingType {
     SWORD("Sword"),
@@ -144,6 +150,32 @@ public enum SmithingType {
                 case SHULKER -> getColoredArmor(Material.LEATHER_HORSE_ARMOR, SmithingOre.SHULKER.getColor());
             };
         };
+    }
+
+    public ItemStack getItem(Map<SmithingOre, Integer> oreAmount) {
+        // Compare ores by amount, get the one with the highest amount. If two or more ores have the same amount, get the one with the highest SmithingOre ordinal()
+        SmithingOre dominantOre = oreAmount.entrySet()
+                .stream()
+                .max(Comparator
+                        .comparing(Map.Entry<SmithingOre, Integer>::getValue)
+                        .thenComparing(e -> e.getKey().ordinal()))
+                .map(Map.Entry::getKey)
+                .orElse(null);
+        if (dominantOre == null) return null;
+
+        ItemStack item = getItem(dominantOre);
+        Damageable meta = (Damageable) item.getItemMeta();
+
+        // Display
+        meta.setDisplayName(ChatColor.WHITE + dominantOre.getName() + " " + getName());
+        List<String> lore = new ArrayList<>();
+        for (SmithingOre ore : oreAmount.keySet()) {
+            lore.add(ChatColor.GRAY + ore.getName() + ": " + net.md_5.bungee.api.ChatColor.of(ore.getColor()) + oreAmount.get(ore)*10 +"%");
+        }
+        meta.setLore(lore);
+
+        item.setItemMeta(meta);
+        return item;
     }
 
     private static ItemStack getColoredArmor(Material material, Color color) {

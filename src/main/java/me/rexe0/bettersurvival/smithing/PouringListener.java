@@ -332,16 +332,7 @@ public class PouringListener implements Listener {
             for (int i = 0; i < 54; i++)
                 inv.setItem(i, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
 
-            // Compare ores by amount, get the one with the highest amount. If two or more ores have the same amount, get the one with the highest SmithingOre ordinal()
-            SmithingOre dominantOre = oreCounts.entrySet()
-                    .stream()
-                    .max(Comparator
-                            .comparing(Map.Entry<SmithingOre, Integer>::getValue)
-                            .thenComparing(e -> e.getKey().ordinal()))
-                    .map(Map.Entry::getKey)
-                    .orElse(null);
-
-            ItemStack item = type.getItem(dominantOre);
+            ItemStack item = type.getItem(oreCounts);
             inv.setItem(22, item);
 
 
