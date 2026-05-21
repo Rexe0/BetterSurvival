@@ -14,28 +14,32 @@ import java.util.List;
 import java.util.Map;
 
 public enum SmithingType {
-    SWORD("Sword"),
-    SPEAR("Spear"),
-    AXE("Axe"),
-    PICKAXE("Pickaxe"),
-    SHOVEL("Shovel"),
-    HOE("Hoe"),
-    HELMET("Helmet"),
-    CHESTPLATE("Chestplate"),
-    LEGGINGS("Leggings"),
-    BOOTS("Boots"),
-    HORSE_ARMOR("Horse Armor"),
-    NAUTILUS_ARMOR("Nautilus Armor"),
+    SWORD("Sword", 95),
+    SPEAR("Spear", 190),
+    AXE("Axe", 64),
+    PICKAXE("Pickaxe", 64),
+    SHOVEL("Shovel", 190),
+    HOE("Hoe", 95),
+    HELMET("Helmet", 25),
+    CHESTPLATE("Chestplate", 22),
+    LEGGINGS("Leggings", 24),
+    BOOTS("Boots", 36),
     ;
 
     private final String name;
+    private final int durabilityPerMaterial;
 
-    SmithingType(String name) {
+    SmithingType(String name, int durabilityPerMaterial) {
         this.name = name;
+        this.durabilityPerMaterial = durabilityPerMaterial;
     }
 
     public String getName() {
         return name;
+    }
+
+    public boolean isArmor() {
+        return this == HELMET || this == CHESTPLATE || this == LEGGINGS || this == BOOTS;
     }
 
     public ItemStack getItem(SmithingOre ore) {
@@ -81,13 +85,6 @@ public enum SmithingType {
                 case GOLD -> new ItemStack(Material.GOLDEN_HOE);
                 case NETHERITE -> new ItemStack(Material.NETHERITE_HOE);
                 default -> new ItemStack(Material.DIAMOND_HOE);
-            };
-            case NAUTILUS_ARMOR -> switch (ore) {
-                case COPPER -> new ItemStack(Material.COPPER_NAUTILUS_ARMOR);
-                case IRON -> new ItemStack(Material.IRON_NAUTILUS_ARMOR);
-                case GOLD -> new ItemStack(Material.GOLDEN_NAUTILUS_ARMOR);
-                case NETHERITE -> new ItemStack(Material.NETHERITE_NAUTILUS_ARMOR);
-                default -> new ItemStack(Material.DIAMOND_NAUTILUS_ARMOR);
             };
             case HELMET -> switch (ore) {
                 case COPPER -> new ItemStack(Material.COPPER_HELMET);
@@ -137,18 +134,6 @@ public enum SmithingType {
                 case PRISMARINE -> getColoredArmor(Material.LEATHER_BOOTS, SmithingOre.PRISMARINE.getColor());
                 case SHULKER -> getColoredArmor(Material.LEATHER_BOOTS, SmithingOre.SHULKER.getColor());
             };
-            case HORSE_ARMOR -> switch (ore) {
-                case COPPER -> new ItemStack(Material.COPPER_HORSE_ARMOR);
-                case IRON -> new ItemStack(Material.IRON_HORSE_ARMOR);
-                case GOLD -> new ItemStack(Material.GOLDEN_HORSE_ARMOR);
-                case DIAMOND -> new ItemStack(Material.DIAMOND_HORSE_ARMOR);
-                case NETHERITE -> new ItemStack(Material.NETHERITE_HORSE_ARMOR);
-                case AMETHYST -> getColoredArmor(Material.LEATHER_HORSE_ARMOR, SmithingOre.AMETHYST.getColor());
-                case QUARTZ -> getColoredArmor(Material.LEATHER_HORSE_ARMOR, SmithingOre.QUARTZ.getColor());
-                case EMERALD -> getColoredArmor(Material.LEATHER_HORSE_ARMOR, SmithingOre.EMERALD.getColor());
-                case PRISMARINE -> getColoredArmor(Material.LEATHER_HORSE_ARMOR, SmithingOre.PRISMARINE.getColor());
-                case SHULKER -> getColoredArmor(Material.LEATHER_HORSE_ARMOR, SmithingOre.SHULKER.getColor());
-            };
         };
     }
 
@@ -169,10 +154,21 @@ public enum SmithingType {
         // Display
         meta.setDisplayName(ChatColor.WHITE + dominantOre.getName() + " " + getName());
         List<String> lore = new ArrayList<>();
-        for (SmithingOre ore : oreAmount.keySet()) {
+        for (SmithingOre ore : oreAmount.entrySet().stream()
+                .sorted(Map.Entry.<SmithingOre, Integer>comparingByValue().reversed())
+                .map(Map.Entry::getKey)
+                .toList()) {
             lore.add(ChatColor.GRAY + ore.getName() + ": " + net.md_5.bungee.api.ChatColor.of(ore.getColor()) + oreAmount.get(ore)*10 +"%");
         }
         meta.setLore(lore);
+
+        float durability = 0;
+        boolean isArmor = isArmor();
+        for (Map.Entry<SmithingOre, Integer> entry : oreAmount.entrySet()) {
+            durability += (isArmor ? entry.getKey().getArmorDurabilityMultiplier() : entry.getKey().getItemDurabilityMultiplier()) * entry.getValue() * durabilityPerMaterial;
+        }
+        meta.setMaxDamage(Math.round(durability));
+
 
         item.setItemMeta(meta);
         return item;

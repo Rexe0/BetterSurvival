@@ -56,6 +56,10 @@ public class SmeltingListener implements Listener {
 
         dropCauldronItems(e.getBlock());
 
+        PersistentDataContainer data = new CustomBlockData(e.getBlock(), BetterSurvival.getInstance());
+        for (SmithingOre ore : SmithingOre.values())
+            data.remove(getOreKey(ore));
+
         RUNNABLES.stream()
                 .filter(r -> r.getBlock().equals(e.getBlock()))
                 .findFirst()
