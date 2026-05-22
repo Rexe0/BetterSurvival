@@ -1,6 +1,13 @@
 package me.rexe0.bettersurvival.smithing;
 
+import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.item.smithing.SmithingType;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.inventory.EquipmentSlotGroup;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.awt.*;
 
@@ -62,5 +69,30 @@ public enum SmithingOre {
             for (Material mat : ore.getMaterials())
                 if (mat == material) return ore;
         return null;
+    }
+
+    public ItemMeta applyAttributes(SmithingType type, ItemMeta meta, int count) {
+        NamespacedKey key = getKey(type.name().toLowerCase());
+        if (!type.isArmor()) {
+            double damage = 0;
+            if (type == SmithingType.SWORD) {
+                damage = switch (this) {
+                    case COPPER -> 4;
+                    case IRON -> 5;
+                    case GOLD -> 3;
+                    case DIAMOND -> 6;
+                    case NETHERITE -> 7;
+                    default -> 4;
+                };
+            }
+            if (damage != 0)
+                meta.addAttributeModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(key, damage, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.MAINHAND));
+        }
+
+        return meta;
+    }
+
+    private static NamespacedKey getKey(String name) {
+        return new NamespacedKey(BetterSurvival.getInstance(), name);
     }
 }
