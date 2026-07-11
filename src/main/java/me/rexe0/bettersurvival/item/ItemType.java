@@ -21,7 +21,6 @@ import org.bukkit.ChatColor;
 public enum ItemType {
     STOPWATCH(new Stopwatch()),
     METAL_DETECTOR(new MetalDetector()),
-    DRILL_BLOCK(new DrillBlock()),
     STRIDER_HELMET(new StriderHelmet()),
     SADDLE_N_HORSESHOE(new SaddleNHorseshoe()),
     DRAGON_SCALE(new DragonScale()),

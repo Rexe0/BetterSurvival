@@ -41,9 +41,6 @@ public class ItemListener implements Listener {
     }
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
-        DrillBlock drillBlock = (DrillBlock) ItemType.DRILL_BLOCK.getItem();
-        drillBlock.onBlockBreak(e);
-
         GolfCup golfCup = (GolfCup) ItemType.GOLF_CUP.getItem();
         golfCup.onBlockBreak(e);
     }
@@ -54,9 +51,6 @@ public class ItemListener implements Listener {
     }
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
-        DrillBlock drillBlock = (DrillBlock) ItemType.DRILL_BLOCK.getItem();
-        drillBlock.onRightClick(e);
-
         ItemType type = ItemDataUtil.getItemType(e.getItem());
         if (type == null) return;
 

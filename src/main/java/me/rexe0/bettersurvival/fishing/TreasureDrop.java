@@ -115,7 +115,6 @@ public class TreasureDrop {
             meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.SHINY_LURE.getItem().getID()));
             meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.MAGNET.getItem().getID()));
             meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.PREMIUM_BAIT.getItem().getID()));
-            meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.DRILL_BLOCK.getItem().getID()));
             item.setItemMeta(meta);
             return item;
         }

@@ -16,7 +16,6 @@ import me.rexe0.bettersurvival.gear.AnvilRepair;
 import me.rexe0.bettersurvival.gear.MendingChange;
 import me.rexe0.bettersurvival.golf.GolfBallEntity;
 import me.rexe0.bettersurvival.golf.GolfClubLogic;
-import me.rexe0.bettersurvival.item.DrillEntity;
 import me.rexe0.bettersurvival.item.ItemListener;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.item.golf.GolfTee;
@@ -153,7 +152,6 @@ public final class BetterSurvival extends JavaPlugin {
 
         recipes.values().forEach(r -> getServer().addRecipe(r));
 
-        DrillEntity.runTimer();
         WolfChange.startRunnable();
 
         Bukkit.getScheduler().runTaskTimer(this, () -> {
