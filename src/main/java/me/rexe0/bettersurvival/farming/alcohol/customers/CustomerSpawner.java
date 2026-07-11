@@ -45,9 +45,9 @@ public class CustomerSpawner {
             BlockPos spawnPosition = this.findSpawnPositionNear(worldserver, blockPosition, 48);
             if (spawnPosition == null || !this.hasEnoughSpace(worldserver, spawnPosition))
                 continue;
-            Villager nitwitVillager = (Villager) EntityType.VILLAGER.spawn(worldserver, spawnPosition, EntitySpawnReason.EVENT, CreatureSpawnEvent.SpawnReason.NATURAL);
+            Villager nitwitVillager = EntityTypes.VILLAGER.spawn(worldserver, spawnPosition, EntitySpawnReason.EVENT, CreatureSpawnEvent.SpawnReason.NATURAL);
             if (nitwitVillager == null) continue;
-            nitwitVillager.goalSelector.addGoal(2, new WanderToPositionGoal(nitwitVillager, 2.0, 0.35, blockPosition));
+            nitwitVillager.getGoalSelector().addGoal(2, new WanderToPositionGoal(nitwitVillager, 2.0, 0.35, blockPosition));
             nitwitVillager.setHomeTo(blockPosition, 16);
             nitwitVillager.addTag("isTravellingCustomer");
             nitwitVillager.setVillagerData(nitwitVillager.getVillagerData().withProfession(CraftVillager.CraftProfession.bukkitToMinecraftHolder(org.bukkit.entity.Villager.Profession.NITWIT)));
@@ -59,7 +59,7 @@ public class CustomerSpawner {
     @Nullable
     private BlockPos findSpawnPositionNear(LevelReader iworldreader, BlockPos blockposition, int i) {
         BlockPos blockposition1 = null;
-        SpawnPlacementType spawnplacementtype = SpawnPlacements.getPlacementType(EntityType.WANDERING_TRADER);
+        SpawnPlacementType spawnplacementtype = SpawnPlacements.getPlacementType(EntityTypes.WANDERING_TRADER);
 
         for(int j = 0; j < 10; ++j) {
             int k = blockposition.getX() + this.random.nextInt(i * 2) - i;
@@ -73,7 +73,7 @@ public class CustomerSpawner {
             }
 
             BlockPos blockposition2 = new BlockPos(k, i1, l);
-            if (spawnplacementtype.isSpawnPositionOk(iworldreader, blockposition2, EntityType.WANDERING_TRADER)) {
+            if (spawnplacementtype.isSpawnPositionOk(iworldreader, blockposition2, EntityTypes.WANDERING_TRADER)) {
                 blockposition1 = blockposition2;
                 break;
             }

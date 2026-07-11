@@ -67,8 +67,8 @@ public class WolfChange implements Listener {
             for (World world : Bukkit.getWorlds()) {
                 for (Wolf wolf : world.getEntitiesByClass(Wolf.class)) {
                     net.minecraft.world.entity.animal.wolf.Wolf nmsWolf = ((CraftWolf)wolf).getHandle();
-                    if (nmsWolf.goalSelector.getAvailableGoals().size() == 12)
-                        nmsWolf.goalSelector.addGoal(6, new FollowItemScent(nmsWolf, 1.0, 10, 2.0f));
+                    if (nmsWolf.getGoalSelector().getAvailableGoals().size() == 12)
+                        nmsWolf.getGoalSelector().addGoal(6, new FollowItemScent(nmsWolf, 1.0, 10, 2.0f));
                 }
             }
         }, 20, 100);

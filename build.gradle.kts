@@ -18,16 +18,16 @@ repositories {
 
 dependencies {
     implementation("com.jeff-media:custom-block-data:2.2.4")
-    paperweight.paperDevBundle("26.1.2.build.+")
+    paperweight.paperDevBundle("26.2.build.+")
 }
 
 
 tasks {
     runServer {
-        minecraftVersion("26.1.2")
+        minecraftVersion("26.2")
     }
     shadowJar {
-        relocate("com.jeff_media.customblockdata", "your.package.customblockdata")
+        relocate("com.jeff_media.customblockdata", "me.rexe0.bettersurvival.customblockdata")
     }
     build {
         dependsOn(shadowJar)

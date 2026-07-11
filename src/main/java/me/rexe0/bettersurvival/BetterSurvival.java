@@ -2,9 +2,6 @@ package me.rexe0.bettersurvival;
 
 import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.config.ConfigLoader;
-import me.rexe0.bettersurvival.constructs.ConstructListener;
-import me.rexe0.bettersurvival.constructs.ConstructWorkshopGUI;
-import me.rexe0.bettersurvival.constructs.GhastConstruct;
 import me.rexe0.bettersurvival.farming.*;
 import me.rexe0.bettersurvival.farming.alcohol.AgingListener;
 import me.rexe0.bettersurvival.farming.alcohol.AlcoholListener;
@@ -138,8 +135,6 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(GolfClubLogic.getInstance(), this);
         getServer().getPluginManager().registerEvents(new PearlListener(), this);
         getServer().getPluginManager().registerEvents(WitherChanges.getInstance(), this);
-        getServer().getPluginManager().registerEvents(new ConstructWorkshopGUI(), this);
-        getServer().getPluginManager().registerEvents(new ConstructListener(), this);
         getServer().getPluginManager().registerEvents(new SmeltingListener(), this);
         getServer().getPluginManager().registerEvents(new PouringListener(), this);
 
@@ -173,8 +168,6 @@ public final class BetterSurvival extends JavaPlugin {
             GolfTee.run();
             GolfClubLogic.getInstance().run();
             WitherChanges.getInstance().run();
-            ConstructListener.run();
-            GhastConstruct.tick();
 
             for (GolfBallEntity golfBall : GolfBallEntity.getGolfBalls().toArray(new GolfBallEntity[0]))
                 golfBall.run();

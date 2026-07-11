@@ -12,16 +12,11 @@ import me.rexe0.bettersurvival.weather.Season;
 import me.rexe0.bettersurvival.weather.SeasonListener;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.FishingHook;
-import net.minecraft.world.entity.projectile.Projectile;
 import org.bukkit.*;
 import org.bukkit.block.Biome;
 import org.bukkit.block.data.Waterlogged;
-import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftFishHook;
-import org.bukkit.craftbukkit.entity.CraftPlayer;
-import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.FishHook;
 import org.bukkit.entity.Item;
@@ -52,13 +47,6 @@ public class CatchListener implements Listener {
         ItemType rodType = ItemDataUtil.getItemType(fishingRod);
 
         FishingHook hook = ((CraftFishHook)e.getHook()).getHandle();
-        if (rodType != null && rodType.canFishInLava()) {
-            hook.remove(Entity.RemovalReason.DISCARDED);
-            hook = new LavaHook(((CraftPlayer)player).getHandle(), hook.level());
-
-            Projectile.spawnProjectile(hook, ((CraftWorld)player.getWorld()).getHandle(), CraftItemStack.asNMSCopy(fishingRod));
-            ((CraftPlayer)player).getHandle().fishing = hook;
-        }
         FishHook bukkitHook = (FishHook) hook.getBukkitEntity();
 
 

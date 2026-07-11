@@ -7,7 +7,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.SpawnPlacementType;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
@@ -54,7 +54,7 @@ public class WanderingTraderSpawner {
                     return false;
                 }
 
-                WanderingTrader entityvillagertrader = (WanderingTrader)EntityType.WANDERING_TRADER.spawn(worldserver, blockposition2, EntitySpawnReason.EVENT, CreatureSpawnEvent.SpawnReason.NATURAL);
+                WanderingTrader entityvillagertrader = EntityTypes.WANDERING_TRADER.spawn(worldserver, blockposition2, EntitySpawnReason.EVENT, CreatureSpawnEvent.SpawnReason.NATURAL);
                 if (entityvillagertrader != null) {
                     for(int i = 0; i < 2; ++i) {
                         this.tryToSpawnLlamaFor(worldserver, entityvillagertrader, 4);
@@ -73,7 +73,7 @@ public class WanderingTraderSpawner {
     private void tryToSpawnLlamaFor(ServerLevel worldserver, WanderingTrader entityvillagertrader, int i) {
         BlockPos blockposition = this.findSpawnPositionNear(worldserver, entityvillagertrader.blockPosition(), i);
         if (blockposition != null) {
-            TraderLlama entityllamatrader = (TraderLlama)EntityType.TRADER_LLAMA.spawn(worldserver, blockposition, EntitySpawnReason.EVENT, CreatureSpawnEvent.SpawnReason.NATURAL);
+            TraderLlama entityllamatrader =  EntityTypes.TRADER_LLAMA.spawn(worldserver, blockposition, EntitySpawnReason.EVENT, CreatureSpawnEvent.SpawnReason.NATURAL);
             if (entityllamatrader != null) {
                 entityllamatrader.setLeashedTo(entityvillagertrader, true);
             }
@@ -84,7 +84,7 @@ public class WanderingTraderSpawner {
     @Nullable
     private BlockPos findSpawnPositionNear(LevelReader iworldreader, BlockPos blockposition, int i) {
         BlockPos blockposition1 = null;
-        SpawnPlacementType spawnplacementtype = SpawnPlacements.getPlacementType(EntityType.WANDERING_TRADER);
+        SpawnPlacementType spawnplacementtype = SpawnPlacements.getPlacementType(EntityTypes.WANDERING_TRADER);
 
         for(int j = 0; j < 10; ++j) {
             int k = blockposition.getX() + this.random.nextInt(i * 2) - i;
@@ -98,7 +98,7 @@ public class WanderingTraderSpawner {
             }
 
             BlockPos blockposition2 = new BlockPos(k, i1, l);
-            if (spawnplacementtype.isSpawnPositionOk(iworldreader, blockposition2, EntityType.WANDERING_TRADER)) {
+            if (spawnplacementtype.isSpawnPositionOk(iworldreader, blockposition2, EntityTypes.WANDERING_TRADER)) {
                 blockposition1 = blockposition2;
                 break;
             }

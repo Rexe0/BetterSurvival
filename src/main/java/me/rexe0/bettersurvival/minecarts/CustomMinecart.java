@@ -2,7 +2,7 @@ package me.rexe0.bettersurvival.minecarts;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
 import net.minecraft.world.entity.vehicle.minecart.Minecart;
 import net.minecraft.world.phys.Vec3;
@@ -13,7 +13,7 @@ import org.bukkit.event.vehicle.VehicleEntityCollisionEvent;
 
 public class CustomMinecart extends Minecart {
     public CustomMinecart(Location location) {
-        super(EntityType.MINECART, ((CraftWorld)location.getWorld()).getHandle());
+        super(EntityTypes.MINECART, ((CraftWorld)location.getWorld()).getHandle());
         setPos(location.getX(), location.getY(), location.getZ());
     }
     @Override

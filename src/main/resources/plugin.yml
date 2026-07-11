@@ -1,7 +1,7 @@
 name: BetterSurvival
 version: '${version}'
 main: me.rexe0.bettersurvival.BetterSurvival
-api-version: '26.1'
+api-version: '26.2'
 load: STARTUP
 commands:
   bettersurvivalreload:
