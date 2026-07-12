@@ -64,8 +64,8 @@ public class WanderingTrader implements Listener {
             ItemStack item;
             if (i == 0) item = switch (RandomUtil.getRandom().nextInt(3)) {
                 default -> ItemType.STOPWATCH.getItem().getItem();
-                case 1 -> ItemType.METAL_DETECTOR.getItem().getItem();
-                case 2 -> ItemType.FISH_CODEX.getItem().getItem();
+                case 1 -> ItemType.FISH_CODEX.getItem().getItem();
+                case 2 -> ItemType.WEATHER_RADIO.getItem().getItem();
             };
             else {
                 int potency = RandomUtil.getRandom().nextInt(0, 15);
