@@ -23,6 +23,7 @@ public class ComposterChanges implements Listener {
 
     @EventHandler
     public void onEmptyComposter(PlayerInteractEvent e) {
+        if (!BetterSurvival.getConfigLoader().isCustomAgriculture()) return;
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         if (e.getClickedBlock() == null || e.getClickedBlock().getType() != Material.COMPOSTER) return;
 
@@ -46,6 +47,7 @@ public class ComposterChanges implements Listener {
 
     @EventHandler
     public void onCompost(PlayerInteractEvent e) {
+        if (!BetterSurvival.getConfigLoader().isCustomAgriculture()) return;
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         if (e.getClickedBlock() == null || e.getClickedBlock().getType() != Material.COMPOSTER) return;
         if (e.getItem() == null) return;
@@ -67,6 +69,7 @@ public class ComposterChanges implements Listener {
 
     @EventHandler
     public void onCompostTake(InventoryMoveItemEvent e) {
+        if (!BetterSurvival.getConfigLoader().isCustomAgriculture()) return;
         if (e.getSource().getType() != InventoryType.COMPOSTER) return;
 
         Location loc = e.getDestination().getLocation();
@@ -107,6 +110,7 @@ public class ComposterChanges implements Listener {
     }
     @EventHandler
     public void onHopperMove(InventoryMoveItemEvent e) {
+        if (!BetterSurvival.getConfigLoader().isCustomAgriculture()) return;
         if (e.getSource().getType() != InventoryType.HOPPER) return;
         Location loc = e.getSource().getLocation().subtract(0, 1, 0);
         if (loc.getBlock().getType() != Material.COMPOSTER) return;

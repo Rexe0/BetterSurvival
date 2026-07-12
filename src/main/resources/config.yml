@@ -4,3 +4,11 @@ enable-mending-changes: true
 # When this setting is enabled, blizzards will deal damage to players who are not wearing a piece of leather armour
 # Additionally, snow will stack up much faster and eventually become powdered snow
 enable-blizzard-harmful: true
+
+enable-snowfall: true
+
+enable-ocean-caves: true
+
+enable-custom-smithing: true
+
+enable-custom-agriculture: true

@@ -15,6 +15,10 @@ public class ConfigLoader implements CommandExecutor {
 
     private boolean mendingChanges;
     private boolean blizzardHarmful;
+    private boolean snowfall;
+    private boolean customOceanCaves;
+    private boolean customSmithing;
+    private boolean customAgriculture;
 
     public ConfigLoader(FileConfiguration config) {
         this.config = config;
@@ -24,6 +28,10 @@ public class ConfigLoader implements CommandExecutor {
     private void init() {
         mendingChanges = config.getBoolean("enable-mending-changes");
         blizzardHarmful = config.getBoolean("enable-blizzard-harmful");
+        snowfall = config.getBoolean("enable-snowfall");
+        customOceanCaves = config.getBoolean("enable-ocean-caves");
+        customSmithing = config.getBoolean("enable-custom-smithing");
+        customAgriculture = config.getBoolean("enable-custom-agriculture");
     }
 
     public boolean isMendingChanges() {
@@ -32,6 +40,22 @@ public class ConfigLoader implements CommandExecutor {
 
     public boolean isBlizzardHarmful() {
         return blizzardHarmful;
+    }
+
+    public boolean isSnowfall() {
+        return snowfall;
+    }
+
+    public boolean isCustomOceanCaves() {
+        return customOceanCaves;
+    }
+
+    public boolean isCustomSmithing() {
+        return customSmithing;
+    }
+
+    public boolean isCustomAgriculture() {
+        return customAgriculture;
     }
 
     @Override

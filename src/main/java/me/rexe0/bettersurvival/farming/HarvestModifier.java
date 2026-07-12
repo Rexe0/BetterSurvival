@@ -43,6 +43,7 @@ public class HarvestModifier implements Listener {
 
     @EventHandler
     public void onHarvestWheat(BlockBreakEvent e) {
+        if (!BetterSurvival.getConfigLoader().isCustomAgriculture()) return;
         if (e.getBlock().getType() != Material.WHEAT) return;
         Player player = e.getPlayer();
         if (player.getStatistic(Statistic.MINE_BLOCK, Material.WHEAT) == 300) {
@@ -57,6 +58,7 @@ public class HarvestModifier implements Listener {
     }
     @EventHandler
     public void onHarvest(BlockBreakEvent e) {
+        if (!BetterSurvival.getConfigLoader().isCustomAgriculture()) return;
         Block block = e.getBlock();
         Player player = e.getPlayer();
         if (!cropDrops.containsKey(block.getType())) return;
@@ -116,6 +118,7 @@ public class HarvestModifier implements Listener {
 
     @EventHandler
     public void onBonemeal(PlayerInteractEvent e) {
+        if (!BetterSurvival.getConfigLoader().isCustomAgriculture()) return;
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
         ItemStack item = e.getItem();
@@ -129,6 +132,7 @@ public class HarvestModifier implements Listener {
 
     @EventHandler
     public void onDispenseSeed(BlockDispenseEvent e) {
+        if (!BetterSurvival.getConfigLoader().isCustomAgriculture()) return;
         if (e.getBlock().getType() != Material.DISPENSER) return;
         Material material = null;
         for (Map.Entry<Material, Material[]> entry : cropDrops.entrySet())
@@ -160,6 +164,7 @@ public class HarvestModifier implements Listener {
 
     @EventHandler
     public void onDispense(BlockDispenseEvent e) {
+        if (!BetterSurvival.getConfigLoader().isCustomAgriculture()) return;
         if (e.getItem().getType() != Material.BONE_MEAL) return;
         if (e.getBlock().getType() != Material.DISPENSER) return;
 

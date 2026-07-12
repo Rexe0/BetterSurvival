@@ -81,6 +81,7 @@ public class SmeltingListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onAddIngredient(PlayerInteractEvent e) {
         if (e.useInteractedBlock() == Event.Result.DENY || e.useItemInHand() == Event.Result.DENY) return;
+        if (!BetterSurvival.getConfigLoader().isCustomSmithing()) return;
 
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK || e.getHand() != EquipmentSlot.HAND) return;
         Block block = e.getClickedBlock();

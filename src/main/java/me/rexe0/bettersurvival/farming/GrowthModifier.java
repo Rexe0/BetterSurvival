@@ -18,6 +18,7 @@ import org.bukkit.persistence.PersistentDataType;
 public class GrowthModifier implements Listener {
     @EventHandler
     public void onGrow(BlockGrowEvent e) {
+        if (!BetterSurvival.getConfigLoader().isCustomAgriculture()) return;
         Block block = e.getBlock();
         if (!(block.getBlockData() instanceof Ageable ageable)) return;
 

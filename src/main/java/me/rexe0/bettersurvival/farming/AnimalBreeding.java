@@ -16,6 +16,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class AnimalBreeding implements Listener {
     @EventHandler
     public void onBreed(EntityBreedEvent e) {
+        if (!BetterSurvival.getConfigLoader().isCustomAgriculture()) return;
         int amount = 0;
         Breedable mother = (Breedable) e.getMother();
         Breedable father = (Breedable) e.getFather();
@@ -49,6 +50,7 @@ public class AnimalBreeding implements Listener {
     }
 
     public static void run() {
+        if (!BetterSurvival.getConfigLoader().isCustomAgriculture()) return;
         World world = BetterSurvival.getInstance().getDefaultWorld();
         for (LivingEntity entity : world.getLivingEntities()) {
             if (entity instanceof Cow || entity instanceof Pig || entity instanceof Sheep) {

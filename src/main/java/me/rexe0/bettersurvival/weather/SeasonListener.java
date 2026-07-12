@@ -217,6 +217,9 @@ public class SeasonListener {
     private static void tickHighest(Block block) {
         Season season = Season.getSeason();
 
+        boolean canSnow = BetterSurvival.getConfigLoader().isSnowfall();
+        if (!canSnow) return;
+
         Block above = block.getLocation().add(0, 1, 0).getBlock();
         if (block.getType().isOccluding() || Tag.LEAVES.isTagged(block.getType())) {
             Biome biome = ((CraftBlock) block).getCraftWorld().getHandle().getBiome(new BlockPos(block.getX(), block.getY(), block.getZ())).value();
