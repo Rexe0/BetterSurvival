@@ -1,6 +1,5 @@
 package me.rexe0.bettersurvival.mobs;
 
-import me.rexe0.bettersurvival.util.RandomUtil;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ElderGuardian;
@@ -14,8 +13,6 @@ public class ElderGuardianDrops implements Listener {
     @EventHandler
     public void onDeath(EntityDeathEvent e) {
         if (!(e.getEntity() instanceof ElderGuardian)) return;
-
-        if (RandomUtil.getRandom().nextInt(3) != 0) return;
 
         ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getItemMeta();
