@@ -200,15 +200,15 @@ public class HarvestModifier implements Listener {
                 && !data.has(CannabisListener.CANNABIS_KEY, PersistentDataType.INTEGER)
                 && !data.has(CocaineListener.COCAINE_KEY, PersistentDataType.INTEGER)) return -1;
 
+        boolean isDrug = (block.getType() == Material.OAK_LEAVES && data.has(CocaineListener.COCAINE_KEY, PersistentDataType.INTEGER)) || (data.has(CannabisListener.CANNABIS_KEY, PersistentDataType.INTEGER));
+
+        if (!isDrug && !BetterSurvival.getConfigLoader().isCustomAgriculture()) return 2;
+
         // Can only bonemeal the crop when it is nascent
         if (block.getType() == Material.OAK_LEAVES && data.has(CocaineListener.COCAINE_KEY, PersistentDataType.INTEGER)) {
             if (CocaineListener.getCocaLength(block) > 1) return 0;
         } else if (block.getType() == Material.LARGE_FERN || (block.getBlockData() instanceof Ageable ageable && ageable.getAge() > 1))
             return 0;
-
-        boolean isDrug = (block.getType() == Material.OAK_LEAVES && data.has(CocaineListener.COCAINE_KEY, PersistentDataType.INTEGER)) || (data.has(CannabisListener.CANNABIS_KEY, PersistentDataType.INTEGER));
-
-        if (!isDrug && !BetterSurvival.getConfigLoader().isCustomAgriculture()) return 2;
 
         if (data.has(BONEMEAL_KEY, PersistentDataType.INTEGER)) return 0;
 
