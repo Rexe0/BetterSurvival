@@ -75,7 +75,7 @@ This is a plugin that contains several features that I think would improve the c
 - Large patches of suspicious sand can now generate on the desert biome's surface that when brushed reveal bones. These patches reveal that somewhere under them lies a fossil.
 - Suspicious sand and gravel can now generate in rivers which can reveal gold upon being brushed
 - The mending enchantment has been changed. Upon picking up an experience orb, gear with mending will no longer automatically repair itself. Rather, it will reduce its repair cost at an anvil.
-- Elder Guardians now have a 1/3 chance of dropping a Mending Book
+- Elder Guardians now always drop 1 Mending Book
 - Netherite gear can now be repaired at an anvil with diamonds
 - Elytras can be fully repaired with 1 Dragon Scale
 - Tridents can be repaired using Prismarine Crystals at a reduced rate
@@ -130,6 +130,7 @@ This is a plugin that contains several features that I think would improve the c
 - Treasure Chests can also be caught when fishing which contains 3 pieces of treasure
 - Treasure has a small chance to yield Lost Fisherman's Knowledge which when used grants the recipes for all relevant fishing items
 - Wandering Trader can now sell Fish Codex which displays all fish that exist and how many they have caught alongside other information
+- Fisherman Villagers now sell Rain Callers which can be used to forcibly summon rain or snow the next day
 
 **Golf:**
 - Added Golf as an optional player created mini-game

@@ -82,6 +82,7 @@ public enum ItemType {
     PLATINUM_FISHING_ROD(new PlatinumFishingRod()),
     RESONANT_FISHING_ROD(new ResonantFishingRod()),
     GLEAMING_PEARL(new GleamingPearl()),
+    RAIN_CALLER(new RainCaller()),
     ;
 
 

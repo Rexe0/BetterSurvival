@@ -55,6 +55,10 @@ public abstract class Item {
     }
 
     // Return whether to cancel the event
+    public boolean onRightClick(Player player, ItemStack item) {
+        return onRightClick(player);
+    }
+    // Return whether to cancel the event
     public boolean onRightClick(Player player) {
         return false;
     }

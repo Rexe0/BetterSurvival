@@ -4,6 +4,7 @@ import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.item.WeatherRadio;
 import me.rexe0.bettersurvival.item.fishing.CopperFishingRod;
 import me.rexe0.bettersurvival.item.fishing.JumboHook;
+import me.rexe0.bettersurvival.item.fishing.RainCaller;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -22,6 +23,7 @@ public class VillagerChange implements Listener {
         if (!(e.getEntity() instanceof org.bukkit.entity.Villager villager)) return;
         ((WeatherRadio)ItemType.WEATHER_RADIO.getItem()).onAcquireTrade(villager, e);
         ((JumboHook)ItemType.JUMBO_HOOK.getItem()).onAcquireTrade(villager, e);
+        ((RainCaller)ItemType.RAIN_CALLER.getItem()).onAcquireTrade(villager, e);
         ((CopperFishingRod)ItemType.COPPER_FISHING_ROD.getItem()).onAcquireTrade(villager, e);
         onTradeWolfArmor(villager, e);
 

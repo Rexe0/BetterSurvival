@@ -56,7 +56,7 @@ public class ItemListener implements Listener {
         if (type == null) return;
 
         if ((e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) && e.getHand() == EquipmentSlot.HAND)
-            if (type.getItem().onRightClick(e.getPlayer()))
+            if (type.getItem().onRightClick(e.getPlayer(), e.getItem()))
                 e.setCancelled(true);
         if ((e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) && e.getHand() == EquipmentSlot.HAND)
             if (type.getItem().onLeftClick(e.getPlayer()))

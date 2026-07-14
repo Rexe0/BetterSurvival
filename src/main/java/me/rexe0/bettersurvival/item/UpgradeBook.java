@@ -65,7 +65,7 @@ public class UpgradeBook extends Item {
     }
 
     @Override
-    public boolean onRightClick(Player player) {
+    public boolean onRightClick(Player player, ItemStack item) {
         Upgrade upgrade = Upgrade.valueOf(ItemDataUtil.getStringValue(player.getInventory().getItemInMainHand(), "upgradeType"));
         int level = EntityDataUtil.getIntegerValue(player, "upgradeLevel."+upgrade.name());
         if (level >= 5) {
@@ -76,7 +76,7 @@ public class UpgradeBook extends Item {
         player.playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1);
         player.sendMessage(ChatColor.GREEN+"You learned some things about "+upgrade.getName()+"!");
 
-        player.getEquipment().getItemInMainHand().setAmount(0);
+        item.setAmount(0);
         EntityDataUtil.setIntegerValue(player, "upgradeLevel."+upgrade.name(), level+1);
         if (upgrade == Upgrade.COMBAT)
             player.getAttribute(Attribute.ARMOR_TOUGHNESS).setBaseValue(

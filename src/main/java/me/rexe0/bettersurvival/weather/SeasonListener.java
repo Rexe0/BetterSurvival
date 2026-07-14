@@ -29,6 +29,9 @@ public class SeasonListener {
     public static void setCurrentWeather(Weather weather) {
         currentWeather = weather;
     }
+    public static void setWeatherForecast(Weather weather) {
+        weatherForecast = weather;
+    }
 
     public static Weather getWeatherForecast() {
         return weatherForecast;
