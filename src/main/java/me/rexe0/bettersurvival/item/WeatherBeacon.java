@@ -9,9 +9,20 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class WeatherBeacon extends Item {
     public WeatherBeacon() {
         super(Material.COMPASS, ChatColor.GREEN+"Weather Beacon", "WEATHER_BEACON");
+    }
+
+    @Override
+    public List<String> getLore() {
+        List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.GRAY+"Right-Click to instantly clear the");
+        lore.add(ChatColor.GRAY+"weather, at any time you want.");
+        return lore;
     }
 
     @Override

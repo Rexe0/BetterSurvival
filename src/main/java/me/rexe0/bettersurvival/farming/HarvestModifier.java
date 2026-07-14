@@ -26,7 +26,9 @@ import org.bukkit.inventory.meta.KnowledgeBookMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class HarvestModifier implements Listener {
@@ -50,6 +52,11 @@ public class HarvestModifier implements Listener {
             ItemStack item = new ItemStack(Material.KNOWLEDGE_BOOK);
             KnowledgeBookMeta meta = (KnowledgeBookMeta) item.getItemMeta();
             meta.setDisplayName(ChatColor.DARK_AQUA+"Lost Farmer Knowledge");
+
+            List<String> lore = new ArrayList<>();
+            lore.add(ChatColor.GRAY+"Right Click to learn crafting");
+            lore.add(ChatColor.GRAY+"recipes related to farming.");
+            meta.setLore(lore);
             meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.FARMER_BOOTS.getItem().getID()));
             meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.AMBROSIA.getItem().getID()));
             item.setItemMeta(meta);

@@ -11,11 +11,22 @@ import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.SmithingTransformRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.List;
+
 public class SaddleNHorseshoe extends Item {
     public SaddleNHorseshoe() {
         super(Material.SADDLE, ChatColor.GREEN+"Saddle 'n' Horseshoe", "SADDLE_N_HORSESHOE");
     }
 
+
+    @Override
+    public List<String> getLore() {
+        List<String> lore = super.getLore();
+        lore.add(ChatColor.GRAY+"A stronger saddle that");
+        lore.add(ChatColor.GRAY+"halves all fall damage");
+        lore.add(ChatColor.GRAY+"the equipped mount takes.");
+        return lore;
+    }
     @Override
     public ItemStack getItem() {
         ItemStack item = super.getItem();

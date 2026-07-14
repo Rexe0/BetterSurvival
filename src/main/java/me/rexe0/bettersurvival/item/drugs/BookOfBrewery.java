@@ -13,6 +13,7 @@ import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.KnowledgeBookMeta;
 import org.bukkit.loot.LootTables;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BookOfBrewery extends Item {
@@ -57,6 +58,10 @@ public class BookOfBrewery extends Item {
         ItemStack item = new ItemStack(Material.KNOWLEDGE_BOOK);
         KnowledgeBookMeta meta = (KnowledgeBookMeta) item.getItemMeta();
         meta.setDisplayName(ChatColor.DARK_AQUA + "Lost Brewing Knowledge");
+        List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.GRAY+"Right Click to learn crafting");
+        lore.add(ChatColor.GRAY+"recipes related to brewing.");
+        meta.setLore(lore);
         String ID = ItemType.REINFORCED_BARREL.getItem().getID();
         for (BarrelType type : BarrelType.values())
             meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ID + "_" + type.name()));

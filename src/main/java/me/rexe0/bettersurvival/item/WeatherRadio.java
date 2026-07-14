@@ -13,12 +13,23 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class WeatherRadio extends Item {
     public WeatherRadio() {
         super(Material.CLOCK, ChatColor.GREEN+"Weather Radio", "WEATHER_RADIO");
     }
 
+    @Override
+    public java.util.List<String> getLore() {
+        List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.GRAY+"Right-Click to view the weather");
+        lore.add(ChatColor.GRAY+"forecast for tomorrow as well");
+        lore.add(ChatColor.GRAY+"as information about any special");
+        lore.add(ChatColor.GRAY+"days tomorrow.");
+        return lore;
+    }
     @Override
     public boolean onRightClick(Player player) {
         Season season = Season.getSeason();

@@ -23,6 +23,16 @@ public class FishCodex extends Item {
         super(Material.BOOK, ChatColor.GREEN+"Fish Codex", "FISH_CODEX");
     }
 
+
+    @Override
+    public List<String> getLore() {
+        List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.GRAY+"A book that displays all");
+        lore.add(ChatColor.GRAY+"the different types of fish,");
+        lore.add(ChatColor.GRAY+"and how many you've caught.");
+        return lore;
+    }
+
     public void onCatch(Player player, Fish.FishType type) {
         FishFile.getPlayerData(player).addFish(type);
     }

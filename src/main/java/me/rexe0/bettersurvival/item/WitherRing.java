@@ -12,11 +12,21 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class WitherRing extends Item {
     public WitherRing() {
         super(Material.FLINT, ChatColor.GOLD+"Wither Ring", "WITHER_RING");
     }
 
+    @Override
+    public List<String> getLore() {
+        List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.GRAY+"A powerful ring forged by the");
+        lore.add(ChatColor.GRAY+"Primeval Wither.");
+        return lore;
+    }
     @Override
     public ItemStack getItem() {
         ItemStack item = super.getItem();

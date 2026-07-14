@@ -17,7 +17,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.KnowledgeBookMeta;
 import org.bukkit.loot.LootTables;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GolfClubLogic implements Listener {
@@ -62,6 +64,12 @@ public class GolfClubLogic implements Listener {
         ItemStack item = new ItemStack(Material.KNOWLEDGE_BOOK);
         KnowledgeBookMeta meta = (KnowledgeBookMeta) item.getItemMeta();
         meta.setDisplayName(ChatColor.DARK_AQUA+"Lost Golfer Knowledge");
+
+        List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.GRAY+"Right Click to learn crafting");
+        lore.add(ChatColor.GRAY+"recipes related to golfing.");
+        meta.setLore(lore);
+
         meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.GOLF_CUP.getItem().getID()));
         meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.GOLF_TEE.getItem().getID()));
         meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.GOLF_HORN.getItem().getID()));

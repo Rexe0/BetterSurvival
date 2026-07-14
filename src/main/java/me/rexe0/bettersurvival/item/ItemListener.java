@@ -13,6 +13,7 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -66,6 +67,7 @@ public class ItemListener implements Listener {
         if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         ItemStack item = e.getItem();
         if (item == null || item.getType() != Material.KNOWLEDGE_BOOK) return;
+        if (e.useItemInHand() == Event.Result.DENY) return;
         Player player = e.getPlayer();
         player.playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1);
         player.sendMessage(ChatColor.GREEN+"You learned a few crafting recipes. Check them out in the recipe book from the crafting table menu.");

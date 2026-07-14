@@ -44,6 +44,9 @@ public class UpgradeBook extends Item {
             lore.add(ChatColor.GRAY+"crops to drop additional items.");
         }
         lore.add(" ");
+        lore.add(ChatColor.GRAY+"You can read up to "+ChatColor.YELLOW+"5");
+        lore.add(ChatColor.GRAY+"books of this type.");
+        lore.add(" ");
         lore.add(ChatColor.GREEN+"Right Click to read.");
         return lore;
     }

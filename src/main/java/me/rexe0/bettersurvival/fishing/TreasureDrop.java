@@ -107,6 +107,12 @@ public class TreasureDrop {
             ItemStack item = new ItemStack(Material.KNOWLEDGE_BOOK);
             KnowledgeBookMeta meta = (KnowledgeBookMeta) item.getItemMeta();
             meta.setDisplayName(ChatColor.DARK_AQUA+"Lost Fisherman Knowledge");
+
+            List<String> lore = new ArrayList<>();
+            lore.add(ChatColor.GRAY+"Right Click to learn crafting");
+            lore.add(ChatColor.GRAY+"recipes related to fishing.");
+            meta.setLore(lore);
+
             meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.COPPER_FISHING_ROD.getItem().getID()));
             meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.PLATINUM_FISHING_ROD.getItem().getID()));
             meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.RESONANT_FISHING_ROD.getItem().getID()));
