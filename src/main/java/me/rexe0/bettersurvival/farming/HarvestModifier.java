@@ -125,12 +125,11 @@ public class HarvestModifier implements Listener {
 
     @EventHandler
     public void onBonemeal(PlayerInteractEvent e) {
-        if (!BetterSurvival.getConfigLoader().isCustomAgriculture()) return;
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
         ItemStack item = e.getItem();
         int value = onBonemeal(e.getClickedBlock(), item);
-        if (value > -1) {
+        if (value > -1 && value != 2) {
             e.setCancelled(true);
             if (value == 1)
                 item.setAmount(item.getAmount()-1);
@@ -139,7 +138,6 @@ public class HarvestModifier implements Listener {
 
     @EventHandler
     public void onDispenseSeed(BlockDispenseEvent e) {
-        if (!BetterSurvival.getConfigLoader().isCustomAgriculture()) return;
         if (e.getBlock().getType() != Material.DISPENSER) return;
         Material material = null;
         for (Map.Entry<Material, Material[]> entry : cropDrops.entrySet())
@@ -171,7 +169,6 @@ public class HarvestModifier implements Listener {
 
     @EventHandler
     public void onDispense(BlockDispenseEvent e) {
-        if (!BetterSurvival.getConfigLoader().isCustomAgriculture()) return;
         if (e.getItem().getType() != Material.BONE_MEAL) return;
         if (e.getBlock().getType() != Material.DISPENSER) return;
 
@@ -179,7 +176,7 @@ public class HarvestModifier implements Listener {
         Block target = e.getBlock().getLocation().add(directional.getFacing().getDirection()).getBlock();
 
         int value = onBonemeal(target, e.getItem());
-        if (value > -1) {
+        if (value > -1 && value != 2) {
             e.setCancelled(true);
             if (value == 1) {
                 Dispenser dispenser = (Dispenser) e.getBlock().getState();
@@ -194,7 +191,7 @@ public class HarvestModifier implements Listener {
     }
 
 
-    // Returns -1 if not applicable, Returns 0 if bonemeal shouldn't be consumed, Returns 1 if bonemeal should be consued
+    // Returns -1 if not applicable, Returns 0 if bonemeal shouldn't be consumed, Returns 1 if bonemeal should be consumed, Returns 2 if use default bonemeal
     private int onBonemeal(Block block, ItemStack item) {
         if (item == null) return -1;
         if (item.getType() != Material.BONE_MEAL) return -1;
@@ -209,6 +206,9 @@ public class HarvestModifier implements Listener {
         } else if (block.getType() == Material.LARGE_FERN || (block.getBlockData() instanceof Ageable ageable && ageable.getAge() > 1))
             return 0;
 
+        boolean isDrug = (block.getType() == Material.OAK_LEAVES && data.has(CocaineListener.COCAINE_KEY, PersistentDataType.INTEGER)) || (data.has(CannabisListener.CANNABIS_KEY, PersistentDataType.INTEGER));
+
+        if (!isDrug && !BetterSurvival.getConfigLoader().isCustomAgriculture()) return 2;
 
         if (data.has(BONEMEAL_KEY, PersistentDataType.INTEGER)) return 0;
 
