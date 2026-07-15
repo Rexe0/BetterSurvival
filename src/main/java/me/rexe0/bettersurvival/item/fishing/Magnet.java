@@ -22,7 +22,9 @@ public class Magnet extends Item {
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.DARK_GRAY+"Bait");
         lore.add(ChatColor.GRAY+"Increases the chance of catching");
-        lore.add(ChatColor.GRAY+"treasure whilst fishing.");
+        lore.add(ChatColor.GRAY+"treasure whilst fishing and");
+        lore.add(ChatColor.GRAY+"also reduces the time to");
+        lore.add(ChatColor.GRAY+"catch a fish by "+ChatColor.GREEN+"50%"+ChatColor.GRAY+".");
         return lore;
     }
 

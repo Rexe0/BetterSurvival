@@ -24,6 +24,9 @@ public class PremiumBait extends Item {
     public List<String> getLore() {
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.DARK_GRAY+"Bait");
+        lore.add(" ");
+        lore.add(ChatColor.GRAY+"Reduces the time to catch");
+        lore.add(ChatColor.GRAY+"a fish by "+ChatColor.GREEN+"75%"+ChatColor.GRAY+".");
         return lore;
     }
 
