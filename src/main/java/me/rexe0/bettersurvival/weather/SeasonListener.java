@@ -114,13 +114,18 @@ public class SeasonListener {
 
 
 
+
         if (currentWeather == Weather.TEMPEST) {
             for (Player player : world.getPlayers()) {
                 if (RandomUtil.getRandom().nextInt(200) == 0) {
+
                     int x = player.getLocation().getBlockX() + RandomUtil.getRandom().nextInt(-150, 150);
                     int z = player.getLocation().getBlockZ() + RandomUtil.getRandom().nextInt(-150, 150);
 
-                    world.strikeLightning(world.getHighestBlockAt(x, z).getLocation().add(0, 1, 0));
+                    Location location = world.getHighestBlockAt(x, z).getLocation().add(0, 1, 0);
+                    Location loc = world.findLightningTarget(location);
+
+                    world.strikeLightning(loc != null ? loc : location);
                 }
             }
         }
