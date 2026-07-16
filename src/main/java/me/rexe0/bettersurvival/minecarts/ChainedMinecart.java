@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 
@@ -126,6 +127,14 @@ public class ChainedMinecart implements Listener {
     public void onDeath(VehicleDestroyEvent e) {
         if (!(e.getVehicle() instanceof Minecart minecart)) return;
 
+        for (Iterator<UUID> iterator = currentMinecartChain.values().iterator(); iterator.hasNext();) {
+            UUID minecartUUID = iterator.next();
+            if (minecart.getUniqueId().equals(minecartUUID)) {
+                minecart.getWorld().dropItemNaturally(minecart.getLocation(), new ItemStack(Material.IRON_CHAIN, 1));
+                minecart.getWorld().playSound(minecart.getLocation(), Sound.BLOCK_CHAIN_PLACE, 1, 1.4f);
+                iterator.remove();
+            }
+        }
         String uuid = EntityDataUtil.getStringValue(minecart, "childMinecart");
         if (uuid.isEmpty()) return;
         minecart.getWorld().dropItemNaturally(minecart.getLocation(), new ItemStack(Material.IRON_CHAIN, 2));
