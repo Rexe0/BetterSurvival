@@ -25,7 +25,9 @@ public class GleamingPearl extends Item {
         lore.add(ChatColor.GRAY+"to its full potential.");
         lore.add(" ");
         lore.add(ChatColor.GRAY+"Apply it to your fishing");
-        lore.add(ChatColor.GRAY+"rod in an anvil.");
+        lore.add(ChatColor.GRAY+"rod in an anvil to");
+        lore.add(ChatColor.GRAY+"further improve its");
+        lore.add(ChatColor.GRAY+"enchantments.");
         return lore;
     }
 
