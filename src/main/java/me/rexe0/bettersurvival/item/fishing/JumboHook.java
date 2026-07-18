@@ -43,7 +43,7 @@ public class JumboHook extends Item {
         if (villager.getProfession() != Villager.Profession.FISHERMAN) return;
 
         if (e.getRecipe().getIngredients().get(0).getType() == Material.TROPICAL_FISH) {
-            MerchantRecipe trade = new MerchantRecipe(ItemType.JUMBO_HOOK.getItem().getItem(), 0, 4, true, 15, 0);
+            MerchantRecipe trade = new MerchantRecipe(ItemType.JUMBO_HOOK.getItem().getItem(), 0, 4, true, 45, 0);
             trade.addIngredient(new ItemStack(Material.EMERALD, 24));
             trade.addIngredient(new ItemStack(Material.IRON_BLOCK, 2));
             e.setRecipe(trade);
