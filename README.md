@@ -47,6 +47,11 @@ This is a plugin that contains several features that I think would improve the c
 - Mining Sculk Shriekers now has a chance to yield 1 Echo Shard
 - Placing torches or lanterns in the deep dark will cause nearby players to receive Darkness and hear a hear a heartbeat underground
 
+**Enchanting:**
+- You can now use amethyst shards or nautilus shells to enchant, in addition to lapis lazuli
+- Amethyst shards reduce the level cost to 1
+- Nautilus shells double the enchanting power
+
 **Oceans:**
 - Deep Oceans are now generally deeper if using the plugin's world generation modifier
 - Hydrothermal vents can generate at deep points on the ocean floor

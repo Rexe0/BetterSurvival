@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
 
 import java.util.Map;
+import java.util.Random;
 
 public class VillagerChange implements Listener {
     @EventHandler
@@ -37,7 +38,7 @@ public class VillagerChange implements Listener {
 
         ItemStack armor = new ItemStack(Material.WOLF_ARMOR);
         // Add lvl 30 enchants to wolf armor
-        for (Map.Entry<Enchantment, Integer> entry : Bukkit.getItemFactory().enchantItem(new ItemStack(Material.DIAMOND_LEGGINGS), 30, false).getEnchantments().entrySet())
+        for (Map.Entry<Enchantment, Integer> entry : Bukkit.getItemFactory().enchantWithLevels(new ItemStack(Material.DIAMOND_LEGGINGS), 30, false, new Random()).getEnchantments().entrySet())
             armor.addUnsafeEnchantment(entry.getKey(), entry.getValue());
 
         MerchantRecipe trade = new MerchantRecipe(armor, 0, 2, true, 15, 0);

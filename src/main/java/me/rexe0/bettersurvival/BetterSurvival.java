@@ -2,6 +2,7 @@ package me.rexe0.bettersurvival;
 
 import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.config.ConfigLoader;
+import me.rexe0.bettersurvival.enchanting.EnchantmentTableChanges;
 import me.rexe0.bettersurvival.farming.*;
 import me.rexe0.bettersurvival.farming.alcohol.AgingListener;
 import me.rexe0.bettersurvival.farming.alcohol.AlcoholListener;
@@ -137,6 +138,7 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new SmeltingListener(), this);
         getServer().getPluginManager().registerEvents(new PouringListener(), this);
         getServer().getPluginManager().registerEvents(new SnifferChanges(), this);
+        getServer().getPluginManager().registerEvents(new EnchantmentTableChanges(), this);
 
         CustomBlockData.registerListener(this);
 
