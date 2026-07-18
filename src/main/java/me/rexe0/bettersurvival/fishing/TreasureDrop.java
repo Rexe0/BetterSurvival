@@ -17,6 +17,7 @@ import org.bukkit.potion.PotionType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class TreasureDrop {
     private final ItemStack item;
@@ -103,7 +104,7 @@ public class TreasureDrop {
 
     public static ItemStack getTreasureItem(Player player, ItemType fishingRod) {
         if (!player.getDiscoveredRecipes().contains(new NamespacedKey(BetterSurvival.getInstance(), ItemType.RESONANT_FISHING_ROD.getItem().getID()))
-                && RandomUtil.getRandom().nextInt(0, 100) == 0) {
+                && RandomUtil.getRandom().nextInt(0, 20) == 0) {
             ItemStack item = new ItemStack(Material.KNOWLEDGE_BOOK);
             KnowledgeBookMeta meta = (KnowledgeBookMeta) item.getItemMeta();
             meta.setDisplayName(ChatColor.DARK_AQUA+"Lost Fisherman Knowledge");
@@ -140,7 +141,7 @@ public class TreasureDrop {
 
         ItemStack item = drop.getItem();
         if (item.getType() == Material.BOOK)
-            item = Bukkit.getItemFactory().enchantItem(item, 30, false);
+            item = Bukkit.getItemFactory().enchantWithLevels(item, 30, false, new Random());
         item.setAmount(RandomUtil.getRandom().nextInt(drop.getMinAmount(), drop.getMaxAmount()+1));
         return item;
     }
