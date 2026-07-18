@@ -13,11 +13,13 @@ repositories {
         name = "papermc"
         url = uri("https://repo.papermc.io/repository/maven-public/")
     }
+    maven { url = uri("https://nexus.frengor.com/repository/public/") }
     mavenCentral()
 }
 
 dependencies {
     implementation("com.jeff-media:custom-block-data:2.2.4")
+    implementation("com.frengor:ultimateadvancementapi-shadeable:2.8.0")
     paperweight.paperDevBundle("26.2.build.+")
 }
 
@@ -28,6 +30,7 @@ tasks {
     }
     shadowJar {
         relocate("com.jeff_media.customblockdata", "me.rexe0.bettersurvival.customblockdata")
+        relocate("com.frengor:ultimateadvancementapi-shadeable", "me.rexe0.bettersurvival.ultimateadvancementapi")
     }
     build {
         dependsOn(shadowJar)

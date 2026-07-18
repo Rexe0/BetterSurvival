@@ -1,8 +1,14 @@
 package me.rexe0.bettersurvival.fishing;
 
+import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.advs.fishing.Epic_catch;
+import me.rexe0.bettersurvival.advs.fishing.Legendary_catch;
+import me.rexe0.bettersurvival.advs.fishing.Monster_catch;
+import me.rexe0.bettersurvival.advs.fishing.Rare_catch;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.item.fishing.Fish;
 import me.rexe0.bettersurvival.item.fishing.FishCodex;
+import me.rexe0.bettersurvival.util.ItemDataUtil;
 import me.rexe0.bettersurvival.util.RandomUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -143,7 +149,12 @@ public class FishingMinigame {
     }
 
     private void win() {
+        BetterSurvival instance = BetterSurvival.getInstance();
         for (ItemStack drop : items) {
+            // Monster catch advancement for catching fish >= 55 lbs
+            if (ItemDataUtil.getDoubleValue(drop, "weight") >= 55)
+                instance.grantCustomAdvancement(player, Monster_catch.KEY);
+
             Item item = hook.getWorld().dropItem(hook.getLocation(), drop);
             double d0 = player.getEyeLocation().getX() - hook.getLocation().getX();
             double d1 = player.getEyeLocation().getY() - hook.getLocation().getY();
@@ -155,8 +166,15 @@ public class FishingMinigame {
             item.setPickupDelay(0);
         }
         int extraXp = 5;
-        if (fishType.getName().startsWith(ChatColor.DARK_PURPLE+"")) extraXp = 10;
-        if (fishType.getName().startsWith(ChatColor.GOLD+"")) extraXp = 50;
+        if (fishType.getName().startsWith(ChatColor.BLUE+"")) {
+            instance.grantCustomAdvancement(player, Rare_catch.KEY);
+        } else if (fishType.getName().startsWith(ChatColor.DARK_PURPLE+"")) {
+            instance.grantCustomAdvancement(player, Epic_catch.KEY);
+            extraXp = 10;
+        } else if (fishType.getName().startsWith(ChatColor.GOLD+"")) {
+            instance.grantCustomAdvancement(player, Legendary_catch.KEY);
+            extraXp = 50;
+        }
 
         player.giveExp(extraXp);
 

@@ -1,6 +1,16 @@
 package me.rexe0.bettersurvival;
 
+import com.fren_gor.ultimateAdvancementAPI.AdvancementMain;
+import com.fren_gor.ultimateAdvancementAPI.AdvancementTab;
+import com.fren_gor.ultimateAdvancementAPI.UltimateAdvancementAPI;
+import com.fren_gor.ultimateAdvancementAPI.advancement.Advancement;
+import com.fren_gor.ultimateAdvancementAPI.database.impl.SQLite;
+import com.fren_gor.ultimateAdvancementAPI.events.PlayerLoadingCompletedEvent;
+import com.fren_gor.ultimateAdvancementAPI.util.AdvancementKey;
+import com.fren_gor.ultimateAdvancementAPI.util.CoordAdapter;
 import com.jeff_media.customblockdata.CustomBlockData;
+import me.rexe0.bettersurvival.advs.AdvancementTabNamespaces;
+import me.rexe0.bettersurvival.advs.fishing.*;
 import me.rexe0.bettersurvival.config.ConfigLoader;
 import me.rexe0.bettersurvival.farming.*;
 import me.rexe0.bettersurvival.farming.alcohol.AgingListener;
@@ -37,6 +47,9 @@ import me.rexe0.bettersurvival.worldgen.structures.StructureOrderManager;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -52,7 +65,7 @@ import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-public final class BetterSurvival extends JavaPlugin {
+public final class BetterSurvival extends JavaPlugin implements Listener {
     private static BetterSurvival instance;
     private static final String defaultWorld = "world";
 
@@ -60,6 +73,10 @@ public final class BetterSurvival extends JavaPlugin {
 
     private Map<NamespacedKey, Recipe> recipes;
     private BukkitRunnable structureOrderManagerRunnable;
+
+    private AdvancementMain advancementMain;
+    private UltimateAdvancementAPI advancementAPI;
+    public AdvancementTab fishing;
 
     public static ConfigLoader getConfigLoader() {
         return configLoader;
@@ -83,9 +100,26 @@ public final class BetterSurvival extends JavaPlugin {
         return recipes;
     }
 
+
+    public void grantCustomAdvancement(Player player, AdvancementKey key) {
+        Advancement advancement = advancementAPI.getAdvancement(key);
+        if (advancement == null) return;
+        advancement.grant(player);
+    }
+
+    @Override
+    public void onLoad() {
+        advancementMain = new AdvancementMain(this);
+        advancementMain.load();
+    }
+
     @Override
     public void onEnable() {
         instance = this;
+
+        advancementMain.enable(() -> new SQLite(advancementMain, new File(getDataFolder(), "database.db")));
+        advancementAPI = UltimateAdvancementAPI.getInstance(this);
+        initializeTabs();
 
         saveDefaultConfig();
 
@@ -98,6 +132,7 @@ public final class BetterSurvival extends JavaPlugin {
         FishFile.fileCheck();
         FishFile.loadData();
 
+        getServer().getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(new WorldGeneration(), this);
         getServer().getPluginManager().registerEvents(new AnvilRepair(), this);
         getServer().getPluginManager().registerEvents(new ElderGuardianDrops(), this);
@@ -193,6 +228,8 @@ public final class BetterSurvival extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        advancementMain.disable();
+
         // Clear all golf balls
         for (GolfBallEntity golfBall : GolfBallEntity.getGolfBalls().toArray(new GolfBallEntity[0]))
             golfBall.remove();
@@ -245,5 +282,37 @@ public final class BetterSurvival extends JavaPlugin {
         }
 
 
+    }
+
+    public void initializeTabs() {
+        fishing = advancementAPI.createAdvancementTab(AdvancementTabNamespaces.fishing_NAMESPACE);
+        CoordAdapter adapterfishing = CoordAdapter.builder().add(First_rod.KEY, 0f, 0f).add(First_catch.KEY, 1f, 0f).add(Treasure_catch.KEY, 2f, -1f).add(Copper_rod.KEY, 2f, 0f).add(Platinum_ingot.KEY, 3f, 0f).add(Platinum_rod.KEY, 4f, 0f).add(Resonant_ingot.KEY, 5f, 0f).add(Resonant_rod.KEY, 6f, 0f).add(Gleaming_pearl.KEY, 7f, 0f).add(Double_treasure.KEY, 3f, -1f).add(Get_bait.KEY, 2f, 1f).add(Rare_catch.KEY, 2f, 2f).add(Get_premium_bait.KEY, 4f, 1f).add(Get_magnet.KEY, 3f, 1f).add(Quick_catch.KEY, 5f, 1f).add(Epic_catch.KEY, 3f, 2f).add(Legendary_catch.KEY, 4f, 2f).add(Monster_catch.KEY, 5f, 2f).add(Fish_stew.KEY, 2f, 3f).build();
+
+        First_rod first_rod = new First_rod(adapterfishing.getX(First_rod.KEY), adapterfishing.getY(First_rod.KEY));
+
+        First_catch first_catch = new First_catch(first_rod,adapterfishing.getX(First_catch.KEY), adapterfishing.getY(First_catch.KEY));
+        Treasure_catch treasure_catch = new Treasure_catch(first_catch,adapterfishing.getX(Treasure_catch.KEY), adapterfishing.getY(Treasure_catch.KEY));
+        Copper_rod copper_rod = new Copper_rod(first_catch,adapterfishing.getX(Copper_rod.KEY), adapterfishing.getY(Copper_rod.KEY));
+        Platinum_ingot platinum_ingot = new Platinum_ingot(copper_rod,adapterfishing.getX(Platinum_ingot.KEY), adapterfishing.getY(Platinum_ingot.KEY));
+        Platinum_rod platinum_rod = new Platinum_rod(platinum_ingot,adapterfishing.getX(Platinum_rod.KEY), adapterfishing.getY(Platinum_rod.KEY));
+        Resonant_ingot resonant_ingot = new Resonant_ingot(platinum_rod,adapterfishing.getX(Resonant_ingot.KEY), adapterfishing.getY(Resonant_ingot.KEY));
+        Resonant_rod resonant_rod = new Resonant_rod(resonant_ingot,adapterfishing.getX(Resonant_rod.KEY), adapterfishing.getY(Resonant_rod.KEY));
+        Gleaming_pearl gleaming_pearl = new Gleaming_pearl(resonant_rod,adapterfishing.getX(Gleaming_pearl.KEY), adapterfishing.getY(Gleaming_pearl.KEY));
+        Double_treasure double_treasure = new Double_treasure(treasure_catch,adapterfishing.getX(Double_treasure.KEY), adapterfishing.getY(Double_treasure.KEY));
+        Get_bait get_bait = new Get_bait(first_catch,adapterfishing.getX(Get_bait.KEY), adapterfishing.getY(Get_bait.KEY));
+        Rare_catch rare_catch = new Rare_catch(first_catch,adapterfishing.getX(Rare_catch.KEY), adapterfishing.getY(Rare_catch.KEY));
+        Get_magnet get_magnet = new Get_magnet(get_bait,adapterfishing.getX(Get_magnet.KEY), adapterfishing.getY(Get_magnet.KEY));
+        Get_premium_bait get_premium_bait = new Get_premium_bait(get_magnet,adapterfishing.getX(Get_premium_bait.KEY), adapterfishing.getY(Get_premium_bait.KEY));
+        Quick_catch quick_catch = new Quick_catch(get_premium_bait,adapterfishing.getX(Quick_catch.KEY), adapterfishing.getY(Quick_catch.KEY));
+        Epic_catch epic_catch = new Epic_catch(rare_catch,adapterfishing.getX(Epic_catch.KEY), adapterfishing.getY(Epic_catch.KEY));
+        Legendary_catch legendary_catch = new Legendary_catch(epic_catch,adapterfishing.getX(Legendary_catch.KEY), adapterfishing.getY(Legendary_catch.KEY));
+        Monster_catch monster_catch = new Monster_catch(legendary_catch,adapterfishing.getX(Monster_catch.KEY), adapterfishing.getY(Monster_catch.KEY));
+        Fish_stew fish_stew = new Fish_stew(first_catch,adapterfishing.getX(Fish_stew.KEY), adapterfishing.getY(Fish_stew.KEY));
+        fishing.registerAdvancements(first_rod ,first_catch ,treasure_catch ,copper_rod ,platinum_ingot ,platinum_rod ,resonant_ingot ,resonant_rod ,gleaming_pearl ,double_treasure ,get_bait ,rare_catch ,get_premium_bait ,get_magnet ,quick_catch ,epic_catch ,legendary_catch ,monster_catch ,fish_stew );
+    }
+
+    @EventHandler
+    public void onJoin(PlayerLoadingCompletedEvent e) {
+        fishing.showTab(e.getPlayer());
     }
 }

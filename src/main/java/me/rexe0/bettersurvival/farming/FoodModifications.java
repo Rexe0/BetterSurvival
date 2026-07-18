@@ -2,6 +2,7 @@ package me.rexe0.bettersurvival.farming;
 
 import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.advs.fishing.Fish_stew;
 import me.rexe0.bettersurvival.fishing.BiomeGroup;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.item.drugs.Spirit;
@@ -210,6 +211,8 @@ public class FoodModifications implements Listener {
             data.remove(SOUP_INGREDIENTS_KEY);
             data.set(SOUP_TYPE_KEY, PersistentDataType.STRING, "FISH_STEW");
             e.getPlayer().playSound(block.getLocation(), Sound.BLOCK_BREWING_STAND_BREW, 1, 1);
+
+            BetterSurvival.getInstance().grantCustomAdvancement(e.getPlayer(), Fish_stew.KEY);
 
             item.setAmount(item.getAmount()-1);
             return;

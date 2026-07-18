@@ -1,6 +1,10 @@
 package me.rexe0.bettersurvival.fishing;
 
 import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.advs.fishing.Double_treasure;
+import me.rexe0.bettersurvival.advs.fishing.First_catch;
+import me.rexe0.bettersurvival.advs.fishing.Quick_catch;
+import me.rexe0.bettersurvival.advs.fishing.Treasure_catch;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.item.fishing.Fish;
 import me.rexe0.bettersurvival.item.fishing.FishCodex;
@@ -24,6 +28,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.Scoreboard;
@@ -34,10 +39,17 @@ import java.util.*;
 public class CatchListener implements Listener {
     public static final Map<UUID, FishingMinigame> minigameMap = new HashMap<>();
 
+    // Stores time when player's rod hit the water -> for advancement purposes
+    private static final Map<UUID, Long> castTime = new HashMap<>();
+
     private static final ChatColor[] fishColors = new ChatColor[]{
             ChatColor.GREEN, ChatColor.BLUE, ChatColor.DARK_PURPLE, ChatColor.GOLD
     };
 
+    @EventHandler
+    public void onQuit(PlayerQuitEvent e) {
+        castTime.remove(e.getPlayer().getUniqueId());
+    }
     @EventHandler
     public void onFish(PlayerFishEvent e) {
         if (e.getState() != PlayerFishEvent.State.FISHING) return;
@@ -140,6 +152,8 @@ public class CatchListener implements Listener {
 
         hook.applyLure = false;
         hook.rainInfluenced = false;
+
+        castTime.put(player.getUniqueId(), System.currentTimeMillis());
     }
 
 
@@ -235,6 +249,14 @@ public class CatchListener implements Listener {
             e.setCancelled(true);
             return;
         }
+
+        BetterSurvival instance = BetterSurvival.getInstance();
+        instance.grantCustomAdvancement(player, First_catch.KEY);
+
+        long timeTaken = System.currentTimeMillis() - castTime.get(player.getUniqueId());
+        if (timeTaken < 2000)
+            instance.grantCustomAdvancement(player, Quick_catch.KEY);
+
         item.setItemStack(fish.getItem());
         ((FishCodex)ItemType.FISH_CODEX.getItem()).onCatch(player, fishType);
         applyGlow(item);
@@ -256,6 +278,10 @@ public class CatchListener implements Listener {
                 if (amount == 2)
                     message = ChatColor.GOLD+""+ChatColor.MAGIC+"I "+message+ChatColor.GOLD+ChatColor.MAGIC+" I";
                 player.sendMessage(message);
+
+                instance.grantCustomAdvancement(player, Treasure_catch.KEY);
+                if (amount == 2)
+                    instance.grantCustomAdvancement(player, Double_treasure.KEY);
             }, 1);
     }
 
