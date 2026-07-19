@@ -115,4 +115,32 @@ public class EnchantmentTableChanges implements Listener {
             }
         }
     }
+    @EventHandler
+    public void onShiftClick(InventoryClickEvent e) {
+        if (e.getClickedInventory() == null) return;
+        if (!e.getClick().isShiftClick()) return;
+        Inventory inv = e.getView().getTopInventory();
+        if (inv.getType() != InventoryType.ENCHANTING) return;
+        if (inv.getItem(1) != null && !inv.getItem(1).getType().isAir()) return;
+
+        ItemStack item = e.getCurrentItem();
+        if (item == null) return;
+
+        Material material = item.getType();
+        if (material == Material.LAPIS_LAZULI || material.isAir()) return;
+
+
+        boolean isCustomEnchantingMaterial = false;
+        for (Material mat : customEnchantMaterials) {
+            if (mat == material) {
+                isCustomEnchantingMaterial = true;
+                break;
+            }
+        }
+        if (!isCustomEnchantingMaterial) return;
+        e.setCancelled(true);
+
+        inv.setItem(1, item);
+        e.setCurrentItem(null);
+    }
 }
