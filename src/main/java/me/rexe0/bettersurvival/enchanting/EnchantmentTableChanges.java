@@ -38,7 +38,6 @@ public class EnchantmentTableChanges implements Listener {
         }
         if (!isCustomEnchantingMaterial) return;
         int tier = e.whichButton()+1;
-        enchantingMaterial.setAmount(enchantingMaterial.getAmount()-tier);
 
         if (material == Material.AMETHYST_SHARD) {
             Player player = e.getEnchanter();
