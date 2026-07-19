@@ -139,6 +139,7 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PouringListener(), this);
         getServer().getPluginManager().registerEvents(new SnifferChanges(), this);
         getServer().getPluginManager().registerEvents(new EnchantmentTableChanges(), this);
+        getServer().getPluginManager().registerEvents(new LibrarianChanges(), this);
 
         CustomBlockData.registerListener(this);
 

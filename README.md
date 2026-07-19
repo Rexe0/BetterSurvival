@@ -58,6 +58,21 @@ This is a plugin that contains several features that I think would improve the c
 - Caves under oceans now have a chance to generate as new types of underwater caves. These include Kelp Caves, Geode Caves, Coral Caves and Sculk Caves
 
 **Villagers:**
+- Librarians are now assigned a sub-profession upon becoming a librarian. Sub-professions determine the types of enchanted books they will sell to reduce tedious RNG
+- Enchantments that can reach level 4 or 5 have their own sub-profession. E.g. Sharpness sub-profession causes librarian to sell Sharpness I at lvl 1, Sharp II at lvl 2, etc.
+- Thorns and Loyalty have their own sub-professions as well, but only go up to lvl 3
+- The other sub-professions are:
+    - Any (Unbreaking 1-3, Mending)
+    - Water Helmet (Respiration 1-3, Aqua Affinity)
+    - Water Boots (Depth Strider 1-3, Frost Walker 1-2)
+    - Sword Attack (Knockback 1-2, Sweeping Edge 1-3)
+    - Sword Effect (Fire Aspect 1-2, Looting 1-3)
+    - Trident Effect (Riptide 1-3, Channeling)
+    - Bow Effect (Punch 1-2, Flame, Infinity)
+    - Crossbow Effect (Quick Charge 1-3, Multishot)
+    - Pickaxe Effect (Fortune 1-3, Silk Touch)
+    - Curses (Curse of Vanishing, Curse of Binding)
+- Enchanted book emerald cost scales exponentially based on the villager level they are sold at
 - Wandering traders will now offer to buy 2-3 exotic items for emeralds
 - Wandering Traders will now always sell either a Stopwatch (When held shows your current speed in km/h), a Fish Codex (see Fishing section) or a Weather Radio (see Seasons section)
 - Wandering Traders will now always sell either Cannabis, Coca Leaves or Yeast
