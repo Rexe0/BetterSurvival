@@ -83,7 +83,11 @@ public class WanderingTrader implements Listener {
         }
 
         if (SeasonListener.getDays() >= 120) {
-            ItemStack upgradeBook = new UpgradeBook(UpgradeBook.Upgrade.values()[(int) (Math.random() * UpgradeBook.Upgrade.values().length)]).getItem();
+            List<UpgradeBook.Upgrade> upgrades = new ArrayList<>(List.of(UpgradeBook.Upgrade.values()));
+            // Prevent selling farming upgrade book if custom agriculture is disabled
+            if (!BetterSurvival.getConfigLoader().isCustomAgriculture()) upgrades.remove(UpgradeBook.Upgrade.FARMING);
+
+            ItemStack upgradeBook = new UpgradeBook(upgrades.get((int) (Math.random() * upgrades.size()))).getItem();
             MerchantRecipe upgradeTrade = new MerchantRecipe(upgradeBook, 5);
             upgradeTrade.addIngredient(new ItemStack(Material.EMERALD, 64));
             upgradeTrade.addIngredient(new ItemStack(Material.EMERALD, 64));
