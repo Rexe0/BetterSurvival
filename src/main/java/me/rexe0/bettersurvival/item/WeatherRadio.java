@@ -76,8 +76,8 @@ public class WeatherRadio extends Item {
             if (ItemDataUtil.isItem(recipe.getResult(), ItemType.WEATHER_RADIO.getItem().getID())) return;
 
         MerchantRecipe trade = new MerchantRecipe(ItemType.WEATHER_RADIO.getItem().getItem(), 0, 4, true, 15, 0);
-        trade.addIngredient(new ItemStack(Material.EMERALD, 16));
-        trade.addIngredient(new ItemStack(Material.GOLD_INGOT, 16));
+        trade.addIngredient(new ItemStack(Material.EMERALD, 12));
+        trade.addIngredient(new ItemStack(Material.CLOCK, 1));
         e.setRecipe(trade);
     }
 }
