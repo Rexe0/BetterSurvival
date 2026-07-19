@@ -32,13 +32,11 @@ public class CustomerListener implements Listener {
 
     public static void run() {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (player.getScoreboardTags().contains("ownsAllDrugs")) continue;
-            boolean hasCannabis = EntityDataUtil.getIntegerValue(player, "hasHadCannabis") > 0;
-            boolean hasAlcohol = EntityDataUtil.getIntegerValue(player, "hasHadAlcohol") > 0;
-            boolean hasCocaine = EntityDataUtil.getIntegerValue(player, "hasHadCocaine") > 0;
+            boolean hasCannabis = false;
+            boolean hasAlcohol = false;
+            boolean hasCocaine = false;
 
             for (ItemStack item : player.getInventory().getContents()) {
-                if (hasCannabis && hasAlcohol && hasCocaine) break;
                 if (item == null || item.getType() == Material.AIR) continue;
                 if (ItemDataUtil.isItem(item, "CANNABIS"))
                     hasCannabis = true;
@@ -47,16 +45,19 @@ public class CustomerListener implements Listener {
                 else if (ItemDataUtil.isItem(item, "WINE") || ItemDataUtil.isItem(item, "SPIRIT"))
                     hasAlcohol = true;
             }
-            EntityDataUtil.setIntegerValue(player, "hasHadCannabis", hasCannabis ? 1 : 0);
-            EntityDataUtil.setIntegerValue(player, "hasHadAlcohol", hasAlcohol ? 1 : 0);
-            EntityDataUtil.setIntegerValue(player, "hasHadCocaine", hasCocaine ? 1 : 0);
 
-            // Add scoreboard tag if player has all drugs to prevent checking all this stuff every tick
-            if (hasCannabis && hasAlcohol && hasCocaine) player.addScoreboardTag("ownsAllDrugs");
+            if (hasCannabis)
+                EntityDataUtil.setIntegerValue(player, "hasHadCannabis", SeasonListener.getDays());
+            if (hasAlcohol)
+                EntityDataUtil.setIntegerValue(player, "hasHadAlcohol", SeasonListener.getDays());
+            if (hasCocaine)
+                EntityDataUtil.setIntegerValue(player, "hasHadCocaine", SeasonListener.getDays());
         }
     }
+    // Checks if player has had the drug in their inventory in the past 45 days
     public static boolean hasHadDrug(Player player, String drug) {
-        return EntityDataUtil.getIntegerValue(player, "hasHad" + drug) > 0;
+        int daySinceLastHeld = EntityDataUtil.getIntegerValue(player, "hasHad" + drug);
+        return daySinceLastHeld+45 >= SeasonListener.getDays();
     }
 
     public boolean hasTalkedToVillager(Player player, Villager villager) {
