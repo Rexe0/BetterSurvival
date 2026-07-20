@@ -7,17 +7,18 @@ import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BrushableBlock;
+import org.bukkit.block.DecoratedPot;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TreasureSand extends Item {
+public class TreasurePot extends Item {
     private final ItemType fishingRod;
-    public TreasureSand(ItemType fishingRod) {
-        super(Material.SUSPICIOUS_SAND, ChatColor.GREEN+"Treasure Sand", "TREASURE_SAND");
+    public TreasurePot(ItemType fishingRod) {
+        super(Material.DECORATED_POT, ChatColor.GREEN+"Treasure Pot", "TREASURE_POT");
         this.fishingRod = fishingRod;
     }
 
@@ -43,9 +44,24 @@ public class TreasureSand extends Item {
             type = null;
         }
 
-        BrushableBlock state = (BrushableBlock) block.getState();
-        state.setItem(TreasureDrop.getTreasureItem(player, type, false));
-        state.update();
+        org.bukkit.block.data.type.DecoratedPot data = (org.bukkit.block.data.type.DecoratedPot) block.getBlockData();
+        data.setCracked(true);
+        block.setBlockData(data);
+
+        DecoratedPot state = (DecoratedPot) block.getState();
+        state.getInventory().setItem(TreasureDrop.getTreasureItem(player, type, true));
         return false;
+    }
+
+    public void onBlockBreak(BlockBreakEvent e) {
+        if (e.getBlock().getType() != Material.DECORATED_POT) return;
+        Block block = e.getBlock();
+        org.bukkit.block.data.type.DecoratedPot data = (org.bukkit.block.data.type.DecoratedPot) block.getBlockData();
+        if (!data.isCracked()) return;
+
+
+        // Force shatter the pot by 'breaking' it with a tool
+        e.setCancelled(true);
+        block.breakNaturally(new ItemStack(Material.WOODEN_SWORD), true);
     }
 }

@@ -5,7 +5,6 @@ import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,45 +14,45 @@ import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.Repairable;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
-import java.util.Map;
+public class JewelListener implements Listener {
 
-public class PearlListener implements Listener {
-
-    public static ItemStack upgradeRod(ItemStack fishingRod) {
-        ItemMeta meta = fishingRod.getItemMeta();
-        String name = meta.hasDisplayName() ? meta.getDisplayName() : "Fishing Rod";
-        meta.setDisplayName(ChatColor.GOLD+"✯ "+ChatColor.RESET+name);
-
-        for (Map.Entry<Enchantment, Integer> enchant : meta.getEnchants().entrySet()) {
-            if (enchant.getKey().getMaxLevel() == 1) continue;
-            meta.addEnchant(enchant.getKey(), enchant.getValue() + 1, true);
-        }
-        fishingRod.setItemMeta(meta);
-        fishingRod.setItemMeta(ItemDataUtil.setStringValue(fishingRod, "pearlUpgrade", "true"));
-        return fishingRod;
+    public static ItemStack upgradeHelmet(ItemStack helmet) {
+        ItemMeta meta = helmet.getItemMeta();
+        String name = meta.hasDisplayName() ? meta.getDisplayName() : "Strider Helmet";
+        meta.setDisplayName(ChatColor.RED+"✯ "+ChatColor.RESET+name);
+        helmet.setItemMeta(meta);
+        helmet.setItemMeta(ItemDataUtil.setStringValue(helmet, "jewelUpgrade", "true"));
+        return helmet;
     }
     public static boolean isUpgraded(ItemStack item) {
-        return ItemDataUtil.getStringValue(item, "pearlUpgrade").equals("true");
+        return ItemDataUtil.getStringValue(item, "jewelUpgrade").equals("true");
     }
+    public static void helmetCheck(Player player) {
+        ItemStack helmet = player.getEquipment().getHelmet();
+        if (!isUpgraded(helmet)) return;
+        // 10 Seconds of Fire Resistance
+        if (player.getFireTicks() <= -20)
+            player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 205, 0, true, true));
+    }
+
 
     @EventHandler
     public void onPrepare(PrepareAnvilEvent e) {
-        String name = e.getView().getRenameText();
-        if (name == null || name.isEmpty()) return;
-
         ItemStack item = e.getInventory().getItem(0);
         ItemStack pearl = e.getInventory().getItem(1);
 
         if (item == null || pearl == null) return;
-        if (item.getType() != Material.FISHING_ROD) return;
-        if (!ItemDataUtil.isItem(pearl, ItemType.GLEAMING_PEARL.getItem().getID())) return;
+        if (!item.getType().name().endsWith("HELMET")) return;
+        if (!ItemDataUtil.isItem(pearl, ItemType.STRIDERS_JEWEL.getItem().getID())) return;
         if (isUpgraded(item)) {
             e.setResult(null);
             return;
         }
 
-        e.setResult(upgradeRod(item.clone()));
+        e.setResult(upgradeHelmet(item.clone()));
     }
 
 
@@ -70,8 +69,8 @@ public class PearlListener implements Listener {
         ItemStack pearl = inv.getItem(1);
 
         if (item == null || pearl == null) return;
-        if (item.getType() != Material.FISHING_ROD) return;
-        if (!ItemDataUtil.isItem(pearl, ItemType.GLEAMING_PEARL.getItem().getID())) return;
+        if (!item.getType().name().endsWith("HELMET")) return;
+        if (!ItemDataUtil.isItem(pearl, ItemType.STRIDERS_JEWEL.getItem().getID())) return;
 
         e.setCancelled(true);
 

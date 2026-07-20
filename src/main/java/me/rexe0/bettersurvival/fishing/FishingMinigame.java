@@ -153,6 +153,7 @@ public class FishingMinigame {
 
             item.setOwner(player.getUniqueId());
             item.setPickupDelay(0);
+            item.setHealth(50);
         }
         int extraXp = 5;
         if (fishType.getName().startsWith(ChatColor.DARK_PURPLE+"")) extraXp = 10;

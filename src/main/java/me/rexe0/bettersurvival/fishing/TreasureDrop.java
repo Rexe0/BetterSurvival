@@ -4,13 +4,15 @@ import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.item.fishing.GleamingPearl;
 import me.rexe0.bettersurvival.item.fishing.Magnet;
+import me.rexe0.bettersurvival.item.fishing.StridersJewel;
 import me.rexe0.bettersurvival.util.RandomUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.KnowledgeBookMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionType;
@@ -54,42 +56,79 @@ public class TreasureDrop {
 
 
 
-    public static List<TreasureDrop> getTreasureDrops(ItemType fishingRod) {
+    public static List<TreasureDrop> getTreasureDrops(ItemType fishingRod, boolean isNether) {
         List<TreasureDrop> drops = new ArrayList<>();
-        drops.add(new TreasureDrop(ItemType.BAIT.getItem().getItem(), 3, 7, 14));
-        drops.add(new TreasureDrop(new ItemStack(Material.RAW_IRON), 2, 6, 14));
-        drops.add(new TreasureDrop(new ItemStack(Material.RAW_GOLD), 1, 3, 10));
-        drops.add(new TreasureDrop(new ItemStack(Material.NAUTILUS_SHELL), 1, 2, 10));
-        drops.add(new TreasureDrop(new ItemStack(Material.PRISMARINE_CRYSTALS), 3, 7, 7));
-        drops.add(new TreasureDrop(new ItemStack(ItemType.PLATINUM_ORE.getItem().getItem()), 1, 1, 6));
-        drops.add(new TreasureDrop(getWaterBreathingPotion(), 1, 1, 5));
-        drops.add(new TreasureDrop(new ItemStack(Material.HEART_OF_THE_SEA), 1, 1, 4));
-        drops.add(new TreasureDrop(new ItemStack(Material.DIAMOND), 1, 3, 2));
-        drops.add(new TreasureDrop(new ItemStack(Material.BOOK), 1, 1, 2)); // Lvl 30 Book
-        drops.add(new TreasureDrop(new ItemStack(Material.TRIDENT), 1, 1, 1));
+        if (isNether) {
 
-        int level = 0;
+            drops.add(new TreasureDrop(new ItemStack(Material.GOLD_NUGGET), 5, 27, 14));
+            drops.add(new TreasureDrop(new ItemStack(Material.GOLD_INGOT), 1, 4, 14));
+            drops.add(new TreasureDrop(new ItemStack(Material.QUARTZ), 4, 16, 12));
+            drops.add(new TreasureDrop(new ItemStack(Material.GOLDEN_CARROT), 2, 4, 9));
+            drops.add(new TreasureDrop(new ItemStack(ItemType.TUNGSTEN_CLUMP.getItem().getItem()), 6, 10, 5));
+            drops.add(new TreasureDrop(getFireResistancePotion(), 1, 1, 4));
+            drops.add(new TreasureDrop(new ItemStack(Material.DRIED_GHAST), 1, 1, 3));
+            drops.add(new TreasureDrop(new ItemStack(Material.SNOUT_ARMOR_TRIM_SMITHING_TEMPLATE), 1, 1, 3));
+            drops.add(new TreasureDrop(new ItemStack(Material.BOOK).enchantWithLevels(45, false, new Random()), 1, 1, 2)); // Lvl 45 Book
+            drops.add(new TreasureDrop(getMendingBook(), 1, 1, 1)); // Mending Book
 
-        if (fishingRod != null) level = switch (fishingRod) {
-            case COPPER_FISHING_ROD -> 1;
-            case PLATINUM_FISHING_ROD -> 2;
-            case RESONANT_FISHING_ROD -> 3;
-            default -> 0;
-        };
-        for (TreasureDrop drop : drops)
-            drop.weight += level - 1;
+            int level = 0;
 
-        if (level >= 1) {
-            drops.add(new TreasureDrop(new ItemStack(Material.PRISMARINE_SHARD), 1, 4, 6));
-            drops.add(new TreasureDrop(new Magnet().getItem(), 1, 4, 5));
-        } if (level >= 2)
-            drops.add(new TreasureDrop(new ItemStack(Material.COAST_ARMOR_TRIM_SMITHING_TEMPLATE), 1, 1, 3));
-        if (level >= 3) {
-            // Make the Gleaming Pearl rarer
+            if (fishingRod != null) level = switch (fishingRod) {
+                case TUNGSTEN_FISHING_ROD -> 1;
+                case NETHERITE_FISHING_ROD -> 2;
+                default -> 0;
+            };
             for (TreasureDrop drop : drops)
-                drop.weight *=2;
+                drop.weight += level - 1;
 
-            drops.add(new TreasureDrop(new GleamingPearl().getItem(), 1, 1, 1));
+            if (level >= 1) {
+                drops.add(new TreasureDrop(new ItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE), 1, 1, 1));
+                drops.add(new TreasureDrop(new ItemStack(Material.ANCIENT_DEBRIS), 1, 3, 1));
+            }
+            if (level >= 2) {
+                // Make the Strider Jewel rarer
+                for (TreasureDrop drop : drops)
+                    drop.weight *= 2;
+
+                drops.add(new TreasureDrop(new StridersJewel().getItem(), 1, 1, 1));
+            }
+        } else {
+            drops.add(new TreasureDrop(ItemType.BAIT.getItem().getItem(), 3, 7, 14));
+            drops.add(new TreasureDrop(new ItemStack(Material.RAW_IRON), 2, 6, 14));
+            drops.add(new TreasureDrop(new ItemStack(Material.RAW_GOLD), 1, 3, 10));
+            drops.add(new TreasureDrop(new ItemStack(Material.NAUTILUS_SHELL), 1, 2, 10));
+            drops.add(new TreasureDrop(new ItemStack(Material.PRISMARINE_CRYSTALS), 3, 7, 7));
+            drops.add(new TreasureDrop(new ItemStack(ItemType.PLATINUM_ORE.getItem().getItem()), 1, 1, 6));
+            drops.add(new TreasureDrop(getWaterBreathingPotion(), 1, 1, 5));
+            drops.add(new TreasureDrop(new ItemStack(Material.HEART_OF_THE_SEA), 1, 1, 4));
+            drops.add(new TreasureDrop(new ItemStack(Material.DIAMOND), 1, 3, 2));
+            drops.add(new TreasureDrop(new ItemStack(Material.BOOK).enchantWithLevels(30, false, new Random()), 1, 1, 2)); // Lvl 30 Book
+            drops.add(new TreasureDrop(new ItemStack(Material.TRIDENT), 1, 1, 1));
+
+            int level = 0;
+
+            if (fishingRod != null) level = switch (fishingRod) {
+                case COPPER_FISHING_ROD -> 1;
+                case PLATINUM_FISHING_ROD -> 2;
+                case RESONANT_FISHING_ROD -> 3;
+                default -> 0;
+            };
+            for (TreasureDrop drop : drops)
+                drop.weight += level - 1;
+
+            if (level >= 1) {
+                drops.add(new TreasureDrop(new ItemStack(Material.PRISMARINE_SHARD), 1, 4, 6));
+                drops.add(new TreasureDrop(new Magnet().getItem(), 1, 4, 5));
+            }
+            if (level >= 2)
+                drops.add(new TreasureDrop(new ItemStack(Material.COAST_ARMOR_TRIM_SMITHING_TEMPLATE), 1, 1, 3));
+            if (level >= 3) {
+                // Make the Gleaming Pearl rarer
+                for (TreasureDrop drop : drops)
+                    drop.weight *= 2;
+
+                drops.add(new TreasureDrop(new GleamingPearl().getItem(), 1, 1, 1));
+            }
         }
         return drops;
     }
@@ -100,10 +139,24 @@ public class TreasureDrop {
         item.setItemMeta(meta);
         return item;
     }
+    private static ItemStack getFireResistancePotion() {
+        ItemStack item = new ItemStack(Material.POTION);
+        PotionMeta meta = (PotionMeta) item.getItemMeta();
+        meta.setBasePotionType(PotionType.FIRE_RESISTANCE);
+        item.setItemMeta(meta);
+        return item;
+    }
+    private static ItemStack getMendingBook() {
+        ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+        EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getItemMeta();
+        meta.addStoredEnchant(Enchantment.MENDING, 1, false);
+        book.setItemMeta(meta);
+        return book;
+    }
 
 
-    public static ItemStack getTreasureItem(Player player, ItemType fishingRod) {
-        if (!player.getDiscoveredRecipes().contains(new NamespacedKey(BetterSurvival.getInstance(), ItemType.RESONANT_FISHING_ROD.getItem().getID()))
+    public static ItemStack getTreasureItem(Player player, ItemType fishingRod, boolean isNether) {
+        if (player != null && !player.getDiscoveredRecipes().contains(new NamespacedKey(BetterSurvival.getInstance(), ItemType.RESONANT_FISHING_ROD.getItem().getID()))
                 && RandomUtil.getRandom().nextInt(0, 20) == 0) {
             ItemStack item = new ItemStack(Material.KNOWLEDGE_BOOK);
             KnowledgeBookMeta meta = (KnowledgeBookMeta) item.getItemMeta();
@@ -122,10 +175,14 @@ public class TreasureDrop {
             meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.SHINY_LURE.getItem().getID()));
             meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.MAGNET.getItem().getID()));
             meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.PREMIUM_BAIT.getItem().getID()));
+
+            meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.OBSIDIAN_FISHING_ROD.getItem().getID()));
+            meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.TUNGSTEN_CRYSTAL.getItem().getID()));
+            meta.addRecipe(new NamespacedKey(BetterSurvival.getInstance(), ItemType.TUNGSTEN_FISHING_ROD.getItem().getID()));
             item.setItemMeta(meta);
             return item;
         }
-        List<TreasureDrop> drops = getTreasureDrops(fishingRod);
+        List<TreasureDrop> drops = getTreasureDrops(fishingRod, isNether);
 
         int totalWeight = 0;
         for (TreasureDrop drop : drops)
@@ -140,8 +197,6 @@ public class TreasureDrop {
         TreasureDrop drop = drops.get(idx);
 
         ItemStack item = drop.getItem();
-        if (item.getType() == Material.BOOK)
-            item = Bukkit.getItemFactory().enchantWithLevels(item, 30, false, new Random());
         item.setAmount(RandomUtil.getRandom().nextInt(drop.getMinAmount(), drop.getMaxAmount()+1));
         return item;
     }

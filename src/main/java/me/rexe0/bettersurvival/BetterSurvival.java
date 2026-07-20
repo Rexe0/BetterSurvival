@@ -9,9 +9,7 @@ import me.rexe0.bettersurvival.farming.alcohol.AlcoholListener;
 import me.rexe0.bettersurvival.farming.alcohol.DistillListener;
 import me.rexe0.bettersurvival.farming.alcohol.FermentListener;
 import me.rexe0.bettersurvival.farming.alcohol.customers.CustomerListener;
-import me.rexe0.bettersurvival.fishing.CatchListener;
-import me.rexe0.bettersurvival.fishing.FishFile;
-import me.rexe0.bettersurvival.fishing.PearlListener;
+import me.rexe0.bettersurvival.fishing.*;
 import me.rexe0.bettersurvival.fletchingtable.FletchingTableGUI;
 import me.rexe0.bettersurvival.gear.AnvilRepair;
 import me.rexe0.bettersurvival.gear.MendingChange;
@@ -140,6 +138,8 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new SnifferChanges(), this);
         getServer().getPluginManager().registerEvents(new EnchantmentTableChanges(), this);
         getServer().getPluginManager().registerEvents(new LibrarianChanges(), this);
+        getServer().getPluginManager().registerEvents(new NetheriteRodListener(), this);
+        getServer().getPluginManager().registerEvents(new JewelListener(), this);
 
         CustomBlockData.registerListener(this);
 
@@ -186,6 +186,7 @@ public final class BetterSurvival extends JavaPlugin {
                         || ItemDataUtil.isItem(player.getEquipment().getBoots(), type.getItem().getID()))
                     type.getItem().armorEquipped(player);
             }
+            JewelListener.helmetCheck(player);
         }), 0, 5);
         structureOrderManagerRunnable = StructureOrderManager.getInstance().start();
 

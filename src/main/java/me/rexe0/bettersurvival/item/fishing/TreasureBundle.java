@@ -6,18 +6,16 @@ import me.rexe0.bettersurvival.item.ItemType;
 import me.rexe0.bettersurvival.util.ItemDataUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BrushableBlock;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BundleMeta;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TreasureSand extends Item {
+public class TreasureBundle extends Item {
     private final ItemType fishingRod;
-    public TreasureSand(ItemType fishingRod) {
-        super(Material.SUSPICIOUS_SAND, ChatColor.GREEN+"Treasure Sand", "TREASURE_SAND");
+    public TreasureBundle(ItemType fishingRod) {
+        super(Material.BLACK_BUNDLE, ChatColor.BLUE+"Treasure Bundle", "TREASURE_BUNDLE");
         this.fishingRod = fishingRod;
     }
 
@@ -31,21 +29,17 @@ public class TreasureSand extends Item {
     @Override
     public ItemStack getItem() {
         ItemStack item = super.getItem();
+        BundleMeta meta = (BundleMeta) item.getItemMeta();
+
+        List<ItemStack> loot = new ArrayList<>();
+
+        for (int i = 0; i < 3; i++) {
+            loot.add(TreasureDrop.getTreasureItem(null, fishingRod, true));
+        }
+        meta.setItems(loot);
+        item.setItemMeta(meta);
         item.setItemMeta(ItemDataUtil.setStringValue(item, "fishingRodType", fishingRod != null ? fishingRod.getItem().getID() : ""));
         return item;
     }
 
-    public boolean onBlockPlace(Player player, Block block, ItemStack item) {
-        ItemType type;
-        try {
-            type = ItemType.valueOf(ItemDataUtil.getStringValue(item, "fishingRodType"));
-        } catch (IllegalArgumentException ex) {
-            type = null;
-        }
-
-        BrushableBlock state = (BrushableBlock) block.getState();
-        state.setItem(TreasureDrop.getTreasureItem(player, type, false));
-        state.update();
-        return false;
-    }
 }

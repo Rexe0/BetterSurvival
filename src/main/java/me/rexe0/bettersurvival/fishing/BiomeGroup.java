@@ -13,6 +13,13 @@ public enum BiomeGroup {
     CAVERNS(ChatColor.DARK_GRAY+"Caverns", new Biome[]{}, PotionEffectType.RESISTANCE, 16),
     FOREST(ChatColor.GREEN+"Forest", new Biome[]{}, PotionEffectType.REGENERATION, 20),
 
+    LAVA(ChatColor.GOLD+"Lava", new Biome[]{}, PotionEffectType.FIRE_RESISTANCE, 200),
+    NETHER_WASTES(ChatColor.GOLD+"Nether Wastes", new Biome[]{}, PotionEffectType.FIRE_RESISTANCE, 200),
+    SOUL_SAND_VALLEY(ChatColor.GOLD+"Soul Sand Valley", new Biome[]{}, PotionEffectType.FIRE_RESISTANCE, 200),
+    CRIMSON_FOREST(ChatColor.GOLD+"Crimson Forest", new Biome[]{}, PotionEffectType.FIRE_RESISTANCE, 200),
+    WARPED_FOREST(ChatColor.GOLD+"Warped Forest", new Biome[]{}, PotionEffectType.FIRE_RESISTANCE, 200),
+    BASALT_DELTAS(ChatColor.GOLD+"Basalt Deltas", new Biome[]{}, PotionEffectType.FIRE_RESISTANCE, 200),
+
     ANY_OCEAN(ChatColor.BLUE+"Any Ocean", new Biome[]{Biome.OCEAN, Biome.DEEP_OCEAN, Biome.COLD_OCEAN, Biome.DEEP_COLD_OCEAN,
             Biome.WARM_OCEAN, Biome.LUKEWARM_OCEAN, Biome.DEEP_LUKEWARM_OCEAN,
             Biome.FROZEN_OCEAN, Biome.DEEP_FROZEN_OCEAN}, PotionEffectType.HEALTH_BOOST, 45);

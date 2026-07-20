@@ -20,7 +20,6 @@ import org.bukkit.ChatColor;
 
 public enum ItemType {
     STOPWATCH(new Stopwatch()),
-    STRIDER_HELMET(new StriderHelmet()),
     SADDLE_N_HORSESHOE(new SaddleNHorseshoe()),
     DRAGON_SCALE(new DragonScale()),
     FARMER_BOOTS(new FarmerBoots()),
@@ -68,6 +67,8 @@ public enum ItemType {
     JUMBO_HOOK(new JumboHook()),
     VIBRANT_BOBBER(new VibrantBobber()),
     GOLD_BOBBER(new GoldBobber()),
+    CALMING_BOBBER(new CalmingBobber()),
+    BATTLE_BOBBER(new BattleBobber()),
     DULL_LURE(new DullLure()),
     SHINY_LURE(new ShinyLure()),
     LEAD_SINKER(new LeadSinker()),
@@ -78,10 +79,22 @@ public enum ItemType {
     FISH(new Fish(Fish.FishType.BASS)),
     TREASURE_CHEST(new TreasureChest(null)),
     TREASURE_SAND(new TreasureSand(null)),
+
     COPPER_FISHING_ROD(new CopperFishingRod()),
     PLATINUM_FISHING_ROD(new PlatinumFishingRod()),
     RESONANT_FISHING_ROD(new ResonantFishingRod()),
+
+    TUNGSTEN_CLUMP(new TungstenClump()),
+    TUNGSTEN_CRYSTAL(new TungstenCrystal()),
+    OBSIDIAN_FISHING_ROD(new ObsidianFishingRod()),
+    TUNGSTEN_FISHING_ROD(new TungstenFishingRod()),
+    NETHERITE_FISHING_ROD(new NetheriteFishingRod()),
+
+    TREASURE_POT(new TreasurePot(null)),
+    TREASURE_BUNDLE(new TreasureBundle(null)),
+
     GLEAMING_PEARL(new GleamingPearl()),
+    STRIDERS_JEWEL(new StridersJewel()),
     RAIN_CALLER(new RainCaller()),
     ;
 
@@ -114,14 +127,19 @@ public enum ItemType {
     public boolean isTackle() {
         return this == BARBED_HOOK || this == JUMBO_HOOK || this == VIBRANT_BOBBER
                 || this == GOLD_BOBBER || this == DULL_LURE || this == SHINY_LURE
-                || this == LEAD_SINKER || this == STEEL_SINKER;
+                || this == LEAD_SINKER || this == STEEL_SINKER
+                || this == CALMING_BOBBER || this == BATTLE_BOBBER;
     }
 
     public boolean canUseBait() {
-        return this == COPPER_FISHING_ROD || this == PLATINUM_FISHING_ROD || this == RESONANT_FISHING_ROD;
+        return this == COPPER_FISHING_ROD || this == PLATINUM_FISHING_ROD || this == RESONANT_FISHING_ROD || this == OBSIDIAN_FISHING_ROD || this == TUNGSTEN_FISHING_ROD || this == NETHERITE_FISHING_ROD;
     }
     public boolean canUseTackle() {
-        return this == RESONANT_FISHING_ROD || this == PLATINUM_FISHING_ROD;
+        return this == RESONANT_FISHING_ROD || this == PLATINUM_FISHING_ROD || this == TUNGSTEN_FISHING_ROD || this == NETHERITE_FISHING_ROD;
+    }
+
+    public boolean canFishInLava() {
+        return this == OBSIDIAN_FISHING_ROD || this == TUNGSTEN_FISHING_ROD || this == NETHERITE_FISHING_ROD;
     }
     public boolean isArrow() {
         return this == AMETHYST_ARROW || this == EXPLOSIVE_ARROW || this == TOXIC_ARROW || this == SONIC_ARROW;

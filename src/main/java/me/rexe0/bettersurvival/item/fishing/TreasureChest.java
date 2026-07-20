@@ -51,7 +51,7 @@ public class TreasureChest extends Item {
             int index;
             do index = RandomUtil.getRandom().nextInt(27);
             while (chest.getBlockInventory().getItem(index) != null);
-            chest.getBlockInventory().setItem(index, TreasureDrop.getTreasureItem(player, type));
+            chest.getBlockInventory().setItem(index, TreasureDrop.getTreasureItem(player, type, false));
         }
         return false;
     }
