@@ -156,8 +156,6 @@ public class AgingListener implements Listener {
                         ItemStack flavoringMaterial = flavoringMaterials.get((int) (Math.random() * flavoringMaterials.size()));
 
                         type = SpiritType.getSpiritType(flavoringMaterial.getType());
-                        if (type == SpiritType.BEER && concentration > 60)
-                            type = SpiritType.VODKA;
 
                         flavoringMaterial.setAmount(flavoringMaterial.getAmount() - 1); // Remove the flavoring material from the inventory
 

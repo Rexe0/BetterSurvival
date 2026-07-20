@@ -12,7 +12,7 @@ public enum SpiritType implements AlcoholType {
     APPLE(ChatColor.GOLD, "Apple Brandy", Material.APPLE, Color.fromRGB(222, 65, 22)),
     GOLDEN_APPLE(ChatColor.GOLD, "Golden Apple Brandy", Material.GOLDEN_APPLE, Color.fromRGB(219, 150, 2), 1.2),
     BEER(ChatColor.YELLOW, "Whiskey", Material.WHEAT, Color.fromRGB(189, 60, 0), 0.9),
-    VODKA(ChatColor.WHITE, "Vodka", Material.WHEAT, Color.fromRGB(209, 209, 209), 0.9),
+    VODKA(ChatColor.WHITE, "Vodka", Material.POTATO, Color.fromRGB(209, 209, 209), 0.9),
     SUGAR_WASH(ChatColor.YELLOW, "Rum", Material.SUGAR, Color.fromRGB(143, 32, 10), 0.85),
     DISTILLATE(ChatColor.WHITE, "Spirit Distillate", Material.AIR, Color.fromRGB(209, 209, 209), 0.6);
 
