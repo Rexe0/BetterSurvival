@@ -200,7 +200,7 @@ public class CatchListener implements Listener {
                     if (bio == hook.getLocation().getBlock().getBiome())
                         biomes.add(group);
             }
-            if (biomes.isEmpty()) biomes.add(BiomeGroup.FOREST);
+            if (biomes.isEmpty()) biomes.add(isLavaFishing ? BiomeGroup.LAVA : BiomeGroup.FOREST);
         }
 
         // Treasure
@@ -342,25 +342,32 @@ public class CatchListener implements Listener {
 
         int totalWeight = 0;
         for (Fish.FishType type : possibleFish) {
-            int amount = type.getWeight();
-            if (type.getWeight() <= 30) {
-                if (tackle == ItemType.VIBRANT_BOBBER) amount *= 1.5;
-                if (tackle == ItemType.GOLD_BOBBER) amount *= 0.5;
-            }
+            int amount = getWeight(tackle, type);
             totalWeight += amount;
         }
 
         int idx = 0;
         for (double r = Math.random() * totalWeight; idx < possibleFish.length - 1; ++idx) {
-            int amount = possibleFish[idx].getWeight();
-            if (possibleFish[idx].getWeight() <= 30) {
-                if (tackle == ItemType.VIBRANT_BOBBER) amount *= 1.5;
-                if (tackle == ItemType.GOLD_BOBBER) amount *= 0.5;
-            }
+            int amount = getWeight(tackle, possibleFish[idx]);
             r -= amount;
             if (r <= 0.0) break;
         }
         return possibleFish[idx];
+    }
+
+    private static int getWeight(ItemType tackle, Fish.FishType type) {
+        int amount = type.getWeight();
+        if (amount <= 5) {
+            if (tackle == ItemType.VIBRANT_BOBBER) amount *= 2;
+            else if (tackle == ItemType.GOLD_BOBBER) amount *= 0.5f;
+        } else if (amount <= 20) {
+            if (tackle == ItemType.VIBRANT_BOBBER) amount *= 1.5f;
+            else if (tackle == ItemType.GOLD_BOBBER) amount *= 0.7f;
+        } else if (amount <= 30) {
+            if (tackle == ItemType.VIBRANT_BOBBER) amount *= 1.2f;
+            else if (tackle == ItemType.GOLD_BOBBER) amount *= 0.9f;
+        }
+        return amount;
     }
 
 

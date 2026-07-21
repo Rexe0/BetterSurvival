@@ -11,6 +11,8 @@ public enum Time {
     DUSK(net.md_5.bungee.api.ChatColor.of(new Color(235, 102, 0))+"Dusk"),
     NIGHT(net.md_5.bungee.api.ChatColor.of(new Color(0, 46, 196))+"Night"),
 
+    LAVA_RAIN(ChatColor.GOLD+"Lava Rain"),
+
     WINTER_SOLSTICE_NIGHT(Holiday.WINTER_SOLSTICE.getColor()+"Winter Solstice Night"),
     SALMON_RUN(Holiday.SALMON_RUN.getColor()+"Salmon Run");
 
@@ -25,6 +27,7 @@ public enum Time {
     }
 
     public boolean isValid(long ticks) {
+        SeasonListener.Weather weather = SeasonListener.getCurrentWeather();
         return switch (this) {
             case ANY -> true;
             case DAWN -> ticks >= 23000 || ticks < 2000;
@@ -33,6 +36,8 @@ public enum Time {
             case NIGHT -> ticks >= 14000 && ticks < 23000;
             case WINTER_SOLSTICE_NIGHT -> Holiday.WINTER_SOLSTICE.isDay(SeasonListener.getDays()) && ticks >= 13000;
             case SALMON_RUN -> Holiday.SALMON_RUN.isDay(SeasonListener.getDays());
+            case LAVA_RAIN -> weather == SeasonListener.Weather.RAIN || weather == SeasonListener.Weather.STORM || weather == SeasonListener.Weather.TEMPEST
+                    || weather == SeasonListener.Weather.SNOW || weather == SeasonListener.Weather.BLIZZARD;
         };
     }
 }

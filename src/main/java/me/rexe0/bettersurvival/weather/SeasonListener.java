@@ -143,6 +143,16 @@ public class SeasonListener {
 
             }
         }
+        // Lava Rain
+        if (currentWeather == Weather.RAIN || currentWeather == Weather.STORM || currentWeather == Weather.TEMPEST
+                || currentWeather == Weather.SNOW || currentWeather == Weather.BLIZZARD) {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                if (player.getWorld().getEnvironment() != World.Environment.NETHER) continue;
+                Location loc = player.getLocation().add(0, 10, 0);
+
+                player.spawnParticle(Particle.FALLING_LAVA, loc, 15, 8, 5, 8, 0);
+            }
+        }
         if (currentWeather == Weather.SNOW || currentWeather == Weather.BLIZZARD) {
             for (Player player : world.getPlayers()) {
                 Location loc = player.getLocation();
