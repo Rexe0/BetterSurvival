@@ -174,8 +174,8 @@ public class SeasonListener {
                         player.damage(1);
                 }
 
-                player.spawnParticle(Particle.SNOWFLAKE, loc.add(0, 5, 0), currentWeather == Weather.BLIZZARD ? 40 : 10,
-                        10, 10, 10, 0);
+                player.spawnParticle(Particle.SNOWFLAKE, loc.add(0, 5, 0), currentWeather == Weather.BLIZZARD ? 40 : 15,
+                        5, 1, 5, currentWeather == Weather.BLIZZARD ? 0.1 : 0.05);
             }
         }
 
