@@ -82,8 +82,8 @@ public class TreasureDrop {
                 drop.weight += level - 1;
 
             if (level >= 1) {
+                drops.add(new TreasureDrop(new ItemStack(Material.ANCIENT_DEBRIS), 1, 3, 2));
                 drops.add(new TreasureDrop(new ItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE), 1, 1, 1));
-                drops.add(new TreasureDrop(new ItemStack(Material.ANCIENT_DEBRIS), 1, 3, 1));
             }
             if (level >= 2) {
                 // Make the Strider Jewel rarer
