@@ -369,7 +369,7 @@ public class CatchListener implements Listener {
         int amount = type.getWeight();
         if (tackle == ItemType.VIBRANT_BOBBER) {
             if (amount <= 5) {
-                amount = 10;
+                amount *= 5;
             } else if (amount <= 15)
                 amount = 25;
         }

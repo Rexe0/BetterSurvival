@@ -126,8 +126,9 @@ public class Fish extends Item {
         BLACKSTONE_PIRANHA(Material.COD,ChatColor.BLUE+"Blackstone Piranha", BiomeGroup.BASALT_DELTAS, Time.LAVA_RAIN, 10, 20, 30),
         DAGGERTOOTH(Material.SALMON,ChatColor.DARK_PURPLE+"Daggertooth", BiomeGroup.BASALT_DELTAS, Time.ANY, 10, 17, 10),
 
-        WITHER_SHARK(Material.TROPICAL_FISH,ChatColor.GOLD+"Wither Shark", BiomeGroup.THE_NETHER, Time.LAVA_RAIN, 36, 45, 1),
+        GIANT_TUNA(Material.COD, ChatColor.GOLD+"Giant Tuna", BiomeGroup.ANY_OCEAN, new Season[]{Season.SPRING, Season.SUMMER}, Time.DAY, 50, 60, 1),
         GOLDEN_CARP(Material.COD, ChatColor.GOLD+"Golden Carp", BiomeGroup.ANY_OCEAN, new Season[]{Season.SPRING, Season.AUTUMN}, Time.DAWN, 37, 44, 1),
+        WITHER_SHARK(Material.TROPICAL_FISH,ChatColor.GOLD+"Wither Shark", BiomeGroup.THE_NETHER, Time.LAVA_RAIN, 36, 45, 1),
         ILLUMINATED_GLOOMFISH(Material.COD, ChatColor.GOLD+"Illuminated Gloomfish", BiomeGroup.ANY_OCEAN, new Season[]{Season.WINTER}, Time.WINTER_SOLSTICE_NIGHT, 40, 50, 2),
         MONSTER_SALMON(Material.SALMON, ChatColor.GOLD+"Monster Salmon", BiomeGroup.RIVER, new Season[]{Season.AUTUMN}, Time.SALMON_RUN, 35, 52, 3);
 
