@@ -45,6 +45,13 @@ public class CatchListener implements Listener {
             ChatColor.GREEN, ChatColor.BLUE, ChatColor.DARK_PURPLE, ChatColor.GOLD
     };
     @EventHandler
+    public void onLure(PlayerFishEvent e) {
+        if (e.getState() != PlayerFishEvent.State.LURED) return;
+        // Prevents another fish biting the hook when in minigame
+        if (minigameMap.containsKey(e.getPlayer().getUniqueId()))
+            e.setCancelled(true);
+    }
+    @EventHandler
     public void onFish(PlayerFishEvent e) {
         if (e.getState() != PlayerFishEvent.State.FISHING) return;
         Player player = e.getPlayer();
