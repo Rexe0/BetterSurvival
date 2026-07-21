@@ -12,6 +12,7 @@ public enum BiomeGroup {
     FROZEN_OCEAN(ChatColor.AQUA+"Frozen Ocean",new Biome[]{Biome.FROZEN_OCEAN, Biome.DEEP_FROZEN_OCEAN}, PotionEffectType.ABSORPTION, 7),
     RIVER(ChatColor.BLUE+"River", new Biome[]{Biome.RIVER, Biome.FROZEN_RIVER}, PotionEffectType.HUNGER, 4),
     JUNGLE(ChatColor.DARK_GREEN+"Jungle", new Biome[]{Biome.JUNGLE, Biome.SPARSE_JUNGLE, Biome.BAMBOO_JUNGLE}, PotionEffectType.SATURATION, 5),
+    SWAMP(net.md_5.bungee.api.ChatColor.of(new Color(84, 115, 23))+"Swamp", new Biome[]{Biome.SWAMP, Biome.MANGROVE_SWAMP}, PotionEffectType.NIGHT_VISION, 200),
     CAVERNS(ChatColor.DARK_GRAY+"Caverns", new Biome[]{}, PotionEffectType.RESISTANCE, 16),
     FOREST(ChatColor.GREEN+"Forest", new Biome[]{}, PotionEffectType.REGENERATION, 20),
 

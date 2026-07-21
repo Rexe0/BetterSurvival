@@ -42,6 +42,18 @@ public class Fish extends Item {
     }
 
     public enum FishType {
+        BASS(Material.COD,ChatColor.GREEN+"Bass", BiomeGroup.FOREST, Time.ANY, 5, 8, 50),
+        CHUB(Material.COD,ChatColor.GREEN+"Chub", BiomeGroup.FOREST, new Season[]{Season.SUMMER, Season.SPRING, Season.AUTUMN}, Time.ANY, 7, 9, 50),
+        CARP(Material.COD,ChatColor.BLUE+"Carp", BiomeGroup.FOREST, new Season[]{Season.SUMMER, Season.SPRING}, Time.DAY, 13, 19, 30),
+        BLUE_DISCUS(Material.COD,ChatColor.BLUE+"Blue Discus", BiomeGroup.FOREST, new Season[]{Season.AUTUMN, Season.WINTER}, Time.NIGHT, 16, 17, 30),
+        DAYBREAK(Material.TROPICAL_FISH,ChatColor.DARK_PURPLE+"Daybreak", BiomeGroup.FOREST, new Season[]{Season.SUMMER}, Time.DAWN, 22, 25, 10),
+
+        SALMON(Material.SALMON,ChatColor.GREEN+"Salmon", BiomeGroup.RIVER, new Season[]{Season.SUMMER, Season.SPRING, Season.AUTUMN}, Time.ANY, 3, 7, 50),
+        BREAM(Material.COD,ChatColor.GREEN+"Bream", BiomeGroup.RIVER, new Season[]{Season.SUMMER, Season.WINTER, Season.AUTUMN}, Time.ANY, 4, 6, 50),
+        PIKE(Material.COD,ChatColor.GREEN+"Pike", BiomeGroup.RIVER, new Season[]{Season.AUTUMN, Season.WINTER, Season.SPRING}, Time.ANY, 2, 8, 50),
+        SHAD(Material.COD,ChatColor.BLUE+"Shad", BiomeGroup.RIVER, new Season[]{Season.SUMMER, Season.WINTER, Season.SPRING}, Time.NIGHT, 5, 12, 30),
+        RAINBOW_TROUT(Material.SALMON,ChatColor.DARK_PURPLE+"Rainbow Trout", BiomeGroup.RIVER, new Season[]{Season.SUMMER, Season.WINTER, Season.SPRING}, Time.DUSK, 10, 17, 30),
+
         SARDINE(Material.COD,ChatColor.GREEN+"Sardine", BiomeGroup.OCEAN, new Season[]{Season.AUTUMN, Season.SUMMER, Season.SPRING}, Time.ANY, 1, 4, 50),
         ANCHOVY(Material.COD,ChatColor.GREEN+"Anchovy", BiomeGroup.OCEAN, new Season[]{Season.SUMMER, Season.AUTUMN, Season.WINTER}, Time.ANY, 1, 5, 50),
         PILOT_FISH(Material.COD,ChatColor.GREEN+"Pilot Fish", BiomeGroup.OCEAN, new Season[]{Season.SPRING, Season.WINTER, Season.AUTUMN}, Time.ANY, 4, 10, 50),
@@ -63,23 +75,18 @@ public class Fish extends Item {
         OCTOPUS(Material.COD,ChatColor.BLUE+"Octopus", BiomeGroup.FROZEN_OCEAN, new Season[]{Season.WINTER, Season.AUTUMN}, Time.NIGHT, 11, 24, 30),
         TWILIGHT_CARP(Material.COD,ChatColor.DARK_PURPLE+"Twilight Carp", BiomeGroup.FROZEN_OCEAN, new Season[]{Season.SPRING, Season.AUTUMN}, Time.DUSK, 19, 35, 10),
 
-        SALMON(Material.SALMON,ChatColor.GREEN+"Salmon", BiomeGroup.RIVER, new Season[]{Season.SUMMER, Season.SPRING, Season.AUTUMN}, Time.ANY, 3, 7, 50),
-        BREAM(Material.COD,ChatColor.GREEN+"Bream", BiomeGroup.RIVER, new Season[]{Season.SUMMER, Season.WINTER, Season.AUTUMN}, Time.ANY, 4, 6, 50),
-        PIKE(Material.COD,ChatColor.GREEN+"Pike", BiomeGroup.RIVER, new Season[]{Season.AUTUMN, Season.WINTER, Season.SPRING}, Time.ANY, 2, 8, 50),
-        SHAD(Material.COD,ChatColor.BLUE+"Shad", BiomeGroup.RIVER, new Season[]{Season.SUMMER, Season.WINTER, Season.SPRING}, Time.NIGHT, 5, 12, 30),
-        RAINBOW_TROUT(Material.SALMON,ChatColor.DARK_PURPLE+"Rainbow Trout", BiomeGroup.RIVER, new Season[]{Season.SUMMER, Season.WINTER, Season.SPRING}, Time.DUSK, 10, 17, 30),
-
         NEON_TETRA(Material.COD,ChatColor.GREEN+"Neon Tetra", BiomeGroup.JUNGLE, Time.ANY, 2, 5, 50),
         COCOA_FISH(Material.COD,ChatColor.GREEN+"Cocoa Fish", BiomeGroup.JUNGLE, new Season[]{Season.SUMMER, Season.SPRING}, Time.DAY, 4, 7, 50),
         CAT_FISH(Material.COD,ChatColor.BLUE+"Cat Fish", BiomeGroup.JUNGLE, new Season[]{Season.WINTER, Season.AUTUMN}, Time.ANY, 7, 14, 30),
         ANGEL_FISH(Material.COD,ChatColor.BLUE+"Angel Fish", BiomeGroup.JUNGLE, new Season[]{Season.SPRING, Season.AUTUMN}, Time.DAY, 10, 12, 30),
         MURKFISH(Material.SALMON,ChatColor.DARK_PURPLE+"Murkfish", BiomeGroup.JUNGLE, new Season[]{Season.SUMMER}, Time.DAWN, 15, 25, 10),
 
-        BASS(Material.COD,ChatColor.GREEN+"Bass", BiomeGroup.FOREST, Time.ANY, 5, 8, 50),
-        CHUB(Material.COD,ChatColor.GREEN+"Chub", BiomeGroup.FOREST, new Season[]{Season.SUMMER, Season.SPRING, Season.AUTUMN}, Time.ANY, 7, 9, 50),
-        CARP(Material.COD,ChatColor.BLUE+"Carp", BiomeGroup.FOREST, new Season[]{Season.SUMMER, Season.SPRING}, Time.DAY, 13, 19, 30),
-        BLUE_DISCUS(Material.COD,ChatColor.BLUE+"Blue Discus", BiomeGroup.FOREST, new Season[]{Season.AUTUMN, Season.WINTER}, Time.NIGHT, 16, 17, 30),
-        DAYBREAK(Material.TROPICAL_FISH,ChatColor.DARK_PURPLE+"Daybreak", BiomeGroup.FOREST, new Season[]{Season.SUMMER}, Time.DAWN, 22, 25, 10),
+        WARMOUTH(Material.COD,ChatColor.GREEN+"Warmouth", BiomeGroup.SWAMP, new Season[]{Season.SPRING, Season.SUMMER}, Time.ANY, 2, 4, 50),
+        BLACK_BULLHEAD(Material.COD,ChatColor.GREEN+"Black Bullhead", BiomeGroup.SWAMP, new Season[]{Season.WINTER, Season.AUTUMN}, Time.ANY, 4, 8, 50),
+        MUD_FISH(Material.COD,ChatColor.GREEN+"Mud Fish", BiomeGroup.SWAMP, new Season[]{Season.SPRING, Season.AUTUMN, Season.WINTER}, Time.NIGHT, 5, 10, 50),
+        BROWN_TROUT(Material.SALMON,ChatColor.BLUE+"Brown Trout", BiomeGroup.SWAMP, new Season[]{Season.SUMMER, Season.SPRING, Season.AUTUMN}, Time.DAY, 10, 17, 30),
+        LONGFIN_EEL(Material.KELP,ChatColor.DARK_PURPLE+"Longfin Eel", BiomeGroup.SWAMP, new Season[]{Season.SUMMER, Season.SPRING}, Time.DAY, 15, 24, 10),
+        MARSH_DWELLER(Material.SALMON,ChatColor.DARK_PURPLE+"Marsh Dweller", BiomeGroup.SWAMP, new Season[]{Season.WINTER, Season.AUTUMN, Season.SPRING}, Time.DUSK, 20, 32, 10),
 
         STURGEON(Material.COD,ChatColor.GREEN+"Sturgeon", BiomeGroup.CAVERNS, Time.ANY, 2, 8, 50),
         STONE_FISH(Material.SALMON,ChatColor.GREEN+"Stone Fish", BiomeGroup.CAVERNS, Time.ANY, 6, 7, 50),
@@ -91,7 +98,7 @@ public class Fish extends Item {
 
         BLAZEFISH(Material.COD,ChatColor.GREEN+"Blazefish", BiomeGroup.NETHER_WASTES, Time.ANY, 7, 10, 50),
         HELL_SQUID(Material.COD,ChatColor.GREEN+"Hell Squid", BiomeGroup.NETHER_WASTES, Time.ANY, 6, 12, 50),
-        LAVA_EEL(Material.COD,ChatColor.BLUE+"Lava Eel", BiomeGroup.NETHER_WASTES, Time.ANY, 13, 19, 25),
+        LAVA_EEL(Material.DRIED_KELP,ChatColor.BLUE+"Lava Eel", BiomeGroup.NETHER_WASTES, Time.ANY, 13, 19, 25),
         GLOWSTONE_PUFFERFISH(Material.COD,ChatColor.BLUE+"Glowstone Pufferfish", BiomeGroup.NETHER_WASTES, Time.LAVA_RAIN, 10, 21, 30),
         TUNGSTEN_MARLIN(Material.COD,ChatColor.DARK_PURPLE+"Tungsten Marlin", BiomeGroup.NETHER_WASTES, Time.ANY, 20, 32, 10),
 
