@@ -64,7 +64,7 @@ public class FishStew extends Item {
             capitalize = false;
 
         }
-        return key.substring(0, 1).toUpperCase() + key.substring(1).toLowerCase();
+        return builder.toString();
     }
 
     @Override
