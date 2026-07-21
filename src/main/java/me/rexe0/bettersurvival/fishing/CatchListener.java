@@ -70,6 +70,7 @@ public class CatchListener implements Listener {
             hook.addTag("lavaHook");
             isLavaFishing = true;
         }
+        boolean isNether = isLavaFishing && player.getWorld().getEnvironment() == World.Environment.NETHER;
         FishHook bukkitHook = (FishHook) hook.getBukkitEntity();
 
 
@@ -147,9 +148,10 @@ public class CatchListener implements Listener {
         }
 
         // If its raining, reduce fishing time by 10%
-        if (!isLavaFishing && (SeasonListener.getCurrentWeather() == SeasonListener.Weather.RAIN
-                || SeasonListener.getCurrentWeather() == SeasonListener.Weather.STORM
-                || SeasonListener.getCurrentWeather() == SeasonListener.Weather.TEMPEST)) {
+        SeasonListener.Weather weather = SeasonListener.getCurrentWeather();
+        if (weather == SeasonListener.Weather.RAIN
+                || weather == SeasonListener.Weather.STORM
+                || weather == SeasonListener.Weather.TEMPEST || (isNether && (weather == SeasonListener.Weather.SNOW || weather == SeasonListener.Weather.BLIZZARD))) {
             min *= 0.9;
             max *= 0.9;
         }
