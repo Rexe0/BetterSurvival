@@ -64,7 +64,7 @@ public class TreasureDrop {
             drops.add(new TreasureDrop(new ItemStack(Material.GOLD_INGOT), 1, 4, 14));
             drops.add(new TreasureDrop(new ItemStack(Material.QUARTZ), 4, 16, 12));
             drops.add(new TreasureDrop(new ItemStack(Material.GOLDEN_CARROT), 2, 4, 9));
-            drops.add(new TreasureDrop(new ItemStack(ItemType.TUNGSTEN_CLUMP.getItem().getItem()), 6, 10, 5));
+            drops.add(new TreasureDrop(new ItemStack(ItemType.TUNGSTEN_CLUMP.getItem().getItem()), 4, 8, 5));
             drops.add(new TreasureDrop(getFireResistancePotion(), 1, 1, 4));
             drops.add(new TreasureDrop(new ItemStack(Material.DRIED_GHAST), 1, 1, 3));
             drops.add(new TreasureDrop(new ItemStack(Material.SNOUT_ARMOR_TRIM_SMITHING_TEMPLATE), 1, 1, 3));
