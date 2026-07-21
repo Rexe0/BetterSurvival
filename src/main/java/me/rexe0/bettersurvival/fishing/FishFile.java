@@ -40,6 +40,7 @@ public class FishFile {
                     for (Map.Entry<Fish.FishType, Integer> map : entry.getValue().getFishes().entrySet())
                         configuration.set("Data." + entry.getKey().toString() + "." + map.getKey().name(), map.getValue());
                     configuration.set("Data." + entry.getKey().toString()+".HasCaughtRareFish", entry.getValue().hasCaughtRareFish());
+                    configuration.set("Data." + entry.getKey().toString()+".HasCaughtRareNetherFish", entry.getValue().hasCaughtRareNetherFish());
                 }
                 configuration.save(file);
             } catch (IOException e) {
@@ -55,16 +56,16 @@ public class FishFile {
             UUID uuid = UUID.fromString(str);
             Map<Fish.FishType, Integer> map = new HashMap<>();
             for (String fish : configuration.getConfigurationSection("Data."+uuid).getKeys(false)) {
-                if (fish.equals("HasCaughtRareFish")) continue;
+                if (fish.equals("HasCaughtRareFish") || fish.equals("HasCaughtRareNetherFish")) continue;
                 map.put(Fish.FishType.valueOf(fish), configuration.getInt("Data." + uuid + "." + fish));
             }
-            playerData.put(uuid, new FishData(map, configuration.getBoolean("Data."+uuid+".HasCaughtRareFish", false)));
+            playerData.put(uuid, new FishData(map, configuration.getBoolean("Data."+uuid+".HasCaughtRareFish", false), configuration.getBoolean("Data."+uuid+".HasCaughtRareNetherFish", false)));
         }
     }
 
     public static FishData getPlayerData(Player player) {
         UUID uuid = player.getUniqueId();
-        playerData.putIfAbsent(uuid, new FishData(new HashMap<>(), false));
+        playerData.putIfAbsent(uuid, new FishData(new HashMap<>(), false, false));
         return playerData.get(player.getUniqueId());
     }
 }

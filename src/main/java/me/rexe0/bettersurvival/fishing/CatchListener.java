@@ -212,6 +212,9 @@ public class CatchListener implements Listener {
         ItemStack treasureItem = getTreasure(rodType, isNether);
         boolean caughtTreasure = Math.random() < treasureChance;
 
+        int fishingLevel = EntityDataUtil.getIntegerValue(player, "upgradeLevel.FISHING");
+        boolean isDoubleTreasure = Math.random() < fishingLevel*0.08;
+
         // Fish
         Fish.FishType fishType = getCatch(biomes, bait, tackle);
 
@@ -246,10 +249,12 @@ public class CatchListener implements Listener {
         if (difficulty != null) {
             List<ItemStack> drops = new ArrayList<>();
             drops.add(fish.getItem());
-            if (caughtTreasure)
-                drops.add(treasureItem);
-
-            FishingMinigame minigame = new FishingMinigame(player, hook, fishType, drops, difficulty, caughtTreasure);
+            if (caughtTreasure) {
+                for (int i = 0; i < (isDoubleTreasure ? 2 : 1); i++) {
+                    drops.add(treasureItem.clone());
+                }
+            }
+            FishingMinigame minigame = new FishingMinigame(player, hook, fishType, drops, difficulty, caughtTreasure, isNether);
             minigame.setTackle(tackle);
             minigame.getRunnable().runTaskTimer(BetterSurvival.getInstance(), 0, 1);
             minigameMap.put(player.getUniqueId(), minigame);
@@ -265,19 +270,17 @@ public class CatchListener implements Listener {
         if (caughtTreasure)
             // Run it a tick later so that the item spawned has the same velocity as the caught fish
             Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> {
-                int level = EntityDataUtil.getIntegerValue(player, "upgradeLevel.FISHING");
-
-                int amount = (Math.random() < level*0.08 ? 2 : 1);
-                treasureItem.setAmount(amount);
-                Item treasure = player.getWorld().dropItem(item.getLocation(), treasureItem);
-                treasure.setVelocity(item.getVelocity());
-                treasure.setOwner(player.getUniqueId());
-                treasure.setPickupDelay(0);
-                treasure.setHealth(50);
+                for (int i = 0; i < (isDoubleTreasure ? 2 : 1); i++) {
+                    Item treasure = player.getWorld().dropItem(item.getLocation(), treasureItem);
+                    treasure.setVelocity(item.getVelocity());
+                    treasure.setOwner(player.getUniqueId());
+                    treasure.setPickupDelay(0);
+                    treasure.setHealth(50);
+                }
 
                 player.playSound(player.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1, 2);
                 String message = ChatColor.GREEN+"You managed to pull up some additional treasure.";
-                if (amount == 2)
+                if (isDoubleTreasure)
                     message = ChatColor.GOLD+""+ChatColor.MAGIC+"I "+message+ChatColor.GOLD+ChatColor.MAGIC+" I";
                 player.sendMessage(message);
             }, 1);
@@ -357,16 +360,13 @@ public class CatchListener implements Listener {
 
     private static int getWeight(ItemType tackle, Fish.FishType type) {
         int amount = type.getWeight();
-        if (amount <= 5) {
-            if (tackle == ItemType.VIBRANT_BOBBER) amount *= 2;
-            else if (tackle == ItemType.GOLD_BOBBER) amount *= 0.5f;
-        } else if (amount <= 20) {
-            if (tackle == ItemType.VIBRANT_BOBBER) amount *= 1.5f;
-            else if (tackle == ItemType.GOLD_BOBBER) amount *= 0.7f;
-        } else if (amount <= 30) {
-            if (tackle == ItemType.VIBRANT_BOBBER) amount *= 1.2f;
-            else if (tackle == ItemType.GOLD_BOBBER) amount *= 0.9f;
+        if (tackle == ItemType.VIBRANT_BOBBER) {
+            if (amount <= 5) {
+                amount = 10;
+            } else if (amount <= 15)
+                amount = 25;
         }
+        if (amount <= 30 && tackle == ItemType.GOLD_BOBBER) amount = (int) (amount * 0.5f);
         return amount;
     }
 

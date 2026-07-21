@@ -7,10 +7,12 @@ import java.util.Map;
 public class FishData {
     private Map<Fish.FishType, Integer> map;
     private boolean hasCaughtRareFish;
+    private boolean hasCaughtRareNetherFish;
 
-    public FishData(Map<Fish.FishType, Integer> map, boolean hasCaughtRareFish) {
+    public FishData(Map<Fish.FishType, Integer> map, boolean hasCaughtRareFish, boolean hasCaughtRareNetherFish) {
         this.map = map;
         this.hasCaughtRareFish = hasCaughtRareFish;
+        this.hasCaughtRareNetherFish = hasCaughtRareNetherFish;
     }
 
     public boolean hasCaughtRareFish() {
@@ -19,6 +21,14 @@ public class FishData {
 
     public void setHasCaughtRareFish(boolean hasCaughtRareFish) {
         this.hasCaughtRareFish = hasCaughtRareFish;
+    }
+
+    public boolean hasCaughtRareNetherFish() {
+        return hasCaughtRareNetherFish;
+    }
+
+    public void setHasCaughtRareNetherFish(boolean hasCaughtRareNetherFish) {
+        this.hasCaughtRareNetherFish = hasCaughtRareNetherFish;
     }
 
     public void addFish(Fish.FishType type) {
