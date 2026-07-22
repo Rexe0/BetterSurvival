@@ -5,12 +5,15 @@ import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.BetterSurvival;
 import me.rexe0.bettersurvival.item.basketball.Basketball;
 import me.rexe0.bettersurvival.item.basketball.BasketballHoop;
+import me.rexe0.bettersurvival.util.RandomUtil;
 import me.rexe0.bettersurvival.util.SkullUtil;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Transformation;
@@ -23,10 +26,18 @@ import java.util.Map;
 public class BasketballEntity {
     private static final List<BasketballEntity> basketballs = new ArrayList<>();
     private static final int LIFETIME = 6000; // Number of ticks the ball will exist
+    private static final ItemStack silktouch;
     public static final float SCALE = 0.8f;
 
     public static List<BasketballEntity> getBasketballs() {
         return basketballs;
+    }
+
+    static {
+        silktouch = new ItemStack(Material.DIAMOND_PICKAXE);
+        ItemMeta meta = silktouch.getItemMeta();
+        meta.addEnchant(Enchantment.SILK_TOUCH, 1, true);
+        silktouch.setItemMeta(meta);
     }
 
     private Player owner;
@@ -341,6 +352,7 @@ public class BasketballEntity {
         playSound(Sound.ITEM_TRIDENT_THROW, 0.9f, 0.75f);
         playSound(Sound.ENTITY_BREEZE_SHOOT, 0.15f, 1.15f);
     }
+
     public void dunkBall(Block hoop) {
         this.location = hoop.getLocation().add(0.5, 0.7, 0.5);
         location.setPitch(-90);
@@ -358,6 +370,23 @@ public class BasketballEntity {
         playSound(Sound.ENTITY_IRON_GOLEM_HURT, 0.3f, 1.1f);
         playSound(Sound.ENTITY_BLAZE_HURT, 0.7f, 0.8f);
         playSound(Sound.ITEM_TRIDENT_THUNDER, 0.2f, 1.1f);
+
+        long playersNearby = location.getWorld().getPlayers().stream()
+                .filter(p -> p.getLocation().distanceSquared(location) <= 2500)
+                .count();
+        if (playersNearby < 2 || RandomUtil.getRandom().nextInt(100) != 0) return;
+        // 1 in 100 to shatter glass backboard
+        Location loc = hoop.getLocation();
+        for (int x = -2; x <= 2; x++) {
+            for (int y = -2; y <= 3; y++) {
+                for (int z = -2; z <= 2; z++) {
+                    loc.add(x, y, z);
+                    if (loc.getBlock().getType().name().contains("GLASS"))
+                        loc.getBlock().breakNaturally(silktouch, true);
+                    loc.subtract(x, y, z);
+                }
+            }
+        }
     }
 
     private void spawnDisplay() {
