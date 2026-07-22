@@ -19,6 +19,8 @@ import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Levelled;
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.*;
@@ -264,15 +266,10 @@ public class GolfBallEntity {
             friction = Math.pow(friction, 1d / stepCount);
             vec.multiply(friction);
 
-//            if (location.getBlock().getType() == Material.WATER) {
-//                ServerLevel serverLevel = ((CraftWorld)location.getWorld()).getHandle();
-//
-//                BlockPos.MutableBlockPos blockposition_mutableblockposition = new BlockPos.MutableBlockPos();
-//                FluidState fluid = serverLevel.getFluidState(blockposition_mutableblockposition);
-//                Vec3 vec3d1 = fluid.getFlow(serverLevel, blockposition_mutableblockposition);
-//                Bukkit.broadcastMessage(vec3d1.toString());
-//
-//            }
+            if (location.getBlock().getType() == Material.WATER) {
+                Vector dir = getWaterFlowDirection(location.getBlock()).multiply(0.005);
+                vec.add(dir);
+            }
 
             // Make sure the ball stops if the velocity from friction is too low
             if (vec.lengthSquared() < 0.000000001) vec.multiply(0);
@@ -488,5 +485,36 @@ public class GolfBallEntity {
         camera.remove();
 
         golfBalls.remove(this);
+    }
+
+
+    public static Vector getWaterFlowDirection(Block block) {
+        if (block.getType() != Material.WATER) {
+            return new Vector(0, 0, 0);
+        }
+
+        Levelled current = (Levelled) block.getBlockData();
+        int currentLevel = current.getLevel();
+
+        Vector flow = new Vector();
+
+        for (BlockFace face : new BlockFace[]{
+                BlockFace.NORTH, BlockFace.SOUTH,
+                BlockFace.EAST, BlockFace.WEST}) {
+
+            Block relative = block.getRelative(face);
+
+            if (relative.getType() == Material.WATER) {
+                Levelled other = (Levelled) relative.getBlockData();
+                int otherLevel = other.getLevel();
+
+                // Water flows from lower level value to higher level value
+                int diff = otherLevel - currentLevel;
+
+                flow.add(new Vector(face.getModX(), 0, face.getModZ()).multiply(diff));
+            }
+        }
+
+        return flow.lengthSquared() == 0 ? flow : flow.normalize();
     }
 }
