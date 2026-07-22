@@ -1,6 +1,7 @@
 package me.rexe0.bettersurvival.item;
 
 import me.rexe0.bettersurvival.BetterSurvival;
+import me.rexe0.bettersurvival.item.basketball.BasketballHoop;
 import me.rexe0.bettersurvival.item.fishing.FishCodex;
 import me.rexe0.bettersurvival.item.fishing.TreasurePot;
 import me.rexe0.bettersurvival.item.golf.GolfCup;
@@ -45,6 +46,9 @@ public class ItemListener implements Listener {
     public void onBlockBreak(BlockBreakEvent e) {
         GolfCup golfCup = (GolfCup) ItemType.GOLF_CUP.getItem();
         golfCup.onBlockBreak(e);
+
+        BasketballHoop basketballHoop = (BasketballHoop) ItemType.BASKETBALL_HOOP.getItem();
+        basketballHoop.onBlockBreak(e);
 
         TreasurePot treasurePot = (TreasurePot) ItemType.TREASURE_POT.getItem();
         treasurePot.onBlockBreak(e);

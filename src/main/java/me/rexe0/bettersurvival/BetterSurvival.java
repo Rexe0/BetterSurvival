@@ -1,6 +1,8 @@
 package me.rexe0.bettersurvival;
 
 import com.jeff_media.customblockdata.CustomBlockData;
+import me.rexe0.bettersurvival.basketball.BasketballEntity;
+import me.rexe0.bettersurvival.basketball.BasketballListener;
 import me.rexe0.bettersurvival.config.ConfigLoader;
 import me.rexe0.bettersurvival.enchanting.EnchantmentTableChanges;
 import me.rexe0.bettersurvival.farming.*;
@@ -140,6 +142,7 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new LibrarianChanges(), this);
         getServer().getPluginManager().registerEvents(new NetheriteRodListener(), this);
         getServer().getPluginManager().registerEvents(new JewelListener(), this);
+        getServer().getPluginManager().registerEvents(BasketballListener.getInstance(), this);
 
         CustomBlockData.registerListener(this);
 
@@ -174,6 +177,7 @@ public final class BetterSurvival extends JavaPlugin {
             for (GolfBallEntity golfBall : GolfBallEntity.getGolfBalls().toArray(new GolfBallEntity[0]))
                 golfBall.run();
 
+            BasketballListener.getInstance().run();
         }, 0, 1);
         Bukkit.getScheduler().runTaskTimer(this, () -> Bukkit.getOnlinePlayers().forEach((player) -> {
             for (ItemType type : ItemType.values()) {
@@ -200,6 +204,8 @@ public final class BetterSurvival extends JavaPlugin {
         // Clear all golf balls
         for (GolfBallEntity golfBall : GolfBallEntity.getGolfBalls().toArray(new GolfBallEntity[0]))
             golfBall.remove();
+        for (BasketballEntity basketball : BasketballEntity.getBasketballs().toArray(new BasketballEntity[0]))
+            basketball.remove();
 
         recipes.keySet().forEach(r -> getServer().removeRecipe(r));
 

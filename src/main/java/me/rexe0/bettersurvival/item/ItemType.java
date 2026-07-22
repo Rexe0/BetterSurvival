@@ -8,6 +8,9 @@ import me.rexe0.bettersurvival.item.arrows.AmethystArrow;
 import me.rexe0.bettersurvival.item.arrows.ExplosiveArrow;
 import me.rexe0.bettersurvival.item.arrows.SonicArrow;
 import me.rexe0.bettersurvival.item.arrows.ToxicArrow;
+import me.rexe0.bettersurvival.item.basketball.AirJordans;
+import me.rexe0.bettersurvival.item.basketball.Basketball;
+import me.rexe0.bettersurvival.item.basketball.BasketballHoop;
 import me.rexe0.bettersurvival.item.drugs.*;
 import me.rexe0.bettersurvival.item.farming.Ambrosia;
 import me.rexe0.bettersurvival.item.farming.FarmerBoots;
@@ -57,6 +60,10 @@ public enum ItemType {
     IRON(new Iron()),
     WEDGE(new Wedge()),
     PUTTER(new Putter()),
+
+    BASKETBALL(new Basketball()),
+    BASKETBALL_HOOP(new BasketballHoop()),
+    AIR_JORDANS(new AirJordans()),
 
     FISH_CODEX(new FishCodex()),
     PLATINUM_ORE(new PlatinumOre()),
