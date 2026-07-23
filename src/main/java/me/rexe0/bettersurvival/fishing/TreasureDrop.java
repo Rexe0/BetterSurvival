@@ -60,12 +60,13 @@ public class TreasureDrop {
         List<TreasureDrop> drops = new ArrayList<>();
         if (isNether) {
 
-            drops.add(new TreasureDrop(new ItemStack(Material.GOLD_NUGGET), 5, 27, 14));
-            drops.add(new TreasureDrop(new ItemStack(Material.GOLD_INGOT), 1, 4, 14));
             drops.add(new TreasureDrop(new ItemStack(Material.QUARTZ), 4, 16, 12));
+            drops.add(new TreasureDrop(new ItemStack(Material.GOLD_NUGGET), 5, 27, 11));
+            drops.add(new TreasureDrop(new ItemStack(Material.GOLD_INGOT), 1, 4, 11));
             drops.add(new TreasureDrop(new ItemStack(Material.GOLDEN_CARROT), 2, 4, 9));
-            drops.add(new TreasureDrop(new ItemStack(ItemType.TUNGSTEN_CLUMP.getItem().getItem()), 4, 8, 5));
+            drops.add(new TreasureDrop(new ItemStack(ItemType.TUNGSTEN_CLUMP.getItem().getItem()), 4, 9, 6));
             drops.add(new TreasureDrop(getFireResistancePotion(), 1, 1, 4));
+            drops.add(new TreasureDrop(new ItemStack(Material.GOLD_BLOCK), 1, 2, 4));
             drops.add(new TreasureDrop(new ItemStack(Material.DRIED_GHAST), 1, 1, 3));
             drops.add(new TreasureDrop(new ItemStack(Material.SNOUT_ARMOR_TRIM_SMITHING_TEMPLATE), 1, 1, 3));
             drops.add(new TreasureDrop(new ItemStack(Material.BOOK).enchantWithLevels(45, false, new Random()), 1, 1, 2)); // Lvl 45 Book
@@ -74,18 +75,19 @@ public class TreasureDrop {
             int level = 0;
 
             if (fishingRod != null) level = switch (fishingRod) {
-                case TUNGSTEN_FISHING_ROD -> 1;
-                case NETHERITE_FISHING_ROD -> 2;
+                case OBSIDIAN_FISHING_ROD -> 1;
+                case TUNGSTEN_FISHING_ROD -> 2;
+                case NETHERITE_FISHING_ROD -> 3;
                 default -> 0;
             };
             for (TreasureDrop drop : drops)
                 drop.weight += level - 1;
-
-            if (level >= 1) {
+            if (level >= 2) {
                 drops.add(new TreasureDrop(new ItemStack(Material.ANCIENT_DEBRIS), 1, 3, 2));
                 drops.add(new TreasureDrop(new ItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE), 1, 1, 1));
             }
-            if (level >= 2) {
+
+            if (level >= 3) {
                 // Make the Strider Jewel rarer
                 for (TreasureDrop drop : drops)
                     drop.weight *= 2;
