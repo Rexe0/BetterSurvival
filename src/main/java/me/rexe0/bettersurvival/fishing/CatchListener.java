@@ -70,7 +70,7 @@ public class CatchListener implements Listener {
             hook.addTag("lavaHook");
             isLavaFishing = true;
         }
-        boolean isNether = isLavaFishing && player.getWorld().getEnvironment() == World.Environment.NETHER;
+        boolean isNether = isLavaFishing && player.getWorld().getEnvironment() == World.Environment.NETHER && player.getLocation().getY() < 128;
         FishHook bukkitHook = (FishHook) hook.getBukkitEntity();
 
 
@@ -180,7 +180,7 @@ public class CatchListener implements Listener {
         FishHook hook = e.getHook();
 
         boolean isLavaFishing = hook.getScoreboardTags().contains("lavaHook");
-        boolean isNether = player.getWorld().getEnvironment() == World.Environment.NETHER && isLavaFishing;
+        boolean isNether = player.getWorld().getEnvironment() == World.Environment.NETHER && isLavaFishing && player.getLocation().getY() < 128;
 
         ItemStack fishingRod = e.getHand() == EquipmentSlot.HAND
                 ? player.getEquipment().getItemInMainHand() : player.getEquipment().getItemInOffHand();

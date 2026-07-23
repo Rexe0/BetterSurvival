@@ -148,6 +148,7 @@ public class SeasonListener {
                 || currentWeather == Weather.SNOW || currentWeather == Weather.BLIZZARD) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (player.getWorld().getEnvironment() != World.Environment.NETHER) continue;
+                if (player.getLocation().getY() >= 128) continue; // No lava rain on nether roof
                 Location loc = player.getLocation().add(0, 10, 0);
 
                 player.spawnParticle(Particle.FALLING_LAVA, loc, 15, 8, 5, 8, 0);
