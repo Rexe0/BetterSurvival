@@ -21,6 +21,7 @@ import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Levelled;
+import org.bukkit.block.data.type.Observer;
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.*;
@@ -438,6 +439,24 @@ public class GolfBallEntity {
         firework.setFireworkMeta(fireworkMeta);
 
         location.getWorld().spawnParticle(Particle.TOTEM_OF_UNDYING, location.getBlock().getLocation().add(0.5, 1, 0.5), strokes == 1 ? 500 : 200, 0, 0, 0, 1);
+
+        BlockFace[] faces = new BlockFace[]{BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST, BlockFace.UP, BlockFace.DOWN};
+
+        for (BlockFace face : faces) {
+            Block block = location.getBlock().getRelative(face);
+            if (block.getType() != Material.OBSERVER) continue;
+            Observer observer = (Observer) block.getBlockData();
+
+            if (observer.getFacing().getOppositeFace() != face) continue;
+            observer.setPowered(true);
+            block.setBlockData(observer);
+
+            Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> {
+                Observer newData = (Observer) block.getBlockData();
+                newData.setPowered(false);
+                block.setBlockData(newData);
+            }, 1);
+        }
 
         remove();
     }

@@ -9,6 +9,8 @@ import me.rexe0.bettersurvival.util.RandomUtil;
 import me.rexe0.bettersurvival.util.SkullUtil;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.type.Observer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
@@ -168,6 +170,24 @@ public class BasketballEntity {
         String message = ChatColor.GREEN + owner.getName() + ChatColor.WHITE + " has scored a basket!";
         if (isDunk) message += ChatColor.GOLD+" "+ChatColor.BOLD+"DUNK!";
         broadcastMessage(message);
+
+        BlockFace[] faces = new BlockFace[]{BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST, BlockFace.UP, BlockFace.DOWN};
+
+        for (BlockFace face : faces) {
+            Block block = location.getBlock().getRelative(face);
+            if (block.getType() != Material.OBSERVER) continue;
+            Observer observer = (Observer) block.getBlockData();
+
+            if (observer.getFacing().getOppositeFace() != face) continue;
+            observer.setPowered(true);
+            block.setBlockData(observer);
+
+            Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> {
+                Observer newData = (Observer) block.getBlockData();
+                newData.setPowered(false);
+                block.setBlockData(newData);
+            }, 1);
+        }
 
         // Make ball pass through hoop
         location.setY(location.getBlockY()-0.3);
