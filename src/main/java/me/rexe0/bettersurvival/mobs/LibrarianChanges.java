@@ -5,14 +5,17 @@ import me.rexe0.bettersurvival.util.EntityDataUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.VillagerAcquireTradeEvent;
 import org.bukkit.event.entity.VillagerCareerChangeEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.MenuType;
 import org.bukkit.inventory.MerchantRecipe;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+import org.bukkit.inventory.view.MerchantView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +75,12 @@ public class LibrarianChanges implements Listener {
             }
 
             villager.setRecipes(newTrades);
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                if (!(player.getOpenInventory() instanceof MerchantView merchantView)) continue;
+                if (!merchantView.getMerchant().equals(villager)) continue;
+                player.openInventory(MenuType.MERCHANT.builder().merchant(villager).build(player));
+                break;
+            }
         }, 1);
 
     }
