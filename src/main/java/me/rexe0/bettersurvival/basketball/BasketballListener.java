@@ -192,10 +192,12 @@ public class BasketballListener implements Listener {
                 dribbleCooldown.put(uuid, dribbleCooldown.get(uuid)-1);
                 if (dribbleCooldown.get(uuid) <= 0) dribbleCooldown.remove(uuid);
             }
-            // Marker for who has the ball
-
+            // Marker for who has the ball - player can't see their own marker
             if (hasBall(player))
-                player.getWorld().spawnParticle(Particle.ENTITY_EFFECT, player.getEyeLocation().add(0, 1, 0), 1, 0, 0, 0, 0, Color.fromRGB(173, 36, 36));
+                player.getWorld().getPlayers().stream()
+                        .filter(p -> !p.equals(player))
+                        .filter(p -> p.getLocation().distanceSquared(player.getLocation()) < 2500)
+                        .forEach(p -> p.spawnParticle(Particle.ENTITY_EFFECT, player.getEyeLocation().add(0, 1, 0), 1, 0, 0, 0, 0, Color.fromRGB(173, 36, 36)));
 
             if (!ItemDataUtil.isItem(player.getEquipment().getBoots(), ItemType.AIR_JORDANS.getItem().getID())) continue;
 
