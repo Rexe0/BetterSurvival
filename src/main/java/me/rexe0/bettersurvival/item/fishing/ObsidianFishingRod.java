@@ -8,7 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 
 import java.util.ArrayList;
@@ -22,9 +22,10 @@ public class ObsidianFishingRod extends Item {
     @Override
     public ItemStack getItem() {
         ItemStack item = super.getItem();
-        ItemMeta meta = item.getItemMeta();
-        meta.setFireResistant(true);
-        item.setItemMeta(meta);
+        Damageable damageable = (Damageable) item.getItemMeta();
+        damageable.setMaxDamage(100);
+        damageable.setFireResistant(true);
+        item.setItemMeta(damageable);
         return item;
     }
 

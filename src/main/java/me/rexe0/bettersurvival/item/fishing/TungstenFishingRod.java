@@ -9,7 +9,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 
 import java.util.ArrayList;
@@ -31,9 +31,10 @@ public class TungstenFishingRod extends Item {
     @Override
     public ItemStack getItem() {
         ItemStack item = super.getItem();
-        ItemMeta meta = item.getItemMeta();
-        meta.setFireResistant(true);
-        item.setItemMeta(meta);
+        Damageable damageable = (Damageable) item.getItemMeta();
+        damageable.setMaxDamage(150);
+        damageable.setFireResistant(true);
+        item.setItemMeta(damageable);
         return item;
     }
     public ShapedRecipe getRecipe() {

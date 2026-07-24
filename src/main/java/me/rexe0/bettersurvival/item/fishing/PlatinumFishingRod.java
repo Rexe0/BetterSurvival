@@ -9,6 +9,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 
 import java.util.ArrayList;
@@ -19,6 +20,14 @@ public class PlatinumFishingRod extends Item {
         super(Material.FISHING_ROD, ChatColor.GREEN+"Platinum Fishing Rod", "PLATINUM_FISHING_ROD");
     }
 
+    @Override
+    public ItemStack getItem() {
+        ItemStack item = super.getItem();
+        Damageable damageable = (Damageable) item.getItemMeta();
+        damageable.setMaxDamage(150);
+        item.setItemMeta(damageable);
+        return item;
+    }
     @Override
     public List<String> getLore() {
         List<String> lore = new ArrayList<>();

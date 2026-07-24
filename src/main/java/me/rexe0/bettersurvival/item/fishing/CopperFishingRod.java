@@ -11,6 +11,7 @@ import org.bukkit.event.entity.VillagerAcquireTradeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.Damageable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,14 @@ public class CopperFishingRod extends Item {
         super(Material.FISHING_ROD, ChatColor.GREEN+"Copper Fishing Rod", "COPPER_FISHING_ROD");
     }
 
+    @Override
+    public ItemStack getItem() {
+        ItemStack item = super.getItem();
+        Damageable damageable = (Damageable) item.getItemMeta();
+        damageable.setMaxDamage(100);
+        item.setItemMeta(damageable);
+        return item;
+    }
     @Override
     public List<String> getLore() {
         List<String> lore = new ArrayList<>();
