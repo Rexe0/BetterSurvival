@@ -360,7 +360,12 @@ public class BasketballEntity {
         location.setPitch(-90);
         location.setYaw(0);
 
-        dir.setY(dir.getY()*1.8);
+        double yMult = 1.8;
+        double pitch = owner.getLocation().getPitch();
+        if (pitch < -50)
+            yMult /= (pitch/-50);
+
+        dir.setY(dir.getY()*yMult);
         this.velocity = dir;
 
         spawnDisplay();
