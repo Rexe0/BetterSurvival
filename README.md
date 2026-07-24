@@ -141,7 +141,7 @@ This is a plugin that contains several features that I think would improve the c
 - Regular bait can be obtained by smelting rotten flesh in a furnace. Using it will half the time it takes to catch a fish.
 - Magnet bait can be obtain my surrounding a copper ingot with iron nuggets and it increases the chance to catch treasure
 - Premium bait can be crafted with 1 golden carrot and 1 baked potato. Using it will reduce the time it takes to catch a fish by 75%.
-- There are 6 types of tackle that can be obtained from Desert Temples, Shipwrecks, Underwater Ruins, Mineshaft chests and Fisherman Villagers 
+- There are 8 types of tackle that can be obtained from Desert Temples, Shipwrecks, Underwater Ruins, Mineshaft chests, Bastions and Fisherman Villagers
 - There are 2 types of tackle that can be crafted (Dull and Shiny Lures)
 - Rain increases the rate at which fish can be caught
 - Different types of fish can now be caught depending on the season, time of day and biome
@@ -152,6 +152,10 @@ This is a plugin that contains several features that I think would improve the c
 - Treasure has a small chance to yield Lost Fisherman's Knowledge which when used grants the recipes for all relevant fishing items
 - Wandering Trader can now sell Fish Codex which displays all fish that exist and how many they have caught alongside other information
 - Fisherman Villagers now sell Rain Callers which can be used to forcibly summon rain or snow the next day
+- Players can now craft lava fishing rods: Obsidian, Tungsten and Netherite (Obsidian Rod uses 3 obsidian, Tungsten Rod uses 3 Tungsten Crystals, each made from 8 Tungsten Clumps and 1 Magma Cream, Netherite Rod is made from upgrading the Tungsten Rod using Netherite)
+- Lava rods can fish in lava and in the Nether, yielding new fish
+- Fishing in the Nether gives treasure from a new loot pool, has a more difficult minigame and has a chance to fish up hostile enemies
+- If it rains or snows in the overworld, it will rain lava in the Nether making fishing faster and also allowing the player to catch new fish types
 
 **Golf:**
 - Added Golf as an optional player created mini-game
@@ -161,6 +165,17 @@ This is a plugin that contains several features that I think would improve the c
 - Golf Clubs allow players to hit golf balls by sneaking in front of them while holding one and then left clicking. Where in the bar the player clicks determines the power of the shot and the more a player looks up, the higher up the ball goes
 - Different golf clubs serve different purposes due to their differing horizontal power and vertical loft values
 - Players can also craft a Golf Horn using copper to recall the Golf Ball to its last location in the case it goes out of bounds or into water (at the cost of a stroke)
+
+**Basketball:**
+- Added Basketball as an optional player created mini-game
+- Players can craft a Basketball using 8 Leather, a hoop using 3 Copper Ingots and 4 String, and Air Jordans using 4 Leather and 2 Wind Charges
+- Air Jordans let you perform a super jump by holding sneak to charge, and then letting go
+- Left Clicking with a Basketball in hand dribbles it. You cannot jump while dribbling or you will fail the dribble
+- Right Clicking with a Basketball in hand throws it. Right clicking the top of a hoop will cause you to dunk.
+- Left clicking a Basketball while its in the world will cause you to pick it up, if you're close enough, or hit it away, if you're too far to pick it up
+- This allows you to steal or hit the ball while it is being dribbled/thrown
+- A player with a Basketball in hand may not be damaged by other player's fists unless they are mid-air or sneaking
+- Optimal hoop placement is 5 blocks from the ground (i.e. 5th block when building up from the ground)
 
 **Horses:**
 - Maximum horse stats increased, especially speed (Up to 21.5 blocks/s)
