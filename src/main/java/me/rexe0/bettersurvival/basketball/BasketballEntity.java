@@ -144,14 +144,9 @@ public class BasketballEntity {
                 }
             }
         }
-        if (velocity.lengthSquared() == 0) {
-
-            PersistentDataContainer data = new CustomBlockData(location.getBlock(), BetterSurvival.getInstance());
-
-            if (data.has(BasketballHoop.BASKETBALL_HOOP_KEY)) {
-                score();
-                return;
-            }
+        if (velocity.lengthSquared() == 0 && isHoop(location.getBlock())) {
+            score();
+            return;
         }
         i++;
     }
@@ -199,6 +194,11 @@ public class BasketballEntity {
             if (player.getLocation().distanceSquared(location) > 200*200) continue;
             player.sendMessage(ChatColor.GOLD + "[Basketball] " + ChatColor.WHITE + message);
         }
+    }
+    private boolean isHoop(Block block) {
+        PersistentDataContainer data = new CustomBlockData(block, BetterSurvival.getInstance());
+
+        return data.has(BasketballHoop.BASKETBALL_HOOP_KEY);
     }
 
     private void movementStep() {
@@ -279,6 +279,13 @@ public class BasketballEntity {
                 if (v.getY() != 0) {
                     v.setX(v.getX() * 0.8);
                     v.setZ(v.getZ() * 0.8);
+                }
+
+                // Prevent bouncing from the bottom of the cauldron (hoop)
+                if (location.getY()-hit.getHitBlock().getY() < 0.5 && isHoop(hit.getHitBlock())) {
+                    v.setX(0);
+                    v.setY(0);
+                    v.setZ(0);
                 }
 
                 // Compute remaining distance in this substep
