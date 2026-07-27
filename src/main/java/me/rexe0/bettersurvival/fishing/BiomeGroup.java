@@ -17,12 +17,12 @@ public enum BiomeGroup {
     FOREST(ChatColor.GREEN+"Forest", new Biome[]{}, PotionEffectType.REGENERATION, 20),
 
     LAVA(ChatColor.GOLD+"Lava", new Biome[]{}, PotionEffectType.FIRE_RESISTANCE, 200),
-    NETHER_WASTES(net.md_5.bungee.api.ChatColor.of(new Color(184, 38, 28))+"Nether Wastes", new Biome[]{Biome.NETHER_WASTES}, PotionEffectType.FIRE_RESISTANCE, 200),
-    SOUL_SAND_VALLEY(net.md_5.bungee.api.ChatColor.of(new Color(39, 130, 130))+"Soul Sand Valley", new Biome[]{Biome.SOUL_SAND_VALLEY}, PotionEffectType.FIRE_RESISTANCE, 200),
-    CRIMSON_FOREST(net.md_5.bungee.api.ChatColor.of(new Color(220, 20, 60))+"Crimson Forest", new Biome[]{Biome.CRIMSON_FOREST}, PotionEffectType.FIRE_RESISTANCE, 200),
-    WARPED_FOREST(net.md_5.bungee.api.ChatColor.of(new Color(29, 173, 147))+"Warped Forest", new Biome[]{Biome.WARPED_FOREST}, PotionEffectType.FIRE_RESISTANCE, 200),
-    BASALT_DELTAS(net.md_5.bungee.api.ChatColor.of(new Color(181, 165, 183))+"Basalt Deltas", new Biome[]{Biome.BASALT_DELTAS}, PotionEffectType.FIRE_RESISTANCE, 200),
-    THE_NETHER(net.md_5.bungee.api.ChatColor.of(new Color(191, 32, 17))+"The Nether", new Biome[]{Biome.NETHER_WASTES, Biome.SOUL_SAND_VALLEY, Biome.CRIMSON_FOREST, Biome.WARPED_FOREST, Biome.BASALT_DELTAS}, PotionEffectType.FIRE_RESISTANCE, 200),
+    NETHER_WASTES(net.md_5.bungee.api.ChatColor.of(new Color(184, 38, 28))+"Nether Wastes", new Biome[]{Biome.NETHER_WASTES}, PotionEffectType.FIRE_RESISTANCE, 20),
+    SOUL_SAND_VALLEY(net.md_5.bungee.api.ChatColor.of(new Color(39, 130, 130))+"Soul Sand Valley", new Biome[]{Biome.SOUL_SAND_VALLEY}, PotionEffectType.FIRE_RESISTANCE, 20),
+    CRIMSON_FOREST(net.md_5.bungee.api.ChatColor.of(new Color(220, 20, 60))+"Crimson Forest", new Biome[]{Biome.CRIMSON_FOREST}, PotionEffectType.FIRE_RESISTANCE, 20),
+    WARPED_FOREST(net.md_5.bungee.api.ChatColor.of(new Color(29, 173, 147))+"Warped Forest", new Biome[]{Biome.WARPED_FOREST}, PotionEffectType.FIRE_RESISTANCE, 20),
+    BASALT_DELTAS(net.md_5.bungee.api.ChatColor.of(new Color(181, 165, 183))+"Basalt Deltas", new Biome[]{Biome.BASALT_DELTAS}, PotionEffectType.FIRE_RESISTANCE, 20),
+    THE_NETHER(net.md_5.bungee.api.ChatColor.of(new Color(191, 32, 17))+"The Nether", new Biome[]{Biome.NETHER_WASTES, Biome.SOUL_SAND_VALLEY, Biome.CRIMSON_FOREST, Biome.WARPED_FOREST, Biome.BASALT_DELTAS}, PotionEffectType.FIRE_RESISTANCE, 20),
 
     ANY_OCEAN(ChatColor.BLUE+"Any Ocean", new Biome[]{Biome.OCEAN, Biome.DEEP_OCEAN, Biome.COLD_OCEAN, Biome.DEEP_COLD_OCEAN,
             Biome.WARM_OCEAN, Biome.LUKEWARM_OCEAN, Biome.DEEP_LUKEWARM_OCEAN,

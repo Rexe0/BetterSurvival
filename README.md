@@ -209,6 +209,7 @@ This is a plugin that contains several features that I think would improve the c
 - These glow squids drop different colored ink sacs which can be used in an anvil when renaming items to change the item name's color
 
 **Miscellaneous:**
+- Fire Resistance now increases out-going damage by 25% per level past the first (II - 25%, III - 50%, etc.) when you are on fire, or against enemies that are on fire (Higher level fire resistance usually acquired through nether fish stew)
 - When a lightning rod above a copper block is struck by lightning, the energy will pass through up to 32 copper blocks in any direction. It will not pass through weathered copper but it can pass through waxed copper blocks
 - Any furnaces, blast furnaces or smokers adjacent to an energized copper block will be powered for 60 seconds and will smelt items 2x as fast as usual for the duration
 - Up to 9 furnaces/blast furnaces/smokers can be powered by a single lightning strike

@@ -11,10 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Horse;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -33,6 +30,7 @@ import org.bukkit.event.world.LootGenerateEvent;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.Repairable;
+import org.bukkit.potion.PotionEffectType;
 
 public class ItemListener implements Listener {
     @EventHandler
@@ -144,13 +142,28 @@ public class ItemListener implements Listener {
     }
 
     @EventHandler
-    public void onDamage(EntityDamageByEntityEvent e) {
+    public void onArrowDamage(EntityDamageByEntityEvent e) {
         if (!(e.getEntity() instanceof LivingEntity entity)) return;
         if (!(e.getDamager() instanceof Arrow arrow)) return;
         String ID = EntityDataUtil.getStringValue(arrow, "arrowID");
         if (ID.isEmpty()) return;
         ItemType type = ItemType.valueOf(ID);
         e.setDamage(type.getItem().onArrowDamage(entity, (Player) arrow.getShooter(), arrow, e.getDamage()));
+    }
+    @EventHandler
+    public void onDamage(EntityDamageByEntityEvent e) {
+        if (!(e.getEntity() instanceof LivingEntity entity)) return;
+        Entity damager = e.getDamager();
+        if (damager instanceof Arrow arrow) {
+            if (!(arrow.getShooter() instanceof Player player)) return;
+            damager = player;
+        }
+        if (!(damager instanceof LivingEntity en)) return;
+        if (!en.hasPotionEffect(PotionEffectType.FIRE_RESISTANCE)) return;
+        if (en.getFireTicks() <= 0 && entity.getFireTicks() <= 0) return;
+        // Higher levels of fire resistance increases out-going damage if the damager or entity is on fire
+        int level = en.getPotionEffect(PotionEffectType.FIRE_RESISTANCE).getAmplifier();
+        e.setDamage(e.getDamage() * (1 + level*0.25));
     }
 
     @EventHandler
