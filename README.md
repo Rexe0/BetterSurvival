@@ -165,6 +165,7 @@ This is a plugin that contains several features that I think would improve the c
 - Golf Clubs allow players to hit golf balls by sneaking in front of them while holding one and then left clicking. Where in the bar the player clicks determines the power of the shot and the more a player looks up, the higher up the ball goes
 - Different golf clubs serve different purposes due to their differing horizontal power and vertical loft values
 - Players can also craft a Golf Horn using copper to recall the Golf Ball to its last location in the case it goes out of bounds or into water (at the cost of a stroke)
+- The golf cup triggers observers and emits a vibration frequency of 15 upon sinking
 
 **Basketball:**
 - Added Basketball as an optional player created mini-game
@@ -176,6 +177,7 @@ This is a plugin that contains several features that I think would improve the c
 - This allows you to steal or hit the ball while it is being dribbled/thrown
 - A player with a Basketball in hand may not be damaged by other player's fists unless they are mid-air or sneaking
 - Optimal hoop placement is 5 blocks from the ground (i.e. 5th block when building up from the ground)
+- The basketball hoop triggers observers and emits a vibration frequency of 15 upon scoring
 
 **Horses:**
 - Maximum horse stats increased, especially speed (Up to 21.5 blocks/s)

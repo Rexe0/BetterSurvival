@@ -183,6 +183,7 @@ public class BasketballEntity {
                 block.setBlockData(newData);
             }, 1);
         }
+        location.getWorld().sendGameEvent(null, GameEvent.EXPLODE, location.getBlock().getLocation().toVector());
 
         // Make ball pass through hoop
         location.setY(location.getBlockY()-0.3);

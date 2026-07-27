@@ -457,6 +457,7 @@ public class GolfBallEntity {
                 block.setBlockData(newData);
             }, 1);
         }
+        location.getWorld().sendGameEvent(null, GameEvent.EXPLODE, location.getBlock().getLocation().toVector());
 
         remove();
     }
