@@ -4,6 +4,7 @@ import com.jeff_media.customblockdata.CustomBlockData;
 import me.rexe0.bettersurvival.basketball.BasketballEntity;
 import me.rexe0.bettersurvival.basketball.BasketballListener;
 import me.rexe0.bettersurvival.config.ConfigLoader;
+import me.rexe0.bettersurvival.enchanting.AnvilChanges;
 import me.rexe0.bettersurvival.enchanting.EnchantmentTableChanges;
 import me.rexe0.bettersurvival.farming.*;
 import me.rexe0.bettersurvival.farming.alcohol.AgingListener;
@@ -142,6 +143,7 @@ public final class BetterSurvival extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new LibrarianChanges(), this);
         getServer().getPluginManager().registerEvents(new NetheriteRodListener(), this);
         getServer().getPluginManager().registerEvents(new JewelListener(), this);
+        getServer().getPluginManager().registerEvents(new AnvilChanges(), this);
         getServer().getPluginManager().registerEvents(BasketballListener.getInstance(), this);
 
         CustomBlockData.registerListener(this);

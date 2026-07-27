@@ -51,6 +51,7 @@ This is a plugin that contains several features that I think would improve the c
 - You can now use amethyst shards or nautilus shells to enchant, in addition to lapis lazuli
 - Amethyst shards reduce the level cost to 1
 - Nautilus shells double the enchanting power
+- Anvil XP costs can no longer exceed 15 levels
 
 **Oceans:**
 - Deep Oceans are now generally deeper if using the plugin's world generation modifier
