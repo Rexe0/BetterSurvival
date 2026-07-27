@@ -41,7 +41,8 @@ public class FletchingTableGUI implements Listener {
     public void onClick(InventoryClickEvent e) {
         if (e.getClickedInventory() == null) return;
         if (!e.getView().getTitle().equals(ChatColor.DARK_GRAY+"Fletching Table")) return;
-        if (e.getClickedInventory() == e.getView().getTopInventory() && e.getSlot() != 10 && e.getSlot() != 12 && e.getSlot() != 16) e.setCancelled(true);
+        if (!e.getClickedInventory().equals(e.getView().getTopInventory())) return;
+        if (e.getSlot() != 10 && e.getSlot() != 12 && e.getSlot() != 16) e.setCancelled(true);
         Bukkit.getScheduler().runTaskLater(BetterSurvival.getInstance(), () -> clickLogic(e.getView().getTopInventory()), 1);
         thirdSlotLogic(e);
     }
@@ -145,7 +146,7 @@ public class FletchingTableGUI implements Listener {
     }
     private void thirdSlotLogic(InventoryClickEvent e) {
         if (e.getSlot() != 16) return;
-        Inventory inv = e.getInventory();
+        Inventory inv = e.getClickedInventory();
         if ((inv.getItem(10) == null || inv.getItem(10).getType() != Material.ARROW)
                 || inv.getItem(12) == null || (!inv.getItem(12).getType().toString().contains("POTION") && !arrowRecipes.containsKey(inv.getItem(12).getType()))) {
             e.setCancelled(true);
