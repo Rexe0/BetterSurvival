@@ -55,7 +55,7 @@ public class BlockOfCocaine extends Item {
             ingredients.add(new Cocaine(i).getItem());
 
         recipe.shape("###", "###", "###");
-        recipe.setIngredient('#', new RecipeChoice.ExactChoice(ingredients));
+        recipe.setIngredient('#', RecipeChoice.exactChoice(ingredients));
         return recipe;
     }
 

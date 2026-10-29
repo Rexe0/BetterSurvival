@@ -38,6 +38,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.craftbukkit.CraftEquipmentSlot;
+import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.FishHook;
 import org.bukkit.event.entity.EntityRemoveEvent;
 import org.bukkit.event.player.PlayerFishEvent;
@@ -345,12 +346,12 @@ public class LavaHook extends FishingHook {
 
         boolean canLavaFish = false;
         if (flag) {
-            org.bukkit.inventory.ItemStack fishingRod = itemstack.asBukkitCopy();
+            org.bukkit.inventory.ItemStack fishingRod = CraftItemStack.asBukkitMirror(itemstack);
             ItemType rodType = ItemDataUtil.getItemType(fishingRod);
             if (rodType != null && rodType.canFishInLava()) canLavaFish = true;
         }
         if (flag1) {
-            org.bukkit.inventory.ItemStack fishingRod = itemstack1.asBukkitCopy();
+            org.bukkit.inventory.ItemStack fishingRod = CraftItemStack.asBukkitMirror(itemstack1);
             ItemType rodType = ItemDataUtil.getItemType(fishingRod);
             if (rodType != null && rodType.canFishInLava()) canLavaFish = true;
         }

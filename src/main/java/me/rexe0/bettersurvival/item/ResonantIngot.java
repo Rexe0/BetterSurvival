@@ -27,8 +27,8 @@ public class ResonantIngot extends Item {
     public Recipe getRecipe() {
         ItemStack item = ItemType.RESONANT_INGOT.getItem().getItem();
         ShapelessRecipe recipe = new ShapelessRecipe(new NamespacedKey(BetterSurvival.getInstance(), getID()), item);
-        recipe.addIngredient(new RecipeChoice.ExactChoice(ItemType.PLATINUM_INGOT.getItem().getItem()));
-        recipe.addIngredient(new RecipeChoice.ExactChoice(ItemType.PLATINUM_INGOT.getItem().getItem()));
+        recipe.addIngredient(RecipeChoice.exactChoice(ItemType.PLATINUM_INGOT.getItem().getItem()));
+        recipe.addIngredient(RecipeChoice.exactChoice(ItemType.PLATINUM_INGOT.getItem().getItem()));
         recipe.addIngredient(Material.ECHO_SHARD);
         recipe.addIngredient(Material.ECHO_SHARD);
         return recipe;

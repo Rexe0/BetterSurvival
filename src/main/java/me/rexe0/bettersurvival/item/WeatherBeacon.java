@@ -42,7 +42,7 @@ public class WeatherBeacon extends Item {
 
         ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(BetterSurvival.getInstance(), getID()), item);
         recipe.shape("&#&", "#@#", "&#&");
-        recipe.setIngredient('#', new RecipeChoice.ExactChoice(ItemType.DRAGON_SCALE.getItem().getItem()));
+        recipe.setIngredient('#', RecipeChoice.exactChoice(ItemType.DRAGON_SCALE.getItem().getItem()));
         recipe.setIngredient('@', Material.NETHER_STAR);
         recipe.setIngredient('&', Material.REDSTONE_BLOCK);
 

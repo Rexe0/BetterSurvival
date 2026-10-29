@@ -42,7 +42,7 @@ public class NetheriteFishingRod extends Item {
         return new SmithingTransformRecipe(new NamespacedKey(BetterSurvival.getInstance(), getID()),
                 item,
                 new RecipeChoice.MaterialChoice(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE),
-                new RecipeChoice.ExactChoice(ItemType.TUNGSTEN_FISHING_ROD.getItem().getItem()),
+                RecipeChoice.exactChoice(ItemType.TUNGSTEN_FISHING_ROD.getItem().getItem()),
                 new RecipeChoice.MaterialChoice(Material.NETHERITE_INGOT));
     }
 }

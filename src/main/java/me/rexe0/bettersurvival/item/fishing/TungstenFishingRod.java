@@ -43,7 +43,7 @@ public class TungstenFishingRod extends Item {
         ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(BetterSurvival.getInstance(), getID()), item);
         recipe.setCategory(CraftingBookCategory.EQUIPMENT);
         recipe.shape("  #", " #$", "# $");
-        recipe.setIngredient('#', new RecipeChoice.ExactChoice(ItemType.TUNGSTEN_CRYSTAL.getItem().getItem()));
+        recipe.setIngredient('#', RecipeChoice.exactChoice(ItemType.TUNGSTEN_CRYSTAL.getItem().getItem()));
         recipe.setIngredient('$', Material.STRING);
         return recipe;
     }

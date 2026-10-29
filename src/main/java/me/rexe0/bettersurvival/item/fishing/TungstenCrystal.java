@@ -32,7 +32,7 @@ public class TungstenCrystal extends Item {
 
         ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(BetterSurvival.getInstance(), getID()), item);
         recipe.shape("###", "#$#", "###");
-        recipe.setIngredient('#', new RecipeChoice.ExactChoice(ItemType.TUNGSTEN_CLUMP.getItem().getItem()));
+        recipe.setIngredient('#', RecipeChoice.exactChoice(ItemType.TUNGSTEN_CLUMP.getItem().getItem()));
         recipe.setIngredient('$', Material.MAGMA_CREAM);
         return recipe;
     }

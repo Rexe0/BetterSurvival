@@ -30,8 +30,8 @@ public class PlatinumIngot extends Item {
     @Override
     public Map<NamespacedKey, Recipe> getRecipes() {
         Map<NamespacedKey, Recipe> recipes = new HashMap<>();
-        recipes.put(new NamespacedKey(BetterSurvival.getInstance(), getID()), new FurnaceRecipe(new NamespacedKey(BetterSurvival.getInstance(), getID()), getItem(), new RecipeChoice.ExactChoice(ItemType.PLATINUM_ORE.getItem().getItem()), 20, 1200));
-        recipes.put(new NamespacedKey(BetterSurvival.getInstance(), getID()+"_blasting"), new BlastingRecipe(new NamespacedKey(BetterSurvival.getInstance(), getID()+"_blasting"), getItem(), new RecipeChoice.ExactChoice(ItemType.PLATINUM_ORE.getItem().getItem()), 20, 600));
+        recipes.put(new NamespacedKey(BetterSurvival.getInstance(), getID()), new FurnaceRecipe(new NamespacedKey(BetterSurvival.getInstance(), getID()), getItem(), RecipeChoice.exactChoice(ItemType.PLATINUM_ORE.getItem().getItem()), 20, 1200));
+        recipes.put(new NamespacedKey(BetterSurvival.getInstance(), getID()+"_blasting"), new BlastingRecipe(new NamespacedKey(BetterSurvival.getInstance(), getID()+"_blasting"), getItem(), RecipeChoice.exactChoice(ItemType.PLATINUM_ORE.getItem().getItem()), 20, 600));
         return recipes;
     }
 }

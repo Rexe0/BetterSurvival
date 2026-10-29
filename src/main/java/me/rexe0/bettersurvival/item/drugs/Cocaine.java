@@ -81,7 +81,7 @@ public class Cocaine extends Item {
             ingredients.add(new CocaLeaves(i).getItem());
 
         for (int i = 0; i < 5; i++)
-            recipe.addIngredient(new RecipeChoice.ExactChoice(ingredients));
+            recipe.addIngredient(RecipeChoice.exactChoice(ingredients));
         recipes.put(new NamespacedKey(BetterSurvival.getInstance(), getID()), recipe);
 
         recipes.put(new NamespacedKey(BetterSurvival.getInstance(), getID()+"_block"), getBlockRecipe());
@@ -96,7 +96,7 @@ public class Cocaine extends Item {
         List<ItemStack> ingredients = new ArrayList<>();
         for (int i = 0; i <= 100; i++)
             ingredients.add(new BlockOfCocaine(i).getItem());
-        recipe.addIngredient(new RecipeChoice.ExactChoice(ingredients));
+        recipe.addIngredient(RecipeChoice.exactChoice(ingredients));
 
         return recipe;
     }
